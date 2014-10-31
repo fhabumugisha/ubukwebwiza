@@ -50,7 +50,7 @@ public class ApplicationConfiguration extends WebMvcConfigurerAdapter{
 			 
 		    EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
 		    
-		    return builder.setType(EmbeddedDatabaseType.HSQL).build();
+		    return builder.setType(EmbeddedDatabaseType.H2).build();
 		  }
 
 		 
