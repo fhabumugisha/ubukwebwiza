@@ -1,0 +1,249 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.buseni</groupId>
+  <artifactId>ubukwebwiza</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>war</packaging>
+  
+  <properties>
+		<!-- Triée dans l'ordre alphabétique, merci de respecter -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<assertj.version>1.6.1</assertj.version>
+		
+		<cerbere-bouchon.version>4.1.0</cerbere-bouchon.version>
+		<commons-beanutils.version>1.9.1</commons-beanutils.version>
+		<spring-framework.version>4.1.1.RELEASE</spring-framework.version>
+		<joda-time.version>2.4</joda-time.version>
+
+		<hsqldb.version>2.2.8</hsqldb.version>
+
+		<!-- Plugins -->
+		<maven-surefire-plugin.version>2.17</maven-surefire-plugin.version>
+		<maven-tomcat-plugin.version>2.2</maven-tomcat-plugin.version>
+	
+	</properties>
+  <dependencies>
+  	<dependency>
+  		<groupId>junit</groupId>
+  		<artifactId>junit</artifactId>
+  		<version>3.8.1</version>
+  	</dependency>
+
+<dependency>
+			<groupId>org.hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<version>${hsqldb.version}</version>
+		</dependency>
+
+
+  	<dependency>
+  		<groupId>org.hibernate</groupId>
+  		<artifactId>hibernate-core</artifactId>
+  		<version>3.6.10.Final</version>
+  	</dependency>
+
+  	<dependency>
+  		<groupId>org.hibernate</groupId>
+  		<artifactId>hibernate-entitymanager</artifactId>
+  		<version>3.6.10.Final</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.hibernate</groupId>
+  		<artifactId>hibernate-validator</artifactId>
+  		<version>4.0.2.GA</version>
+  	</dependency>
+  	
+  	<!-- Spring -->
+<dependency>
+	<groupId>org.springframework</groupId>
+	<artifactId>spring-webmvc</artifactId>
+	<version>${spring-framework.version}</version>
+</dependency>
+  	<dependency>
+	<groupId>org.springframework</groupId>
+	<artifactId>spring-core</artifactId>
+	<version>${spring-framework.version}</version>
+</dependency>
+<dependency>
+	<groupId>org.springframework.data</groupId>
+	<artifactId>spring-data-jpa</artifactId>
+	<version>1.7.0.RELEASE</version>
+	
+</dependency>
+<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${spring-framework.version}</version>
+		</dependency>
+
+  	<dependency>
+  		<groupId>org.springframework</groupId>
+  		<artifactId>spring-test</artifactId>
+  		<version>${spring-framework.version}</version>
+  	</dependency>
+  	
+  	<dependency>
+  		<groupId>org.springframework</groupId>
+  		<artifactId>spring-web</artifactId>
+  		<version>${spring-framework.version}</version>
+  	</dependency>
+  	
+  	<!-- Thymeleaf -->
+		<dependency>
+			<groupId>org.thymeleaf</groupId>
+			<artifactId>thymeleaf</artifactId>
+			<version>2.0.14</version>
+		</dependency>
+		<dependency>
+			<groupId>org.thymeleaf</groupId>
+			<artifactId>thymeleaf-spring3</artifactId>
+			<version>2.0.14</version>
+		</dependency>
+		<!-- Servlet -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.0.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
+
+		
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.4.180</version>
+		</dependency>
+  </dependencies>
+  
+  <!-- Build -->
+	<build>
+		<plugins>
+
+			<!-- <plugin> <groupId>org.jvnet.jaxb2.maven2</groupId> <artifactId>maven-jaxb2-plugin</artifactId> 
+				<executions> <execution> <goals> <goal>generate</goal> </goals> </execution> 
+				</executions> <configuration> <generateDirectory> src/main/java </generateDirectory> 
+				<generatePackage>com.capgemini.rm.model.hudson</generatePackage> <includeSchemas> 
+				<includeSchema>**/*.xsd </includeSchema> </includeSchemas> </configuration> 
+				</plugin> -->
+
+
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<warName>ubukwebwiza</warName>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
+			<plugin>
+			<groupId>org.apache.tomcat.maven</groupId>
+			<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>${maven-tomcat-plugin.version}</version>
+				<configuration>
+							<server>tomcat-development-server</server>
+							<port>9966</port>
+							<path>/ubukwebwiza</path>
+							<protocol>org.apache.coyote.http11.Http11NioProtocol</protocol>
+							<tomcatWebXml></tomcatWebXml>
+							<contextFile>${basedir}/src/main/webapp/META-INF/context.xml</contextFile>
+							<useTestClasspath>false</useTestClasspath>
+						</configuration>
+			</plugin>
+			<!-- Hibernate3 -->
+		<!--	 <plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>hibernate3-maven-plugin</artifactId>
+				<version>2.2</version>
+				<executions>
+					<execution>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>hbm2ddl</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<components>
+						<component>
+							<name>hbm2ddl</name>
+							<implementation>jpaconfiguration</implementation>
+							<outputDirectory>src/main/resources/db/migration</outputDirectory>
+						</component>
+					</components>
+					<componentProperties>
+						<persistenceunit>ubukwe</persistenceunit>
+						<outputfilename>V1_1__schema.sql</outputfilename>
+						<drop>false</drop>
+						<create>true</create>
+						<export>false</export>
+						<format>true</format>
+					</componentProperties>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>mysql</groupId>
+						<artifactId>mysql-connector-java</artifactId>
+						<version>5.1.15</version>
+					</dependency>
+				</dependencies>
+			</plugin>  -->
+			
+			<!-- Flyway -->
+			<!-- <plugin>
+				<groupId>com.googlecode.flyway</groupId>
+				<artifactId>flyway-maven-plugin</artifactId>
+				<version>1.4.2</version>
+				<executions>
+					<execution>
+						<id>cleandb</id>
+						<goals>
+							<goal>clean</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>initdb</id>
+						<goals>
+							<goal>init</goal>
+						</goals>
+					</execution>
+
+					<execution>
+						<id>migratedb</id>
+						<goals>
+							<goal>migrate</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<driver>com.mysql.jdbc.Driver</driver>
+					<url>jdbc:mysql://localhost:3306/ubukwe</url>
+					<user>an</user>
+					<password>an</password>
+				</configuration>
+			</plugin>
+ -->
+
+		</plugins>
+	</build>
+</project>

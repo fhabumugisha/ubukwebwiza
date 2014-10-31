@@ -1,0 +1,23 @@
+
+<Context path="/ubukwebwiza" reloadable="false">
+	<!-- ============================== -->
+	<!-- Base de donnees Operationnelle -->
+	<!-- ============================== -->
+  <Resource 
+    auth="Container"
+    description="Ubukwe bwiza database"
+    name="jdbc/ubukwebwiza"
+    scope="Shareable"   
+    type="javax.sql.DataSource"
+    url="jdbc:hsqldb:mem:testDb"
+    driverClassName="org.hsqldb.jdbc.JDBCDriver"
+    username="SA"
+    password=""
+    maxWait="5000"
+    maxActive="20"
+    maxIdle="5"
+    removeAbandoned="true"
+    removeAbandonedTimeout="120"
+    logAbandoned="true"
+   /> 
+</Context>
