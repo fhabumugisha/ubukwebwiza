@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.buseni.ubukwebwiza.service.impl;
+package com.buseni.ubukwebwiza.core.service.impl;
 
 import java.util.List;
 
@@ -11,9 +11,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.buseni.ubukwebwiza.domain.Photo;
-import com.buseni.ubukwebwiza.repository.PhotoRepo;
-import com.buseni.ubukwebwiza.service.PhotoService;
+import com.buseni.ubukwebwiza.core.domain.Photo;
+import com.buseni.ubukwebwiza.core.repository.PhotoRepo;
+import com.buseni.ubukwebwiza.core.service.PhotoService;
 
 /**
  * @author habumugisha
@@ -34,7 +34,7 @@ public class PhotoServiceImpl implements PhotoService {
 		this.photoRepo = photoRepo;
 	}
 	/* (non-Javadoc)
-	 * @see com.buseni.ubukwebwiza.service.PhotoService#create(com.buseni.ubukwebwiza.domain.Photo)
+	 * @see com.buseni.ubukwebwiza.core.service.PhotoService#create(com.buseni.ubukwebwiza.core.domain.Photo)
 	 */
 	@Transactional
 	public void create(Photo photo) {
@@ -44,7 +44,7 @@ public class PhotoServiceImpl implements PhotoService {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.buseni.ubukwebwiza.service.PhotoService#update(com.buseni.ubukwebwiza.domain.Photo)
+	 * @see com.buseni.ubukwebwiza.core.service.PhotoService#update(com.buseni.ubukwebwiza.core.domain.Photo)
 	 */
 	@Transactional
 	public Photo update(Photo photo) {
@@ -53,7 +53,7 @@ public class PhotoServiceImpl implements PhotoService {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.buseni.ubukwebwiza.service.PhotoService#findById(java.lang.Integer)
+	 * @see com.buseni.ubukwebwiza.core.service.PhotoService#findById(java.lang.Integer)
 	 */
 	public Photo findById(Integer id) {
 		if(null == id){
@@ -63,14 +63,14 @@ public class PhotoServiceImpl implements PhotoService {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.buseni.ubukwebwiza.service.PhotoService#findAllByProvider(java.lang.Integer)
+	 * @see com.buseni.ubukwebwiza.core.service.PhotoService#findAllByProvider(java.lang.Integer)
 	 */
 	public List<Photo> findAllByProvider(Integer idProvider) {
 		return photoRepo.findAllByProvider(idProvider);
 	}
 
 	/* (non-Javadoc)
-	 * @see com.buseni.ubukwebwiza.service.PhotoService#findAll(org.springframework.data.domain.Pageable)
+	 * @see com.buseni.ubukwebwiza.core.service.PhotoService#findAll(org.springframework.data.domain.Pageable)
 	 */
 	public Page<Photo> findAll(Pageable pageable) {
 		return photoRepo.findAll(pageable);
@@ -78,7 +78,7 @@ public class PhotoServiceImpl implements PhotoService {
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.buseni.ubukwebwiza.service.PhotoService#delete(java.lang.Integer)
+	 * @see com.buseni.ubukwebwiza.core.service.PhotoService#delete(java.lang.Integer)
 	 */
 	@Transactional
 	public void delete(Integer id) {

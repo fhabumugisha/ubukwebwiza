@@ -1,11 +1,11 @@
-package com.buseni.ubukwebwiza.service;
+package com.buseni.ubukwebwiza.core.service;
 
 import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.buseni.ubukwebwiza.domain.Photo;
+import com.buseni.ubukwebwiza.core.domain.Photo;
 
 public interface PhotoService {
 	

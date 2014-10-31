@@ -1,6 +1,6 @@
 package com.buseni.ubukwebwiza.builders;
 
-import com.buseni.ubukwebwiza.domain.Administrator;
+import com.buseni.ubukwebwiza.core.domain.Administrator;
 
 
 public class AdministratorBuilder  {

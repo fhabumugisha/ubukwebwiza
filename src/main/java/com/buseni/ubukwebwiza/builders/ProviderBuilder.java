@@ -1,6 +1,6 @@
 package com.buseni.ubukwebwiza.builders;
 
-import com.buseni.ubukwebwiza.domain.Provider;
+import com.buseni.ubukwebwiza.core.domain.Provider;
 
 
 

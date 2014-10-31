@@ -1,9 +1,9 @@
-package com.buseni.ubukwebwiza.service;
+package com.buseni.ubukwebwiza.core.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.buseni.ubukwebwiza.domain.Provider;
+import com.buseni.ubukwebwiza.core.domain.Provider;
 import com.buseni.ubukwebwiza.utils.ProviderSearch;
 
 public interface ProviderService {

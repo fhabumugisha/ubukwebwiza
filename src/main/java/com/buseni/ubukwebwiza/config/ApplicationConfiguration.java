@@ -63,7 +63,7 @@ public class ApplicationConfiguration extends WebMvcConfigurerAdapter{
 
 		    LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
 		    factory.setJpaVendorAdapter(vendorAdapter);
-		    factory.setPackagesToScan("com.buseni.ubukwebwiza.domain");
+		    factory.setPackagesToScan("com.buseni.ubukwebwiza.core.domain");
 		    factory.setDataSource(dataSource());
 		    factory.afterPropertiesSet();
 

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.buseni.ubukwebwiza.service.impl;
+package com.buseni.ubukwebwiza.core.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -9,9 +9,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.buseni.ubukwebwiza.domain.Provider;
-import com.buseni.ubukwebwiza.repository.ProviderRepo;
-import com.buseni.ubukwebwiza.service.ProviderService;
+import com.buseni.ubukwebwiza.core.domain.Provider;
+import com.buseni.ubukwebwiza.core.repository.ProviderRepo;
+import com.buseni.ubukwebwiza.core.service.ProviderService;
 import com.buseni.ubukwebwiza.utils.ProviderSearch;
 
 /**
@@ -34,7 +34,7 @@ public class ProvideServiceImpl implements ProviderService {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.buseni.ubukwebwiza.service.ProviderService#create(com.buseni.ubukwebwiza.domain.Provider)
+	 * @see com.buseni.ubukwebwiza.core.service.ProviderService#create(com.buseni.ubukwebwiza.core.domain.Provider)
 	 */
 	@Transactional
 	public void create(Provider provider) {
@@ -44,7 +44,7 @@ public class ProvideServiceImpl implements ProviderService {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.buseni.ubukwebwiza.service.ProviderService#update(com.buseni.ubukwebwiza.domain.Provider)
+	 * @see com.buseni.ubukwebwiza.core.service.ProviderService#update(com.buseni.ubukwebwiza.core.domain.Provider)
 	 */
 	@Transactional
 	public Provider update(Provider provider) {
@@ -53,7 +53,7 @@ public class ProvideServiceImpl implements ProviderService {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.buseni.ubukwebwiza.service.ProviderService#findById(java.lang.Integer)
+	 * @see com.buseni.ubukwebwiza.core.service.ProviderService#findById(java.lang.Integer)
 	 */
 	public Provider findById(Integer id) {
 		if(null == id){
@@ -63,14 +63,14 @@ public class ProvideServiceImpl implements ProviderService {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.buseni.ubukwebwiza.service.ProviderService#findAll(org.springframework.data.domain.Pageable)
+	 * @see com.buseni.ubukwebwiza.core.service.ProviderService#findAll(org.springframework.data.domain.Pageable)
 	 */
 	public Page<Provider> findAll(Pageable pageable) {
 		return providerRepo.findAll(pageable);
 	}
 
 	/* (non-Javadoc)
-	 * @see com.buseni.ubukwebwiza.service.ProviderService#findAll(com.buseni.ubukwebwiza.utils.ProviderSearch, org.springframework.data.domain.Pageable)
+	 * @see com.buseni.ubukwebwiza.core.service.ProviderService#findAll(com.buseni.ubukwebwiza.utils.ProviderSearch, org.springframework.data.domain.Pageable)
 	 */
 	public Page<Provider> search(ProviderSearch providerSearch,
 			Pageable pageable) {
@@ -80,7 +80,7 @@ public class ProvideServiceImpl implements ProviderService {
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.buseni.ubukwebwiza.service.ProviderService#delete(java.lang.Integer)
+	 * @see com.buseni.ubukwebwiza.core.service.ProviderService#delete(java.lang.Integer)
 	 */
 	@Transactional
 	public void delete(Integer id) {

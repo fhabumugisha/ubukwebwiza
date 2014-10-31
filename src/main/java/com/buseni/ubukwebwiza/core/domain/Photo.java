@@ -1,4 +1,4 @@
-package com.buseni.ubukwebwiza.domain;
+package com.buseni.ubukwebwiza.core.domain;
 
 import java.io.Serializable;
 import java.util.Date;

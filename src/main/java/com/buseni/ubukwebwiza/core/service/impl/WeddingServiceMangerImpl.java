@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.buseni.ubukwebwiza.service.impl;
+package com.buseni.ubukwebwiza.core.service.impl;
 
 import java.util.List;
 
@@ -11,9 +11,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.buseni.ubukwebwiza.domain.WeddingService;
-import com.buseni.ubukwebwiza.repository.WeddingServiceRepo;
-import com.buseni.ubukwebwiza.service.WeddingServiceManager;
+import com.buseni.ubukwebwiza.core.domain.WeddingService;
+import com.buseni.ubukwebwiza.core.repository.WeddingServiceRepo;
+import com.buseni.ubukwebwiza.core.service.WeddingServiceManager;
 
 /**
  * @author habumugisha
@@ -32,7 +32,7 @@ public class WeddingServiceMangerImpl implements WeddingServiceManager {
 		this.weddingServiceRepo =  weddingServiceRepo;
 	}
 	/* (non-Javadoc)
-	 * @see com.buseni.ubukwebwiza.service.WeddingServiceManager#create(com.buseni.ubukwebwiza.domain.WeddingService)
+	 * @see com.buseni.ubukwebwiza.core.service.WeddingServiceManager#create(com.buseni.ubukwebwiza.core.domain.WeddingService)
 	 */
 	@Transactional
 	public void create(WeddingService weddingService) {
@@ -42,7 +42,7 @@ public class WeddingServiceMangerImpl implements WeddingServiceManager {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.buseni.ubukwebwiza.service.WeddingServiceManager#update(com.buseni.ubukwebwiza.domain.WeddingService)
+	 * @see com.buseni.ubukwebwiza.core.service.WeddingServiceManager#update(com.buseni.ubukwebwiza.core.domain.WeddingService)
 	 */
 	@Transactional
 	public WeddingService update(WeddingService weddingService) {
@@ -51,7 +51,7 @@ public class WeddingServiceMangerImpl implements WeddingServiceManager {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.buseni.ubukwebwiza.service.WeddingServiceManager#findById(java.lang.Integer)
+	 * @see com.buseni.ubukwebwiza.core.service.WeddingServiceManager#findById(java.lang.Integer)
 	 */
 	public WeddingService findById(Integer id) {
 		if(null == id){
@@ -61,7 +61,7 @@ public class WeddingServiceMangerImpl implements WeddingServiceManager {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.buseni.ubukwebwiza.service.WeddingServiceManager#findAllByProvider(java.lang.Integer)
+	 * @see com.buseni.ubukwebwiza.core.service.WeddingServiceManager#findAllByProvider(java.lang.Integer)
 	 */
 	public List<WeddingService> findAllByProvider(Integer idProvider) {
 		if(null == idProvider){
@@ -71,14 +71,14 @@ public class WeddingServiceMangerImpl implements WeddingServiceManager {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.buseni.ubukwebwiza.service.WeddingServiceManager#findAll(org.springframework.data.domain.Pageable)
+	 * @see com.buseni.ubukwebwiza.core.service.WeddingServiceManager#findAll(org.springframework.data.domain.Pageable)
 	 */
 	public Page<WeddingService> findAll(Pageable pageable) {
 		return weddingServiceRepo.findAll(pageable);
 	}
 	/*
 	 * (non-Javadoc)
-	 * @see com.buseni.ubukwebwiza.service.WeddingServiceManager#delete(java.lang.Integer)
+	 * @see com.buseni.ubukwebwiza.core.service.WeddingServiceManager#delete(java.lang.Integer)
 	 */
 	@Transactional
 	public void delete(Integer id) {
