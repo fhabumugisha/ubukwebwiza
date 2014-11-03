@@ -7,11 +7,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="code_wedding_service")
-public class CodeWeddingService implements Serializable {
+@Table(name="code_district")
+public class CodeDistrict implements Serializable {
 
 	/**
 	 * 
@@ -20,7 +22,7 @@ public class CodeWeddingService implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="id_wedding_service")
+	@Column(name="id_district")
 	private Integer id;	
 	private String code;
 	private String libelle;
@@ -29,7 +31,19 @@ public class CodeWeddingService implements Serializable {
 	private String libelleKn;
 	private int activeFlag;
 	
-	public CodeWeddingService(){
+	@ManyToOne
+	@JoinColumn(name="id_province")
+	private CodeProvince codeProvince;
+	
+	public CodeProvince getCodeProvince() {
+		return codeProvince;
+	}
+
+	public void setCodeProvince(CodeProvince codeProvince) {
+		this.codeProvince = codeProvince;
+	}
+
+	public CodeDistrict(){
 		
 	}
 
@@ -117,7 +131,7 @@ public class CodeWeddingService implements Serializable {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		CodeWeddingService other = (CodeWeddingService) obj;
+		CodeDistrict other = (CodeDistrict) obj;
 		if (code == null) {
 			if (other.code != null) {
 				return false;

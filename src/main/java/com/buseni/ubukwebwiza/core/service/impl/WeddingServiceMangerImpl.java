@@ -67,7 +67,7 @@ public class WeddingServiceMangerImpl implements WeddingServiceManager {
 		if(null == idProvider){
 			return null;
 		}
-		return weddingServiceRepo.findAllByProvider(idProvider);
+		return weddingServiceRepo.findByProvider_id(idProvider);
 	}
 
 	/* (non-Javadoc)

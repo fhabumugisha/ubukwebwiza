@@ -119,14 +119,17 @@ th:href="@{/resources/css/social-buttons.css}"
 													</select>
 												</div>
 												<div class="col-md-2 ">
-													<select id="idcDistrict" class="form-control">
+													
+													<select th:field="*{district.idc}" id="idcDistrict" class="form-control">
 														<option selected="selected">Select a location</option>
-														<option>Nyarugenge</option>
-														<option>2</option>
-														<option>3</option>
-														<option>4</option>
-														<option>5</option>
+  														<option th:each="district : ${allDistricts}" 
+        												  th:value="${district.idc}" 
+         												 th:text="${district.libelle}">Kigali</option>
 													</select>
+													
+													
+													
+										
 												</div>
 												<div class="col-md-2">
 													<button type="submit" class="btn btn-primary btn-block">

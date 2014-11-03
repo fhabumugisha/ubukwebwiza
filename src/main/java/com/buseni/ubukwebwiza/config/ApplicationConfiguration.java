@@ -31,7 +31,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @PropertySource("classpath:application.properties")
 @EnableWebMvc
 @EnableTransactionManagement
-@Import({ViewConfiguration.class, ControllerConfiguration.class})
+@Import({ViewConfiguration.class, ControllerConfiguration.class, ServiceConfiguration.class})
 public class ApplicationConfiguration extends WebMvcConfigurerAdapter{
 	// Maps resources path to webapp/resources
 		@Override
