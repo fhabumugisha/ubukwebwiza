@@ -1,61 +1,61 @@
 package com.buseni.ubukwebwiza.builders;
 
-import com.buseni.ubukwebwiza.core.domain.Provider;
+import com.buseni.ubukwebwiza.core.domain.Vendor;
 
 
 
 public class ProviderBuilder {
-	private Provider provider;
+	private Vendor vendor;
 	
 	public ProviderBuilder(){
-		provider = new Provider();
+		vendor = new Vendor();
 	}
 	
 	public ProviderBuilder id(Integer id){
-		this.provider.setId(id);
+		this.vendor.setId(id);
 		return this;
 	}
 	public ProviderBuilder email(String email){
-		this.provider.setEmail(email);
+		this.vendor.setEmail(email);
 		return this;
 	}
 	public ProviderBuilder password(String password){
-		this.provider.setPassword(password);
+		this.vendor.setPassword(password);
 		return this;
 	}
 	
 	public ProviderBuilder firstName(String firstName){
-		this.provider.setFirstName(firstName);
+		this.vendor.setFirstName(firstName);
 		return this;
 	}
 	
 	public ProviderBuilder lastName(String lastName){
-		this.provider.setLastName(lastName);
+		this.vendor.setLastName(lastName);
 		return this;
 	}
 	public ProviderBuilder phoneNumber(String vendorTel){
-		this.provider.setPhoneNumber(vendorTel);
+		this.vendor.setPhoneNumber(vendorTel);
 		return this;
 	}
 	
 	public ProviderBuilder aboutMe(String aboutMe){
-		this.provider.setAboutme(aboutMe);
+		this.vendor.setAboutme(aboutMe);
 		return this;
 	}
 	
 	
 	
 	public ProviderBuilder actif(int actif){
-		this.provider.setActiveFlag(actif);
+		this.vendor.setActiveFlag(actif);
 		return this;
 	}
 	public ProviderBuilder address(String address){
-		this.provider.setAddress(address);
+		this.vendor.setAddress(address);
 		return this;
 	}
-	public Provider build(){
+	public Vendor build(){
 		
-		return provider;
+		return vendor;
 	}
 
 }

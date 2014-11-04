@@ -31,7 +31,7 @@ public interface WeddingServiceManager {
 	 * @param idProvider
 	 * @return
 	 */
-	List<WeddingService> findAllByProvider(Integer idProvider);
+	List<WeddingService> findAllByVendor(Integer idProvider);
 	
 	/**
 	 * 

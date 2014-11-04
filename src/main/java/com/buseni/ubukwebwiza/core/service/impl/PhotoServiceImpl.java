@@ -65,8 +65,8 @@ public class PhotoServiceImpl implements PhotoService {
 	/* (non-Javadoc)
 	 * @see com.buseni.ubukwebwiza.core.service.PhotoService#findAllByProvider(java.lang.Integer)
 	 */
-	public List<Photo> findAllByProvider(Integer idProvider) {
-		return photoRepo.findByProvider_id(idProvider);
+	public List<Photo> findAllByVendor(Integer idVendor) {
+		return photoRepo.findByVendor_id(idVendor);
 	}
 
 	/* (non-Javadoc)

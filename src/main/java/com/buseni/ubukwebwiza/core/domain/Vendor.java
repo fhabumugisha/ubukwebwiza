@@ -31,8 +31,8 @@ import org.hibernate.validator.constraints.NotEmpty;
  * 
  */
 @Entity
-@Table(name = "provider")
-public class Provider implements Serializable {
+@Table(name = "vendor")
+public class Vendor implements Serializable {
 	/**
 	 * 
 	 */
@@ -42,7 +42,7 @@ public class Provider implements Serializable {
 	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="id_provider")
+	@Column(name="id_vendor")
 	private Integer id;
 
 	@Column(unique = true)
@@ -106,19 +106,26 @@ public class Provider implements Serializable {
 	@Column(name="last_update")
 	private Date lastUpdated;
 
-	@OneToMany(mappedBy = "provider", cascade = CascadeType.REMOVE,fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="vendor", cascade = CascadeType.REMOVE,fetch=FetchType.EAGER)
 	private Set<WeddingService> weddingServices = new HashSet<WeddingService>();
 	
 	
-	@OneToMany(mappedBy="provider",cascade=CascadeType.REMOVE,fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="vendor",cascade=CascadeType.REMOVE,fetch=FetchType.EAGER)
 	private Set<Photo> photos = new HashSet<Photo>();
 	
 	private int nbViews;
+	
+	@Transient
+	private String weddingService;
+
+
+
+
 
 	/**
 	 * 
 	 */
-	public Provider() {
+	public Vendor() {
 
 	}
 
@@ -395,7 +402,7 @@ public class Provider implements Serializable {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		Provider other = (Provider) obj;
+		Vendor other = (Vendor) obj;
 		if (aboutme == null) {
 			if (other.aboutme != null) {
 				return false;
@@ -766,7 +773,14 @@ public class Provider implements Serializable {
 
 
 
-	
+	public String getWeddingService() {		
+		if(null !=  weddingServices  && !weddingServices.isEmpty()){
+			WeddingService ws =  weddingServices.iterator().next();
+			weddingService =  ws.getCodeWeddingService().getLibelle();
+			
+		}
+		return weddingService;
+	}
 
 
 

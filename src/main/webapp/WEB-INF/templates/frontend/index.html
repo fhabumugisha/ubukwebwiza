@@ -4,12 +4,12 @@
 <title>Ubukwe Nyarwanda Template</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
 <!-- Bootstrap -->
-<link href="../../resources/css/bootstrap.css" rel="stylesheet" th:href="@{/resources/css/bootstrap.css}" />
-<link href="../../resources/css/font-awesome.min.css" rel="stylesheet" th:href="@{/resources/css/font-awesome.min.css}"/>
-<link href="../../resources/css/bootstrap-theme.min.css" rel="stylesheet" th:href="@{/resources/css/font-awesome.min.css}"/>
-<link href="../../resources/css/ubukwenyarwanda.css" rel="stylesheet" 
+<link href="../../../resources/css/bootstrap.css" rel="stylesheet" th:href="@{/resources/css/bootstrap.css}" />
+<link href="../../../resources/css/font-awesome.min.css" rel="stylesheet" th:href="@{/resources/css/font-awesome.min.css}"/>
+<link href="../../../resources/css/bootstrap-theme.min.css" rel="stylesheet" th:href="@{/resources/css/font-awesome.min.css}"/>
+<link href="../../../resources/css/ubukwenyarwanda.css" rel="stylesheet" 
 th:href="@{/resources/css/ubukwenyarwanda.css}"/>
-<link href="../../resources/css/social-buttons.css" rel="stylesheet"
+<link href="../../../resources/css/social-buttons.css" rel="stylesheet"
 th:href="@{/resources/css/social-buttons.css}"
  />
 
@@ -81,15 +81,15 @@ th:href="@{/resources/css/social-buttons.css}"
 								<!-- Wrapper for slides -->
 								<div class="carousel-inner">
 									<div class="item active">
-										<img src="../../resources/images/thumbnails/orange.jpg" alt="..." th:src="@{/resources/images/thumbnails/orange.jpg}" />
+										<img src="../../../resources/images/thumbnails/orange.jpg" alt="..." th:src="@{/resources/images/thumbnails/orange.jpg}" />
 										<div class="carousel-caption">Cool</div>
 									</div>
 									<div class="item">
-										<img src="../../resources/images/thumbnails/banana.jpg" alt="..."  th:src="@{/resources/images/thumbnails/banana.jpg}"/>
+										<img src="../../../resources/images/thumbnails/banana.jpg" alt="..."  th:src="@{/resources/images/thumbnails/banana.jpg}"/>
 										<div class="carousel-caption">Staff</div>
 									</div>
 									<div class="item">
-										<img src="../../resources/images/thumbnails/apple.jpg" alt="..." th:src="@{/resources/images/thumbnails/apple.jpg}"/>
+										<img src="../../../resources/images/thumbnails/apple.jpg" alt="..." th:src="@{/resources/images/thumbnails/apple.jpg}"/>
 										<div class="carousel-caption">Here</div>
 									</div>
 								</div>
@@ -105,7 +105,7 @@ th:href="@{/resources/css/social-buttons.css}"
 										<h2 style="margin-bottom: 10px; font-family: Shift, Helvetica Neue; font-weight: bold;">Looking for a wedding
 											service ?</h2>
 
-										<form action="listing.html" role="form" class="form-inline" th:action="@{/}" th:object="${providerSearch}" method="post">
+										<form action="listing.html" role="form" class="form-inline" th:action="@{/}" th:object="${vendorSearch}" method="post">
 
 											<div class="row">
 												<div class="col-md-2 col-md-offset-3">
@@ -146,53 +146,32 @@ th:href="@{/resources/css/social-buttons.css}"
 					</div>
 					<div class="row">
 						<div class="col-md-12">
-							<div class="row">
+						
+						<!--/*/
+						This code will be parsed at thymeleaf parsing time! 
+  							<div class="row" th:each="vendor :${featuredVendors}">
 								<div class="col-md-3">
 									<div class="thumbnail">
 										<img data-src="holder.js/100%x150" alt="..." />
 										<div class="caption">
-											<h5>Thumbnail label</h5>
-
+											<h5><span th:text="${vendor.businessName}"></span> Thumbnail label</h5><br />
+											<h4><span th:if="${not #lists.isEmpty(vendor.weddingServices)}" th:text="${vendor.weddingService}"></span>   </h4>
+											 <h3><span th:text="${vendor.district}"></span> Nyarugenge</h3><br />
 											<p>
-												<a href="detail.html" class="btn btn-primary btn-xs" role="button">Follow</a> <a href="#"
+												<a href="detail.html" class="btn btn-primary btn-xs" role="button"
+												th:href="@{/vendors(venderId=${vendor.id})}" >Follow</a> <a href="#"
 													class="btn btn-default btn-xs" role="button">Like</a>
 											</p>
 										</div>
 									</div>
 
 								</div>
-								<div class="col-md-3">
-									<div class="thumbnail">
-										<img data-src="holder.js/100%x150" alt="..."></img>
-										<div class="caption">
-											<h5>Thumbnail label</h5>
-
-											<p>
-												<a href="detail.html" class="btn btn-primary btn-xs" role="button">Follow</a> <a href="#"
-													class="btn btn-default btn-xs" role="button">Like</a>
-											</p>
-										</div>
-									</div>
-
-								</div>
-								<div class="col-md-3">
-									<div class="thumbnail">
-										<img data-src="holder.js/100%x150" alt="..." />
-										<div class="caption">
-											<h5>Thumbnail label</h5>
-
-											<p>
-												<a href="detail.html" class="btn btn-primary btn-xs" role="button">Follow</a> <a href="#"
-													class="btn btn-default btn-xs" role="button">Like</a>
-											</p>
-										</div>
-									</div>
-
-								</div>
+								
+								
 								<div class="col-md-3">
 									<div class="thumbnail">
 
-										<img src="../../resources/images/application/no_person.jpg" style="width: 203px; height: 125px; display: block;"
+										<img src="../../../resources/images/application/no_person.jpg" style="width: 203px; height: 125px; display: block;"
 											alt="..." th:src="@{/resources/images/application/no_person.jpg}" />
 										<div class="caption">
 											<p class="text-center text-primary">Are you a wedding professional ?</p>
@@ -207,6 +186,91 @@ th:href="@{/resources/css/social-buttons.css}"
 
 								</div>
 							</div>
+						/*/-->
+							
+							
+						<!--  This code will be removed at thymeleaf parsing time! -->
+						
+							<div class="row" >
+								
+								<th:block th:each="vendor :${featuredVendors}">
+								<div class="col-md-3">
+									<div class="thumbnail">
+										<img data-src="holder.js/100%x150" alt="..." />
+										<div class="caption">
+											<h4><span th:text="${vendor.businessName}">Thumbnail label</span> </h4>
+											<span th:if="${not #lists.isEmpty(vendor.weddingServices)}" th:text="${vendor.weddingService}"> Wedding planner</span>
+											 <h6><span th:text="${vendor.district}">Nyarugenge</span> </h6>
+											<p>
+												<a href="detail.html" class="btn btn-primary btn-xs" role="button"
+												th:href="@{/vendors(venderId=${vendor.id})}" >Follow</a> <a href="#"
+													class="btn btn-default btn-xs" role="button">Like</a>
+											</p>
+										</div>
+									</div>
+
+								</div>
+								
+								
+								
+								</th:block>
+								
+								
+								
+								<div class="col-md-3" th:remove="all">
+									<div class="thumbnail">
+										<img data-src="holder.js/100%x150" alt="..." />
+										<div class="caption">
+											<h4>Thumbnail label</h4>
+											<span> Catering</span>
+												 <h6><span th:text="${vendor.district}"></span> Kicukiro</h6><br />
+											<p>
+												<a href="detail.html" class="btn btn-primary btn-xs" role="button">Follow</a> <a href="#"
+													class="btn btn-default btn-xs" role="button">Like</a>
+											</p>
+										</div>
+									</div>
+
+								</div>
+								
+								<div class="col-md-3" th:remove="all">
+									<div class="thumbnail">
+										<img data-src="holder.js/100%x150" alt="..." />
+										<div class="caption">
+											<h4>Thumbnail label</h4>
+											<span> Wedding cars</span>
+											 <h6><span th:text="${vendor.district}"></span> Gasabo</h6><br />
+											<p>
+												<a href="detail.html" class="btn btn-primary btn-xs" role="button">Follow</a> <a href="#"
+													class="btn btn-default btn-xs" role="button">Like</a>
+											</p>
+										</div>
+									</div>
+
+								</div>
+								<div class="col-md-3">
+									<div class="thumbnail">
+
+										<img src="../../../resources/images/application/no_person.jpg" style="width: 203px; height: 125px; display: block;"
+											alt="..." th:src="@{/resources/images/application/no_person.jpg}" />
+										<div class="caption">
+											<p class="text-center text-primary">Are you a wedding professional ?</p>
+
+
+											<p>
+												<a href="signup.html" class="btn btn-primary btn-block " role="button">Sign up</a>
+
+											</p>
+										</div>
+									</div>
+
+								</div>
+							</div>
+					
+							
+								<!--  end of code to be removed at thymeleaf parsing time! -->
+							
+							
 
 						</div>
 					</div>
@@ -348,8 +412,8 @@ th:href="@{/resources/css/social-buttons.css}"
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	<script src="https://code.jquery.com/jquery.js"></script>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
-	<script src="../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
-	<script src="../../resources/js/holder.js" th:src="@{/resources/js/holder.js}"></script>
+	<script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
+	<script src="../../../resources/js/holder.js" th:src="@{/resources/js/holder.js}"></script>
 	<script type="text/javascript">
 	$('.carousel').carousel({
 		  interval: 2000

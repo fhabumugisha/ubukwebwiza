@@ -8,5 +8,5 @@ import com.buseni.ubukwebwiza.core.domain.Photo;
 
 public interface PhotoRepo extends JpaRepository<Photo, Integer> {
 
-	List<Photo> findByProvider_id(Integer idProvider);
+	List<Photo> findByVendor_id(Integer idVendor);
 }

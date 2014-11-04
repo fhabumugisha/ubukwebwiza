@@ -32,7 +32,7 @@ public interface PhotoService {
 	 * @param idProvider
 	 * @return
 	 */
-	List<Photo> findAllByProvider(Integer idProvider);
+	List<Photo> findAllByVendor(Integer idProvider);
 	
 	/**
 	 * 

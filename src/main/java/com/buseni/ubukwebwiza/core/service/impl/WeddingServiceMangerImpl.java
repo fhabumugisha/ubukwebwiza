@@ -63,11 +63,11 @@ public class WeddingServiceMangerImpl implements WeddingServiceManager {
 	/* (non-Javadoc)
 	 * @see com.buseni.ubukwebwiza.core.service.WeddingServiceManager#findAllByProvider(java.lang.Integer)
 	 */
-	public List<WeddingService> findAllByProvider(Integer idProvider) {
-		if(null == idProvider){
+	public List<WeddingService> findAllByVendor(Integer idVendor) {
+		if(null == idVendor){
 			return null;
 		}
-		return weddingServiceRepo.findByProvider_id(idProvider);
+		return weddingServiceRepo.findByVendor_id(idVendor);
 	}
 
 	/* (non-Javadoc)

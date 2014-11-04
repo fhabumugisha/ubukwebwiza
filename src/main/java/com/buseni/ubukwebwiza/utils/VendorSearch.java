@@ -1,6 +1,6 @@
 package com.buseni.ubukwebwiza.utils;
 
-public class ProviderSearch {
+public class VendorSearch {
 	
 	private String name;
 	private Integer idWeddingService;

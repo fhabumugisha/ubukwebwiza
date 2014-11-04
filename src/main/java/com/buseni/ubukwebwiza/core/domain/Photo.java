@@ -42,8 +42,8 @@ public class Photo implements Serializable{
 
 	
 	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="id_provider")
-	private Provider provider;
+	@JoinColumn(name="id_vendor")
+	private Vendor vendor;
 	
 	private int activeFlag;
 	
@@ -109,7 +109,7 @@ public class Photo implements Serializable{
 	@Override
 	public String toString() {
 		return "Photo [id=" + id + ", photoName=" + photoName + ", description="
-				+ description + ", lastUpdate=" + lastUpdate + ", provider=" + provider
+				+ description + ", lastUpdate=" + lastUpdate + ", vendor=" + vendor
 				+ "]";
 	}
 
@@ -157,8 +157,8 @@ public class Photo implements Serializable{
 	/**
 	 * @return the professional
 	 */
-	public Provider getProvider() {
-		return provider;
+	public Vendor getProvider() {
+		return vendor;
 	}
 
 	public void setState(int state) {
@@ -171,8 +171,8 @@ public class Photo implements Serializable{
 
 	
 
-	public void setProvider(Provider provider) {
-		this.provider = provider;
+	public void setProvider(Vendor vendor) {
+		this.vendor = vendor;
 	}
 
 }

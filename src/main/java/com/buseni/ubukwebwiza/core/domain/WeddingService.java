@@ -37,14 +37,32 @@ public class WeddingService implements Serializable{
 	
 	private String description;
 	
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="id_provider",nullable=false)
-	private Provider provider;
+	private int activeFlag;
 	
 	@OneToOne
 	private CodeWeddingService codeWeddingService;
 	
-	private int activeFlag;
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="id_vendor")
+	private Vendor vendor;
+	
+	public Vendor getVendor() {
+		return vendor;
+	}
+
+	public void setVendor(Vendor vendor) {
+		this.vendor = vendor;
+	}
+
+	public CodeWeddingService getCodeWeddingService() {
+		return codeWeddingService;
+	}
+
+	public void setCodeWeddingService(CodeWeddingService codeWeddingService) {
+		this.codeWeddingService = codeWeddingService;
+	}
+
+	
 	
 	public WeddingService(){
 		
@@ -65,8 +83,6 @@ public class WeddingService implements Serializable{
 		result = prime * result
 				+ ((lastUpdated == null) ? 0 : lastUpdated.hashCode());
 		result = prime * result + ((price == null) ? 0 : price.hashCode());
-		result = prime * result
-				+ ((provider == null) ? 0 : provider.hashCode());
 		return result;
 	}
 
@@ -106,11 +122,6 @@ public class WeddingService implements Serializable{
 				return false;
 		} else if (!price.equals(other.price))
 			return false;
-		if (provider == null) {
-			if (other.provider != null)
-				return false;
-		} else if (!provider.equals(other.provider))
-			return false;
 		return true;
 	}
 
@@ -118,8 +129,8 @@ public class WeddingService implements Serializable{
 	public String toString() {
 		return "WeddingService [id=" + id + ", lastUpdated=" + lastUpdated
 				+ ", price=" + price + ", description=" + description
-				+ ", provider=" + provider + ", codeWeddingService="
-				+ codeWeddingService + ", activeFlag=" + activeFlag + "]";
+				+ ", codeWeddingService=" + codeWeddingService
+				+ ", activeFlag=" + activeFlag + "]";
 	}
 
 	public Integer getId() {
@@ -174,13 +185,7 @@ public class WeddingService implements Serializable{
 		return activeFlag;
 	}
 
-	public Provider getProvider() {
-		return provider;
-	}
-
-	public void setProvider(Provider provider) {
-		this.provider = provider;
-	}
+	
 	
 	
 

@@ -8,6 +8,6 @@ import com.buseni.ubukwebwiza.core.domain.WeddingService;
 
 public interface WeddingServiceRepo extends JpaRepository<WeddingService, Integer> {
 	
-	List<WeddingService> findByProvider_id(Integer idProvider);
+	List<WeddingService> findByVendor_id(Integer idVendor);
 
 }

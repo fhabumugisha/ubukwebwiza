@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.buseni.ubukwebwiza.core.domain.CodeDistrict;
 import com.buseni.ubukwebwiza.core.domain.CodeWeddingService;
+import com.buseni.ubukwebwiza.core.domain.Vendor;
 import com.buseni.ubukwebwiza.core.service.CodeDistrictService;
 import com.buseni.ubukwebwiza.core.service.CodeWeddingServiceManager;
-import com.buseni.ubukwebwiza.utils.ProviderSearch;
+import com.buseni.ubukwebwiza.core.service.VendorService;
+import com.buseni.ubukwebwiza.utils.VendorSearch;
 
 @Controller
 public class SiteController {
@@ -26,8 +28,11 @@ public class SiteController {
 	@Autowired
 	private CodeDistrictService codeDistrictService;
 	
+	@Autowired
+	private VendorService vendorService;
+	
 	@RequestMapping(value="/", method=RequestMethod.GET)
-	public String home(ProviderSearch providerSearch){
+	public String home(VendorSearch vendorSearch){
 		return "frontend/index";
 	}
 	
@@ -42,4 +47,8 @@ public class SiteController {
 		return codeDistrictService.findByActiveFlagGrouped(1);
 	}
 	
+	@ModelAttribute("featuredVendors")
+	public List<Vendor> populateFeaturedVendors(){
+		return vendorService.getFeaturedVendors();
+	}
 }
