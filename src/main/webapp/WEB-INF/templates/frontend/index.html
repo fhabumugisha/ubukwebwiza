@@ -105,30 +105,24 @@ th:href="@{/resources/css/social-buttons.css}"
 										<h2 style="margin-bottom: 10px; font-family: Shift, Helvetica Neue; font-weight: bold;">Looking for a wedding
 											service ?</h2>
 
-										<form action="listing.html" role="form" class="form-inline">
+										<form action="listing.html" role="form" class="form-inline" th:action="@{/}" th:object="${providerSearch}" method="post">
 
 											<div class="row">
 												<div class="col-md-2 col-md-offset-3">
-													<select id="idcService" class="form-control">
-														<option selected="selected">Select a service</option>
-														<option>DJ</option>
-														<option>Planner</option>
-														<option>3</option>
-														<option>4</option>
-														<option>5</option>
+																										
+													<select th:field="*{idWeddingService}" id="idWeddingService" class="form-control">
+  														<option th:each="weddingService : ${allWeddingServices}" 
+        												  th:value="${weddingService.id}" 
+         												 th:text="${weddingService.libelle}">Wedding planner</option>
 													</select>
 												</div>
-												<div class="col-md-2 ">
-													
-													<select th:field="*{district.idc}" id="idcDistrict" class="form-control">
-														<option selected="selected">Select a location</option>
+												
+												<div class="col-md-2 ">													
+													<select th:field="*{idDistrict}" id="idDistrict" class="form-control">
   														<option th:each="district : ${allDistricts}" 
-        												  th:value="${district.idc}" 
+        												  th:value="${district.id}" 
          												 th:text="${district.libelle}">Kigali</option>
-													</select>
-													
-													
-													
+													</select>											
 										
 												</div>
 												<div class="col-md-2">

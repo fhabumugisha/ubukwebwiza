@@ -16,12 +16,10 @@ import com.buseni.ubukwebwiza.core.service.CodeDistrictService;
 @Transactional(readOnly=true)
 public class CodeDistrictServiceImpl implements CodeDistrictService {
 
-	
+
 	private CodeDistrictRepo  codeDistrictRepo;
 	
-	public  CodeDistrictServiceImpl() {
 	
-	}
 	@Autowired
 	public  CodeDistrictServiceImpl(CodeDistrictRepo  codeDistrictRepo) {
 		this.codeDistrictRepo = codeDistrictRepo;

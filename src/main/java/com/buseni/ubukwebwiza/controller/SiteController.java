@@ -14,6 +14,7 @@ import com.buseni.ubukwebwiza.core.domain.CodeDistrict;
 import com.buseni.ubukwebwiza.core.domain.CodeWeddingService;
 import com.buseni.ubukwebwiza.core.service.CodeDistrictService;
 import com.buseni.ubukwebwiza.core.service.CodeWeddingServiceManager;
+import com.buseni.ubukwebwiza.utils.ProviderSearch;
 
 @Controller
 public class SiteController {
@@ -26,7 +27,7 @@ public class SiteController {
 	private CodeDistrictService codeDistrictService;
 	
 	@RequestMapping(value="/", method=RequestMethod.GET)
-	public String home(){
+	public String home(ProviderSearch providerSearch){
 		return "frontend/index";
 	}
 	

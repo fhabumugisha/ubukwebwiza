@@ -3,25 +3,25 @@ package com.buseni.ubukwebwiza.utils;
 public class ProviderSearch {
 	
 	private String name;
-	private Integer idcWeddingService;
-	private Integer idcDistrict;
+	private Integer idWeddingService;
+	private Integer idDistrict;
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Integer getIdcWeddingService() {
-		return idcWeddingService;
+	public Integer getIdWeddingService() {
+		return idWeddingService;
 	}
-	public void setIdcWeddingService(Integer idcWeddingService) {
-		this.idcWeddingService = idcWeddingService;
+	public void setIdWeddingService(Integer idcWeddingService) {
+		this.idWeddingService = idcWeddingService;
 	}
-	public Integer getIdcDistrict() {
-		return idcDistrict;
+	public Integer getIdDistrict() {
+		return idDistrict;
 	}
-	public void setIdcDistrict(Integer idcDistrict) {
-		this.idcDistrict = idcDistrict;
+	public void setIdDistrict(Integer idDistrict) {
+		this.idDistrict = idDistrict;
 	}
 	
 	
