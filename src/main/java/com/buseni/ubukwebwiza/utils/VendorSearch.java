@@ -3,25 +3,30 @@ package com.buseni.ubukwebwiza.utils;
 public class VendorSearch {
 	
 	private String name;
-	private Integer idWeddingService;
-	private Integer idDistrict;
+	private Integer service;
+	private Integer district;
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Integer getIdWeddingService() {
-		return idWeddingService;
+	public Integer getService() {
+		return service;
 	}
-	public void setIdWeddingService(Integer idcWeddingService) {
-		this.idWeddingService = idcWeddingService;
+	public void setService(Integer idcWeddingService) {
+		this.service = idcWeddingService;
 	}
-	public Integer getIdDistrict() {
-		return idDistrict;
+	public Integer getDistrict() {
+		return district;
 	}
-	public void setIdDistrict(Integer idDistrict) {
-		this.idDistrict = idDistrict;
+	public void setDistrict(Integer idDistrict) {
+		this.district = idDistrict;
+	}
+	@Override
+	public String toString() {
+		return "VendorSearch [name=" + name + ", service="
+				+ service + ", district=" + district + "]";
 	}
 	
 	

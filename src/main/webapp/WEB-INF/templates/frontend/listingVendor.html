@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
 <title>Ubukwe Nyarwanda Template</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
 <!-- Bootstrap -->
-<link href="css/bootstrap.css" rel="stylesheet">
-<link href="css/font-awesome.min.css" rel="stylesheet">
-<link href="css/bootstrap-theme.min.css" rel="stylesheet">
-<link href="css/ubukwenyarwanda.css" rel="stylesheet">
+<link href="../../../resources/css/bootstrap.css" rel="stylesheet" th:href="@{/resources/css/bootstrap.css}" />
+<link href="../../../resources/css/font-awesome.min.css" rel="stylesheet" th:href="@{/resources/css/font-awesome.min.css}"/>
+<link href="../../../resources/css/bootstrap-theme.min.css" rel="stylesheet" th:href="@{/resources/css/font-awesome.min.css}"/>
+<link href="../../../resources/css/ubukwenyarwanda.css" rel="stylesheet"  th:href="@{/resources/css/ubukwenyarwanda.css}"/>
 <!-- <link href="css/social-buttons.css" rel="stylesheet"> -->
 
 
@@ -25,7 +25,7 @@
 			<div class="row">
 				<div class="col-md-2">
 					<a href="#" class="thumbnail"> <img
-						data-src="holder.js/100%x50" alt="...">
+						data-src="holder.js/100%x50" alt="..."></img>
 					</a>
 				</div>
 				<div class="col-md-10 ">
@@ -37,7 +37,7 @@
 									class="icon-bar"></span> <span class="icon-bar"></span> <span
 									class="icon-bar"></span>
 							</button>
-							<a class="navbar-brand active" href="index.html">Home</a>
+							<a class="navbar-brand active" href="index.html" >Home</a>
 						
 						<div class="pull-right" style="margin-right: 10px;">
 							<a href="signup.html" class="btn btn-primary  navbar-btn">Sign
@@ -93,7 +93,7 @@
 		<div id="breadcumbsContainer">
 			<ol class="breadcrumb container">
 				<li><a href="index.html">Home</a></li>
-				<li class="active"><a href="#">Listing services</a></li>
+				<li class="active"><a href="#">Listing vendors</a></li>
 			</ol>
 		</div>
 
@@ -108,30 +108,31 @@
 								<div class="panel-body">
 
 
-									<form action="listing.html" role="form" class="form-inline ">
+									<form action="listing.html" role="form" class="form-inline " th:action="@{/search}" 
+									th:object="${vendorSearch}" method="get">
 										
 										<div class="row">
 												
-												<div class="col-md-2 col-md-offset-3">
+												<div class="col-md-2  col-md-offset-3">
 												
-												<select id="idcService" class="form-control">
-													<option selected="selected">Select a service</option>
-													<option>DJ</option>
-													<option>Planner</option>
-													<option>3</option>
-													<option>4</option>
-													<option>5</option>
-												</select>
+												<select th:field="*{service}" id="idWeddingService" class="form-control">
+  														<option th:each="weddingService : ${allWeddingServices}" 
+        												  th:value="${weddingService.id}" 
+         												 th:text="${weddingService.libelle}">Wedding planner</option>
+													</select>
 												
 												</div>
-												<div class="col-md-2 "><select id="idcDistrict" class="form-control">
-													<option selected="selected">Select a location</option>
-													<option>Nyarugenge</option>
-													<option>2</option>
-													<option>3</option>
-													<option>4</option>
-													<option>5</option>
-												</select></div>
+												<div class="col-md-1 ">
+												</div>
+												<div class="col-md-2 ">
+												<select th:field="*{district}" id="idDistrict" class="form-control">
+  														<option th:each="district : ${allDistricts}" 
+        												  th:value="${district.id}" 
+         												 th:text="${district.libelle}">Kigali</option>
+													</select>	
+												
+												</div>
+												
 												<div class="col-md-2"><button type="submit" class="btn btn-primary btn-block">
 													Find <span class="glyphicon glyphicon-search"></span>
 												</button></div>
@@ -171,13 +172,13 @@
 								<div class="col-md-5 container">
 									<div class="row">
 										<div class="col-md-6">
-											<img data-src="holder.js/100%x150" alt="...">
+											<img data-src="holder.js/100%x150" alt="..."></img>
 										</div>
 										<div class="col-md-6">
 											<h5>Thumbnail label</h5>
 
 											<p>
-												<a href="detail.html" class="btn btn-primary btn-xs" role="button">Follow</a>
+												<a href="detailVendor.html" class="btn btn-primary btn-xs" role="button">Follow</a>
 												<a href="#" class="btn btn-default btn-xs" role="button">Like</a>
 											</p>
 										</div>
@@ -186,13 +187,13 @@
 									<hr />
 									<div class="row">
 										<div class="col-md-6">
-											<img data-src="holder.js/100%x150" alt="...">
+											<img data-src="holder.js/100%x150" alt="..."></img>
 										</div>
 										<div class="col-md-6">
 											<h5>Thumbnail label</h5>
 
 											<p>
-												<a href="detail.html" class="btn btn-primary btn-xs" role="button">Follow</a>
+												<a href="detailVendor.html" class="btn btn-primary btn-xs" role="button">Follow</a>
 												<a href="#" class="btn btn-default btn-xs" role="button">Like</a>
 											</p>
 										</div>
@@ -256,8 +257,8 @@
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	<script src="https://code.jquery.com/jquery.js"></script>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/holder.js"></script>
+	<script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
+	<script src="../../../resources/js/holder.js" th:src="@{/resources/js/holder.js}"></script>
 	<script type="text/javascript">
 	$('.carousel').carousel({
 		  interval: 2000

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.buseni.ubukwebwiza.core.domain.CodeDistrict;
 import com.buseni.ubukwebwiza.core.domain.CodeWeddingService;
@@ -19,6 +20,7 @@ import com.buseni.ubukwebwiza.core.service.VendorService;
 import com.buseni.ubukwebwiza.utils.VendorSearch;
 
 @Controller
+//@SessionAttributes({"allDistricts", "allWeddingServices"})
 public class SiteController {
 
 	

@@ -46,7 +46,7 @@ th:href="@{/resources/css/social-buttons.css}"
 						</div>
 						<div class="navbar-collapse collapse">
 							<ul class="nav navbar-nav ">
-								<li><a href="listing.html">Find Service</a></li>
+								<li><a href="listingVendor.html" th:href="@{/vendors}">Find Service</a></li>
 								<li><a href="photoGallery.html">Photo gallery</a></li>
 								<li><a href="listingHelp.html">Need an advice </a></li>
 
@@ -105,12 +105,13 @@ th:href="@{/resources/css/social-buttons.css}"
 										<h2 style="margin-bottom: 10px; font-family: Shift, Helvetica Neue; font-weight: bold;">Looking for a wedding
 											service ?</h2>
 
-										<form action="listing.html" role="form" class="form-inline" th:action="@{/}" th:object="${vendorSearch}" method="post">
+										<form action="listingVendor.html" role="form" class="form-inline" th:action="@{/search}" 
+										th:object="${vendorSearch}" method="get">
 
 											<div class="row">
 												<div class="col-md-2 col-md-offset-3">
 																										
-													<select th:field="*{idWeddingService}" id="idWeddingService" class="form-control">
+													<select th:field="*{service}" id="idWeddingService" class="form-control">
   														<option th:each="weddingService : ${allWeddingServices}" 
         												  th:value="${weddingService.id}" 
          												 th:text="${weddingService.libelle}">Wedding planner</option>
@@ -118,7 +119,7 @@ th:href="@{/resources/css/social-buttons.css}"
 												</div>
 												
 												<div class="col-md-2 ">													
-													<select th:field="*{idDistrict}" id="idDistrict" class="form-control">
+													<select th:field="*{district}" id="idDistrict" class="form-control">
   														<option th:each="district : ${allDistricts}" 
         												  th:value="${district.id}" 
          												 th:text="${district.libelle}">Kigali</option>
@@ -131,10 +132,6 @@ th:href="@{/resources/css/social-buttons.css}"
 													</button>
 												</div>
 											</div>
-
-
-
-
 										</form>
 									</div>
 								</div>
@@ -158,7 +155,7 @@ th:href="@{/resources/css/social-buttons.css}"
 											<h4><span th:if="${not #lists.isEmpty(vendor.weddingServices)}" th:text="${vendor.weddingService}"></span>   </h4>
 											 <h3><span th:text="${vendor.district}"></span> Nyarugenge</h3><br />
 											<p>
-												<a href="detail.html" class="btn btn-primary btn-xs" role="button"
+												<a href="detailVendor.html" class="btn btn-primary btn-xs" role="button"
 												th:href="@{/vendors(venderId=${vendor.id})}" >Follow</a> <a href="#"
 													class="btn btn-default btn-xs" role="button">Like</a>
 											</p>
@@ -202,7 +199,7 @@ th:href="@{/resources/css/social-buttons.css}"
 											<span th:if="${not #lists.isEmpty(vendor.weddingServices)}" th:text="${vendor.weddingService}"> Wedding planner</span>
 											 <h6><span th:text="${vendor.district}">Nyarugenge</span> </h6>
 											<p>
-												<a href="detail.html" class="btn btn-primary btn-xs" role="button"
+												<a href="detailVendor.html" class="btn btn-primary btn-xs" role="button"
 												th:href="@{/vendors(venderId=${vendor.id})}" >Follow</a> <a href="#"
 													class="btn btn-default btn-xs" role="button">Like</a>
 											</p>
@@ -225,7 +222,7 @@ th:href="@{/resources/css/social-buttons.css}"
 											<span> Catering</span>
 												 <h6><span th:text="${vendor.district}"></span> Kicukiro</h6><br />
 											<p>
-												<a href="detail.html" class="btn btn-primary btn-xs" role="button">Follow</a> <a href="#"
+												<a href="detailVendor.html" class="btn btn-primary btn-xs" role="button">Follow</a> <a href="#"
 													class="btn btn-default btn-xs" role="button">Like</a>
 											</p>
 										</div>
@@ -241,7 +238,7 @@ th:href="@{/resources/css/social-buttons.css}"
 											<span> Wedding cars</span>
 											 <h6><span th:text="${vendor.district}"></span> Gasabo</h6><br />
 											<p>
-												<a href="detail.html" class="btn btn-primary btn-xs" role="button">Follow</a> <a href="#"
+												<a href="detailVendor.html" class="btn btn-primary btn-xs" role="button">Follow</a> <a href="#"
 													class="btn btn-default btn-xs" role="button">Like</a>
 											</p>
 										</div>
@@ -267,16 +264,13 @@ th:href="@{/resources/css/social-buttons.css}"
 								</div>
 							</div>
 					
-							
 								<!--  end of code to be removed at thymeleaf parsing time! -->
 							
-							
-
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-12 panel">
-							<a href="listing.html" class="btn btn-primary  " role="button">Find more services </a>
+							<a href="listingVendor.html" class="btn btn-primary  " role="button" th:href="@{/vendors}">Find more services </a>
 						</div>
 					</div>
 				</div>
