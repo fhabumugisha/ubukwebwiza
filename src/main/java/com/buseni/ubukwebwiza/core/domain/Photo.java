@@ -175,4 +175,36 @@ public class Photo implements Serializable{
 		this.vendor = vendor;
 	}
 
+	public String getPhotoName() {
+		return photoName;
+	}
+
+	public void setPhotoName(String photoName) {
+		this.photoName = photoName;
+	}
+
+	public Date getLastUpdate() {
+		return lastUpdate;
+	}
+
+	public void setLastUpdate(Date lastUpdate) {
+		this.lastUpdate = lastUpdate;
+	}
+
+	public Vendor getVendor() {
+		return vendor;
+	}
+
+	public void setVendor(Vendor vendor) {
+		this.vendor = vendor;
+	}
+
+	public int getActiveFlag() {
+		return activeFlag;
+	}
+
+	public void setActiveFlag(int activeFlag) {
+		this.activeFlag = activeFlag;
+	}
+
 }

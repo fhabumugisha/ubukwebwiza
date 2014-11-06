@@ -50,7 +50,7 @@ public class VendorController {
 		return "frontend/listingVendor";
 	}
 	
-	@RequestMapping(value="/vendors/{id}",method=RequestMethod.GET)
+	@RequestMapping(value="/vendors/details{id}",method=RequestMethod.GET)
 	public String getVendor(@RequestParam Integer id, Model model){
 		Vendor vendor = vendorService.findById(id);
 		model.addAttribute("vendor", vendor);

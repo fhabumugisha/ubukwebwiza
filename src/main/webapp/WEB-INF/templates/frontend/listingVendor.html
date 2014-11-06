@@ -37,7 +37,7 @@
 									class="icon-bar"></span> <span class="icon-bar"></span> <span
 									class="icon-bar"></span>
 							</button>
-							<a class="navbar-brand active" href="index.html" >Home</a>
+							<a class="navbar-brand active" href="index.html" th:href="@{/}"  >Home</a>
 						
 						<div class="pull-right" style="margin-right: 10px;">
 							<a href="signup.html" class="btn btn-primary  navbar-btn">Sign
@@ -169,8 +169,28 @@
 						<div class="col-md-12 container">
 
 							<div class="row">
-								<div class="col-md-5 container">
-									<div class="row">
+								<div class="col-md-5 container" >
+								
+								<th:block th:each="vendor :${vendors}" >
+								
+								<div class="row">
+										<div class="col-md-6">
+											<img data-src="holder.js/100%x150" alt="..."></img>
+										</div>
+										<div class="col-md-6">
+											<h5><span th:text="${vendor.businessName}">Thumbnail label</span></h5>
+											<span th:if="${not #lists.isEmpty(vendor.weddingServices)}" th:text="${vendor.weddingService}"> Wedding planner</span>
+											 <h6><span th:text="${vendor.district}">Nyarugenge</span> </h6>
+											
+											<p>
+												<a href="detailVendor.html" th:href="@{/vendors/details(id=${vendor.id})}" class="btn btn-primary btn-xs" role="button">Follow</a>
+												<a href="#" class="btn btn-default btn-xs" role="button">Like</a>
+											</p>
+										</div>
+									</div>
+								<hr />
+								</th:block>
+									<div class="row" th:remove="all">
 										<div class="col-md-6">
 											<img data-src="holder.js/100%x150" alt="..."></img>
 										</div>
@@ -184,8 +204,8 @@
 										</div>
 									</div>
 
-									<hr />
-									<div class="row">
+									<hr th:remove="all"/>
+									<div class="row" th:remove="all">
 										<div class="col-md-6">
 											<img data-src="holder.js/100%x150" alt="..."></img>
 										</div>
@@ -198,14 +218,14 @@
 											</p>
 										</div>
 									</div>
-									<hr />
-									<div class="row">
+									<hr th:remove="all"/>
+									<div class="row" >
 										<div class="col-md-12">
 											<a href="#" class="btn btn-primary btn-xs"> View more
 												vendors</a>
 										</div>
 									</div>
-									<hr />
+									<hr th:remove="all"/>
 								</div>
 								<div class="col-md-7">
 									

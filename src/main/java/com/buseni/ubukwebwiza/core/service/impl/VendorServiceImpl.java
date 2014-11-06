@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.buseni.ubukwebwiza.core.domain.CodeWeddingService;
+import com.buseni.ubukwebwiza.core.domain.Photo;
 import com.buseni.ubukwebwiza.core.domain.Vendor;
 import com.buseni.ubukwebwiza.core.domain.WeddingService;
 import com.buseni.ubukwebwiza.core.repository.VendorRepo;
@@ -61,7 +62,44 @@ public class VendorServiceImpl implements VendorService {
 		if(null == id){
 			return null;
 		}
-		return vendorRepo.findOne(id);
+		
+		Vendor  vendor = new Vendor();
+		vendor.setId(id);
+		vendor.setBusinessName("Aline Manzi Designs");
+		vendor.setAboutme(" Kaiyuyd  fhya ryyysdaz  dtyxygd fyidauf duyfutsatfd fyfdaufdif fyfduautfufdufdf fufufusfd");
+		vendor.setAddress(" Kigali avenue de la Paix, BP 14444");
+		vendor.setFacebookUsername("facebook.com/alinemanzidesigns");
+		vendor.setTwitterUsername("twitter.com/alinemanzidesigns");
+		vendor.setWebsite("www.alinemanzidesigns.com");
+		vendor.setPhoneNumber("+250 00 00 00 00 00 00 ");
+		 
+		CodeWeddingService cws = new CodeWeddingService();
+		cws.setId(1);
+		cws.setLibelle("Wedding Planner");
+		WeddingService ws =  new WeddingService();
+		ws.setCodeWeddingService(cws);
+		vendor.getWeddingServices().add(ws);
+		//return vendorRepo.findOne(id);
+		
+		Photo photo  = new Photo();
+		photo.setId(1);
+		photo.setDescription(" Taking care of everything");
+		photo.setPhotoName("wedding_4_content.jpg");
+		vendor.getPhotos().add(photo);
+		
+		photo  = new Photo();
+		photo.setId(2);
+		photo.setDescription("Wedding rings");
+		photo.setPhotoName("Wedding_rings.jpg");
+		vendor.getPhotos().add(photo);
+		
+		photo  = new Photo();
+		photo.setId(3);
+		photo.setDescription("Planning");
+		photo.setPhotoName("wedding-banner.png");
+		vendor.getPhotos().add(photo);
+		
+		return vendor;
 	}
 
 	/* (non-Javadoc)
