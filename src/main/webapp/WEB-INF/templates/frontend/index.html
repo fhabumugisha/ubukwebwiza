@@ -47,7 +47,7 @@ th:href="@{/resources/css/social-buttons.css}"
 						<div class="navbar-collapse collapse">
 							<ul class="nav navbar-nav ">
 								<li><a href="listingVendor.html" th:href="@{/vendors}">Find Service</a></li>
-								<li><a href="photoGallery.html">Photo gallery</a></li>
+								<li><a href="photoGallery.html" th:href="@{/photos}">Photo gallery</a></li>
 								<li><a href="listingHelp.html">Need an advice </a></li>
 
 							</ul>
@@ -197,7 +197,7 @@ th:href="@{/resources/css/social-buttons.css}"
 										<div class="caption">
 											<h4><span th:text="${vendor.businessName}">Thumbnail label</span> </h4>
 											<span th:if="${not #lists.isEmpty(vendor.weddingServices)}" th:text="${vendor.weddingService}"> Wedding planner</span>
-											 <h6><span th:text="${vendor.district}">Nyarugenge</span> </h6>
+											 <h6><span th:text="${vendor.codeDistrict.libelle}">Nyarugenge</span> </h6>
 											<p>
 												<a href="detailVendor.html" class="btn btn-primary btn-xs" role="button"
 												th:href="@{/vendors/details(id=${vendor.id})}" >Follow</a> <a href="#"
@@ -220,7 +220,7 @@ th:href="@{/resources/css/social-buttons.css}"
 										<div class="caption">
 											<h4>Thumbnail label</h4>
 											<span> Catering</span>
-												 <h6><span th:text="${vendor.district}"></span> Kicukiro</h6><br />
+												 <h6><span th:text="${vendor.codeDistrict.libelle}"></span> Kicukiro</h6><br />
 											<p>
 												<a href="detailVendor.html" class="btn btn-primary btn-xs" role="button">Follow</a> <a href="#"
 													class="btn btn-default btn-xs" role="button">Like</a>
@@ -236,7 +236,7 @@ th:href="@{/resources/css/social-buttons.css}"
 										<div class="caption">
 											<h4>Thumbnail label</h4>
 											<span> Wedding cars</span>
-											 <h6><span th:text="${vendor.district}"></span> Gasabo</h6><br />
+											 <h6><span th:text="${vendor.codeDistrict.libelle}"></span> Gasabo</h6><br />
 											<p>
 												<a href="detailVendor.html" class="btn btn-primary btn-xs" role="button">Follow</a> <a href="#"
 													class="btn btn-default btn-xs" role="button">Like</a>

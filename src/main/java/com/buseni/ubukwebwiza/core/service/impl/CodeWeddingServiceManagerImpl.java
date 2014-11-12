@@ -1,6 +1,5 @@
 package com.buseni.ubukwebwiza.core.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,23 +38,8 @@ public class CodeWeddingServiceManagerImpl implements CodeWeddingServiceManager 
 	@Override
 	public List<CodeWeddingService> findByActiveFlag(int activeFlag) {
 		
-		List<CodeWeddingService> weddingServices =   new ArrayList<CodeWeddingService>();
-		/*CodeWeddingService ws = new CodeWeddingService();
-		ws.setId(1);
-		ws.setLibelle("Wedding planner");
-		weddingServices.add(ws);
-		
-		ws = new CodeWeddingService();
-		ws.setId(2);
-		ws.setLibelle("Catering");
-		weddingServices.add(ws);
-		
-		ws = new CodeWeddingService();
-		ws.setId(3);
-		ws.setLibelle("Car");
-		weddingServices.add(ws);*/
 		return codeWeddingServiceRepo.findByActiveFlag(activeFlag);
-		//return weddingServices;
+		
 	}
 
 }

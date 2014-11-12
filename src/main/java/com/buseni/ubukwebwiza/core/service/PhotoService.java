@@ -43,6 +43,14 @@ public interface PhotoService {
 	
 	/**
 	 * 
+	 * @param activeFlag
+	 * @param pageable
+	 * @return
+	 */
+	Page<Photo> findByActiveFlag(int activeFlag, Pageable pageable);
+	
+	/**
+	 * 
 	 * @param id
 	 */
 	void delete(Integer id);

@@ -8,6 +8,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
+import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
@@ -41,6 +42,9 @@ public class ApplicationInitializer implements WebApplicationInitializer {
 		
 		servletContext.addFilter("corsFilter", CorsFilter.class)
 			.addMappingForUrlPatterns(null, false, "/*");
+		
+		servletContext.addFilter("openEntityManagerInViewFilter", OpenEntityManagerInViewFilter.class)
+		.addMappingForUrlPatterns(null, false, "/*");
 		
 		servletContext.addFilter("hiddenHttpMethodFilter", HiddenHttpMethodFilter.class)
 			.addMappingForUrlPatterns(null, false, "/*");

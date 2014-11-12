@@ -30,6 +30,9 @@ public class ApplicationConfiguration extends WebMvcConfigurerAdapter{
 			//converters.add(jsonHttpMessageConverter());
 			converters.add(new StringHttpMessageConverter(Charset.forName("UTF-8")));
 		}
-		
-	
+		/*
+		@Bean
+		public OpenEntityManagerInViewInterceptor openEntityManagerInViewInterceptor() {
+			return new OpenEntityManagerInViewInterceptor();
+		}*/
 }

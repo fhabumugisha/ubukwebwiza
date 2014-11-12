@@ -180,7 +180,7 @@
 										<div class="col-md-6">
 											<h5><span th:text="${vendor.businessName}">Thumbnail label</span></h5>
 											<span th:if="${not #lists.isEmpty(vendor.weddingServices)}" th:text="${vendor.weddingService}"> Wedding planner</span>
-											 <h6><span th:text="${vendor.district}">Nyarugenge</span> </h6>
+											 <h6><span th:text="${vendor.codeDistrict.libelle}">Nyarugenge</span> </h6>
 											
 											<p>
 												<a href="detailVendor.html" th:href="@{/vendors/details(id=${vendor.id})}" class="btn btn-primary btn-xs" role="button">Follow</a>

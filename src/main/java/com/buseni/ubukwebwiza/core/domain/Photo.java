@@ -32,19 +32,25 @@ public class Photo implements Serializable{
 	private Integer id;
 	
 	@NotEmpty(message="You must choose a photo")
+	@Column(name="photo_name")
 	private String photoName;
 	
 	@NotEmpty(message="You must write a description")
 	private String description;
 	
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="last_update")
 	private Date lastUpdate;
 
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="created_at")
+	private Date created_at;
 	
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne
 	@JoinColumn(name="id_vendor")
 	private Vendor vendor;
 	
+	@Column(name="active_flag")
 	private int activeFlag;
 	
 	public Photo(){
@@ -205,6 +211,14 @@ public class Photo implements Serializable{
 
 	public void setActiveFlag(int activeFlag) {
 		this.activeFlag = activeFlag;
+	}
+
+	public Date getCreated_at() {
+		return created_at;
+	}
+
+	public void setCreated_at(Date created_at) {
+		this.created_at = created_at;
 	}
 
 }

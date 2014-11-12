@@ -26,9 +26,16 @@ public class CodeDistrict implements Serializable {
 	private Integer id;	
 	private String code;
 	private String libelle;
+	@Column(name="libelle_fr")
 	private String libelleFr;
+	
+	@Column(name="libelle_en")
 	private String libelleEn;
+	
+	@Column(name="libelle_kn")
 	private String libelleKn;
+	
+	@Column(name="active_flag")
 	private int activeFlag;
 	
 	@ManyToOne

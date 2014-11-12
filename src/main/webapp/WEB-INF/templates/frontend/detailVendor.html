@@ -149,16 +149,16 @@
 								<div class="panel-body">
 
 									<address>
-									<span th:text="${vendor.address}">
-										<strong>Twitter, Inc.</strong> 
-									 795 Folsom Ave, Suite	600<br> San Francisco, CA 94107 </br>
-										
-									</span>
+										<span th:text="${vendor.address}">
+											<strong>Twitter, Inc.</strong> 
+											 795 Folsom Ave, Suite	600<br /> San Francisco, CA 94107 										
+										</span>		
+									</address>
+									<address>
 										<abbr title="Phone">P:</abbr> <span th:text="${vendor.phoneNumber}"> (123) 456-7890 </span>
 									</address>
-
 									<address>
-										 <a href="mailto:#" th:value="${vendor.email}">first.last@example.com</a>
+										 <a href="mailto:#" th:value="${vendor.email}" th:text="${vendor.email}">first.last@example.com</a>
 									</address>
 
 

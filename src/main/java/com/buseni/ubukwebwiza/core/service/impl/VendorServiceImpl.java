@@ -16,6 +16,7 @@ import com.buseni.ubukwebwiza.core.domain.CodeWeddingService;
 import com.buseni.ubukwebwiza.core.domain.Photo;
 import com.buseni.ubukwebwiza.core.domain.Vendor;
 import com.buseni.ubukwebwiza.core.domain.WeddingService;
+import com.buseni.ubukwebwiza.core.predicates.VendorPredicates;
 import com.buseni.ubukwebwiza.core.repository.VendorRepo;
 import com.buseni.ubukwebwiza.core.service.VendorService;
 import com.buseni.ubukwebwiza.utils.VendorSearch;
@@ -30,10 +31,10 @@ public class VendorServiceImpl implements VendorService {
 	
 	private VendorRepo vendorRepo;
 	
-	
 	@Autowired
 	public VendorServiceImpl(VendorRepo vendorRepo){
 		this.vendorRepo = vendorRepo;
+		
 	}
 
 	/* (non-Javadoc)
@@ -63,12 +64,12 @@ public class VendorServiceImpl implements VendorService {
 			return null;
 		}
 		
-		Vendor  vendor = new Vendor();
+		/*Vendor  vendor = new Vendor();
 		vendor.setId(id);
 		vendor.setBusinessName("Aline Manzi Designs");
 		vendor.setAboutme(" Kaiyuyd  fhya ryyysdaz  dtyxygd fyidauf duyfutsatfd fyfdaufdif fyfduautfufdufdf fufufusfd");
 		vendor.setAddress(" Kigali avenue de la Paix, BP 14444");
-		vendor.setFacebookUsername("facebook.com/alinemanzidesigns");
+		vendor.setFbUsername("facebook.com/alinemanzidesigns");
 		vendor.setTwitterUsername("twitter.com/alinemanzidesigns");
 		vendor.setWebsite("www.alinemanzidesigns.com");
 		vendor.setPhoneNumber("+250 00 00 00 00 00 00 ");
@@ -97,9 +98,9 @@ public class VendorServiceImpl implements VendorService {
 		photo.setId(3);
 		photo.setDescription("Planning");
 		photo.setPhotoName("wedding-banner.png");
-		vendor.getPhotos().add(photo);
+		vendor.getPhotos().add(photo);*/
 		
-		return vendor;
+		return vendorRepo.findOne(id);
 	}
 
 	/* (non-Javadoc)
@@ -114,7 +115,9 @@ public class VendorServiceImpl implements VendorService {
 	 */
 	public Page<Vendor> search(VendorSearch vendorSearch,
 			Pageable pageable) {
-		// TODO Auto-generated method stub
+		if(null != vendorSearch){
+			vendorRepo.findAll(VendorPredicates.search(vendorSearch));
+		}
 		return null;
 	}
 
@@ -131,50 +134,8 @@ public class VendorServiceImpl implements VendorService {
 	}
 
 	@Override
-	public List<Vendor> getFeaturedVendors() {
-		List<Vendor> vendors = new ArrayList<Vendor>();
-		WeddingService ws =  new WeddingService();
-		CodeWeddingService cws = new CodeWeddingService();
-		Vendor vendor = new Vendor();
-		
-		vendor.setId(1);
-		vendor.setBusinessName("Man Alain");
-		vendor.setDistrict("Nyarugenge");		
-		ws.setId(1);
-		
-		cws.setId(1);
-		cws.setLibelle("Wedding Planner");
-		ws.setCodeWeddingService(cws);
-		vendor.getWeddingServices().add(ws);
-		vendors.add(vendor);
-		
-		vendor = new Vendor();
-		vendor.setId(2);
-		vendor.setBusinessName("Kaline Alice");
-		vendor.setDistrict("Gasabo");
-		 ws =  new WeddingService();
-		ws.setId(2);
-		 cws = new CodeWeddingService();
-		cws.setId(2);
-		cws.setLibelle("Catering");
-		ws.setCodeWeddingService(cws);
-		vendor.getWeddingServices().add(ws);
-		vendors.add(vendor);
-		
-		vendor = new Vendor();
-		vendor.setId(3);
-		vendor.setBusinessName("Wedding Services");
-		vendor.setDistrict("Kicukiro");
-		 ws =  new WeddingService();
-		ws.setId(3);
-		 cws = new CodeWeddingService();
-		cws.setId(3);
-		cws.setLibelle("Weddinng cars");
-		ws.setCodeWeddingService(cws);
-		vendor.getWeddingServices().add(ws);
-		vendors.add(vendor);
-		
-		return vendors;
+	public List<Vendor> getFeaturedVendors() {		
+		return vendorRepo.findAll();
 	}
 
 

@@ -1,5 +1,6 @@
 package com.buseni.ubukwebwiza.builders;
 
+import com.buseni.ubukwebwiza.core.domain.CodeDistrict;
 import com.buseni.ubukwebwiza.core.domain.Vendor;
 
 
@@ -24,15 +25,12 @@ public class ProviderBuilder {
 		return this;
 	}
 	
-	public ProviderBuilder firstName(String firstName){
-		this.vendor.setFirstName(firstName);
+	public ProviderBuilder district(CodeDistrict codeDistrict){
+		this.vendor.setCodeDistrict(codeDistrict);
 		return this;
 	}
 	
-	public ProviderBuilder lastName(String lastName){
-		this.vendor.setLastName(lastName);
-		return this;
-	}
+
 	public ProviderBuilder phoneNumber(String vendorTel){
 		this.vendor.setPhoneNumber(vendorTel);
 		return this;

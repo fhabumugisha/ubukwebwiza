@@ -1,18 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
 <title>Ubukwe Nyarwanda Template</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
 <!-- Bootstrap -->
-<link href="../../../resources/css/bootstrap.css" rel="stylesheet">
-<link href="../../../resources/css/font-awesome.min.css" rel="stylesheet">
-<link href="../../../resources/css/bootstrap-theme.min.css" rel="stylesheet">
-<link href="../../../resources/css/ubukwenyarwanda.css" rel="stylesheet">
-<link rel="stylesheet"
-	href="http://blueimp.github.io/Gallery/css/blueimp-gallery.min.css">
-<link rel="stylesheet"
-	href="../../../resources/plugins/bs-image-gallery-3.1.0/css/bootstrap-image-gallery.min.css">
-<link href="../../../resources/css/social-buttons.css" rel="stylesheet">
+<link href="../../../resources/css/bootstrap.css" rel="stylesheet" th:href="@{/resources/css/bootstrap.css}" />
+<link href="../../../resources/css/font-awesome.min.css" rel="stylesheet" th:href="@{/resources/css/font-awesome.min.css}"/>
+<link href="../../../resources/css/bootstrap-theme.min.css" rel="stylesheet" th:href="@{/resources/css/font-awesome.min.css}"/>
+<link href="../../../resources/css/ubukwenyarwanda.css" rel="stylesheet" th:href="@{/resources/css/ubukwenyarwanda.css}"/>
+<link href="../../../resources/css/social-buttons.css" rel="stylesheet" th:href="@{/resources/css/social-buttons.css}" />
+
+
+<link rel="stylesheet"	href="http://blueimp.github.io/Gallery/css/blueimp-gallery.min.css" />
+<link rel="stylesheet" 	href="../../../resources/plugins/bs-image-gallery-3.1.0/css/bootstrap-image-gallery.min.css"  th:href="@{/resources/plugins/bs-image-gallery-3.1.0/css/bootstrap-image-gallery.min.css}"/>
+
 
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -29,7 +30,7 @@
 			<div class="row">
 				<div class="col-md-2">
 					<a href="#" class="thumbnail"> <img
-						data-src="holder.js/100%x50" alt="...">
+						data-src="holder.js/100%x50" alt="..."></img>
 					</a>
 				</div>
 				<div class="col-md-10 ">
@@ -120,7 +121,7 @@
 								<div class="slides"></div>
 								<!-- Controls for the borderless lightbox -->
 								<h3 class="title"></h3>
-								<a class="prev">‹</a> <a class="next">›</a> <a class="close">×</a>
+								<a class="prev">â€¹</a> <a class="next">â€º</a> <a class="close">Ã—</a>
 								<a class="play-pause"></a>
 								<ol class="indicator"></ol>
 								<!-- The modal dialog, which will be used to wrap the lightbox content -->
@@ -145,30 +146,36 @@
 								</div>
 							</div>
 							<div id="links" class="panel panel-default">
+								<th:bloc  th:each="photo : ${photos}">
+										<a href="../../../resources/images/thumbnails/banana.jpg" 
+											title="Banana nananannaeaeaea"		data-gallery=""> 
+											<img height="100" width="100"
+											src="../../../resources/images/thumbnails/banana.jpg" 
+											alt="Banana nananannaeaeaea" th:src="@{'/resources/images/application/'+${photo.photoName}}"> </img>
+										</a>
+										</th:bloc>
+								
 								<a href="../../../resources/images/thumbnails/banana.jpg" title="Banana"
-									data-gallery> <img height="100" width="100"
-									src="../../../resources/images/thumbnails/banana.jpg" alt="Banana">
+									data-gallery=""> <img height="100" width="100"
+									src="../../../resources/images/thumbnails/banana.jpg" alt="Banana"></img>
 								</a> <a href="../../../resources/images/thumbnails/apple.jpg" title="Apple"
-									data-gallery> <img height="100" width="100"
-									src="../../../resources/images/thumbnails/apple.jpg" alt="Apple">
+									data-gallery=""> <img height="100" width="100"
+									src="../../../resources/images/thumbnails/apple.jpg" alt="Apple"></img>
 								</a> <a href="../../../resources/images/thumbnails/orange.jpg" title="Orange"
-									data-gallery> <img height="100" width="100"
-									src="../../../resources/images/thumbnails/orange.jpg" alt="Orange">
+									data-gallery=""> <img height="100" width="100"
+									src="../../../resources/images/thumbnails/orange.jpg" alt="Orange"></img>
 								</a> <a href="../../../resources/images/thumbnails/orange.jpg" title="Orange"
-									data-gallery> <img height="100" width="100"
-									src="../../../resources/images/thumbnails/orange.jpg" alt="Orange">
+									data-gallery=""> <img height="100" width="100"
+									src="../../../resources/images/thumbnails/orange.jpg" alt="Orange"></img>
 								</a> <a href="../../../resources/images/thumbnails/orange.jpg" title="Orange"
-									data-gallery> <img height="100" width="100"
-									src="../../../resources/images/thumbnails/orange.jpg" alt="Orange">
+									data-gallery=""> <img height="100" width="100"
+									src="../../../resources/images/thumbnails/orange.jpg" alt="Orange"></img>
 								</a> <a href="../../../resources/images/thumbnails/orange.jpg" title="Orange"
-									data-gallery> <img height="100" width="100"
-									src="../../../resources/images/thumbnails/orange.jpg" alt="Orange">
+									data-gallery=""> <img height="100" width="100"
+									src="../../../resources/images/thumbnails/orange.jpg" alt="Orange"></img>
 								</a> <a href="../../../resources/images/thumbnails/banana.jpg" title="Banana"
-									data-gallery> <img height="100" width="100"
-									src="../../../resources/images/thumbnails/banana.jpg" alt="Banana">
-								</a> <a href="../../../resources/images/thumbnails/apple.jpg" title="Apple"
-									data-gallery> <img height="100" width="100"
-									src="../../../resources/images/thumbnails/apple.jpg" alt="Apple">
+									data-gallery=""> <img height="100" width="100"
+									src="../../../resources/images/thumbnails/banana.jpg" alt="Banana"></img>
 								</a>
 							</div>
 
@@ -221,12 +228,11 @@
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	<script src="https://code.jquery.com/jquery.js"></script>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
-	<script src="../../../resources/js/bootstrap.min.js"></script>
-	<script src="../../../resources/js/holder.js"></script>
+	<script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
+	<script src="../../../resources/js/holder.js" th:src="@{/resources/js/holder.js}"></script>
 	<script
 		src="http://blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js"></script>
-	<script
-		src="plugins/bs-image-gallery-3.1.0/js/bootstrap-image-gallery.min.js"></script>
+	<script 		src="../../../resources/plugins/bs-image-gallery-3.1.0/js/bootstrap-image-gallery.min.js"></script>
 	<script type="text/javascript">
 	$('.carousel').carousel({
 		  interval: 2000

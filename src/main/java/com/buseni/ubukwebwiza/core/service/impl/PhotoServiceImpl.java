@@ -75,7 +75,15 @@ public class PhotoServiceImpl implements PhotoService {
 	public Page<Photo> findAll(Pageable pageable) {
 		return photoRepo.findAll(pageable);
 	}
-
+	/*
+	 * (non-Javadoc)
+	 * @see com.buseni.ubukwebwiza.core.service.PhotoService#findByActiveFlag(int, org.springframework.data.domain.Pageable)
+	 */
+	@Override
+	public Page<Photo> findByActiveFlag(int activeFlag, Pageable pageable) {
+		return photoRepo.findByActiveFlag(activeFlag,pageable);
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see com.buseni.ubukwebwiza.core.service.PhotoService#delete(java.lang.Integer)

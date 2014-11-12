@@ -53,8 +53,8 @@ public class Administrator implements Serializable {
 	private String lastName;
 	
 	
-	@Column(name="providers_access",columnDefinition="Boolean default false")
-	private Boolean providersAccess;
+	@Column(name="vendosrs_access",columnDefinition="Boolean default false")
+	private Boolean vendorsAccess;
 	
 	@Column(name="administration_access",columnDefinition="Boolean default false")
 	private Boolean administrationAccess;
@@ -63,6 +63,9 @@ public class Administrator implements Serializable {
 	@Column(name="last_update")
 	private Date lastUpdate;
 	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="created_at")
+	private Date createdAt;
 	@NotNull
 	@Column(name="active_flag")
 	private int activeFlag;
@@ -135,7 +138,7 @@ public class Administrator implements Serializable {
 		return "Administrator [id=" + id + ", email=" + email + ", password="
 				+ password + ", firstName=" + firstName
 				+ ", lastName=" + lastName + ", articlesAccess="
-				+ providersAccess + ", administrationAccess="
+				+ vendorsAccess + ", administrationAccess="
 				+ administrationAccess + ", lastUpdate=" + lastUpdate
 				+ ", enabled=" + activeFlag + "]";
 	}
@@ -192,7 +195,7 @@ public class Administrator implements Serializable {
 				+ ((password == null) ? 0 : password.hashCode());
 		result = prime
 				* result
-				+ ((providersAccess == null) ? 0 : providersAccess
+				+ ((vendorsAccess == null) ? 0 : vendorsAccess
 						.hashCode());
 		return result;
 	}
@@ -262,11 +265,11 @@ public class Administrator implements Serializable {
 		} else if (!password.equals(other.password)) {
 			return false;
 		}
-		if (providersAccess == null) {
-			if (other.providersAccess != null) {
+		if (vendorsAccess == null) {
+			if (other.vendorsAccess != null) {
 				return false;
 			}
-		} else if (!providersAccess.equals(other.providersAccess)) {
+		} else if (!vendorsAccess.equals(other.vendorsAccess)) {
 			return false;
 		}
 		return true;
@@ -305,11 +308,11 @@ public class Administrator implements Serializable {
 	
 
 	public Boolean getProfessionalsAccess() {
-		return providersAccess;
+		return vendorsAccess;
 	}
 
 	public void setProfessionalsAccess(Boolean professionalsAccess) {
-		this.providersAccess = professionalsAccess;
+		this.vendorsAccess = professionalsAccess;
 	}
 
 	public Boolean getAdministrationAccess() {
@@ -318,6 +321,30 @@ public class Administrator implements Serializable {
 
 	public void setAdministrationAccess(Boolean administrationAccess) {
 		this.administrationAccess = administrationAccess;
+	}
+
+	public Boolean getVendorsAccess() {
+		return vendorsAccess;
+	}
+
+	public void setVendorsAccess(Boolean providersAccess) {
+		this.vendorsAccess = providersAccess;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public int getActiveFlag() {
+		return activeFlag;
+	}
+
+	public void setActiveFlag(int activeFlag) {
+		this.activeFlag = activeFlag;
 	}
 
 }

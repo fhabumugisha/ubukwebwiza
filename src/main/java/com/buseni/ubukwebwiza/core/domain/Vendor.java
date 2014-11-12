@@ -11,11 +11,12 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -56,69 +57,65 @@ public class Vendor implements Serializable {
 	@Transient
 	private String confirmPassword;
 	
+	@Column(name="business_name")
 	private String businessName;
 
-	@NotEmpty(message = "The first Name must not be empty")
-	private String firstName;
-	
-	@NotEmpty(message = "The last Name must not be empty")
-	private String lastName;
-	
+	@Column(name="phone_number")
 	private String phoneNumber;
 
 	private String website;
 	
-	private String facebookUsername;
+	@Column(name="fb_username")
+	private String fbUsername;
 	
+	@Column(name="twitter_username")
 	private String twitterUsername;
 	
+	@Column(name="profil_picture")
 	private String profilPicture;
 	
+	@Column(name="cover_picture")
 	private String coverPicture;
 	@Lob
 	@Column(length=500)
 	private String aboutme;
-	
-	private String photo;
-	
+		
 	private String address;
-	
-	@NotEmpty(message="Your address must be provided")
-	private String district;
-	
-	
-	private String city;
-	
-	private String province;
-	
-	private String sector;
-	
+		
 	
 	private String country;
 	
+	@Column(name="active_flag")
 	private int activeFlag;
 
 	private String token;
 	
+	@Column(name="normalized_name")
 	private String normalizedName;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="last_update")
 	private Date lastUpdated;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="created_at")
+	private Date createdAt;
 
-	@OneToMany(mappedBy="vendor", cascade = CascadeType.REMOVE,fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="vendor", cascade = CascadeType.REMOVE)
 	private Set<WeddingService> weddingServices = new HashSet<WeddingService>();
 	
 	
-	@OneToMany(mappedBy="vendor",cascade=CascadeType.REMOVE,fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="vendor",cascade=CascadeType.REMOVE)
 	private Set<Photo> photos = new HashSet<Photo>();
 	
+	@Column(name="nb_views")
 	private int nbViews;
 	
-	@Transient
-	private String weddingService;
 
 
+	@ManyToOne
+	@JoinColumn(name="id_district")
+	private CodeDistrict codeDistrict;
 
 
 
@@ -216,53 +213,7 @@ public class Vendor implements Serializable {
 		this.address = address;
 	}
 
-	public String getDistrict() {
-		return district;
-	}
-
-
-
-	public void setDistrict(String district) {
-		this.district = district;
-	}
-
-
-
-	public String getCity() {
-		return city;
-	}
-
-
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-
-
-	public String getProvince() {
-		return province;
-	}
-
-
-
-	public void setProvince(String province) {
-		this.province = province;
-	}
-
-
-
-	public String getSector() {
-		return sector;
-	}
-
-
-
-	public void setSector(String sector) {
-		this.sector = sector;
-	}
-
-
+	
 
 	public String getCountry() {
 		return country;
@@ -280,14 +231,14 @@ public class Vendor implements Serializable {
 
 
 
-	public String getFacebookUsername() {
-		return facebookUsername;
+	public String getFbUsername() {
+		return fbUsername;
 	}
 
 
 
-	public void setFacebookUsername(String facebookUsername) {
-		this.facebookUsername = facebookUsername;
+	public void setFbUsername(String facebookUsername) {
+		this.fbUsername = facebookUsername;
 	}
 
 
@@ -336,6 +287,24 @@ public class Vendor implements Serializable {
 		this.activeFlag = activeFlag;
 	}
 
+	@Override
+	public String toString() {
+		return "Vendor [id=" + id + ", email=" + email + ", password="
+				+ password + ", confirmPassword=" + confirmPassword
+				+ ", businessName=" + businessName + ", phoneNumber="
+				+ phoneNumber + ", website=" + website + ", fbUsername="
+				+ fbUsername + ", twitterUsername=" + twitterUsername
+				+ ", profilPicture=" + profilPicture + ", coverPicture="
+				+ coverPicture + ", aboutme=" + aboutme + ", address="
+				+ address + ", country=" + country + ", activeFlag="
+				+ activeFlag + ", token=" + token + ", normalizedName="
+				+ normalizedName + ", lastUpdated=" + lastUpdated
+				+ ", nbViews=" + nbViews + ", codeDistrict=" + codeDistrict
+				+ "]";
+	}
+
+
+
 	/**
 	 * @return the activeFlag
 	 */
@@ -343,13 +312,6 @@ public class Vendor implements Serializable {
 		return activeFlag;
 	}
 
-	public String getPhoto() {
-		return photo;
-	}
-
-	public void setPhoto(String photo) {
-		this.photo = photo;
-	}
 
 	
 
@@ -363,25 +325,28 @@ public class Vendor implements Serializable {
 		result = prime * result
 				+ ((businessName == null) ? 0 : businessName.hashCode());
 		result = prime * result
+				+ ((codeDistrict == null) ? 0 : codeDistrict.hashCode());
+		result = prime * result
 				+ ((confirmPassword == null) ? 0 : confirmPassword.hashCode());
+		result = prime * result + ((country == null) ? 0 : country.hashCode());
+		result = prime * result
+				+ ((coverPicture == null) ? 0 : coverPicture.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result
-				+ ((facebookUsername == null) ? 0 : facebookUsername.hashCode());
-		result = prime * result
-				+ ((firstName == null) ? 0 : firstName.hashCode());
+		result = prime
+				* result
+				+ ((fbUsername == null) ? 0 : fbUsername.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result
-				+ ((lastName == null) ? 0 : lastName.hashCode());
-		result = prime * result
 				+ ((lastUpdated == null) ? 0 : lastUpdated.hashCode());
+		result = prime * result + nbViews;
 		result = prime * result
 				+ ((normalizedName == null) ? 0 : normalizedName.hashCode());
 		result = prime * result
 				+ ((password == null) ? 0 : password.hashCode());
 		result = prime * result
 				+ ((phoneNumber == null) ? 0 : phoneNumber.hashCode());
-		result = prime * result + ((photo == null) ? 0 : photo.hashCode());
-		
+		result = prime * result
+				+ ((profilPicture == null) ? 0 : profilPicture.hashCode());
 		result = prime * result + ((token == null) ? 0 : token.hashCode());
 		result = prime * result
 				+ ((twitterUsername == null) ? 0 : twitterUsername.hashCode());
@@ -393,157 +358,111 @@ public class Vendor implements Serializable {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
+		if (this == obj)
 			return true;
-		}
-		if (obj == null) {
+		if (obj == null)
 			return false;
-		}
-		if (getClass() != obj.getClass()) {
+		if (getClass() != obj.getClass())
 			return false;
-		}
 		Vendor other = (Vendor) obj;
 		if (aboutme == null) {
-			if (other.aboutme != null) {
+			if (other.aboutme != null)
 				return false;
-			}
-		} else if (!aboutme.equals(other.aboutme)) {
+		} else if (!aboutme.equals(other.aboutme))
 			return false;
-		}
-		if (activeFlag != other.activeFlag) {
+		if (activeFlag != other.activeFlag)
 			return false;
-		}
 		if (address == null) {
-			if (other.address != null) {
+			if (other.address != null)
 				return false;
-			}
-		} else if (!address.equals(other.address)) {
+		} else if (!address.equals(other.address))
 			return false;
-		}
 		if (businessName == null) {
-			if (other.businessName != null) {
+			if (other.businessName != null)
 				return false;
-			}
-		} else if (!businessName.equals(other.businessName)) {
+		} else if (!businessName.equals(other.businessName))
 			return false;
-		}
+		if (codeDistrict == null) {
+			if (other.codeDistrict != null)
+				return false;
+		} else if (!codeDistrict.equals(other.codeDistrict))
+			return false;
 		if (confirmPassword == null) {
-			if (other.confirmPassword != null) {
+			if (other.confirmPassword != null)
 				return false;
-			}
-		} else if (!confirmPassword.equals(other.confirmPassword)) {
+		} else if (!confirmPassword.equals(other.confirmPassword))
 			return false;
-		}
+		if (country == null) {
+			if (other.country != null)
+				return false;
+		} else if (!country.equals(other.country))
+			return false;
+		if (coverPicture == null) {
+			if (other.coverPicture != null)
+				return false;
+		} else if (!coverPicture.equals(other.coverPicture))
+			return false;
 		if (email == null) {
-			if (other.email != null) {
+			if (other.email != null)
 				return false;
-			}
-		} else if (!email.equals(other.email)) {
+		} else if (!email.equals(other.email))
 			return false;
-		}
-		if (facebookUsername == null) {
-			if (other.facebookUsername != null) {
+		if (fbUsername == null) {
+			if (other.fbUsername != null)
 				return false;
-			}
-		} else if (!facebookUsername.equals(other.facebookUsername)) {
+		} else if (!fbUsername.equals(other.fbUsername))
 			return false;
-		}
-		if (firstName == null) {
-			if (other.firstName != null) {
-				return false;
-			}
-		} else if (!firstName.equals(other.firstName)) {
-			return false;
-		}
 		if (id == null) {
-			if (other.id != null) {
+			if (other.id != null)
 				return false;
-			}
-		} else if (!id.equals(other.id)) {
+		} else if (!id.equals(other.id))
 			return false;
-		}
-		if (lastName == null) {
-			if (other.lastName != null) {
-				return false;
-			}
-		} else if (!lastName.equals(other.lastName)) {
-			return false;
-		}
 		if (lastUpdated == null) {
-			if (other.lastUpdated != null) {
+			if (other.lastUpdated != null)
 				return false;
-			}
-		} else if (!lastUpdated.equals(other.lastUpdated)) {
+		} else if (!lastUpdated.equals(other.lastUpdated))
 			return false;
-		}
+		if (nbViews != other.nbViews)
+			return false;
 		if (normalizedName == null) {
-			if (other.normalizedName != null) {
+			if (other.normalizedName != null)
 				return false;
-			}
-		} else if (!normalizedName.equals(other.normalizedName)) {
+		} else if (!normalizedName.equals(other.normalizedName))
 			return false;
-		}
 		if (password == null) {
-			if (other.password != null) {
+			if (other.password != null)
 				return false;
-			}
-		} else if (!password.equals(other.password)) {
+		} else if (!password.equals(other.password))
 			return false;
-		}
 		if (phoneNumber == null) {
-			if (other.phoneNumber != null) {
+			if (other.phoneNumber != null)
 				return false;
-			}
-		} else if (!phoneNumber.equals(other.phoneNumber)) {
+		} else if (!phoneNumber.equals(other.phoneNumber))
 			return false;
-		}
-		if (photo == null) {
-			if (other.photo != null) {
+		if (profilPicture == null) {
+			if (other.profilPicture != null)
 				return false;
-			}
-		} else if (!photo.equals(other.photo)) {
+		} else if (!profilPicture.equals(other.profilPicture))
 			return false;
-		}
-		
 		if (token == null) {
-			if (other.token != null) {
+			if (other.token != null)
 				return false;
-			}
-		} else if (!token.equals(other.token)) {
+		} else if (!token.equals(other.token))
 			return false;
-		}
 		if (twitterUsername == null) {
-			if (other.twitterUsername != null) {
+			if (other.twitterUsername != null)
 				return false;
-			}
-		} else if (!twitterUsername.equals(other.twitterUsername)) {
+		} else if (!twitterUsername.equals(other.twitterUsername))
 			return false;
-		}
 		if (website == null) {
-			if (other.website != null) {
+			if (other.website != null)
 				return false;
-			}
-		} else if (!website.equals(other.website)) {
+		} else if (!website.equals(other.website))
 			return false;
-		}
 		return true;
 	}
 
 
-
-	@Override
-	public String toString() {
-		return "Professional [id=" + id + ", email=" + email + ", password="
-				+ password + ", confirmPassword=" + confirmPassword
-				+ ", businessName=" + businessName + ", firstName=" + firstName
-				+ ", lastName=" + lastName + ", phoneNumber=" + phoneNumber
-				+ ", website=" + website + ", facebookUrl=" + facebookUsername
-				+ ", twitterUsername=" + twitterUsername + ", aboutme="
-				+ aboutme + ", photo=" + photo 
-				+ ", address=" + address + ", activeFlag=" + activeFlag
-				+ ", token=" + token + ", normalizedName=" + normalizedName
-				+ ", lastUpdated=" + lastUpdated + "]";
-	}
 
 
 
@@ -590,39 +509,8 @@ public class Vendor implements Serializable {
 
 
 
-	/**
-	 * @param lastName the lastName to set
-	 */
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
 
 
-
-	/**
-	 * @return the lastName
-	 */
-	public String getLastName() {
-		return lastName;
-	}
-
-
-
-	/**
-	 * @param firstName the firstName to set
-	 */
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-
-
-	/**
-	 * @return the firstName
-	 */
-	public String getFirstName() {
-		return firstName;
-	}
 
 
 
@@ -776,10 +664,22 @@ public class Vendor implements Serializable {
 	public String getWeddingService() {		
 		if(null !=  weddingServices  && !weddingServices.isEmpty()){
 			WeddingService ws =  weddingServices.iterator().next();
-			weddingService =  ws.getCodeWeddingService().getLibelle();
+			return ws.getCodeWeddingService().getLibelle();
 			
 		}
-		return weddingService;
+		return "";
+	}
+
+
+
+	public CodeDistrict getCodeDistrict() {
+		return codeDistrict;
+	}
+
+
+
+	public void setCodeDistrict(CodeDistrict codeDistrict) {
+		this.codeDistrict = codeDistrict;
 	}
 
 

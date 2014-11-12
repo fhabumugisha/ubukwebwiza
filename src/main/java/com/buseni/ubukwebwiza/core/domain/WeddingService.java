@@ -31,18 +31,24 @@ public class WeddingService implements Serializable{
 	private Integer id;
 	
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="last_update")
 	private Date lastUpdated;
-		
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="created_at")
+	private Date created_at;
+	
 	private BigDecimal price;
 	
 	private String description;
-	
+	@Column(name="active_flag")
 	private int activeFlag;
 	
 	@OneToOne
+	@JoinColumn(name="id_wedding_service")
 	private CodeWeddingService codeWeddingService;
 	
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne
 	@JoinColumn(name="id_vendor")
 	private Vendor vendor;
 	
