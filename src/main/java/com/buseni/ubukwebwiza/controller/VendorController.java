@@ -74,6 +74,6 @@ public class VendorController {
 	
 	@ModelAttribute("allDistricts")
 	public List<CodeDistrict> populateDistricts(){
-		return codeDistrictService.findByActiveFlagGrouped(1);
+		return codeDistrictService.findByActiveFlag(1);
 	}
 }

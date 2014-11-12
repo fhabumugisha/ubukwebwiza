@@ -40,7 +40,7 @@ public class CodeWeddingServiceManagerImpl implements CodeWeddingServiceManager 
 	public List<CodeWeddingService> findByActiveFlag(int activeFlag) {
 		
 		List<CodeWeddingService> weddingServices =   new ArrayList<CodeWeddingService>();
-		CodeWeddingService ws = new CodeWeddingService();
+		/*CodeWeddingService ws = new CodeWeddingService();
 		ws.setId(1);
 		ws.setLibelle("Wedding planner");
 		weddingServices.add(ws);
@@ -53,9 +53,9 @@ public class CodeWeddingServiceManagerImpl implements CodeWeddingServiceManager 
 		ws = new CodeWeddingService();
 		ws.setId(3);
 		ws.setLibelle("Car");
-		weddingServices.add(ws);
-		//return codeWeddingServiceRepo.findByActiveFlag(activeFlag);
-		return weddingServices;
+		weddingServices.add(ws);*/
+		return codeWeddingServiceRepo.findByActiveFlag(activeFlag);
+		//return weddingServices;
 	}
 
 }

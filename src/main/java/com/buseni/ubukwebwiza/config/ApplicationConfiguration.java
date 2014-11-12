@@ -17,7 +17,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @ComponentScan(basePackages = {"com.buseni.ubukwebwiza"})
 @PropertySource("classpath:application.properties")
 @EnableWebMvc
-@Import({PersistenceConfig.class, ServiceConfiguration.class, ViewConfiguration.class, ControllerConfiguration.class})
+@Import({PersistenceMySqlConfig.class, ServiceConfiguration.class, ViewConfiguration.class, ControllerConfiguration.class})
 public class ApplicationConfiguration extends WebMvcConfigurerAdapter{
 	// Maps resources path to webapp/resources
 		@Override

@@ -10,6 +10,6 @@ import com.buseni.ubukwebwiza.core.domain.CodeDistrict;
 
 public interface CodeDistrictRepo  extends JpaRepository<CodeDistrict, Integer>{
 
-	@Query("select cd  from CodeDistrict cd where cd.activeFlag =:activeFlag group by cd.codeProvince.id")
-	List<CodeDistrict> findByActiveFlagGrouped(@Param("activeFlag") int activeFlag);
+	//@Query("select cd  from CodeDistrict cd where cd.activeFlag =:activeFlag group by cd.codeProvince.id")
+	List<CodeDistrict> findByActiveFlag(int activeFlag);
 }

@@ -26,10 +26,10 @@ public class CodeDistrictServiceImpl implements CodeDistrictService {
 	}
 	
 	@Override
-	public List<CodeDistrict> findByActiveFlagGrouped(int activeFlag) {
+	public List<CodeDistrict> findByActiveFlag(int activeFlag) {
 		
 		List<CodeDistrict> districts = new ArrayList<CodeDistrict>();
-		CodeProvince codeProvince = new CodeProvince();
+		/*CodeProvince codeProvince = new CodeProvince();
 		codeProvince.setId(1);
 		codeProvince.setLibelle("Kigali");
 		codeProvince.setActiveFlag(1);
@@ -57,11 +57,11 @@ public class CodeDistrictServiceImpl implements CodeDistrictService {
 		d3.setActiveFlag(1);
 		d3.setCode("NYG");
 		d3.setCodeProvince(codeProvince);
-		districts.add(d3);
+		districts.add(d3);*/
 		
 		
-		return districts;
-		//return codeDistrictRepo.findByActiveFlagGrouped(activeFlag);
+		//return districts;
+		return codeDistrictRepo.findByActiveFlag(activeFlag);
 	}
 
 }

@@ -6,6 +6,6 @@ import com.buseni.ubukwebwiza.core.domain.CodeDistrict;
 
 public interface CodeDistrictService {
 	
-	List<CodeDistrict> findByActiveFlagGrouped(int activeFlag);
+	List<CodeDistrict> findByActiveFlag(int activeFlag);
 
 }
