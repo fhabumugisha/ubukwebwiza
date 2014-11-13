@@ -145,39 +145,46 @@
 									</div>
 								</div>
 							</div>
-							<div id="links" class="panel panel-default">
+							<div class="panel  panel-default">
+								
+								<div class="panel-body">
+									<div id="links" >
+								
 								<th:bloc  th:each="photo : ${photos}">
-										<a href="../../../resources/images/thumbnails/banana.jpg" 
-											title="Banana nananannaeaeaea"		data-gallery=""> 
-											<img height="100" width="100"
-											src="../../../resources/images/thumbnails/banana.jpg" 
-											alt="Banana nananannaeaeaea" th:src="@{'/resources/images/application/'+${photo.photoName}}"> </img>
+										<a href="../../../resources/images/application/wedding_4_content.jpg" 
+											title="Wedding planner"		data-gallery="" th:href="@{'/resources/images/application/'+${photo.photoName}}"> 
+											<img height="150" width="210"
+											src="../../../resources/images/application/wedding_4_content.jpg" 
+											alt="Wedding planner" th:alt="{photo.photoName}" th:src="@{'/resources/images/application/'+${photo.photoName}}" />
 										</a>
 										</th:bloc>
-								
-								<a href="../../../resources/images/thumbnails/banana.jpg" title="Banana"
-									data-gallery=""> <img height="100" width="100"
-									src="../../../resources/images/thumbnails/banana.jpg" alt="Banana"></img>
-								</a> <a href="../../../resources/images/thumbnails/apple.jpg" title="Apple"
-									data-gallery=""> <img height="100" width="100"
-									src="../../../resources/images/thumbnails/apple.jpg" alt="Apple"></img>
-								</a> <a href="../../../resources/images/thumbnails/orange.jpg" title="Orange"
-									data-gallery=""> <img height="100" width="100"
-									src="../../../resources/images/thumbnails/orange.jpg" alt="Orange"></img>
-								</a> <a href="../../../resources/images/thumbnails/orange.jpg" title="Orange"
-									data-gallery=""> <img height="100" width="100"
-									src="../../../resources/images/thumbnails/orange.jpg" alt="Orange"></img>
-								</a> <a href="../../../resources/images/thumbnails/orange.jpg" title="Orange"
-									data-gallery=""> <img height="100" width="100"
-									src="../../../resources/images/thumbnails/orange.jpg" alt="Orange"></img>
-								</a> <a href="../../../resources/images/thumbnails/orange.jpg" title="Orange"
-									data-gallery=""> <img height="100" width="100"
-									src="../../../resources/images/thumbnails/orange.jpg" alt="Orange"></img>
-								</a> <a href="../../../resources/images/thumbnails/banana.jpg" title="Banana"
-									data-gallery=""> <img height="100" width="100"
-									src="../../../resources/images/thumbnails/banana.jpg" alt="Banana"></img>
-								</a>
+										
+										
+										 <a href="../../../resources/images/application/Wedding_rings.jpg" title="Wedding rings"
+											data-gallery="">
+											 <img height="150" width="210"
+											  src="../../../resources/images/application/Wedding_rings.jpg" alt="Wedding rings" 
+											  th:src="@{'/resources/images/application/Wedding_rings.jpg}"></img>
+										</a> 
+										<a href="../../../resources/images/application/wedding-banner.png" title="Bannner"
+											data-gallery=""> 
+											<img height="150" width="210"
+											src="../../../resources/images/application/wedding-banner.png" alt="Orange"
+											th:src="@{'/resources/images/application/wedding-banner.png}"></img>
+										</a>
+										 <a href="../../../resources/images/application/wedding-banner.png" title="Bannner"
+											data-gallery=""> 
+											<img height="150" width="210"
+											src="../../../resources/images/application/wedding-banner.png" alt="Orange"
+											th:src="@{'/resources/images/application/wedding-banner.png}"></img>
+										</a>
+								 
+								 
 							</div>
+								
+								</div>
+								</div>
+							
 
 
 						</div>

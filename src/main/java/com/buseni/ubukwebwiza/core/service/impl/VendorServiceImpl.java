@@ -3,7 +3,6 @@
  */
 package com.buseni.ubukwebwiza.core.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.buseni.ubukwebwiza.core.domain.CodeWeddingService;
-import com.buseni.ubukwebwiza.core.domain.Photo;
 import com.buseni.ubukwebwiza.core.domain.Vendor;
-import com.buseni.ubukwebwiza.core.domain.WeddingService;
 import com.buseni.ubukwebwiza.core.predicates.VendorPredicates;
 import com.buseni.ubukwebwiza.core.repository.VendorRepo;
 import com.buseni.ubukwebwiza.core.service.VendorService;

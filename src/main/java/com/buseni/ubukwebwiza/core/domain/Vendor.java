@@ -662,9 +662,9 @@ public class Vendor implements Serializable {
 
 
 	public String getWeddingService() {		
-		if(null !=  weddingServices  && !weddingServices.isEmpty()){
+		if( null !=  weddingServices  && !weddingServices.isEmpty()){
 			WeddingService ws =  weddingServices.iterator().next();
-			return ws.getCodeWeddingService().getLibelle();
+			return ws.getCodeTypeWeddingService().getLibelle();
 			
 		}
 		return "";

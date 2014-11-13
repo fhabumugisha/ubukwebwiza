@@ -5,23 +5,23 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.buseni.ubukwebwiza.core.domain.CodeWeddingService;
+import com.buseni.ubukwebwiza.core.domain.CodeTypeWeddingService;
 
 public interface CodeWeddingServiceManager {
 	
-	List<CodeWeddingService> findAll();
+	List<CodeTypeWeddingService> findAll();
 	/**
 	 * 
 	 * @param pageable
 	 * @return
 	 */
-	Page<CodeWeddingService> findAll(Pageable pageable);
+	Page<CodeTypeWeddingService> findAll(Pageable pageable);
 	
 	/**
 	 * 
 	 * @param activeFlag
 	 * @return
 	 */
-	List<CodeWeddingService> findByActiveFlag(int activeFlag);
+	List<CodeTypeWeddingService> findByActiveFlag(int activeFlag);
 
 }

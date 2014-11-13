@@ -1,6 +1,6 @@
 @CHARSET "UTF-8";
 
-html,body {
+html, body {
 	height: 100%;
 	/* The html and body elements cannot have any padding or margin. */
 }
@@ -59,12 +59,17 @@ html,body {
 	background-color: #777;
 }
 
-.carousel-inner>.item>img {
+.carousel-inner > .item > img {
 	position: absolute;
 	top: 0;
 	left: 0;
 	min-width: 100%;
 	height: 300px;
+	
+   opacity: 0.1 ;/* The image will become nearly transparent and text gets visible more clearly */
+ 	 opacity: inherit ; 
+   filter: alpha(opacity=100); /* For IE8 and below */
+   
 }
 
 .searchform {
@@ -84,6 +89,7 @@ html,body {
 		to(#ededed));
 	background: -moz-linear-gradient(top, #fff, #ededed);
 	filter: progid:                      DXImageTransform.Microsoft.gradient(
+		
 		 
 		  
 		       
@@ -152,19 +158,52 @@ html,body {
 	display: block;
 }
 
+#links a img {
+	margin-right: 14px;
+}
+
 @media screen and (min-width: 768px) {
 	.modal-login {
 		width: 350px;
 	}
+	#links a img {
+		margin-bottom: 2px;
+	}
+}
+
+@media screen and (max-width: 980px) {
+	#links a img {
+		margin-bottom: 10px;
+	}
 }
 
 .navbar-toggle {
-  float: none;
- 
+	float: none;
 }
+
 .tab-pane {
-    border-bottom: 1px solid #DDDDDD;
-    border-left: 1px solid #DDDDDD;
-    border-right: 1px solid #DDDDDD;
-    padding: 10px;
+	border-bottom: 1px solid #DDDDDD;
+	border-left: 1px solid #DDDDDD;
+	border-right: 1px solid #DDDDDD;
+	padding: 10px;
+}
+
+#mainPitch {
+	position: absolute;
+	top: 70px;
+	width: 100%;
+	
+}
+
+#homeSearchFormContainer {
+	text-align: center;
+	color: #fff;
+	
+}
+
+#homeSearchFormContainer h2 {
+	margin-bottom: 10px;
+	font-family: 'GothamBook', Shift, Helvetica Neue;
+	font-weight: bold;
+	
 }

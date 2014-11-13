@@ -12,10 +12,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.buseni.ubukwebwiza.core.domain.CodeDistrict;
-import com.buseni.ubukwebwiza.core.domain.CodeWeddingService;
+import com.buseni.ubukwebwiza.core.domain.CodeTypeWeddingService;
 import com.buseni.ubukwebwiza.core.domain.Photo;
 import com.buseni.ubukwebwiza.core.domain.Vendor;
 import com.buseni.ubukwebwiza.core.service.CodeDistrictService;
@@ -55,7 +54,7 @@ public class SiteController {
 	
 	
 	@ModelAttribute("allWeddingServices")
-	public List<CodeWeddingService> populateWeddingServices(){
+	public List<CodeTypeWeddingService> populateWeddingServices(){
 		return codeWeddingServiceManager.findByActiveFlag(1);
 	}
 	

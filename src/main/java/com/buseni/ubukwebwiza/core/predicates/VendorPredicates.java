@@ -19,9 +19,10 @@ public class VendorPredicates {
 		return VENDOR.codeDistrict().eq(cd);
 	}
 
-	public static Predicate search(VendorSearch searchTerm){		
-		return VENDOR.businessName.like(searchTerm.getName())
+	public static Predicate search(VendorSearch searchTerm){	
+		return null;
+		/*return VENDOR.businessName.like(searchTerm.getName())
 				.or(VENDOR.codeDistrict().id.eq(searchTerm.getDistrict()))
-				.or(VENDOR.weddingServices.any().codeWeddingService().id.eq(searchTerm.getService()));
+				.or(VENDOR.weddingServices.any().codeTypeWeddingService().id.eq(searchTerm.getService()));*/
 	}
 }

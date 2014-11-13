@@ -10,8 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="code_wedding_service")
-public class CodeWeddingService implements Serializable {
+@Table(name="code_type_wedding_service")
+public class CodeTypeWeddingService implements Serializable {
 
 	/**
 	 * 
@@ -20,7 +20,7 @@ public class CodeWeddingService implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="id_wedding_service")
+	@Column(name="id_type_wedding_service")
 	private Integer id;	
 	private String code;
 	private String libelle;
@@ -33,9 +33,6 @@ public class CodeWeddingService implements Serializable {
 	@Column(name="active_flag")
 	private int activeFlag;
 	
-	public CodeWeddingService(){
-		
-	}
 
 	public Integer getId() {
 		return id;
@@ -121,7 +118,7 @@ public class CodeWeddingService implements Serializable {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		CodeWeddingService other = (CodeWeddingService) obj;
+		CodeTypeWeddingService other = (CodeTypeWeddingService) obj;
 		if (code == null) {
 			if (other.code != null) {
 				return false;

@@ -6,7 +6,6 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -45,8 +44,8 @@ public class WeddingService implements Serializable{
 	private int activeFlag;
 	
 	@OneToOne
-	@JoinColumn(name="id_wedding_service")
-	private CodeWeddingService codeWeddingService;
+	@JoinColumn(name="id_type_wedding_service")
+	private CodeTypeWeddingService codeTypeWeddingService;
 	
 	@ManyToOne
 	@JoinColumn(name="id_vendor")
@@ -60,12 +59,12 @@ public class WeddingService implements Serializable{
 		this.vendor = vendor;
 	}
 
-	public CodeWeddingService getCodeWeddingService() {
-		return codeWeddingService;
+	public CodeTypeWeddingService getCodeTypeWeddingService() {
+		return codeTypeWeddingService;
 	}
 
-	public void setCodeWeddingService(CodeWeddingService codeWeddingService) {
-		this.codeWeddingService = codeWeddingService;
+	public void setCodeWeddingService(CodeTypeWeddingService codeTypeWeddingService) {
+		this.codeTypeWeddingService = codeTypeWeddingService;
 	}
 
 	
@@ -81,7 +80,7 @@ public class WeddingService implements Serializable{
 		result = prime * result + activeFlag;
 		result = prime
 				* result
-				+ ((codeWeddingService == null) ? 0 : codeWeddingService
+				+ ((codeTypeWeddingService == null) ? 0 : codeTypeWeddingService
 						.hashCode());
 		result = prime * result
 				+ ((description == null) ? 0 : description.hashCode());
@@ -103,10 +102,10 @@ public class WeddingService implements Serializable{
 		WeddingService other = (WeddingService) obj;
 		if (activeFlag != other.activeFlag)
 			return false;
-		if (codeWeddingService == null) {
-			if (other.codeWeddingService != null)
+		if (codeTypeWeddingService == null) {
+			if (other.codeTypeWeddingService != null)
 				return false;
-		} else if (!codeWeddingService.equals(other.codeWeddingService))
+		} else if (!codeTypeWeddingService.equals(other.codeTypeWeddingService))
 			return false;
 		if (description == null) {
 			if (other.description != null)
@@ -135,7 +134,7 @@ public class WeddingService implements Serializable{
 	public String toString() {
 		return "WeddingService [id=" + id + ", lastUpdated=" + lastUpdated
 				+ ", price=" + price + ", description=" + description
-				+ ", codeWeddingService=" + codeWeddingService
+				+ ", codeTypeWeddingService=" + codeTypeWeddingService
 				+ ", activeFlag=" + activeFlag + "]";
 	}
 

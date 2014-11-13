@@ -6,19 +6,15 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.buseni.ubukwebwiza.core.domain.CodeDistrict;
-import com.buseni.ubukwebwiza.core.domain.CodeWeddingService;
+import com.buseni.ubukwebwiza.core.domain.CodeTypeWeddingService;
 import com.buseni.ubukwebwiza.core.domain.Vendor;
 import com.buseni.ubukwebwiza.core.service.CodeDistrictService;
 import com.buseni.ubukwebwiza.core.service.CodeWeddingServiceManager;
@@ -68,7 +64,7 @@ public class VendorController {
 		return "frontend/listingVendor";
 	}
 	@ModelAttribute("allWeddingServices")
-	public List<CodeWeddingService> populateWeddingServices(){
+	public List<CodeTypeWeddingService> populateWeddingServices(){
 		return codeWeddingServiceManager.findByActiveFlag(1);
 	}
 	
