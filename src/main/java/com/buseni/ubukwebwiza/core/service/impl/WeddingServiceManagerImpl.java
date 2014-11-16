@@ -21,19 +21,18 @@ import com.buseni.ubukwebwiza.core.service.WeddingServiceManager;
  */
 @Service
 @Transactional
-public class WeddingServiceMangerImpl implements WeddingServiceManager {
+public class WeddingServiceManagerImpl implements WeddingServiceManager {
 
 	private WeddingServiceRepo weddingServiceRepo;
-	public WeddingServiceMangerImpl() {
-		
-	}
+	
 	@Autowired
-	public WeddingServiceMangerImpl(WeddingServiceRepo weddingServiceRepo) {
+	public WeddingServiceManagerImpl(WeddingServiceRepo weddingServiceRepo) {
 		this.weddingServiceRepo =  weddingServiceRepo;
 	}
 	/* (non-Javadoc)
 	 * @see com.buseni.ubukwebwiza.core.service.WeddingServiceManager#create(com.buseni.ubukwebwiza.core.domain.WeddingService)
 	 */
+	@Override
 	@Transactional
 	public void create(WeddingService weddingService) {
 		// TODO control before save
@@ -44,6 +43,7 @@ public class WeddingServiceMangerImpl implements WeddingServiceManager {
 	/* (non-Javadoc)
 	 * @see com.buseni.ubukwebwiza.core.service.WeddingServiceManager#update(com.buseni.ubukwebwiza.core.domain.WeddingService)
 	 */
+	@Override
 	@Transactional
 	public WeddingService update(WeddingService weddingService) {
 		// TODO control  before save
@@ -53,6 +53,7 @@ public class WeddingServiceMangerImpl implements WeddingServiceManager {
 	/* (non-Javadoc)
 	 * @see com.buseni.ubukwebwiza.core.service.WeddingServiceManager#findById(java.lang.Integer)
 	 */
+	@Override
 	public WeddingService findById(Integer id) {
 		if(null == id){
 			return null;
@@ -63,6 +64,7 @@ public class WeddingServiceMangerImpl implements WeddingServiceManager {
 	/* (non-Javadoc)
 	 * @see com.buseni.ubukwebwiza.core.service.WeddingServiceManager#findAllByProvider(java.lang.Integer)
 	 */
+	@Override
 	public List<WeddingService> findAllByVendor(Integer idVendor) {
 		if(null == idVendor){
 			return null;
@@ -73,6 +75,7 @@ public class WeddingServiceMangerImpl implements WeddingServiceManager {
 	/* (non-Javadoc)
 	 * @see com.buseni.ubukwebwiza.core.service.WeddingServiceManager#findAll(org.springframework.data.domain.Pageable)
 	 */
+	@Override
 	public Page<WeddingService> findAll(Pageable pageable) {
 		return weddingServiceRepo.findAll(pageable);
 	}
@@ -80,6 +83,7 @@ public class WeddingServiceMangerImpl implements WeddingServiceManager {
 	 * (non-Javadoc)
 	 * @see com.buseni.ubukwebwiza.core.service.WeddingServiceManager#delete(java.lang.Integer)
 	 */
+	@Override
 	@Transactional
 	public void delete(Integer id) {
 		if(null != id){

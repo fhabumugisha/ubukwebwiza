@@ -5,14 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
 <!-- Bootstrap -->
 <link href="../../../resources/css/bootstrap.css" rel="stylesheet" th:href="@{/resources/css/bootstrap.css}" />
-<link href="../../../resources/css/font-awesome.min.css" rel="stylesheet" th:href="@{/resources/css/font-awesome.min.css}"/>
-<link href="../../../resources/css/bootstrap-theme.min.css" rel="stylesheet" th:href="@{/resources/css/font-awesome.min.css}"/>
-<link href="../../../resources/css/ubukwenyarwanda.css" rel="stylesheet" th:href="@{/resources/css/ubukwenyarwanda.css}"/>
+<link href="../../../resources/css/font-awesome.min.css" rel="stylesheet" th:href="@{/resources/css/font-awesome.min.css}" />
+<link href="../../../resources/css/bootstrap-theme.min.css" rel="stylesheet" th:href="@{/resources/css/font-awesome.min.css}" />
+<link href="../../../resources/css/ubukwenyarwanda.css" rel="stylesheet" th:href="@{/resources/css/ubukwenyarwanda.css}" />
 <link href="../../../resources/css/social-buttons.css" rel="stylesheet" th:href="@{/resources/css/social-buttons.css}" />
 
 
-<link rel="stylesheet"	href="http://blueimp.github.io/Gallery/css/blueimp-gallery.min.css" />
-<link rel="stylesheet" 	href="../../../resources/plugins/bs-image-gallery-3.1.0/css/bootstrap-image-gallery.min.css"  th:href="@{/resources/plugins/bs-image-gallery-3.1.0/css/bootstrap-image-gallery.min.css}"/>
+<link rel="stylesheet" href="http://blueimp.github.io/Gallery/css/blueimp-gallery.min.css" />
+<link rel="stylesheet" href="../../../resources/plugins/bs-image-gallery-3.1.0/css/bootstrap-image-gallery.min.css"
+	th:href="@{/resources/plugins/bs-image-gallery-3.1.0/css/bootstrap-image-gallery.min.css}" />
 
 
 
@@ -29,17 +30,14 @@
 		<div id="headerContainer" class="container">
 			<div class="row">
 				<div class="col-md-2">
-					<a href="#" class="thumbnail"> <img
-						data-src="holder.js/100%x50" alt="..."></img>
+					<a href="#" class="thumbnail"> <img data-src="holder.js/100%x50" alt="..."></img>
 					</a>
 				</div>
 				<div class="col-md-10 ">
 					<div class="navbar navbar-default ">
 						<div class="navbar-header">
-							<button type="button" class="navbar-toggle"
-								data-toggle="collapse" data-target=".navbar-collapse">
-								<span class="sr-only">Toggle navigation</span> <span
-									class="icon-bar"></span> <span class="icon-bar"></span> <span
+							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+								<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span
 									class="icon-bar"></span>
 							</button>
 							<a class="navbar-brand active" href="index.html">Home</a>
@@ -52,11 +50,8 @@
 
 							</ul>
 							<div class="pull-right">
-								<a href="signup.html" class="btn btn-primary  navbar-btn">Sign
-								up</a>
-							
-							<a href="#" class="btn btn-default  navbar-btn">Sign
-								in</a>
+								<a href="signup.html" class="btn btn-primary  navbar-btn">Sign up</a> <a href="#" class="btn btn-default  navbar-btn">Sign
+									in</a>
 							</div>
 						</div>
 
@@ -108,7 +103,7 @@
 						<div class="col-md-12">
 							<div class="jumbotron">
 								<h2>Find wedding photo inspiration!</h2>
-														
+
 							</div>
 
 						</div>
@@ -121,8 +116,7 @@
 								<div class="slides"></div>
 								<!-- Controls for the borderless lightbox -->
 								<h3 class="title"></h3>
-								<a class="prev">‹</a> <a class="next">›</a> <a class="close">×</a>
-								<a class="play-pause"></a>
+								<a class="prev">‹</a> <a class="next">›</a> <a class="close">×</a> <a class="play-pause"></a>
 								<ol class="indicator"></ol>
 								<!-- The modal dialog, which will be used to wrap the lightbox content -->
 								<div class="modal fade">
@@ -146,45 +140,42 @@
 								</div>
 							</div>
 							<div class="panel  panel-default">
-								
+
 								<div class="panel-body">
-									<div id="links" >
-								
-								<th:bloc  th:each="photo : ${photos}">
-										<a href="../../../resources/images/application/wedding_4_content.jpg" 
-											title="Wedding planner"		data-gallery="" th:href="@{'/resources/images/application/'+${photo.photoName}}"> 
-											<img height="150" width="210"
-											src="../../../resources/images/application/wedding_4_content.jpg" 
-											alt="Wedding planner" th:alt="{photo.photoName}" th:src="@{'/resources/images/application/'+${photo.photoName}}" />
-										</a>
+									<div id="links">
+
+										<th:bloc th:each="photo : ${photos}">
+											<a href="../../../resources/images/application/wedding_4_content.jpg" title="Wedding planner" data-gallery=""
+												th:href="@{'/resources/images/application/'+${photo.photoName}}"> <img height="150" width="210"
+												src="../../../resources/images/application/wedding_4_content.jpg" alt="Wedding planner" th:alt="{photo.photoName}"
+												th:src="@{'/resources/images/application/'+${photo.photoName}}" />
+											</a>
 										</th:bloc>
-										
-										
-										 <a href="../../../resources/images/application/Wedding_rings.jpg" title="Wedding rings"
-											data-gallery="">
-											 <img height="150" width="210"
-											  src="../../../resources/images/application/Wedding_rings.jpg" alt="Wedding rings" 
-											  th:src="@{'/resources/images/application/Wedding_rings.jpg}"></img>
+
+
+										<a href="../../../resources/images/application/Wedding_rings.jpg" title="Wedding rings" data-gallery=""
+										th:href="@{/resources/images/application/Wedding_rings.jpg}"> <img
+											height="150" width="210" src="../../../resources/images/application/Wedding_rings.jpg" alt="Wedding rings"
+											th:src="@{/resources/images/application/Wedding_rings.jpg}"></img>
 										</a> 
-										<a href="../../../resources/images/application/wedding-banner.png" title="Bannner"
-											data-gallery=""> 
-											<img height="150" width="210"
-											src="../../../resources/images/application/wedding-banner.png" alt="Orange"
-											th:src="@{'/resources/images/application/wedding-banner.png}"></img>
+										
+										<a href="../../../resources/images/application/wedding-banner.png" title="Bannner" 
+										data-gallery="" th:href="@{/resources/images/application/wedding-banner.png"> <img
+											height="150" width="210" src="../../../resources/images/application/wedding-banner.png" alt="Orange"
+											th:src="@{/resources/images/application/wedding-banner.png}"></img>
+										</a> 
+										<a href="../../../resources/images/application/wedding-banner.png" title="Bannner" 
+										data-gallery="" th:href="@{/resources/images/application/wedding-banner.png}"> <img
+											height="150" width="210" src="../../../resources/images/application/wedding-banner.png" alt="Orange"
+											th:src="@{/resources/images/application/wedding-banner.png}"></img>
 										</a>
-										 <a href="../../../resources/images/application/wedding-banner.png" title="Bannner"
-											data-gallery=""> 
-											<img height="150" width="210"
-											src="../../../resources/images/application/wedding-banner.png" alt="Orange"
-											th:src="@{'/resources/images/application/wedding-banner.png}"></img>
-										</a>
-								 
-								 
+
+
+									</div>
+
+								</div>
 							</div>
-								
-								</div>
-								</div>
-							
+
 
 
 						</div>
@@ -237,9 +228,8 @@
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
 	<script src="../../../resources/js/holder.js" th:src="@{/resources/js/holder.js}"></script>
-	<script
-		src="http://blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js"></script>
-	<script 		src="../../../resources/plugins/bs-image-gallery-3.1.0/js/bootstrap-image-gallery.min.js"></script>
+	<script src="http://blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js"></script>
+	<script src="../../../resources/plugins/bs-image-gallery-3.1.0/js/bootstrap-image-gallery.min.js"></script>
 	<script type="text/javascript">
 	$('.carousel').carousel({
 		  interval: 2000
