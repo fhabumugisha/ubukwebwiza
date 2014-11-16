@@ -177,6 +177,14 @@ html, body {
 	}
 }
 
+@media screen and (max-width: 320px) {
+	#mainPitch {
+	position: absolute;
+	top: 35px;
+	width: 100%;
+	
+}
+}
 .navbar-toggle {
 	float: none;
 }

@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Ubukwe Nyarwanda Template</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Bootstrap -->
+<link href="../../../resources/css/bootstrap.css" rel="stylesheet">
+<link href="../../../resources/css/font-awesome.min.css" rel="stylesheet">
+<link href="../../../resources/css/bootstrap-theme.min.css" rel="stylesheet">
+<link href="../../../resources/css/ubukwenyarwanda.css" rel="stylesheet">
+<link rel="stylesheet"
+	href="http://blueimp.github.io/Gallery/css/blueimp-gallery.min.css">
+<link rel="stylesheet"
+	href="../../../resources/plugins/bs-image-gallery-3.1.0/css/bootstrap-image-gallery.min.css">
+<link href="../../../resources/css/social-buttons.css" rel="stylesheet">
+
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+	<div id="wrap">
+		<!-- Header -->
+		<div id="headerContainer" class="container">
+			<div class="row">
+				<div class="col-md-2">
+					<a href="#" class="thumbnail"> <img
+						data-src="holder.js/100%x50" alt="...">
+					</a>
+				</div>
+				<div class="col-md-10 container">
+					<div class="navbar navbar-default ">
+
+						<button type="button" class="navbar-toggle" data-toggle="collapse"
+							data-target=".navbar-collapse">
+							<span class="sr-only">Toggle navigation</span> <span
+								class="icon-bar"></span> <span class="icon-bar"></span> <span
+								class="icon-bar"></span>
+						</button>
+						<a class="navbar-brand active" href="index.html">Home</a>
+
+						<div class="dropdown pull-right "
+							style="padding-top: 10px; margin-right: 10px;">
+							
+							<a id="dLabel" data-toggle="dropdown" href="#"
+								class="btn btn-default"> <span
+								class="glyphicon glyphicon-user"></span>&nbsp; Hello Fabrice <span
+								class="caret"></span></a>
+							<ul class="dropdown-menu no-collapse" role="menu"
+								aria-labelledby="dLabel">
+								<li><a href="#">Sign out</a></li>
+							</ul>
+						</div>
+						<div class="navbar-collapse collapse">
+							<ul class="nav navbar-nav ">
+								<li><a href="#">Find Service</a></li>
+								<li><a href="#">Photo gallery</a></li>
+								<li><a href="listingHelp.html">Need an advice</a></li>
+
+							</ul>
+
+						</div>
+
+					</div>
+
+				</div>
+				<!-- 
+				<div class="col-md-4">
+					<button class="btn btn-default pull-right">Sign in</button>
+				</div>
+				 -->
+
+			</div>
+
+		</div>
+	
+		<!-- Breadcrumbs -->
+		<div id="breadcumbsContainer">
+			<ol class="breadcrumb container">
+				<li><a href="index.html">Home</a></li>
+				<li class="active"><a href="#">Fabrice</a></li>
+			</ol>
+		</div>
+
+		<!-- Main Content -->
+		<div id="mainContentContainer" class="container">
+			<div class="row">
+				<!-- Content -->
+				<div id="content" class="col-md-10 container">
+					<!-- Nav tabs -->
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#personnalInfo" data-toggle="tab">Personnal
+								Info</a></li>
+						<li><a href="#accountInfo" data-toggle="tab">Account Info</a></li>
+						<li><a href="#photos" data-toggle="tab">Photos</a></li>
+						<li><a href="#services" data-toggle="tab">Services</a></li>
+					</ul>
+					<!-- Tab panes -->
+					<div class="tab-content">
+						<!-- Personnal info pane -->
+						<div class="tab-pane fade in active" id="personnalInfo">
+							<div class="row">
+								<div class="col-md-3 ">
+									<div class="thumbnail">
+										<img data-src="holder.js/100%x150" alt="...">
+										<div class="caption">
+											<form>
+
+												<input type="file" class="filestyle"
+													data-classButton="btn btn-default btn-sm btn-block"
+													data-input="false"
+													data-classIcon="glyphicon glyphicon-folder-open">
+
+											</form>
+										</div>
+									</div>
+
+
+								</div>
+								<div class="col-md-5 ">
+									<div class="panel  panel-default">
+
+										<div class="panel-body">
+											<form role="form">
+												<div class="form-group">
+													<label for="exampleInputEmail1">User name</label>
+													<div class="input-group">
+														<span class="input-group-addon"><i
+															class="fa fa-user"></i></span> <input type="text"
+															class="form-control" id="exampleInputEmail1"
+															placeholder="Enter user name">
+													</div>
+
+												</div>
+												<div class="form-group">
+													<label for="exampleInputPassword1">Location</label>
+													<div class="input-group">
+														<span class="input-group-addon"><i
+															class="fa fa-map-marker"></i> </span> <select
+															class="form-control">
+															<option selected="selected">Select your location</option>
+															<option>1</option>
+															<option>2</option>
+															<option>3</option>
+															<option>4</option>
+															<option>5</option>
+														</select>
+													</div>
+												</div>
+												<div class="form-group">
+													<label for="exampleInputPassword1">Adresse</label>
+													<textarea class="form-control" rows="2" id="address"></textarea>
+												</div>
+												<div class="form-group">
+													<label for="exampleInputEmail1">Phone number</label>
+													<div class="input-group">
+														<span class="input-group-addon"><i
+															class="fa fa-phone"></i></span> <input type="text"
+															class="form-control" id="exampleInputEmail1"
+															placeholder="Enter your phonenumber">
+													</div>
+
+												</div>
+
+											</form>
+										</div>
+									</div>
+
+
+								</div>
+								<div class="col-md-4 ">
+									<div class="panel  panel-default">
+
+										<div class="panel-body">
+											<form role="form">
+												<div class="form-group">
+													<label for="exampleInputEmail1">Website</label>
+													<div class="input-group">
+														<span class="input-group-addon"><i
+															class="fa fa-link"></i></span> <input type="text"
+															class="form-control" id="exampleInputEmail1"
+															placeholder="Enter your Website">
+													</div>
+
+												</div>
+												<div class="form-group">
+													<label for="exampleInputEmail1">Facebook user name</label>
+													<div class="input-group">
+														<span class="input-group-addon"><i
+															class="fa fa-facebook"></i></span> <input type="text"
+															class="form-control" id="exampleInputEmail1"
+															placeholder="Enter user name">
+													</div>
+
+												</div>
+												<div class="form-group">
+													<label for="exampleInputEmail1">Twitter user name</label>
+													<div class="input-group">
+														<span class="input-group-addon"><i
+															class="fa fa-twitter"></i></span> <input type="text"
+															class="form-control" id="exampleInputEmail1"
+															placeholder="Enter user name">
+													</div>
+
+												</div>
+
+												<div class="form-group">
+													<label for="exampleInputEmail1">Google plus user
+														name</label>
+													<div class="input-group">
+														<span class="input-group-addon"><i
+															class="fa fa-google-plus"></i></span> <input type="text"
+															class="form-control" id="exampleInputEmail1"
+															placeholder="Enter user name">
+													</div>
+
+												</div>
+
+
+
+											</form>
+
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12 ">
+									<div class="pull-right">
+										<button type="submit" class="btn btn-primary">Update</button>
+									</div>
+
+								</div>
+							</div>
+
+						</div>
+						<!-- Account info pane -->
+						<div class="tab-pane fade" id="accountInfo">
+							<form role="form" action="editProfil.html">
+								<div class="form-group">
+									<label for="inputEmail3">Email</label>
+									<div class="input-group">
+										<span class="input-group-addon">@</span> <input
+											id="inputEmail3" type="email" disabled="disabled"
+											value="email@example.com">
+
+									</div>
+								</div>
+								<div>
+									<hr>
+
+								</div>
+								<div class="form-group">
+									<label for="inputCp">Current password</label>
+									<div class="input-group col-md-5">
+										<span class="input-group-addon"><i class="fa fa-lock"></i>
+										</span> <input type="password" class="form-control" id="inputCp"
+											placeholder="current password">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="inputNp">New password</label>
+									<div class="input-group col-md-5">
+										<span class="input-group-addon"><i class="fa fa-lock"></i>
+										</span> <input type="password" class="form-control " id="inputNp"
+											placeholder="new password">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<div class="input-group col-md-5" style="text-align: right;">
+										<button type="submit" class="btn btn-primary">Update</button>
+									</div>
+								</div>
+
+
+							</form>
+
+						</div>
+						<!-- Photos pane -->
+						<div class="tab-pane fade" id="photos">
+							<div class="row">
+								<div class="col-md-12 container">
+									<a id="showAddForm" href="#" class=" btn btn-primary btn-xs"> Add photo </a><br />
+									<div id="editFashionBox" style=" display: none;">
+										<div class="panel panel-default">
+											<div class="panel-body">
+												<form role="form">
+													<div class="form-group">
+
+														<input type="file" class="filestyle" id="profilPic"
+															data-classButton="btn btn-default btn-sm "
+															data-input="false" data-buttonText="Choose profile image"
+															data-classIcon="glyphicon glyphicon-folder-open">
+													</div>
+													<div class="form-group ">
+														<label for="description">Description</label>
+														<div class="input-group col-md-4">
+															<span class="input-group-addon"><i
+															class="fa fa-info"></i></span>
+															<textarea class="form-control" rows="2" cols="3"
+															id="description"></textarea>
+														</div>
+														
+													</div>
+													<div class="form-group ">
+														<button type="button" id="hideAddForm"
+															class="btn  btn-default btn-sm">Cancel</button>
+														<button type="submit" class="btn  btn-primary btn-sm">Save</button>
+													</div>
+
+
+												</form>
+											</div>
+										</div>
+
+
+
+									</div>
+									<div id="listingFashionBox" class="row">
+
+
+										<div class="fashionBox col-md-3">
+											<div class="panel panel-default">
+												<div class="panel-body">
+													<img alt="Cool stuff" src="images/thumbnails/orange.jpg"
+														width="180" height="200"> <br /> <span
+														class="title2">Cool stuff</span> <br /> <a
+														href="JavaScript:editFashion();"> Edit</a> | <a
+														class="deletePhoto" href="#;"> Delete </a>
+												</div>
+											</div>
+
+										</div>
+										<div class="fashionBox col-md-3 ">
+											<div class="panel panel-default">
+												<div class="panel-body">
+													<img alt="Cool stuff" src="images/thumbnails/banana.jpg"
+														width="180" height="200"> <br /> <span
+														class="title2">Cool stuff</span> <br /> <a
+														href="JavaScript:editFashion();"> Edit</a> | <a
+														class="deletePhoto" href="#;"> Delete </a>
+												</div>
+											</div>
+
+										</div>
+										<div class="fashionBox col-md-3">
+											<div class="panel panel-default">
+												<div class="panel-body">
+													<img alt="Cool stuff" src="images/thumbnails/apple.jpg"
+														width="180" height="200"> <br /> <span
+														class="title2">Cool stuff</span> <br /> <a
+														href="JavaScript:editFashion();"> Edit</a> | <a
+														class="deletePhoto" href="#"> Delete </a>
+												</div>
+											</div>
+
+										</div>
+										<div class="fashionBox col-md-3">
+											<div class="panel panel-default">
+												<div class="panel-body">
+													<img alt="Cool stuff" src="images/thumbnails/orange.jpg"
+														width="180" height="200"> <br /> <span
+														class="title2">Cool stuff</span> <br /> <a
+														href="JavaScript:editFashion();"> Edit</a> | <a
+														class="deletePhoto" href="#"> Delete </a>
+												</div>
+											</div>
+
+										</div>
+
+
+
+									</div>
+								</div>
+							</div>
+
+						</div>
+						<!-- Services pane -->
+						<div class="tab-pane fade" id="services">
+							<div class="row">
+								<div class="col-md-12">
+									<a id="showAddServiceForm" href="#" class=" btn btn-primary btn-xs">
+										Add Service </a><br />
+									<div id="editServiceBox" style="display: none;">
+									
+									<div class="panel panel-default">
+										<div class="panel-body">
+												<form role="form">
+												<div class="form-group">
+													<label for="exampleInputEmail1">Service</label>
+													<div class="input-group col-md-4">
+														<span class="input-group-addon"><i
+															class="fa fa-tasks"></i></span> 
+																<select class="form-control" id="exampleInputEmail1">
+																	<option>Dj</option>
+																	<option>Dj</option>
+																	<option>Dj</option>
+																	<option>Dj</option>
+																</select>
+															
+													</div>
+
+												</div>
+												<div class="form-group">
+													<label for="exampleInputEmail1">Description</label>
+													<div class="input-group col-md-4">
+														<span class="input-group-addon"><i
+															class="fa fa-info"></i></span> <textarea 
+															class="form-control" id="exampleInputEmail1"
+															></textarea>
+													</div>
+
+												</div>
+												
+
+												
+												<div class="form-group ">
+														<button type="button" id="hideAddServiceForm"
+															class="btn  btn-default btn-sm">Cancel</button>
+														<button type="submit" class="btn  btn-primary btn-sm">Save</button>
+													</div>
+
+
+											</form>
+										
+										</div>
+									</div>
+									
+									
+									
+									</div>
+									<div id="listingPrestationBox"
+										style="display: block; border: none;">
+										<div class="table-responsive">
+											<table class="table">
+												<thead>
+													<tr class="active">
+														<th align="left">Service</th>
+														<th align="left"></th>
+
+													</tr>
+												</thead>
+												<tbody>
+												
+											
+													<tr>
+														
+														<td>name<br /> 
+																description</td>
+														<td></td>
+
+													</tr>
+													<tr>
+														<td colspan="2"><a
+															href="JavaScript:editPrestation();">
+																Edit </a> | <a class="deleteService"
+															href="#">
+																Delete </a></td>
+																
+													</tr>
+													<tr>
+														
+														<td>name<br /> 
+																description</td>
+														<td></td>
+
+													</tr>
+													<tr>
+														<td colspan="2"><a
+															href="JavaScript:editPrestation();">
+																Edit </a> | <a class="deleteService"
+															href="#">
+																Delete </a></td>
+													</tr>
+													</tbody>
+											</table>
+											</div>
+
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+
+
+
+
+
+
+				</div>
+				<!-- Sidebar -->
+				<div id="sidebar" class="col-md-2 .hidden-xs">sidebarContainer</div>
+			</div>
+
+		</div>
+	</div>
+	<!-- Footer -->
+	<div id="footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-5">
+					<h4>About us</h4>
+					ubukwenyarwanda.biz helps you to get the best wedding services
+				</div>
+				<div class="col-md-5">
+					<h4>Contact us</h4>
+					info@ubukwenyarwanda.com <br /> +250(0)78 67 99 000
+				</div>
+				<div class="col-md-2">
+					<h4>Connect with us</h4>
+					<div class="btn-group">
+						<button class="btn">
+							<i class="fa fa-facebook-square  fa-stack-2x"></i>&nbsp; &nbsp;
+						</button>
+						<button class="btn">
+							<i class="fa fa-twitter-square fa-stack-2x"></i>&nbsp; &nbsp;
+						</button>
+						<button class="btn">
+							<i class="fa fa-google-plus-square fa-stack-2x"></i>
+						</button>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="modal fade bs-modal-sm" tabindex="-1" role="dialog"
+		id="confirm" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<a class="close" data-dismiss="modal">�</a>
+					<h5>Confirm</h5>
+				</div>
+				<div class="modal-body">Are your sure ?</div>
+				<div class="modal-footer">
+					<a href="#" class="btn btn-danger">Ok</a> <a href="#"
+						class="btn btn-cancel" data-dismiss="modal">Cancel</a>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="https://code.jquery.com/jquery.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="../../../resources/js/bootstrap.min.js"></script>
+	<script src="../../../resources/js/holder.js"></script>
+	<script
+		src="http://blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js"></script>
+	<script src="js/bootstrap-filestyle.js"></script>
+	<script type="text/javascript">
+	$(".carousel").carousel({
+		  interval: 2000
+		});
+
+	$("#showAddForm").click(function() {
+		$("#editFashionBox").show("slow");
+		$(this).hide("slow");
+		});
+	$("#hideAddForm").click(function() {
+		$("#editFashionBox").hide("slow");
+		$("#showAddForm").show("slow");
+		});
+	
+	$(".deletePhoto").click(function(){
+		$('#confirm').modal('show');
+		});
+	$("#showAddServiceForm").click(function() {
+		$("#editServiceBox").show("slow");
+		$(this).hide("slow");
+		});
+	$("#hideAddServiceForm").click(function() {
+		$("#editServiceBox").hide("slow");
+		$("#showAddServiceForm").show("slow");
+		});
+	
+	$(".deleteService").click(function(){
+		$('#confirm').modal('show');
+		});
+	</script>
+</body>
+</html>

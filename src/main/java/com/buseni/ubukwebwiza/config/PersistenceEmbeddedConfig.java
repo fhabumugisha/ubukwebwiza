@@ -17,7 +17,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Profile("embedded")
 @Configuration
-@EnableJpaRepositories(basePackages="com.buseni.ubukwebwiza.core.repository")
+@EnableJpaRepositories(basePackages={"com.buseni.ubukwebwiza.administrator.repository","com.buseni.ubukwebwiza.vendor.repository"})
 @PropertySource( { "classpath:embedded-datasource.properties" } )
 @EnableTransactionManagement
 public class PersistenceEmbeddedConfig {

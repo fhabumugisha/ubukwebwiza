@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Ubukwebwiza</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+<!-- Bootstrap -->
+<link href="../../../resources/css/bootstrap.css" rel="stylesheet" 
+	  th:href="@{/resources/css/bootstrap.css}" />
+<link href="../../../resources/css/font-awesome.min.css" rel="stylesheet" 
+	  th:href="@{/resources/css/font-awesome.min.css}"/>
+<link href="../../../resources/css/bootstrap-theme.min.css" rel="stylesheet" 
+		th:href="@{/resources/css/font-awesome.min.css}"/>
+<link href="../../../resources/css/ubukwenyarwanda.css" rel="stylesheet" 
+	  th:href="@{/resources/css/ubukwenyarwanda.css}"/>
+<link href="../../../resources/css/social-buttons.css" rel="stylesheet"
+		th:href="@{/resources/css/social-buttons.css}"  />
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+	<div id="headerContainer" class="container" >
+			<div class="row">
+				<div class="col-md-2">
+					<a href="#" class="thumbnail"> <img data-src="holder.js/100%x50" alt="..." />
+					</a>
+				</div>
+				<div class="col-md-10 ">
+					<div class="navbar navbar-default ">
+
+						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+							<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span
+								class="icon-bar"></span>
+						</button>
+						<a class="navbar-brand" href="index.html" th:href="@{/}" th:classappend="${page == 'home' ? 'active' : ''}">Home</a>
+
+						<!-- Account feature is coming -->
+						<!-- <div class="pull-right" style="padding-top: 10px;margin-right: 10px;"
+						     th:classappend="${#authorization.expression('!isAuthenticated()') ? 'dropdown' : ''}">
+							
+				
+						
+						<a th:if="${#authorization.expression('!isAuthenticated()')}" href="account/signup.html" class="btn btn-primary pull-right navbar-btn">Sign up</a> 
+						<a th:if="${#authorization.expression('!isAuthenticated()')}" href="account/signin.html" class="btn btn-default pull-right  navbar-btn">Sign in</a>
+						
+						
+							
+							<a th:if="${#authorization.expression('isAuthenticated()')}" id="dLabel" data-toggle="dropdown" href="#"
+								class="btn btn-default"> <span
+								class="glyphicon glyphicon-user"></span>&nbsp; Hello Fabrice <span
+								class="caret"></span>
+								</a>
+							<ul th:if="${#authorization.expression('isAuthenticated()')}" class="dropdown-menu no-collapse" role="menu"
+								aria-labelledby="dLabel">
+								<li><a href="#">Sign out</a></li>
+							</ul>
+						
+						
+						</div> -->
+						
+						<div class="navbar-collapse collapse">
+							<ul class="nav navbar-nav ">
+								<li th:classappend="${page == 'vendors' ? 'active' : ''}"><a href="listingVendor.html" th:href="@{/vendors}">Find Service</a></li>
+								<li th:classappend="${page == 'gallery' ? 'active' : ''}"><a href="photoGallery.html" th:href="@{/gallery}">Photo gallery</a></li>
+								<!-- <li><a href="forum/listingHelp.html">Need an advice </a></li> -->
+																
+							</ul>
+
+						</div>
+
+					</div>
+
+				</div>
+
+
+			</div>
+
+		</div>
+
+</body>
+</html>
