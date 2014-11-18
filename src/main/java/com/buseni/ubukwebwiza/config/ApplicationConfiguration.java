@@ -7,8 +7,11 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -29,6 +32,15 @@ public class ApplicationConfiguration extends WebMvcConfigurerAdapter{
 		public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
 			//converters.add(jsonHttpMessageConverter());
 			converters.add(new StringHttpMessageConverter(Charset.forName("UTF-8")));
+		}
+		
+		@Override
+		public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+			PageableHandlerMethodArgumentResolver resolver =	new PageableHandlerMethodArgumentResolver();
+			resolver.setFallbackPageable(new PageRequest(0, 1));
+			resolver.setMaxPageSize(1);
+			
+			argumentResolvers.add(resolver);
 		}
 		/*
 		@Bean

@@ -1,5 +1,7 @@
 package com.buseni.ubukwebwiza.config;
 
+import nz.net.ultraq.thymeleaf.LayoutDialect;
+
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +25,7 @@ public class ViewConfiguration {
 		resolver.addTemplateAlias("frontendHeader", "frontend/fragments/header");
 		resolver.addTemplateAlias("frontendFooter", "frontend/fragments/footer");
 		resolver.addTemplateAlias("frontendSidebar", "frontend/fragments/sidebar");
+		resolver.addTemplateAlias("frontendPaginator", "frontend/fragments/paginator");
 		return resolver;
 	}
 	
@@ -30,6 +33,7 @@ public class ViewConfiguration {
 	public SpringTemplateEngine templateEngine() {
 		SpringTemplateEngine engine = new SpringTemplateEngine();
 		engine.setTemplateResolver(templateResolver());
+		engine.addDialect(new LayoutDialect());
 		return engine;
 	}
 	

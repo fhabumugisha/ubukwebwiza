@@ -111,8 +111,9 @@ public class VendorServiceImpl implements VendorService {
 	 */
 	public Page<Vendor> search(VendorSearch vendorSearch,
 			Pageable pageable) {
+		
 		if(null != vendorSearch){
-			vendorRepo.findAll(VendorPredicates.search(vendorSearch));
+		return	vendorRepo.findAll(VendorPredicates.search(vendorSearch), pageable);
 		}
 		return null;
 	}
