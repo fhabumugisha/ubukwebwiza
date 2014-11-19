@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -45,13 +43,14 @@ public class VendorController {
 	@RequestMapping(value="/vendors",method=RequestMethod.GET)
 	public String listing(Model model, Pageable page){
 		List<Vendor> vendors = new ArrayList<Vendor>();
-		//PageRequest page = new PageRequest(0, 10)	;
-		Page<Vendor> vendorPage  =  vendorService.findAll(page);
+		PageRequest pr = new PageRequest(page.getPageNumber()-1, page.getPageSize());
+		Page<Vendor> vendorPage  =  vendorService.findAll(pr);
 		if(vendorPage != null){
 			vendors = vendorPage.getContent();
 		}
 		PageWrapper<Vendor> pageWrapper = new PageWrapper<Vendor>(vendorPage, "/vendors");
 		model.addAttribute("page", pageWrapper);
+		model.addAttribute("currentMenu", "vendors");
 		model.addAttribute("vendors", vendors);
 		model.addAttribute("vendorSearch", new VendorSearch());
 		return "frontend/vendor/listingVendor";
@@ -67,14 +66,15 @@ public class VendorController {
 	@RequestMapping(value="/search",method=RequestMethod.GET)
 	public String search(VendorSearch vendorSearch, Model model, Pageable page){
 		List<Vendor> vendors = new ArrayList<Vendor>();
-		LOGGER.debug(vendorSearch.toString());
-		//PageRequest page = new PageRequest(0, 1);		
-		Page<Vendor> vendorPage =  vendorService.search(vendorSearch, page);
+		
+		PageRequest pr = new PageRequest(page.getPageNumber()-1, page.getPageSize());
+		Page<Vendor> vendorPage =  vendorService.search(vendorSearch, pr);
 		if(vendorPage != null){
 			vendors = vendorPage.getContent();
 		}
 		PageWrapper<Vendor> pageWrapper = new PageWrapper<Vendor>(vendorPage, "/search");
 		model.addAttribute("page", pageWrapper);
+		model.addAttribute("currentMenu", "vendors");
 		model.addAttribute("vendors", vendors);
 		model.addAttribute("vendorSearch", vendorSearch);
 		return "frontend/vendor/listingVendor";

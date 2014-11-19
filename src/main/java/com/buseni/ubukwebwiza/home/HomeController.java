@@ -67,7 +67,7 @@ public class HomeController {
 	public List<Vendor> populateFeaturedVendors(){
 		return vendorService.getFeaturedVendors();
 	}
-	@ModelAttribute("page")
+	@ModelAttribute("currentMenu")
 	public String module(){
 		return "home";
 	}

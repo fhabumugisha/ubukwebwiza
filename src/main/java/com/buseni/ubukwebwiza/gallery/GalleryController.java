@@ -34,7 +34,7 @@ public class GalleryController {
 	
 
 	
-	@ModelAttribute("page")
+	@ModelAttribute("currentMenu")
 	public String module(){
 		return "gallery";
 	}
