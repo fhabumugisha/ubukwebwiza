@@ -12,8 +12,8 @@ import javax.persistence.Table;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-@Table(name="wedding_service")
-public class WeddingService implements Serializable {
+@Table(name="province")
+public class Province implements Serializable {
 
 	/**
 	 * 
@@ -22,20 +22,20 @@ public class WeddingService implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="id_wedding_service")
+	@Column(name="id_province")
 	private Integer id;	
 	
 	@NotEmpty
 	private String libelle;
-	@Column(name="libelle_fr")
-	private String libelleFr;
-	@Column(name="libelle_en")
-	private String libelleEn;
-	@Column(name="libelle_kn")
-	private String libelleKn;
+	
+	
+	
 	@Column(name="active_flag")
 	private int activeFlag;
 	
+	public Province(){
+		
+	}
 
 	public Integer getId() {
 		return id;
@@ -45,6 +45,8 @@ public class WeddingService implements Serializable {
 		this.id = id;
 	}
 
+
+
 	public String getLibelle() {
 		return libelle;
 	}
@@ -53,38 +55,13 @@ public class WeddingService implements Serializable {
 		this.libelle = libelle;
 	}
 
-	public String getLibelleFr() {
-		return libelleFr;
-	}
-
-	public void setLibelleFr(String libelleFr) {
-		this.libelleFr = libelleFr;
-	}
-
-	public String getLibelleEn() {
-		return libelleEn;
-	}
-
-	public void setLibelleEn(String libelleEn) {
-		this.libelleEn = libelleEn;
-	}
-
-	public String getLibelleKn() {
-		return libelleKn;
-	}
-
-	public void setLibelleKn(String libelleKn) {
-		this.libelleKn = libelleKn;
-	}
 
 	
 
 	@Override
 	public String toString() {
-		return "WeddingService [id=" + id + ", libelle=" + libelle
-				+ ", libelleFr=" + libelleFr + ", libelleEn=" + libelleEn
-				+ ", libelleKn=" + libelleKn + ", activeFlag=" + activeFlag
-				+ "]";
+		return "Province [id=" + id + ", libelle=" + libelle + ", activeFlag="
+				+ activeFlag + "]";
 	}
 
 	@Override
@@ -94,12 +71,6 @@ public class WeddingService implements Serializable {
 		result = prime * result + activeFlag;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((libelle == null) ? 0 : libelle.hashCode());
-		result = prime * result
-				+ ((libelleEn == null) ? 0 : libelleEn.hashCode());
-		result = prime * result
-				+ ((libelleFr == null) ? 0 : libelleFr.hashCode());
-		result = prime * result
-				+ ((libelleKn == null) ? 0 : libelleKn.hashCode());
 		return result;
 	}
 
@@ -111,7 +82,7 @@ public class WeddingService implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		WeddingService other = (WeddingService) obj;
+		Province other = (Province) obj;
 		if (activeFlag != other.activeFlag)
 			return false;
 		if (id == null) {
@@ -123,21 +94,6 @@ public class WeddingService implements Serializable {
 			if (other.libelle != null)
 				return false;
 		} else if (!libelle.equals(other.libelle))
-			return false;
-		if (libelleEn == null) {
-			if (other.libelleEn != null)
-				return false;
-		} else if (!libelleEn.equals(other.libelleEn))
-			return false;
-		if (libelleFr == null) {
-			if (other.libelleFr != null)
-				return false;
-		} else if (!libelleFr.equals(other.libelleFr))
-			return false;
-		if (libelleKn == null) {
-			if (other.libelleKn != null)
-				return false;
-		} else if (!libelleKn.equals(other.libelleKn))
 			return false;
 		return true;
 	}

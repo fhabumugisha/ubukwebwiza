@@ -8,41 +8,20 @@ import org.springframework.data.domain.Pageable;
 import com.buseni.ubukwebwiza.vendor.domain.WeddingService;
 
 public interface WeddingServiceManager {
-	/**
-	 * 
-	 * @param weddingService
-	 */
-	void create(WeddingService weddingService);
 	
-	/**
-	 * 
-	 * @param weddingService
-	 * @return
-	 */
-	WeddingService update(WeddingService weddingService);
-	/**
-	 * 
-	 * @param id
-	 * @return
-	 */
-	WeddingService findById(Integer id);
-	/**
-	 * 
-	 * @param idProvider
-	 * @return
-	 */
-	List<WeddingService> findAllByVendor(Integer idProvider);
-	
+	List<WeddingService> findAll();
 	/**
 	 * 
 	 * @param pageable
 	 * @return
 	 */
-	Page<WeddingService> findAll(Pageable pageable) ;
+	Page<WeddingService> findAll(Pageable pageable);
 	
 	/**
 	 * 
-	 * @param id
+	 * @param activeFlag
+	 * @return
 	 */
-	void delete(Integer id);
+	List<WeddingService> findByActiveFlag(int activeFlag);
+
 }

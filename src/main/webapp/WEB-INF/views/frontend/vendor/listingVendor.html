@@ -104,10 +104,10 @@
 										<h5>
 											<span th:text="${vendor.businessName}">Thumbnail label</span>
 										</h5>
-										<span th:if="${not #lists.isEmpty(vendor.weddingServices)}"
+										<span th:if="${not #lists.isEmpty(vendor.vendorWeddingServices)}"
 											th:text="${vendor.weddingService}"> Wedding planner</span>
 										<h6>
-											<span th:text="${vendor.codeDistrict.libelle}">Nyarugenge</span>
+											<span th:text="${vendor.district.libelle}">Nyarugenge</span>
 										</h6>
 
 										<p>

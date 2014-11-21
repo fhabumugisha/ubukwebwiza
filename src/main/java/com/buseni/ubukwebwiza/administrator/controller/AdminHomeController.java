@@ -7,7 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -24,16 +23,24 @@ public class AdminHomeController {
 	
 	
 	@RequestMapping(value="/admin", method=RequestMethod.GET)
-	public String home(){
-		return "adminpanel/signin";
-	}
-
-	@RequestMapping(value="/signin", method=RequestMethod.GET)
-	public String sign(){
+	public String home(Model model){
+		model.addAttribute("currentMenu", "dashbord");
 		return "adminpanel/dashbord";
 	}
 
-	@RequestMapping(value="/admins",method=RequestMethod.GET)
+	@RequestMapping(value="/signin", method=RequestMethod.GET)
+	public String sign(Model model){
+		model.addAttribute("currentMenu", "dashbord");
+		return "adminpanel/dashbord";
+	}
+	
+	@RequestMapping(value="/login", method=RequestMethod.GET)
+	public String login(Model model){
+		//model.addAttribute("currentMenu", "dashbord");
+		return "adminpanel/signin";
+	}
+
+	@RequestMapping(value="/admin/admins",method=RequestMethod.GET)
 	public String admins(Model model, Pageable page){
 		Page<Administrator> adminPage  =  administratorService.findAll(page);	
 		PageWrapper<Administrator> pageWrapper = new PageWrapper<Administrator>(adminPage, "/admins");
@@ -43,9 +50,5 @@ public class AdminHomeController {
 		return "adminpanel/admin/listing";
 	}
 	
-	
-	@ModelAttribute("currentMenu")
-	public String module(){
-		return "home";
-	}
+
 }

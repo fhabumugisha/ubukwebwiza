@@ -1,6 +1,6 @@
 package com.buseni.ubukwebwiza.vendor.builders;
 
-import com.buseni.ubukwebwiza.vendor.domain.CodeDistrict;
+import com.buseni.ubukwebwiza.vendor.domain.District;
 import com.buseni.ubukwebwiza.vendor.domain.Vendor;
 
 
@@ -25,8 +25,8 @@ public class VendorBuilder {
 		return this;
 	}
 	
-	public VendorBuilder district(CodeDistrict codeDistrict){
-		this.vendor.setCodeDistrict(codeDistrict);
+	public VendorBuilder district(District district){
+		this.vendor.setDistrict(district);
 		return this;
 	}
 	

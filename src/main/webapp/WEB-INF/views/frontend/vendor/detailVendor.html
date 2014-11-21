@@ -19,7 +19,7 @@
 			<ol class="breadcrumb container">
 				<li><a href="index.html">Home</a></li>
 				<li><a href="listingVendor.html">Listing vendors</a></li>
-				<li class="active"><a href="#">Fabrice</a></li>
+				<li class="active"><a href="#"><span th:text="${vendor.businessName}">Fabrice</span>  </a></li>
 			</ol>
 		</div>
 			<div layout:fragment="pageContent">
@@ -103,15 +103,15 @@
 									<div class="list-group">
 
 										<!--/*/
- 											 <th:bloc th:each="weddingService : ${vendor.weddingServices}">
+ 											 <th:bloc th:each="vendorWeddingService : ${vendor.vendorWeddingServices}">
 											<div class="list-group-item">
 												<h4 class="list-group-item-heading">
 													<span
-														th:text="${weddingService.codeTypeWeddingService.libelle}">Wedding
+														th:text="${vendorWeddingService.weddingService.libelle}">Wedding
 														Planning</span>
 												</h4>
 												<p class="list-group-item-text">
-													<span th:text="${weddingService.description}"> I do
+													<span th:text="${vendorWeddingService.description}"> I do
 														all the job from A to Z </span>
 												</p>
 

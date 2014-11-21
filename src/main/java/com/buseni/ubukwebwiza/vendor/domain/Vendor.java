@@ -102,7 +102,7 @@ public class Vendor implements Serializable {
 	private Date createdAt;
 
 	@OneToMany(mappedBy="vendor", cascade = CascadeType.REMOVE)
-	private Set<WeddingService> weddingServices = new HashSet<WeddingService>();
+	private Set<VendorWeddingService> vendorWeddingServices = new HashSet<VendorWeddingService>();
 	
 	
 	@OneToMany(mappedBy="vendor",cascade=CascadeType.REMOVE)
@@ -115,7 +115,7 @@ public class Vendor implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name="id_district")
-	private CodeDistrict codeDistrict;
+	private District district;
 
 
 
@@ -299,8 +299,7 @@ public class Vendor implements Serializable {
 				+ address + ", country=" + country + ", activeFlag="
 				+ activeFlag + ", token=" + token + ", normalizedName="
 				+ normalizedName + ", lastUpdated=" + lastUpdated
-				+ ", nbViews=" + nbViews + ", codeDistrict=" + codeDistrict
-				+ "]";
+				+ ", createdAt=" + createdAt + ", nbViews=" + nbViews + "]";
 	}
 
 
@@ -325,15 +324,14 @@ public class Vendor implements Serializable {
 		result = prime * result
 				+ ((businessName == null) ? 0 : businessName.hashCode());
 		result = prime * result
-				+ ((codeDistrict == null) ? 0 : codeDistrict.hashCode());
-		result = prime * result
 				+ ((confirmPassword == null) ? 0 : confirmPassword.hashCode());
 		result = prime * result + ((country == null) ? 0 : country.hashCode());
 		result = prime * result
 				+ ((coverPicture == null) ? 0 : coverPicture.hashCode());
+		result = prime * result
+				+ ((createdAt == null) ? 0 : createdAt.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime
-				* result
+		result = prime * result
 				+ ((fbUsername == null) ? 0 : fbUsername.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result
@@ -382,11 +380,6 @@ public class Vendor implements Serializable {
 				return false;
 		} else if (!businessName.equals(other.businessName))
 			return false;
-		if (codeDistrict == null) {
-			if (other.codeDistrict != null)
-				return false;
-		} else if (!codeDistrict.equals(other.codeDistrict))
-			return false;
 		if (confirmPassword == null) {
 			if (other.confirmPassword != null)
 				return false;
@@ -401,6 +394,11 @@ public class Vendor implements Serializable {
 			if (other.coverPicture != null)
 				return false;
 		} else if (!coverPicture.equals(other.coverPicture))
+			return false;
+		if (createdAt == null) {
+			if (other.createdAt != null)
+				return false;
+		} else if (!createdAt.equals(other.createdAt))
 			return false;
 		if (email == null) {
 			if (other.email != null)
@@ -467,14 +465,28 @@ public class Vendor implements Serializable {
 
 
 
-	public Set<WeddingService> getWeddingServices() {
-		return weddingServices;
+
+	public Date getCreatedAt() {
+		return createdAt;
 	}
 
 
 
-	public void setWeddingServices(Set<WeddingService> weddingServices) {
-		this.weddingServices = weddingServices;
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+
+
+	public Set<VendorWeddingService> getVendorWeddingServices() {
+		return vendorWeddingServices;
+	}
+
+
+
+	public void setVendorWeddingServices(
+			Set<VendorWeddingService> vendorWeddingServices) {
+		this.vendorWeddingServices = vendorWeddingServices;
 	}
 
 
@@ -662,9 +674,9 @@ public class Vendor implements Serializable {
 
 
 	public String getWeddingService() {		
-		if( null !=  weddingServices  && !weddingServices.isEmpty()){
-			WeddingService ws =  weddingServices.iterator().next();
-			return ws.getCodeTypeWeddingService().getLibelle();
+		if( null !=  vendorWeddingServices  && !vendorWeddingServices.isEmpty()){
+			VendorWeddingService ws =  vendorWeddingServices.iterator().next();
+			return ws.getWeddingService().getLibelle();
 			
 		}
 		return "";
@@ -672,14 +684,14 @@ public class Vendor implements Serializable {
 
 
 
-	public CodeDistrict getCodeDistrict() {
-		return codeDistrict;
+	public District getDistrict() {
+		return district;
 	}
 
 
 
-	public void setCodeDistrict(CodeDistrict codeDistrict) {
-		this.codeDistrict = codeDistrict;
+	public void setDistrict(District district) {
+		this.district = district;
 	}
 
 

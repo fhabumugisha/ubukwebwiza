@@ -5,20 +5,20 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.buseni.ubukwebwiza.vendor.domain.CodeDistrict;
+import com.buseni.ubukwebwiza.vendor.domain.Province;
 
-public interface CodeDistrictService {
+public interface ProvinceService {
 	/**
 	 * 
 	 * @param activeFlag
 	 * @return
 	 */
-	List<CodeDistrict> findByActiveFlag(int activeFlag);
+	List<Province> findByActiveFlag(int activeFlag);
 	/**
 	 * 
 	 * @param page
 	 * @return
 	 */
-	Page<CodeDistrict> findAll(Pageable page);
+	Page<Province> findAll(Pageable page);
 
 }

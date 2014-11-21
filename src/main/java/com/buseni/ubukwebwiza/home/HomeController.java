@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.buseni.ubukwebwiza.vendor.domain.CodeDistrict;
-import com.buseni.ubukwebwiza.vendor.domain.CodeTypeWeddingService;
+import com.buseni.ubukwebwiza.vendor.domain.District;
 import com.buseni.ubukwebwiza.vendor.domain.Vendor;
-import com.buseni.ubukwebwiza.vendor.service.CodeDistrictService;
-import com.buseni.ubukwebwiza.vendor.service.CodeWeddingServiceManager;
+import com.buseni.ubukwebwiza.vendor.domain.WeddingService;
+import com.buseni.ubukwebwiza.vendor.service.DistrictService;
 import com.buseni.ubukwebwiza.vendor.service.PhotoService;
 import com.buseni.ubukwebwiza.vendor.service.VendorService;
+import com.buseni.ubukwebwiza.vendor.service.WeddingServiceManager;
 import com.buseni.ubukwebwiza.vendor.utils.VendorSearch;
 
 @Controller
@@ -25,10 +25,10 @@ public class HomeController {
 
 	
 	@Autowired
-	private CodeWeddingServiceManager codeWeddingServiceManager;
+	private WeddingServiceManager weddingServiceManager;
 	
 	@Autowired
-	private CodeDistrictService codeDistrictService;
+	private DistrictService districtService;
 	
 	@Autowired
 	private VendorService vendorService;
@@ -43,13 +43,13 @@ public class HomeController {
 
 	
 	@ModelAttribute("allWeddingServices")
-	public List<CodeTypeWeddingService> populateWeddingServices(){
-		return codeWeddingServiceManager.findByActiveFlag(1);
+	public List<WeddingService> populateWeddingServices(){
+		return weddingServiceManager.findByActiveFlag(1);
 	}
 	
 	@ModelAttribute("allDistricts")
-	public List<CodeDistrict> populateDistricts(){
-		return codeDistrictService.findByActiveFlag(1);
+	public List<District> populateDistricts(){
+		return districtService.findByActiveFlag(1);
 	}
 	
 	@ModelAttribute("featuredVendors")

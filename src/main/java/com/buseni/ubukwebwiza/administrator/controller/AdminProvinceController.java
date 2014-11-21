@@ -5,29 +5,33 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.buseni.ubukwebwiza.vendor.domain.CodeProvince;
-import com.buseni.ubukwebwiza.vendor.service.CodeProvinceService;
+import com.buseni.ubukwebwiza.vendor.domain.Province;
+import com.buseni.ubukwebwiza.vendor.service.ProvinceService;
 import com.buseni.ubukwebwiza.vendor.utils.PageWrapper;
 
 @Controller
-@RequestMapping(value="/admin/provinces", method=RequestMethod.GET)
 public class AdminProvinceController {
 
 	@Autowired
-	private CodeProvinceService codeProvinceService;
+	private ProvinceService codeProvinceService;
 	
-	@RequestMapping(value="/",method=RequestMethod.GET)
+	@RequestMapping(value="/admin/provinces",method=RequestMethod.GET)
 	public String districts(Model model, Pageable page){
-		Page<CodeProvince> pageProvince = codeProvinceService.findAll(page);
-		PageWrapper<CodeProvince> pageWrapper = new PageWrapper<CodeProvince>(pageProvince, "/provinces");
+		Page<Province> pageProvince = codeProvinceService.findAll(page);
+		PageWrapper<Province> pageWrapper = new PageWrapper<Province>(pageProvince, "/provinces");
 		model.addAttribute("page", pageWrapper);
-		model.addAttribute("currentMenu", "provinces");
+		//model.addAttribute("currentMenu", "provinces");
 		model.addAttribute("provinces", pageProvince.getContent());	
 		return "adminpanel/province/listing";
 	}
 	
+	@ModelAttribute("currentMenu")
+	public String module(){
+		return "provinces";
+	}
 	
 }

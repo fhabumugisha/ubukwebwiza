@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.buseni.ubukwebwiza.vendor.service.impl;
 
 import java.util.List;
@@ -15,80 +12,30 @@ import com.buseni.ubukwebwiza.vendor.domain.WeddingService;
 import com.buseni.ubukwebwiza.vendor.repository.WeddingServiceRepo;
 import com.buseni.ubukwebwiza.vendor.service.WeddingServiceManager;
 
-/**
- * @author habumugisha
- *
- */
-@Service
-@Transactional
+@Service("weddingServiceManager")
+@Transactional(readOnly=true)
 public class WeddingServiceManagerImpl implements WeddingServiceManager {
 
+	
 	private WeddingServiceRepo weddingServiceRepo;
 	
 	@Autowired
 	public WeddingServiceManagerImpl(WeddingServiceRepo weddingServiceRepo) {
-		this.weddingServiceRepo =  weddingServiceRepo;
+		this.weddingServiceRepo = weddingServiceRepo;
 	}
-	/* (non-Javadoc)
-	 * @see com.buseni.ubukwebwiza.administrator.service.WeddingServiceManager#create(com.buseni.ubukwebwiza.administrator.domain.WeddingService)
-	 */
 	@Override
-	@Transactional
-	public void create(WeddingService weddingService) {
-		// TODO control before save
-		weddingServiceRepo.save(weddingService);
-
+	public List<WeddingService> findAll() {
+		return weddingServiceRepo.findAll();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.buseni.ubukwebwiza.administrator.service.WeddingServiceManager#update(com.buseni.ubukwebwiza.administrator.domain.WeddingService)
-	 */
-	@Override
-	@Transactional
-	public WeddingService update(WeddingService weddingService) {
-		// TODO control  before save
-		return weddingServiceRepo.save(weddingService);
-	}
-
-	/* (non-Javadoc)
-	 * @see com.buseni.ubukwebwiza.administrator.service.WeddingServiceManager#findById(java.lang.Integer)
-	 */
-	@Override
-	public WeddingService findById(Integer id) {
-		if(null == id){
-			return null;
-		}
-		return weddingServiceRepo.findOne(id);
-	}
-
-	/* (non-Javadoc)
-	 * @see com.buseni.ubukwebwiza.administrator.service.WeddingServiceManager#findAllByProvider(java.lang.Integer)
-	 */
-	@Override
-	public List<WeddingService> findAllByVendor(Integer idVendor) {
-		if(null == idVendor){
-			return null;
-		}
-		return weddingServiceRepo.findByVendor_id(idVendor);
-	}
-
-	/* (non-Javadoc)
-	 * @see com.buseni.ubukwebwiza.administrator.service.WeddingServiceManager#findAll(org.springframework.data.domain.Pageable)
-	 */
 	@Override
 	public Page<WeddingService> findAll(Pageable pageable) {
 		return weddingServiceRepo.findAll(pageable);
 	}
-	/*
-	 * (non-Javadoc)
-	 * @see com.buseni.ubukwebwiza.administrator.service.WeddingServiceManager#delete(java.lang.Integer)
-	 */
 	@Override
-	@Transactional
-	public void delete(Integer id) {
-		if(null != id){
-			weddingServiceRepo.delete(id);
-		}
+	public List<WeddingService> findByActiveFlag(int activeFlag) {
+		
+		return weddingServiceRepo.findByActiveFlag(activeFlag);
 		
 	}
 

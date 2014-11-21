@@ -5,23 +5,32 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.buseni.ubukwebwiza.vendor.domain.Photo;
 import com.buseni.ubukwebwiza.vendor.service.PhotoService;
+import com.buseni.ubukwebwiza.vendor.utils.PageWrapper;
 @Controller
-@RequestMapping(value="/admin/photos")
 public class AdminPhotoController {
 	
 	@Autowired
 	private PhotoService photoService;
 	
-	@RequestMapping(value="/", method=RequestMethod.GET)
+	@RequestMapping(value="/admin/photos", method=RequestMethod.GET)
 	public String photos(Model model, Pageable page){
-		Page<Photo>  photos = photoService.findAll(page);
-		model.addAttribute("photos", photos.getContent());
+		Page<Photo>  pagePhoto = photoService.findAll(page);
+		model.addAttribute("photos", pagePhoto.getContent());		
+		PageWrapper<Photo> pageWrapper = new PageWrapper<Photo>(pagePhoto, "/photos");
+		model.addAttribute("page", pageWrapper);
+		//model.addAttribute("currentMenu", "photos");		
 		return "adminpanel/photo/listing";
 	}
 
+	
+	@ModelAttribute("currentMenu")
+	public String module(){
+		return "photos";
+	}
 }
