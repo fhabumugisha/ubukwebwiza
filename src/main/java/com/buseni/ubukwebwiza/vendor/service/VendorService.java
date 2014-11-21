@@ -37,6 +37,12 @@ public interface VendorService {
 	 */
 	Page<Vendor> findAll(Pageable pageable) ;
 	
+	/**
+	 * 
+	 * @param pageable
+	 * @return
+	 */
+	Page<Vendor> findByActiveFlag(int activeFlag, Pageable pageable) ;
 	
 	
 	/**

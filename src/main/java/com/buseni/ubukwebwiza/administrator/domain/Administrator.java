@@ -53,11 +53,17 @@ public class Administrator implements Serializable {
 	private String lastName;
 	
 	
-	@Column(name="vendosrs_access",columnDefinition="Boolean default false")
+	@Column(name="vendors_access",columnDefinition="Boolean default false")
 	private Boolean vendorsAccess;
 	
 	@Column(name="administration_access",columnDefinition="Boolean default false")
 	private Boolean administrationAccess;
+	
+	@Column(name="settings_access",columnDefinition="Boolean default false")
+	private Boolean settingsAccess;
+	
+	@Column(name="reports_access",columnDefinition="Boolean default false")
+	private Boolean reportsAccess;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="last_update")
@@ -66,6 +72,7 @@ public class Administrator implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="created_at")
 	private Date createdAt;
+	
 	@NotNull
 	@Column(name="active_flag")
 	private int activeFlag;
@@ -148,6 +155,22 @@ public class Administrator implements Serializable {
 	 */
 	public String getEmail() {
 		return email;
+	}
+
+	public Boolean getSettingsAccess() {
+		return settingsAccess;
+	}
+
+	public void setSettingsAccess(Boolean settingsAccess) {
+		this.settingsAccess = settingsAccess;
+	}
+
+	public Boolean getReportsAccess() {
+		return reportsAccess;
+	}
+
+	public void setReportsAccess(Boolean reportsAccess) {
+		this.reportsAccess = reportsAccess;
 	}
 
 	/**

@@ -20,7 +20,7 @@ public class VendorPredicates {
 	}
 
 	public static Predicate search(VendorSearch searchTerm){	
-		return VENDOR.codeDistrict().id.eq(searchTerm.getDistrict())
+		return  VENDOR.activeFlag.eq(1).and(VENDOR.codeDistrict().id.eq(searchTerm.getDistrict()))
 				.or(VENDOR.weddingServices.any().codeTypeWeddingService().id.eq(searchTerm.getService()));
 	}
 }

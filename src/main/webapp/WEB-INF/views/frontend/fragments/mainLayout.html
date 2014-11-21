@@ -22,7 +22,7 @@
 	<div id="wrap">
 		<!--/* Standard layout can be mixed with Layout Dialect */-->
 		<div th:replace="frontendHeader :: header">&nbsp;</div>
-<div id="breadcumbsContainer" th:if="${page != 'home'}">
+<div id="breadcumbsContainer" th:if="${currentMenu != 'home'}">
 				<ol class="breadcrumb container">
 					<li class="active"><a href="index.html">Home</a></li>
 			

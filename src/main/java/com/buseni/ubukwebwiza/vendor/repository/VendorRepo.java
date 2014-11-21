@@ -10,5 +10,7 @@ import com.buseni.ubukwebwiza.vendor.domain.Vendor;
 public interface VendorRepo extends JpaRepository<Vendor, Integer> , QueryDslPredicateExecutor<Vendor>{
 	
 	Page<Vendor> findByBusinessName(String businessName, Pageable pageable);
+	
+	Page<Vendor> findByActiveFlag(int  activeFlag, Pageable pageable);
 
 }

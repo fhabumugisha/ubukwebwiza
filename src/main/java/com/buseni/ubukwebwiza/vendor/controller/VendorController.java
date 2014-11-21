@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,7 +25,6 @@ import com.buseni.ubukwebwiza.vendor.utils.PageWrapper;
 import com.buseni.ubukwebwiza.vendor.utils.VendorSearch;
 
 @Controller
-@RequestMapping()
 public class VendorController {
 	
 	public static final Logger LOGGER = LoggerFactory.getLogger( VendorController.class );
@@ -40,18 +38,17 @@ public class VendorController {
 	@Autowired
 	private VendorService vendorService;
 	
+	public static final Integer  ACTIVE = 1;
+	
 	@RequestMapping(value="/vendors",method=RequestMethod.GET)
 	public String listing(Model model, Pageable page){
-		List<Vendor> vendors = new ArrayList<Vendor>();
-		PageRequest pr = new PageRequest(page.getPageNumber()-1, page.getPageSize());
-		Page<Vendor> vendorPage  =  vendorService.findAll(pr);
-		if(vendorPage != null){
-			vendors = vendorPage.getContent();
-		}
+			
+		Page<Vendor> vendorPage  =  vendorService.findByActiveFlag(ACTIVE, page);
+		
 		PageWrapper<Vendor> pageWrapper = new PageWrapper<Vendor>(vendorPage, "/vendors");
 		model.addAttribute("page", pageWrapper);
 		model.addAttribute("currentMenu", "vendors");
-		model.addAttribute("vendors", vendors);
+		model.addAttribute("vendors", vendorPage.getContent());
 		model.addAttribute("vendorSearch", new VendorSearch());
 		return "frontend/vendor/listingVendor";
 	}
@@ -67,8 +64,8 @@ public class VendorController {
 	public String search(VendorSearch vendorSearch, Model model, Pageable page){
 		List<Vendor> vendors = new ArrayList<Vendor>();
 		
-		PageRequest pr = new PageRequest(page.getPageNumber()-1, page.getPageSize());
-		Page<Vendor> vendorPage =  vendorService.search(vendorSearch, pr);
+		
+		Page<Vendor> vendorPage =  vendorService.search(vendorSearch, page);
 		if(vendorPage != null){
 			vendors = vendorPage.getContent();
 		}
