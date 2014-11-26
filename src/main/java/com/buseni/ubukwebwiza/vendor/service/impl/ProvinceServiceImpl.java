@@ -26,14 +26,47 @@ public class ProvinceServiceImpl implements ProvinceService{
 	}
 	
 	@Override
-	public List<Province> findByActiveFlag(int activeFlag) {
-		return provinceRepo.findByActiveFlag(activeFlag);
+	public List<Province> findByEnabled(boolean enabled) {
+		return provinceRepo.findByEnabled(enabled);
 	}
 
 	@Override
 	public Page<Province> findAll(Pageable page) {
 		PageRequest pr = new PageRequest(page.getPageNumber()-1, page.getPageSize());
 		return provinceRepo.findAll(pr);
+	}
+
+	@Override
+	//@Valid
+	@Transactional
+	public void add(Province province) {
+		provinceRepo.save(province);
+		
+	}
+
+	@Override
+	@Transactional
+	public void delete(Integer id) {
+		if(null == id){			
+				//throw exception
+		}
+		provinceRepo.delete(id);
+	}
+
+	@Override
+	public Province findOne(Integer id) {
+		if(null == id){			
+			//throw exception
+			}
+		return provinceRepo.findOne(id);
+	}
+
+	@Override
+	@Transactional
+	//@Valid
+	public void update(Province province) {
+		provinceRepo.save(province);
+		
 	}
 
 }

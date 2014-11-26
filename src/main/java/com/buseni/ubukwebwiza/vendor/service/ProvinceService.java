@@ -13,12 +13,34 @@ public interface ProvinceService {
 	 * @param activeFlag
 	 * @return
 	 */
-	List<Province> findByActiveFlag(int activeFlag);
+	List<Province> findByEnabled(boolean enabled);
 	/**
 	 * 
 	 * @param page
 	 * @return
 	 */
 	Page<Province> findAll(Pageable page);
+	/**
+	 * 
+	 * @param province
+	 */
+	void add(Province province);
+	/**
+	 * 
+	 * @param id
+	 */
+	void delete(Integer id);
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	Province findOne(Integer id);
+	/**
+	 * 
+	 * @param province
+	 */
+	void update(Province province);
 
 }

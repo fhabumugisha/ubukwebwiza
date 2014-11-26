@@ -9,11 +9,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import com.buseni.ubukwebwiza.config.ApplicationConfiguration;
+import com.buseni.ubukwebwiza.config.WebConfiguration;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration(classes={ApplicationConfiguration.class})
+@ContextConfiguration(classes={WebConfiguration.class})
 public abstract class AbstractTests {
 	
 	  /**

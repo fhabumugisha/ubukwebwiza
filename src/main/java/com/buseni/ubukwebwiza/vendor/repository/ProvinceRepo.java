@@ -9,5 +9,5 @@ import com.buseni.ubukwebwiza.vendor.domain.Province;
 public interface ProvinceRepo  extends JpaRepository<Province, Integer>{
 
 	
-	List<Province> findByActiveFlag(int activeFlag);
+	List<Province> findByEnabled(boolean enabled);
 }

@@ -23,7 +23,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @EnableWebMvc
 @EnableWebMvcSecurity
 @Import({PersistenceMySqlConfig.class, ServiceConfiguration.class, ViewConfiguration.class, ControllerConfiguration.class, SecurityConfig.class})
-public class ApplicationConfiguration extends WebMvcConfigurerAdapter{
+public class WebConfiguration extends WebMvcConfigurerAdapter{
 	// Maps resources path to webapp/resources
 		@Override
 		public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -39,8 +39,8 @@ public class ApplicationConfiguration extends WebMvcConfigurerAdapter{
 		@Override
 		public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
 			PageableHandlerMethodArgumentResolver resolver =	new PageableHandlerMethodArgumentResolver();
-			resolver.setFallbackPageable(new PageRequest(1, 1));
-			resolver.setMaxPageSize(1);
+			resolver.setFallbackPageable(new PageRequest(1, 3));
+			resolver.setMaxPageSize(3);
 			
 			argumentResolvers.add(resolver);
 		}
