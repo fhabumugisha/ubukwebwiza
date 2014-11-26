@@ -17,6 +17,7 @@
 <!-- Custom styles for this template -->
 
 <link href="../../../resources/css/dashboard.css" rel="stylesheet" th:href="@{/resources/css/dashboard.css}" />
+<link href="../../../resources/plugins/metismenu/metisMenu.min.css" rel="stylesheet" th:href="@{/resources/plugins/metismenu/metisMenu.min.css}" />
 <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
 <!--[if lt IE 9]><script src="../../../resources/js/ie-emulation-modes-warning.js"
     th:src="@{/resources/js/ie-emulation-modes-warning.js}"></script><![endif]-->
@@ -77,13 +78,22 @@
 		<div class="row">
 			<!-- Sidebar -->
 			<div class="col-sm-3 col-md-2 sidebar">
-				<ul class="nav nav-sidebar">
+				<ul class="nav nav-sidebar" id="menu">
 					<li th:classappend="${currentMenu == 'dashbord' ? 'active' : ''}"><a href="#" th:href="@{/admin}">Overview <span
 							class="sr-only">(current)</span></a></li>
 					<li th:classappend="${currentMenu == 'reports' ? 'active' : ''}"><a href="#">Reports</a></li>
 					<li th:classappend="${currentMenu == 'analytics' ? 'active' : ''}"><a href="#">Analytics</a></li>
 					<li th:classappend="${currentMenu == 'export' ? 'active' : ''}"><a href="#">Export</a></li>
 					<li th:classappend="${currentMenu == 'settings' ? 'active' : ''}"><a href="#" th:href="@{/admin/settings}">Settings</a></li>
+						<li>
+              <a href="#">Menu 0 <span class="caret"></span></a>
+              <ul class="collapse">
+                  <li><a href="#">item 0.1</a></li>
+                  <li><a href="#">item 0.2</a></li>
+                  <li><a href="#">onokumus</a></li>
+                  <li><a href="#">item 0.4</a></li>
+              </ul>
+          </li>
 				</ul>
 				<ul class="nav nav-sidebar">
 					<li th:classappend="${currentMenu == 'provinces' ? 'active' : ''}"><a href="#" th:href="@{/admin/provinces}">Provinces</a></li>
@@ -95,6 +105,7 @@
 						th:href="@{/admin/vendorweddingservices}">Vendor wedding service</a></li>
 					<li th:classappend="${currentMenu == 'photos' ? 'active' : ''}"><a href="#" th:href="@{/admin/photos}">Photos</a></li>
 					<li th:classappend="${currentMenu == 'admins' ? 'active' : ''}"><a href="#" th:href="@{/admin/admins}">Admins</a></li>
+				
 				</ul>
 
 			</div>
@@ -120,9 +131,16 @@
 	<script src="../../../resources/js/jquery-2.1.1.min.js" th:src="@{/resources/js/jquery-2.1.1.min.js}"></script>
 	<script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
 	<script src="../../../../resources/js/holder.js" th:src="@{/resources/js/holder.js}"></script>
+	<script src="../../../../resources/plugins/metismenu/metisMenu.min.js" th:src="@{/resources/plugins/metismenu/metisMenu.min.js}"></script>
 	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 	<script src="../../../resources/js/ie10-viewport-bug-workaround.js" th:src="@{/resources/js/ie10-viewport-bug-workaround.js}"></script>
+<script>
+    $(function () {
 
+        $('#menu').metisMenu();
+
+    });
+</script>
 </body>
 
 </html>
