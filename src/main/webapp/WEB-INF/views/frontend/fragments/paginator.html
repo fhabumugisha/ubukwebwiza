@@ -49,10 +49,10 @@
 				
 			
 				
-
-			<li th:class="${page.lastPage}? 'disabled' : ''"><span
+	 	<li th:class="${page.lastPage}? 'disabled' : ''"><span
 				th:if="${page.lastPage}">Last</span> <a th:if="${not page.lastPage}"
-				th:href="@{${page.url}(page=${page.totalPages})}">Last</a></li>
+				th:href="@{${page.url}(page=${page.totalPages})}">Last</a></li> 
+			
 
 		</ul>
 	</div>

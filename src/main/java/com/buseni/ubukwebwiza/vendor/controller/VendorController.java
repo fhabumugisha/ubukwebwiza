@@ -69,6 +69,7 @@ public class VendorController {
 		if(vendorPage != null){
 			vendors = vendorPage.getContent();
 		}
+		
 		PageWrapper<Vendor> pageWrapper = new PageWrapper<Vendor>(vendorPage, "/search");
 		model.addAttribute("page", pageWrapper);
 		//model.addAttribute("currentMenu", "vendors");

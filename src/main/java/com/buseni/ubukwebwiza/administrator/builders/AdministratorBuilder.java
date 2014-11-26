@@ -16,8 +16,8 @@ public class AdministratorBuilder  {
 		administrator.setId(id);
 		return this;
 	}
-	public AdministratorBuilder email(String email){
-		administrator.setEmail(email);
+	public AdministratorBuilder username(String username){
+		administrator.setUsername(username);
 		return this;
 	}
 	public AdministratorBuilder password(String password){
