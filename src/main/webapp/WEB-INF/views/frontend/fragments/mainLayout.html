@@ -25,7 +25,7 @@
 		<div th:replace="frontendHeader :: header">&nbsp;</div>
 		<div id="breadcumbsContainer" th:if="${currentMenu != 'home'}">
 			<ol class="breadcrumb container">
-				<li class="active"><a href="index.html">Home</a></li>
+				<li class="active"><a href="index.html" th:href="@{/}">Home</a></li>
 			</ol>
 		</div>
 		<div id="mainContentContainer" class="container">

@@ -3,6 +3,8 @@ package com.buseni.ubukwebwiza.vendor.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,18 +63,20 @@ public class VendorController {
 	}
 	
 	@RequestMapping(value="/search",method=RequestMethod.GET)
-	public String search(VendorSearch vendorSearch, Model model, Pageable page){
+	public String search(VendorSearch vendorSearch, Model model, Pageable page, HttpServletRequest request){
 		List<Vendor> vendors = new ArrayList<Vendor>();
-		
-		
+		String qs =  "";
+		qs =	request.getQueryString();
+		if(!"".equals(qs) && qs.contains("page")){
+		qs =	qs.substring(0 , qs.indexOf("page")-1);
+		}
 		Page<Vendor> vendorPage =  vendorService.search(vendorSearch, page);
 		if(vendorPage != null){
 			vendors = vendorPage.getContent();
 		}
 		
-		PageWrapper<Vendor> pageWrapper = new PageWrapper<Vendor>(vendorPage, "/search");
+		PageWrapper<Vendor> pageWrapper = new PageWrapper<Vendor>(vendorPage, "/search?"+qs);
 		model.addAttribute("page", pageWrapper);
-		//model.addAttribute("currentMenu", "vendors");
 		model.addAttribute("vendors", vendors);
 		model.addAttribute("vendorSearch", vendorSearch);
 		return "frontend/vendor/listingVendor";
