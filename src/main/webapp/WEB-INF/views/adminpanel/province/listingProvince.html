@@ -8,13 +8,13 @@
 <body>
 	<div layout:fragment="pageContent">
 
-
-		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-			<h1 class="page-header" th:text="#{province.title}">Provinces</h1>
-
-
 			<div th:if="${message}" class="alert alert-success" th:text="${message}">Cool</div>
 			<h2 class="sub-header" th:text="#{province.list.title}">Listing provinces</h2>
+					
+			 <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> &nbsp;			
+  			<a href="#" th:href="@{/admin/provinces/new}" class="btn btn-primary" th:text="#{province.list.add}">
+			Add</a>
+			
 			<div class="table-responsive">
 				<table class="table table-striped">
 					<thead>
@@ -70,35 +70,9 @@
 			<div>
 
 
-				<form role="form" action="#" th:action="@{/admin/provinces/add}" th:object="${province}" method="post">
-
-					<input type="text" hidden="hiddedn" th:field="*{id}" class="hidden" />
-					<div class="form-group">
-						<div class="input-group">
-							<label for="libelle" th:text="#{province.list.libelle}">Libelle</label> <input id="libelle" type="text"
-								class="form-control" th:field="*{libelle}" placeholder="Enter name" />
-
-						</div>
-
-					</div>
-					<div class="form-group">
-						<div class="input-group">
-							<label for="enabled" th:text="#{province.list.enabled}">Enabled</label> <input id="enabled" type="checkbox"
-								class="form-control" th:field="*{enabled}" />
-
-						</div>
-
-					</div>
-
-
-					<button type="submit" th:text="#{add.button.label}" class="btn btn-primary">Action</button>
-
-
-
-				</form>
+				
 			</div>
-		</div>
-
+		
 
 	</div>
 </body>

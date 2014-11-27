@@ -8,12 +8,23 @@
 </head>
 <body>
 	<div th:fragment="paginator">
+		<div class="row">
+				<div class="col-md-2">
+					<span th:text="#{paginator.page}">Page</span> &nbsp;
+		<span th:text="${page.number}">1</span>&nbsp;
+		<span th:text="#{paginator.of}">of</span>&nbsp;
+		<span th:text="${page.totalPages}">of</span> &nbsp;
+		<span th:text="#{paginator.pages}">page(s)</span> &nbsp;
+			</div>
+			<div class="col-md-10">
+			
+			
+			<ul class="pagination pagination-lg">
 
-		<ul class="pagination pagination-lg">
-
-			<li th:class="${page.firstPage}? 'disabled' : ''"><span
-				th:if='${page.firstPage}'> First</span> <a
-				th:if='${not page.firstPage}' th:href='@{${page.url}(page=1)}'>
+			<li th:class="${page.firstPage}? 'disabled' : ''">
+			<span
+				th:if='${page.firstPage}' th:text="#{paginator.first}"> First</span> <a
+				th:if='${not page.firstPage}' th:href='@{${page.url}(page=1)}' th:text="#{paginator.first}">
 					First</a></li>
 
 			<li th:if='${page.hasPreviousPage}'
@@ -23,14 +34,7 @@
 				th:href='@{${page.url}(page=${page.number - 1})}'
 				title='Go to previous page'>&laquo;</a></li>
 
-			<!-- <li th:each="item : ${#numbers.sequence( 0, page.totalPages)}" th:class="${item == page.number}? 'active' : ''">
-
-				<span th:if="${item == page.number}" th:text="${item + 1}">1</span> 
-				<a th:if="${item != page.number}"
-				  th:href="@{${page.url}(page=${item})}"><span
-					th:text="${item + 1}">1</span></a>
-
-			</li>  -->
+			
 			<li
 				th:each="item : ${page.items}" th:class="${item.current}? 'active' : ''">
 				<span th:if='${item.current}' th:text='${item.number}'>1</span> <a
@@ -49,12 +53,19 @@
 				
 			
 				
-	 	<li th:class="${page.lastPage}? 'disabled' : ''"><span
-				th:if="${page.lastPage}">Last</span> <a th:if="${not page.lastPage}"
-				th:href="@{${page.url}(page=${page.totalPages})}">Last</a></li> 
+	 	<li th:class="${page.lastPage}? 'disabled' : ''">
+	 	<span
+				th:if="${page.lastPage}" th:text="#{paginator.last}">Last</span>
+				 <a th:if="${not page.lastPage}" th:href="@{${page.url}(page=${page.totalPages})}"
+				 th:text="#{paginator.last}">Last</a></li> 
 			
 
 		</ul>
+			</div>
+		</div>
+		
+		
+		
 	</div>
 </body>
 </html>

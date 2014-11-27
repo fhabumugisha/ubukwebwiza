@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.buseni.ubukwebwiza.vendor.domain.Province;
 import com.buseni.ubukwebwiza.vendor.service.ProvinceService;
@@ -21,18 +22,21 @@ public class AdminProvinceController {
 	@Autowired
 	private ProvinceService provinceService;
 	
-	@RequestMapping(value="/provinces")
+	@RequestMapping(value="/provinces", method=RequestMethod.GET)
 	public String provinces(Model model, Pageable page){
 		Page<Province> pageProvince = provinceService.findAll(page);
 		PageWrapper<Province> pageWrapper = new PageWrapper<Province>(pageProvince, "/admin/provinces");
 		model.addAttribute("page", pageWrapper);
+		if(!model.containsAttribute("province")){
+			model.addAttribute("province", new Province());
+		}
 		model.addAttribute("provinces", pageProvince.getContent());	
-		model.addAttribute("province", new Province());
+		
 		return "adminpanel/province/listingProvince";
 	}
 	
 	@RequestMapping(value="/provinces/add",method=RequestMethod.POST)
-	public String save(Model model, Province province){
+	public String save(Province province , RedirectAttributes attributes){
 		if(province != null ){
 			if(province.getId() != null){
 				provinceService.update(province);
@@ -42,23 +46,33 @@ public class AdminProvinceController {
 		}
 		
 		String message = "Province " + province.getId() + " was successfully added";
-		model.addAttribute("message", message);
+		attributes.addFlashAttribute("message", message);
+		
 		return "redirect:/admin/provinces";
 	}
 	
 	@RequestMapping(value="/provinces/delete", method=RequestMethod.GET)
-	public String delete(Model model, @RequestParam(value="id", required=true) Integer id) {
+	public String delete( @RequestParam(value="id", required=true) Integer id, RedirectAttributes attributes) {
 		provinceService.delete(id);
 		String message = "Province " + id + " was successfully deleted";
-		model.addAttribute("message", message);
+		attributes.addFlashAttribute("message", message);
+		
 		return "redirect:/admin/provinces";
 	}
 	
 	@RequestMapping(value="/provinces/edit", method=RequestMethod.GET)
-	public String edit(Model model, @RequestParam(value="id", required=true) Integer id) {
+	public String edit(@RequestParam(value="id", required=true) Integer id, Model model) {
 		Province province =  provinceService.findOne(id);
 		model.addAttribute("province", province);
-		return "redirect:/admin/provinces";
+		//return "redirect:/admin/provinces";
+		return "adminpanel/province/editProvince";
+	}
+	
+	@RequestMapping(value="/provinces/new", method=RequestMethod.GET)
+	public String newProvince( Model model) {		
+		model.addAttribute("province", new Province());
+		//return "redirect:/admin/provinces";
+		return "adminpanel/province/editProvince";
 	}
 	
 	@ModelAttribute("currentMenu")

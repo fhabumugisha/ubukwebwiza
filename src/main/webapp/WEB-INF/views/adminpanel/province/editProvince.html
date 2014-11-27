@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	layout:decorator="adminpanel/fragments/mainAdminLayout">
+
+<head>
+<title th:text="${province.id} ? #{province.edit.title} : #{province.create.title}">Edit province</title>
+</head>
+<body>
+	<div layout:fragment="pageContent">
+	
+
+			<div th:if="${message}" class="alert alert-success" th:text="${message}">Cool</div>
+			<h2 class="sub-header" th:text="${province.id} ? #{province.edit.title} : #{province.create.title}">Edit  province</h2>
+			<div class="well">
+
+
+				<form class="form-horizontal"  role="form" action="#" th:action="@{/admin/provinces/add}" th:object="${province}" method="post">
+
+					<input type="text" hidden="hiddedn" th:field="*{id}" class="hidden" />
+					<div class="form-group">
+						<label for="libelle" class="col-sm-2 control-label" th:text="#{province.list.libelle}">Libelle</label>
+						<div class="col-sm-5">							
+							 <input id="libelle" type="text"
+								class="form-control" th:field="*{libelle}" placeholder="Enter name" required="required"/>
+
+						</div>
+
+					</div>
+					<div class="form-group">
+					
+						<div class="col-sm-offset-2 col-sm-10">
+      						<div class="checkbox">
+       						 <label>
+         					 <input type="checkbox" th:field="*{enabled}"/> <span th:text="#{province.list.enabled}">Enabled</span> 
+        					</label>
+     						 </div>
+   							 </div>
+					
+
+					</div>
+					<div class="form-group">
+   							 <div class="col-sm-offset-2 col-sm-10">
+      							<button type="submit" th:text="#{add.button.label}" class="btn btn-primary">Action</button>
+   							 </div>
+  					</div>
+
+					
+
+
+
+				</form>
+			</div>
+		
+
+
+	</div>
+</body>
+
+</html>
