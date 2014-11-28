@@ -14,8 +14,11 @@ import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+import com.buseni.ubukwebwiza.breadcrumbs.interceptor.SetUpNavigationPathInterceptor;
 //@ActiveProfiles("embedded")
 @Configuration
 @ComponentScan(basePackages = {"com.buseni.ubukwebwiza"})
@@ -43,6 +46,10 @@ public class WebConfiguration extends WebMvcConfigurerAdapter{
 			resolver.setMaxPageSize(3);
 			
 			argumentResolvers.add(resolver);
+		}
+		@Override
+		public void addInterceptors(InterceptorRegistry registry) {
+			registry.addInterceptor(new SetUpNavigationPathInterceptor());
 		}
 		/*
 		@Bean

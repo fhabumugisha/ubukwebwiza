@@ -11,12 +11,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
 import com.buseni.ubukwebwiza.vendor.domain.Province;
 import com.buseni.ubukwebwiza.vendor.service.ProvinceService;
 import com.buseni.ubukwebwiza.vendor.utils.PageWrapper;
 
 @Controller
 @RequestMapping(value="/admin")
+@Navigation(url="/admin/provinces", name="Provinces", parent= AdminHomeController.class)
 public class AdminProvinceController {
 
 	@Autowired
@@ -36,15 +38,8 @@ public class AdminProvinceController {
 	}
 	
 	@RequestMapping(value="/provinces/add",method=RequestMethod.POST)
-	public String save(Province province , RedirectAttributes attributes){
-		if(province != null ){
-			if(province.getId() != null){
-				provinceService.update(province);
-			}else{
-				provinceService.add(province);
-			}
-		}
-		
+	public String save(Province province , RedirectAttributes attributes){		
+			provinceService.add(province);
 		String message = "Province " + province.getId() + " was successfully added";
 		attributes.addFlashAttribute("message", message);
 		
@@ -55,8 +50,7 @@ public class AdminProvinceController {
 	public String delete( @RequestParam(value="id", required=true) Integer id, RedirectAttributes attributes) {
 		provinceService.delete(id);
 		String message = "Province " + id + " was successfully deleted";
-		attributes.addFlashAttribute("message", message);
-		
+		attributes.addFlashAttribute("message", message);		
 		return "redirect:/admin/provinces";
 	}
 	
@@ -64,14 +58,12 @@ public class AdminProvinceController {
 	public String edit(@RequestParam(value="id", required=true) Integer id, Model model) {
 		Province province =  provinceService.findOne(id);
 		model.addAttribute("province", province);
-		//return "redirect:/admin/provinces";
 		return "adminpanel/province/editProvince";
 	}
 	
 	@RequestMapping(value="/provinces/new", method=RequestMethod.GET)
 	public String newProvince( Model model) {		
 		model.addAttribute("province", new Province());
-		//return "redirect:/admin/provinces";
 		return "adminpanel/province/editProvince";
 	}
 	

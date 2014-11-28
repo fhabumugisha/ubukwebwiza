@@ -26,7 +26,7 @@ public class ViewConfiguration {
 		resolver.addTemplateAlias("frontendHeader", "frontend/fragments/header");
 		resolver.addTemplateAlias("frontendFooter", "frontend/fragments/footer");
 		resolver.addTemplateAlias("frontendSidebar", "frontend/fragments/sidebar");
-		resolver.addTemplateAlias("frontendPaginator", "frontend/fragments/paginator");
+		resolver.addTemplateAlias("util", "util/navigation");
 		return resolver;
 	}
 	
@@ -43,6 +43,7 @@ public class ViewConfiguration {
 	public ThymeleafViewResolver thymeleafViewResolver() {
 		ThymeleafViewResolver resolver = new ThymeleafViewResolver();
 		resolver.setTemplateEngine(templateEngine());
+		resolver.setOrder(0);
 		return resolver;
 	}
 	

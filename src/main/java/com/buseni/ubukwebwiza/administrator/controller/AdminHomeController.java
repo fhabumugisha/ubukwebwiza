@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.buseni.ubukwebwiza.administrator.domain.Administrator;
 import com.buseni.ubukwebwiza.administrator.service.AdministratorService;
+import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
 import com.buseni.ubukwebwiza.vendor.utils.PageWrapper;
 @Controller
 //@SessionAttributes({"allDistricts", "allWeddingServices"})
+@Navigation(url="/admin" ,name = "Dashbord")
 public class AdminHomeController {
 	
 	@Autowired
