@@ -11,18 +11,25 @@
 			<div th:if="${message}" class="alert alert-success" th:text="${message}">Cool</div>
 			<h2 class="sub-header" th:text="#{province.list.title}">Listing provinces</h2>
 					
-			 <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> &nbsp;			
-  			<a href="#" th:href="@{/admin/provinces/new}" class="btn btn-primary" th:text="#{province.list.add}">
-			Add</a>
+			
+				<a href="#" th:href="@{/admin/provinces/new}">  			
+  				<button type="button" class="btn  btn-primary btn-xs">
+         			<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> &nbsp;	
+         			<span th:text="#{province.list.add}">Add</span>
+       			</button>
+				</a> <br />
+			
+			
+  			
 			
 			<div class="table-responsive">
-				<table class="table table-striped">
+				<table class="table table-striped table-bordered table-hover">
 					<thead>
 						<tr>
-							<th>#</th>
-							<th th:text="#{province.list.libelle}">Libelle</th>
-							<th th:text="#{province.list.enabled}">Enabled</th>
-							<th th:text="#{province.list.actions}">Actions</th>
+							<th class="col-sm-1" >#</th>
+							<th class="col-sm-4" th:text="#{province.list.libelle}">Libelle</th>
+							<th class="col-sm-4" th:text="#{province.list.enabled}">Enabled</th>
+							<th class="col-sm-2"  th:text="#{province.list.actions}">Actions</th>
 
 						</tr>
 					</thead>
@@ -34,10 +41,22 @@
 							<td class="dropdown"><a id="dLabel" data-toggle="dropdown" href="#"> <span th:text="#{province.list.actions}">Actions</span>
 									<span class="caret"></span></a>
 								<ul class="dropdown-menu no-collapse" role="menu" aria-labelledby="dLabel">
-									<li><a href="#" th:href="@{/admin/provinces/edit(id=${province.id})}"> <span th:text="#{province.list.edit}">edi</span></a>
+									<li><a href="#" th:href="@{/admin/provinces/edit(id=${province.id})}">
+									
+											<button type="button" class="btn btn-default btn-xs">
+         									  <span class="glyphicon glyphicon-pencil"></span>&nbsp; <span th:text="#{province.list.edit}">edit</span>
+       								 		 </button>
+										
+									 </a>
 
 									</li>
-									<li><a href="#" th:href="@{/admin/provinces/delete(id=${province.id})}"> <span th:text="#{province.list.delete}">delete</span></a>
+									<li><a href="#" th:href="@{/admin/provinces/delete(id=${province.id})}">
+												<button type="button" class="btn btn-default btn-xs">
+         									  <span class="glyphicon glyphicon-trash"></span>&nbsp; <span th:text="#{province.list.delete}">delete</span>
+       								 		 </button>
+									
+									
+									</a>
 
 									</li>
 								</ul></td>

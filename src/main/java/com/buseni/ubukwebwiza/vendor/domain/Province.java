@@ -25,7 +25,7 @@ public class Province implements Serializable {
 	@Column(name="id_province")
 	private Integer id;	
 	
-	@NotEmpty
+	@NotEmpty(message="{error.province.requiredfield.libelle}")
 	private String libelle;
 	
 	private boolean enabled;

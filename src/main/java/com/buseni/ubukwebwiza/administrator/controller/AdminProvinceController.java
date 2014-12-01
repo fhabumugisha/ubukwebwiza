@@ -1,10 +1,15 @@
 package com.buseni.ubukwebwiza.administrator.controller;
 
+import javax.validation.Valid;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,33 +26,49 @@ import com.buseni.ubukwebwiza.vendor.utils.PageWrapper;
 @Navigation(url="/admin/provinces", name="Provinces", parent= AdminHomeController.class)
 public class AdminProvinceController {
 
+	public  static final Logger LOGGER = LoggerFactory.getLogger(AdminProvinceController.class);
+	
 	@Autowired
 	private ProvinceService provinceService;
 	
 	@RequestMapping(value="/provinces", method=RequestMethod.GET)
 	public String provinces(Model model, Pageable page){
+		LOGGER.info("IN: Provinces/list-GET");
+		
 		Page<Province> pageProvince = provinceService.findAll(page);
 		PageWrapper<Province> pageWrapper = new PageWrapper<Province>(pageProvince, "/admin/provinces");
 		model.addAttribute("page", pageWrapper);
+		model.addAttribute("provinces", pageProvince.getContent());	
 		if(!model.containsAttribute("province")){
 			model.addAttribute("province", new Province());
 		}
-		model.addAttribute("provinces", pageProvince.getContent());	
+		
 		
 		return "adminpanel/province/listingProvince";
 	}
 	
-	@RequestMapping(value="/provinces/add",method=RequestMethod.POST)
-	public String save(Province province , RedirectAttributes attributes){		
+	@RequestMapping(value="/provinces/save",method=RequestMethod.POST)
+	public String save(@Valid @ModelAttribute Province province , BindingResult result, RedirectAttributes attributes){		
+		if (result.hasErrors()) {
+			LOGGER.info("Strategy-edit error: " + result.toString());
+			attributes.addFlashAttribute("org.springframework.validation.BindingResult.province", result);
+			attributes.addFlashAttribute("province", province);
+			return "adminpanel/province/editProvince";
+		}else{
 			provinceService.add(province);
-		String message = "Province " + province.getId() + " was successfully added";
-		attributes.addFlashAttribute("message", message);
+			LOGGER.info("IN: Provinces/save-POSST");
+			String message = "Province " + province.getId() + " was successfully added";
+		    attributes.addFlashAttribute("message", message);
+		    return "redirect:/admin/provinces";
+		}
 		
-		return "redirect:/admin/provinces";
+		    		
+		
 	}
 	
 	@RequestMapping(value="/provinces/delete", method=RequestMethod.GET)
 	public String delete( @RequestParam(value="id", required=true) Integer id, RedirectAttributes attributes) {
+		LOGGER.info("IN: Provinces/delete-GET");
 		provinceService.delete(id);
 		String message = "Province " + id + " was successfully deleted";
 		attributes.addFlashAttribute("message", message);		
@@ -56,6 +77,7 @@ public class AdminProvinceController {
 	
 	@RequestMapping(value="/provinces/edit", method=RequestMethod.GET)
 	public String edit(@RequestParam(value="id", required=true) Integer id, Model model) {
+		LOGGER.info("IN: Provinces/edit-GET");
 		Province province =  provinceService.findOne(id);
 		model.addAttribute("province", province);
 		return "adminpanel/province/editProvince";
@@ -63,6 +85,7 @@ public class AdminProvinceController {
 	
 	@RequestMapping(value="/provinces/new", method=RequestMethod.GET)
 	public String newProvince( Model model) {		
+		LOGGER.info("IN: Provinces/new-GET");
 		model.addAttribute("province", new Province());
 		return "adminpanel/province/editProvince";
 	}
