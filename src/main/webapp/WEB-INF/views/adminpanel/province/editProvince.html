@@ -17,11 +17,11 @@
 				<form class="form-horizontal"  role="form" action="#" th:action="@{/admin/provinces/save}" th:object="${province}" method="post">
 
 					<input type="text" hidden="hiddedn" th:field="*{id}" class="hidden" />
-					<div class="form-group">
+					<div class="form-group" th:classappend="${#fields.hasErrors('libelle')}? has-error">
 						<label for="libelle" class="col-sm-2 control-label" th:text="#{province.list.libelle}">Libelle</label>
 						<div class="col-sm-5">							
 							 <input id="libelle" type="text"
-								class="form-control" th:field="*{libelle}" placeholder="Enter name"  th:errorclass="has-error"/>
+								class="form-control" th:field="*{libelle}" placeholder="Enter name" />
 								<span class="text-danger" th:if="${#fields.hasErrors('libelle')}" th:errors="*{libelle}">Required field</span>
 						</div>
 
