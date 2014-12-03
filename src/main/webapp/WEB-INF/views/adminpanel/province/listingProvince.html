@@ -36,7 +36,8 @@
 							<td th:text="${province.id}">1</td>
 							<td th:text="${province.libelle}">Kigali</td>
 							<td th:text="${province.enabled}">Ok</td>
-							<td class="dropdown"><a id="dLabel" data-toggle="dropdown" href="#"> <span th:text="#{province.list.actions}">Actions</span>
+							<td class="dropdown">
+							<a id="dLabel" data-toggle="dropdown" href="#"> <span th:text="#{province.list.actions}">Actions</span>
 									<span class="caret"></span></a>
 								<ul class="dropdown-menu no-collapse" role="menu" aria-labelledby="dLabel">
 									<li><a href="#" th:href="@{/admin/provinces/edit(id=${province.id})}">
@@ -50,7 +51,7 @@
 									</li>
 									<li>
 									
-									<a href="#" th:href="@{/admin/provinces/delete(id=${province.id})}" id="deleteProvince">
+									<a href="#" th:href="@{/admin/provinces/delete(id=${province.id})}" class="deleteProvince">
 											
 											<button type="button" class="btn btn-default btn-xs">
          									  <span class="glyphicon glyphicon-trash"></span>&nbsp; <span th:text="#{province.list.delete}">delete</span>
