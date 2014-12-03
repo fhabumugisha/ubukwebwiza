@@ -137,7 +137,9 @@
 
 		</div>
 	</div>
-
+<div id="dialog-confirm" title="Empty the recycle bin?">
+  <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>These items will be permanently deleted and cannot be recovered. Are you sure?</p>
+</div>
 	<!-- Bootstrap core JavaScript
     ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
@@ -149,12 +151,38 @@
 	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 	<script src="../../../resources/js/ie10-viewport-bug-workaround.js" th:src="@{/resources/js/ie10-viewport-bug-workaround.js}"
 		type="text/javascript"></script>
+		
 	<script type="text/javascript">
 		$(function() {
 
 			$('#menu').metisMenu();
 
 		});
+		$("#deleteProvince").click(function(){
+			console.log($(this).attr('href'));
+			alert($(this).attr('href'));
+			
+			return false;
+		}); 
+		  
+		  function confirmDelete(url){
+			  $(function() {
+				    $( "#dialog-confirm" ).dialog({
+				      resizable: false,
+				      height:140,
+				      modal: true,
+				      buttons: {
+				        "Delete": function() {
+				        	console.log(url)
+				          $( this ).dialog( "close" );
+				        },
+				        Cancel: function() {
+				          $( this ).dialog( "close" );
+				        }
+				      }
+				    });
+				  });
+		  }
 	</script>
 </body>
 

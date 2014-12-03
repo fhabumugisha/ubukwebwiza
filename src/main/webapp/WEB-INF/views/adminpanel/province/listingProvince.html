@@ -18,9 +18,7 @@
          			<span th:text="#{province.list.add}">Add</span>
        			</button>
 				</a> 
-			
-			
-  			
+		
 			
 			<div class="table-responsive">
 				<table class="table table-striped table-bordered table-hover">
@@ -50,8 +48,11 @@
 									 </a>
 
 									</li>
-									<li><a href="#" th:href="@{/admin/provinces/delete(id=${province.id})}">
-												<button type="button" class="btn btn-default btn-xs">
+									<li>
+									
+									<a href="#" th:href="@{/admin/provinces/delete(id=${province.id})}" id="deleteProvince">
+											
+											<button type="button" class="btn btn-default btn-xs">
          									  <span class="glyphicon glyphicon-trash"></span>&nbsp; <span th:text="#{province.list.delete}">delete</span>
        								 		 </button>
 									
@@ -93,7 +94,10 @@
 			</div>
 		
 
+
 	</div>
+	
+	
 </body>
 
 </html>
