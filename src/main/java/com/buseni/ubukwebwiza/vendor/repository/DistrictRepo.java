@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.buseni.ubukwebwiza.vendor.domain.District;
 
 public interface DistrictRepo  extends JpaRepository<District, Integer>{
-	List<District> findByActiveFlag(int activeFlag);
+	List<District> findByEnabled(boolean enabled);
 }

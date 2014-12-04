@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -61,7 +62,7 @@ public class VendorServiceImpl implements VendorService {
 	@Override
 	public Vendor findById(Integer id) {
 		if(null == id){
-			return null;
+			throw new NullPointerException();
 		}
 		
 		
@@ -105,8 +106,9 @@ public class VendorServiceImpl implements VendorService {
 	}
 
 	@Override
-	public List<Vendor> getFeaturedVendors() {		
-		return vendorRepo.findAll();
+	public List<Vendor> getFeaturedVendors() {	
+		Page<Vendor> page = vendorRepo.findByActiveFlag(1, new PageRequest(0, 3, Sort.Direction.DESC, "nbViews"));
+		return page.getContent();
 	}
 
 	@Override

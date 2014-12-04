@@ -55,10 +55,14 @@ public class ProvinceServiceImpl implements ProvinceService{
 	@Override
 	@Transactional
 	public void delete(Integer id) {
-		if(null == id){			
-				//throw exception
+		if(null !=  id){			
+			Province  province = provinceRepo.findOne(id);
+			if(province != null){
+				provinceRepo.delete(province);
+			}
 		}
-		provinceRepo.delete(id);
+		
+	
 	}
 
 	@Override

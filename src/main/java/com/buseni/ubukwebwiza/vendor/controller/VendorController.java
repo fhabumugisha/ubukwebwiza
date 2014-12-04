@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,16 +66,15 @@ public class VendorController {
 	@RequestMapping(value="/search",method=RequestMethod.GET)
 	public String search(VendorSearch vendorSearch, Model model, Pageable page, HttpServletRequest request){
 		List<Vendor> vendors = new ArrayList<Vendor>();
-		String qs =  "";
-		qs =	request.getQueryString();
-		if(!"".equals(qs) && qs.contains("page")){
-		qs =	qs.substring(0 , qs.indexOf("page")-1);
+		String qs =  request.getQueryString();
+		if(StringUtils.isNoneEmpty(qs) && qs.contains("page")){
+			qs =	qs.substring(0 , qs.indexOf("page")-1);
 		}
 		Page<Vendor> vendorPage =  vendorService.search(vendorSearch, page);
 		if(vendorPage != null){
 			vendors = vendorPage.getContent();
 		}
-		
+
 		PageWrapper<Vendor> pageWrapper = new PageWrapper<Vendor>(vendorPage, "/search?"+qs);
 		model.addAttribute("page", pageWrapper);
 		model.addAttribute("vendors", vendors);
@@ -83,12 +83,12 @@ public class VendorController {
 	}
 	@ModelAttribute("allWeddingServices")
 	public List<WeddingService> populateWeddingServices(){
-		return weddingServiceManager.findByActiveFlag(1);
+		return weddingServiceManager.findByEnabled(Boolean.TRUE);
 	}
 	
 	@ModelAttribute("allDistricts")
 	public List<District> populateDistricts(){
-		return districtService.findByActiveFlag(1);
+		return districtService.findByEnabled(Boolean.TRUE);
 	}
 	@ModelAttribute("currentMenu")
 	public String module(){

@@ -27,7 +27,7 @@ public class District implements Serializable {
 	@Column(name="id_district")
 	private Integer id;	
 	
-	@NotEmpty
+	@NotEmpty(message="{error.district.requiredfield.libelle}")
 	private String libelle;
 	@Column(name="libelle_fr")
 	private String libelleFr;
@@ -38,19 +38,18 @@ public class District implements Serializable {
 	@Column(name="libelle_kn")
 	private String libelleKn;
 	
-	@Column(name="active_flag")
-	private int activeFlag;
+	private boolean enabled;
 	
 	@ManyToOne
 	@JoinColumn(name="id_province")
-	private Province codeProvince;
+	private Province province;
 	
-	public Province getCodeProvince() {
-		return codeProvince;
+	public Province getProvince() {
+		return province;
 	}
 
-	public void setCodeProvince(Province codeProvince) {
-		this.codeProvince = codeProvince;
+	public void setProvince(Province province) {
+		this.province = province;
 	}
 
 	public District(){
@@ -105,17 +104,17 @@ public class District implements Serializable {
 	public String toString() {
 		return "District [id=" + id + ", libelle=" + libelle + ", libelleFr="
 				+ libelleFr + ", libelleEn=" + libelleEn + ", libelleKn="
-				+ libelleKn + ", activeFlag=" + activeFlag + ", codeProvince="
-				+ codeProvince + "]";
+				+ libelleKn + ", enabled=" + enabled + ", province="
+				+ province + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + activeFlag;
 		result = prime * result
-				+ ((codeProvince == null) ? 0 : codeProvince.hashCode());
+				+ ((province == null) ? 0 : province.hashCode());
+		result = prime * result + (enabled ? 1231 : 1237);
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((libelle == null) ? 0 : libelle.hashCode());
 		result = prime * result
@@ -136,12 +135,12 @@ public class District implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		District other = (District) obj;
-		if (activeFlag != other.activeFlag)
-			return false;
-		if (codeProvince == null) {
-			if (other.codeProvince != null)
+		if (province == null) {
+			if (other.province != null)
 				return false;
-		} else if (!codeProvince.equals(other.codeProvince))
+		} else if (!province.equals(other.province))
+			return false;
+		if (enabled != other.enabled)
 			return false;
 		if (id == null) {
 			if (other.id != null)
@@ -171,13 +170,15 @@ public class District implements Serializable {
 		return true;
 	}
 
-	public int getActiveFlag() {
-		return activeFlag;
+	public boolean isEnabled() {
+		return enabled;
 	}
 
-	public void setActiveFlag(int activeFlag) {
-		this.activeFlag = activeFlag;
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
+
+	
 	
 	
 

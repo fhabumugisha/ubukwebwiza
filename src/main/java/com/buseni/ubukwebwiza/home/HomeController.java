@@ -44,12 +44,12 @@ public class HomeController {
 	
 	@ModelAttribute("allWeddingServices")
 	public List<WeddingService> populateWeddingServices(){
-		return weddingServiceManager.findByActiveFlag(1);
+		return weddingServiceManager.findByEnabled(Boolean.TRUE);
 	}
 	
 	@ModelAttribute("allDistricts")
 	public List<District> populateDistricts(){
-		return districtService.findByActiveFlag(1);
+		return districtService.findByEnabled(Boolean.TRUE);
 	}
 	
 	@ModelAttribute("featuredVendors")

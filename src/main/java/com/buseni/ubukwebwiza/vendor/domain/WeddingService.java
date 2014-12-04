@@ -25,7 +25,7 @@ public class WeddingService implements Serializable {
 	@Column(name="id_wedding_service")
 	private Integer id;	
 	
-	@NotEmpty
+	@NotEmpty(message="{error.weddingservice.requiredfield.libelle}")
 	private String libelle;
 	@Column(name="libelle_fr")
 	private String libelleFr;
@@ -33,12 +33,20 @@ public class WeddingService implements Serializable {
 	private String libelleEn;
 	@Column(name="libelle_kn")
 	private String libelleKn;
-	@Column(name="active_flag")
-	private int activeFlag;
+	
+	private boolean enabled;
 	
 
 	public Integer getId() {
 		return id;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 
 	public void setId(Integer id) {
@@ -83,15 +91,14 @@ public class WeddingService implements Serializable {
 	public String toString() {
 		return "WeddingService [id=" + id + ", libelle=" + libelle
 				+ ", libelleFr=" + libelleFr + ", libelleEn=" + libelleEn
-				+ ", libelleKn=" + libelleKn + ", activeFlag=" + activeFlag
-				+ "]";
+				+ ", libelleKn=" + libelleKn + ", enabled=" + enabled + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + activeFlag;
+		result = prime * result + (enabled ? 1231 : 1237);
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((libelle == null) ? 0 : libelle.hashCode());
 		result = prime * result
@@ -112,7 +119,7 @@ public class WeddingService implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		WeddingService other = (WeddingService) obj;
-		if (activeFlag != other.activeFlag)
+		if (enabled != other.enabled)
 			return false;
 		if (id == null) {
 			if (other.id != null)
@@ -142,13 +149,7 @@ public class WeddingService implements Serializable {
 		return true;
 	}
 
-	public int getActiveFlag() {
-		return activeFlag;
-	}
-
-	public void setActiveFlag(int activeFlag) {
-		this.activeFlag = activeFlag;
-	}
+	
 	
 	
 

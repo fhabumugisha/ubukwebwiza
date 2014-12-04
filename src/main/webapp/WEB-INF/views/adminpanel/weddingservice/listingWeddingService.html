@@ -3,16 +3,16 @@
 	layout:decorator="adminpanel/fragments/mainAdminLayout">
 
 <head>
-<title th:text="#{province.title}">Provinces</title>
+<title th:text="#{weddingservice.title}">Provinces</title>
 </head>
 <body>
 	<div layout:fragment="pageContent">
 
 			<div th:if="${message}" class="alert alert-success" th:text="${message}">Cool</div>
-			<h2 class="sub-header" th:text="#{province.list.title}">Listing provinces</h2>
+			<h2 class="sub-header" th:text="#{weddingservice.list.title}">Listing weddingServices</h2>
 					
 			
-				<a href="#" th:href="@{/admin/provinces/new}">  			
+				<a href="#" th:href="@{/admin/weddingservices/new}">  			
   				<button type="button" class="btn  btn-primary btn-xs">
          			<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> &nbsp;	
          			<span th:text="#{list.add}">Add</span>
@@ -25,22 +25,22 @@
 					<thead>
 						<tr>
 							<th class="col-sm-1" >#</th>
-							<th class="col-sm-4" th:text="#{province.list.libelle}">Libelle</th>
-							<th class="col-sm-4" th:text="#{province.list.enabled}">Enabled</th>
+							<th class="col-sm-4" th:text="#{weddingservice.list.libelle}">Libelle</th>
+							<th class="col-sm-4" th:text="#{weddingservice.list.enabled}">Enabled</th>
 							<th class="col-sm-2"  th:text="#{list.actions}">Actions</th>
 
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="province : ${provinces}" th:classappend="${provinceStat.odd}? 'odd'">
-							<td th:text="${province.id}">1</td>
-							<td th:text="${province.libelle}">Kigali</td>
-							<td th:text="${province.enabled}">Ok</td>
+						<tr th:each="weddingService : ${weddingServices}" th:classappend="${weddingServiceStat.odd}? 'odd'">
+							<td th:text="${weddingService.id}">1</td>
+							<td th:text="${weddingService.libelle}">Kigali</td>
+							<td th:text="${weddingService.enabled}">Ok</td>
 							<td class="dropdown">
 							<a id="dLabel" data-toggle="dropdown" href="#"> <span th:text="#{list.actions}">Actions</span>
 									<span class="caret"></span></a>
 								<ul class="dropdown-menu no-collapse" role="menu" aria-labelledby="dLabel">
-									<li><a href="#" th:href="@{/admin/provinces/edit(id=${province.id})}">
+									<li><a href="#" th:href="@{/admin/weddingservices/edit(id=${weddingService.id})}">
 									
 											<button type="button" class="btn btn-default btn-xs">
          									  <span class="glyphicon glyphicon-pencil"></span>&nbsp; <span th:text="#{list.edit}">edit</span>
@@ -51,7 +51,7 @@
 									</li>
 									<li>
 									
-									<a href="#" th:href="@{/admin/provinces/delete(id=${province.id})}" class="deleteProvince">
+									<a href="#" th:href="@{/admin/weddingservices/delete(id=${weddingService.id})}" class="deleteProvince">
 											
 											<button type="button" class="btn btn-default btn-xs">
          									  <span class="glyphicon glyphicon-trash"></span>&nbsp; <span th:text="#{list.delete}">delete</span>

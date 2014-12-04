@@ -4,10 +4,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
 import com.buseni.ubukwebwiza.vendor.domain.WeddingService;
 import com.buseni.ubukwebwiza.vendor.repository.WeddingServiceRepo;
 import com.buseni.ubukwebwiza.vendor.service.WeddingServiceManager;
@@ -30,13 +32,43 @@ public class WeddingServiceManagerImpl implements WeddingServiceManager {
 
 	@Override
 	public Page<WeddingService> findAll(Pageable pageable) {
-		return weddingServiceRepo.findAll(pageable);
+		PageRequest pr = new PageRequest(pageable.getPageNumber()-1, pageable.getPageSize());
+		return weddingServiceRepo.findAll(pr);
 	}
 	@Override
-	public List<WeddingService> findByActiveFlag(int activeFlag) {
+	public List<WeddingService> findByEnabled(boolean enabled) {
 		
-		return weddingServiceRepo.findByActiveFlag(activeFlag);
+		return weddingServiceRepo.findByEnabled(enabled);
 		
+	}
+	@Override
+	@Transactional
+	public void add(WeddingService weddingService) throws ServiceLayerException {
+		//business control
+		if(null == weddingService){
+			throw new NullPointerException();
+		}
+		weddingServiceRepo.save(weddingService);
+		
+	}
+	@Override
+	@Transactional
+	public void delete(Integer id) {
+		if(null == id){
+			throw new NullPointerException();
+		}
+		WeddingService ws =  weddingServiceRepo.findOne(id);
+		if(ws != null){
+			weddingServiceRepo.delete(ws);
+		}
+		
+	}
+	@Override
+	public WeddingService findOne(Integer id) {
+		if(null == id){
+			throw new NullPointerException();
+		}
+		return weddingServiceRepo.findOne(id);
 	}
 
 }
