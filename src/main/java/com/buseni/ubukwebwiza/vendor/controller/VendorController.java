@@ -41,12 +41,11 @@ public class VendorController {
 	@Autowired
 	private VendorService vendorService;
 	
-	public static final Integer  ACTIVE = 1;
 	
 	@RequestMapping(value="/vendors",method=RequestMethod.GET)
 	public String listing(Model model, Pageable page){
 			
-		Page<Vendor> vendorPage  =  vendorService.findByActiveFlag(ACTIVE, page);
+		Page<Vendor> vendorPage  =  vendorService.findByEnabled(Boolean.TRUE, page);
 		
 		PageWrapper<Vendor> pageWrapper = new PageWrapper<Vendor>(vendorPage, "/vendors");
 		model.addAttribute("page", pageWrapper);
@@ -58,7 +57,7 @@ public class VendorController {
 	
 	@RequestMapping(value="/vendors/details{id}",method=RequestMethod.GET)
 	public String getVendor(@RequestParam Integer id, Model model){
-		Vendor vendor = vendorService.findById(id);
+		Vendor vendor = vendorService.getVendor(id);
 		model.addAttribute("vendor", vendor);
 		return "frontend/vendor/detailVendor";
 	}

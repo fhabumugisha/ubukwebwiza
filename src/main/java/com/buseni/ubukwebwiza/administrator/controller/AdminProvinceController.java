@@ -44,16 +44,15 @@ public class AdminProvinceController {
 		if(!model.containsAttribute("province")){
 			model.addAttribute("province", new Province());
 		}
-
-
 		return "adminpanel/province/listingProvince";
 	}
 
 	@RequestMapping(value="/provinces/save",method=RequestMethod.POST)
 	public String save(@Valid @ModelAttribute Province province , BindingResult result, RedirectAttributes attributes) throws ServiceLayerException{		
+		LOGGER.info("IN: Provinces/save-POSST");
 		//Validation erros	
 		if (result.hasErrors()) {
-			LOGGER.info("Strategy-edit error: " + result.toString());
+			LOGGER.info("Province-edit error: " + result.toString());
 			attributes.addFlashAttribute("org.springframework.validation.BindingResult.province", result);
 			attributes.addFlashAttribute("province", province);
 			return "adminpanel/province/editProvince";
@@ -72,7 +71,7 @@ public class AdminProvinceController {
 			}
 
 
-			LOGGER.info("IN: Provinces/save-POSST");
+			
 			String message = "Province " + province.getId() + " was successfully added";
 			attributes.addFlashAttribute("message", message);
 			return "redirect:/admin/provinces";

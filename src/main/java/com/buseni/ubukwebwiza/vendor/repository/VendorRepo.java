@@ -11,7 +11,7 @@ public interface VendorRepo extends JpaRepository<Vendor, Integer> , QueryDslPre
 	
 	Page<Vendor> findByBusinessName(String businessName, Pageable pageable);
 	
-	Page<Vendor> findByActiveFlag(int  activeFlag, Pageable pageable);
+	Page<Vendor> findByEnabled(boolean enabled, Pageable pageable);
 
 
 }

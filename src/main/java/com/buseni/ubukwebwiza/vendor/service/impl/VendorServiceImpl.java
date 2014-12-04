@@ -3,6 +3,7 @@
  */
 package com.buseni.ubukwebwiza.vendor.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,7 @@ public class VendorServiceImpl implements VendorService {
 	 */
 	@Override
 	@Transactional
-	public void create(Vendor vendor) {
+	public void add(Vendor vendor) {
 		// TODO control before save
 		vendorRepo.save(vendor);
 
@@ -53,6 +54,7 @@ public class VendorServiceImpl implements VendorService {
 	@Transactional
 	public Vendor update(Vendor vendor) {
 		// TODO COntrol before save
+		vendor.setCreatedAt(new Date());
 		return vendorRepo.save(vendor);
 	}
 
@@ -60,7 +62,7 @@ public class VendorServiceImpl implements VendorService {
 	 * @see com.buseni.ubukwebwiza.administrator.service.VendorService#findById(java.lang.Integer)
 	 */
 	@Override
-	public Vendor findById(Integer id) {
+	public Vendor findOne(Integer id) {
 		if(null == id){
 			throw new NullPointerException();
 		}
@@ -107,14 +109,30 @@ public class VendorServiceImpl implements VendorService {
 
 	@Override
 	public List<Vendor> getFeaturedVendors() {	
-		Page<Vendor> page = vendorRepo.findByActiveFlag(1, new PageRequest(0, 3, Sort.Direction.DESC, "nbViews"));
+		Page<Vendor> page = vendorRepo.findByEnabled(Boolean.TRUE, new PageRequest(0, 3, Sort.Direction.DESC, "nbViews"));
 		return page.getContent();
 	}
 
 	@Override
-	public Page<Vendor> findByActiveFlag(int activeFlag, Pageable pageable) {
+	public Page<Vendor> findByEnabled(boolean enabled, Pageable pageable) {
 		PageRequest pr = new PageRequest(pageable.getPageNumber()-1, pageable.getPageSize());
-		return vendorRepo.findByActiveFlag(activeFlag, pr);
+		return vendorRepo.findByEnabled(enabled, pr);
+	}
+
+	@Override
+	@Transactional
+	public Vendor getVendor(Integer id) {
+		if(null == id){
+			throw new NullPointerException();
+		}
+		
+		Vendor vendor  = vendorRepo.findOne(id);
+		if(vendor != null){
+			vendor.setNbViews(vendor.getNbViews() + 1);
+			vendor.setLastUpdated(new Date());
+			vendorRepo.save(vendor);
+		}
+		return vendor;
 	}
 
 

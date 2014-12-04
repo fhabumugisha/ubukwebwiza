@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	layout:decorator="adminpanel/fragments/mainAdminLayout">
+
+<head>
+<title th:text="#{vendor.title}">Provinces</title>
+</head>
+<body>
+	<div layout:fragment="pageContent">
+
+			<div th:if="${message}" class="alert alert-success" th:text="${message}">Cool</div>
+			<h2 class="sub-header" th:text="#{vendor.list.title}">Listing vendors</h2>
+					
+			
+				<a href="#" th:href="@{/admin/vendors/new}">  			
+  				<button type="button" class="btn  btn-primary btn-xs">
+         			<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> &nbsp;	
+         			<span th:text="#{list.add}">Add</span>
+       			</button>
+				</a> 
+		
+			
+			<div class="table-responsive">
+				<table class="table table-striped table-bordered table-hover">
+					<thead>
+						<tr>
+							<th class="col-sm-1" >#</th>
+							<th class="col-sm-1" th:text="#{vendor.list.email}">Email</th>
+							<th class="col-sm-1" th:text="#{vendor.list.businessname}">Business name</th>
+							<th class="col-sm-1" th:text="#{vendor.list.profilpic}">Profil pic</th>
+							<th class="col-sm-1" th:text="#{vendor.list.district}">District</th>
+							<th class="col-sm-1" th:text="#{vendor.list.address}">Address</th>
+							<th class="col-sm-1" th:text="#{vendor.list.services}">Services</th>
+							<th class="col-sm-1" th:text="#{vendor.list.nbviews}">Nb views</th>
+							<th class="col-sm-1" th:text="#{vendor.list.lastupdate}">Last update</th>							
+							<th class="col-sm-1" th:text="#{vendor.list.createdat}">Created at</th>
+							<th class="col-sm-1" th:text="#{vendor.list.enabled}">Enabled</th>
+							<th class="col-sm-1"  th:text="#{list.actions}">Actions</th>
+							
+
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="vendor : ${vendors}" th:classappend="${vendorStat.odd}? 'odd'">
+							<td th:text="${vendor.id}">1</td>
+							<td th:text="${vendor.email}">Email</td>
+							<td th:text="${vendor.businessName}">Ok</td>
+							<td >
+								<img class="img-thumbnail" width="100" height="50" alt="profil pic" th:alt="${vendor.businessName}" th:src="@{'/resources/images/application/'+${vendor.profilPicture}} "></img>
+							</td>
+							<td><span th:if="${vendor.district}" th:text="${vendor.district.libelle}"></span> </td>
+							<td th:text="${vendor.address}">Ok</td>
+							<td>
+								<ul th:if="${not #lists.isEmpty(vendor.vendorWeddingServices)}">
+									<li th:each="vendorWeddingService :${vendor.vendorWeddingServices}" th:text="${vendorWeddingService.weddingService.libelle}">
+									</li>
+								</ul>
+							</td>
+							<td th:text="${vendor.nbViews}">Ok</td>
+							<td th:text="${#dates.format(vendor.lastUpdated, 'dd/MMMM/yyyy')}">Ok</td>
+							<td th:text="${#dates.format(vendor.createdAt, 'dd/MMMM/yyyy')}">Ok</td>
+							<td th:text="${vendor.enabled}">Ok</td>
+							<td class="dropdown">
+							<a id="dLabel" data-toggle="dropdown" href="#"> <span th:text="#{list.actions}">Actions</span>
+									<span class="caret"></span></a>
+								<ul class="dropdown-menu no-collapse" role="menu" aria-labelledby="dLabel">
+									<li><a href="#" th:href="@{/admin/vendors/edit(id=${vendor.id})}">
+									
+											<button type="button" class="btn btn-default btn-xs">
+         									  <span class="glyphicon glyphicon-pencil"></span>&nbsp; <span th:text="#{list.edit}">edit</span>
+       								 		 </button>
+										
+									 </a>
+
+									</li>
+									<li>
+									
+									<a href="#" th:href="@{/admin/vendors/delete(id=${vendor.id})}" class="deleteProvince">
+											
+											<button type="button" class="btn btn-default btn-xs">
+         									  <span class="glyphicon glyphicon-trash"></span>&nbsp; <span th:text="#{list.delete}">delete</span>
+       								 		 </button>
+									
+									
+									</a>
+
+									</li>
+								</ul></td>
+						</tr>
+						<tr th:remove="all">
+							<td>1,002</td>
+							<td>amet</td>
+							<td>elit</td>
+							<td>elit</td>
+						</tr>
+
+
+
+					</tbody>
+				</table>
+			</div>
+
+			<div th:replace="util :: paginator ">
+				<ul class="pagination pagination-lg">
+					<li><a href="#">&laquo;</a></li>
+					<li><a href="#">1</a></li>
+					<li><a href="#">2</a></li>
+					<li><a href="#">3</a></li>
+					<li><a href="#">4</a></li>
+					<li><a href="#">5</a></li>
+					<li><a href="#">&raquo;</a></li>
+				</ul>
+			</div>
+
+			<div>
+
+
+				
+			</div>
+		
+
+
+	</div>
+	
+	
+</body>
+
+</html>

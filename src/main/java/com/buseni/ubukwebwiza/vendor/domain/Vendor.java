@@ -48,16 +48,17 @@ public class Vendor implements Serializable {
 
 	@Column(unique = true)
 	@Email
-	@NotEmpty(message = "The login must not be empty")
+	@NotEmpty(message="{error.vendor.requiredfield.email}")
 	private String email;
 
-	@NotEmpty(message = "The password must not be empty")
+	@NotEmpty(message="{error.vendor.requiredfield.password}")
 	private String password;
 
 	@Transient
 	private String confirmPassword;
 	
 	@Column(name="business_name")
+	@NotEmpty(message="{error.vendor.requiredfield.businessname}")
 	private String businessName;
 
 	@Column(name="phone_number")
@@ -80,15 +81,14 @@ public class Vendor implements Serializable {
 	@Column(length=500)
 	private String aboutme;
 		
-	private String address;
-		
+	private String address;		
 	
 	private String country;
 	
-	@Column(name="active_flag")
-	private int activeFlag;
-
+	private boolean enabled;
+	
 	private String token;
+	
 	
 	@Column(name="normalized_name")
 	private String normalizedName;
@@ -278,15 +278,6 @@ public class Vendor implements Serializable {
 
 
 	
-
-	/**
-	 * @param activeFlag
-	 *            the activeFlag to set
-	 */
-	public void setActiveFlag(int activeFlag) {
-		this.activeFlag = activeFlag;
-	}
-
 	@Override
 	public String toString() {
 		return "Vendor [id=" + id + ", email=" + email + ", password="
@@ -296,20 +287,12 @@ public class Vendor implements Serializable {
 				+ fbUsername + ", twitterUsername=" + twitterUsername
 				+ ", profilPicture=" + profilPicture + ", coverPicture="
 				+ coverPicture + ", aboutme=" + aboutme + ", address="
-				+ address + ", country=" + country + ", activeFlag="
-				+ activeFlag + ", token=" + token + ", normalizedName="
-				+ normalizedName + ", lastUpdated=" + lastUpdated
-				+ ", createdAt=" + createdAt + ", nbViews=" + nbViews + "]";
+				+ address + ", country=" + country + ", enabled=" + enabled
+				+ ", token=" + token + ", normalizedName=" + normalizedName
+				+ ", lastUpdated=" + lastUpdated + ", createdAt=" + createdAt
+				+ ", nbViews=" + nbViews + ", district=" + district + "]";
 	}
 
-
-
-	/**
-	 * @return the activeFlag
-	 */
-	public int getActiveFlag() {
-		return activeFlag;
-	}
 
 
 	
@@ -319,7 +302,6 @@ public class Vendor implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((aboutme == null) ? 0 : aboutme.hashCode());
-		result = prime * result + activeFlag;
 		result = prime * result + ((address == null) ? 0 : address.hashCode());
 		result = prime * result
 				+ ((businessName == null) ? 0 : businessName.hashCode());
@@ -330,7 +312,10 @@ public class Vendor implements Serializable {
 				+ ((coverPicture == null) ? 0 : coverPicture.hashCode());
 		result = prime * result
 				+ ((createdAt == null) ? 0 : createdAt.hashCode());
+		result = prime * result
+				+ ((district == null) ? 0 : district.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result + (enabled ? 1231 : 1237);
 		result = prime * result
 				+ ((fbUsername == null) ? 0 : fbUsername.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
@@ -368,8 +353,6 @@ public class Vendor implements Serializable {
 				return false;
 		} else if (!aboutme.equals(other.aboutme))
 			return false;
-		if (activeFlag != other.activeFlag)
-			return false;
 		if (address == null) {
 			if (other.address != null)
 				return false;
@@ -400,10 +383,17 @@ public class Vendor implements Serializable {
 				return false;
 		} else if (!createdAt.equals(other.createdAt))
 			return false;
+		if (district == null) {
+			if (other.district != null)
+				return false;
+		} else if (!district.equals(other.district))
+			return false;
 		if (email == null) {
 			if (other.email != null)
 				return false;
 		} else if (!email.equals(other.email))
+			return false;
+		if (enabled != other.enabled)
 			return false;
 		if (fbUsername == null) {
 			if (other.fbUsername != null)
@@ -692,6 +682,18 @@ public class Vendor implements Serializable {
 
 	public void setDistrict(District district) {
 		this.district = district;
+	}
+
+
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 
 

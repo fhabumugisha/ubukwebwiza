@@ -43,8 +43,8 @@ public class VendorBuilder {
 	
 	
 	
-	public VendorBuilder actif(int actif){
-		this.vendor.setActiveFlag(actif);
+	public VendorBuilder enabled(boolean enabled){
+		this.vendor.setEnabled(enabled);
 		return this;
 	}
 	public VendorBuilder address(String address){

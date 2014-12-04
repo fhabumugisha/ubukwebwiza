@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
 import com.buseni.ubukwebwiza.vendor.domain.Vendor;
 import com.buseni.ubukwebwiza.vendor.utils.VendorSearch;
 
@@ -14,7 +15,7 @@ public interface VendorService {
 	 * 
 	 * @param weddingService
 	 */
-	void create(Vendor vendor);
+	void add(Vendor vendor) throws ServiceLayerException;
 	
 	/**
 	 * 
@@ -27,8 +28,9 @@ public interface VendorService {
 	 * @param id
 	 * @return
 	 */
-	Vendor findById(Integer id);
+	Vendor findOne(Integer id);
 	
+	Vendor getVendor(Integer id);
 	
 	/**
 	 * 
@@ -42,7 +44,7 @@ public interface VendorService {
 	 * @param pageable
 	 * @return
 	 */
-	Page<Vendor> findByActiveFlag(int activeFlag, Pageable pageable) ;
+	Page<Vendor> findByEnabled(boolean enabled, Pageable pageable) ;
 	
 	
 	/**
@@ -59,5 +61,6 @@ public interface VendorService {
 	 * @return
 	 */
 	List<Vendor> getFeaturedVendors();
+
 
 }
