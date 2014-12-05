@@ -43,6 +43,8 @@ public class VendorServiceImpl implements VendorService {
 	@Transactional
 	public void add(Vendor vendor) {
 		// TODO control before save
+		vendor.setCreatedAt(new Date());
+		vendor.setLastUpdate(new Date());
 		vendorRepo.save(vendor);
 
 	}
@@ -54,7 +56,7 @@ public class VendorServiceImpl implements VendorService {
 	@Transactional
 	public Vendor update(Vendor vendor) {
 		// TODO COntrol before save
-		vendor.setCreatedAt(new Date());
+		vendor.setLastUpdate(new Date());
 		return vendorRepo.save(vendor);
 	}
 

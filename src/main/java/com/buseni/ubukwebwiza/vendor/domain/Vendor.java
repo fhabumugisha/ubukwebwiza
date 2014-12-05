@@ -95,8 +95,20 @@ public class Vendor implements Serializable {
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="last_update")
-	private Date lastUpdated;
+	private Date lastUpdate;
 	
+	public Date getLastUpdate() {
+		return lastUpdate;
+	}
+
+
+
+	public void setLastUpdate(Date lastUpdate) {
+		this.lastUpdate = lastUpdate;
+	}
+
+
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="created_at")
 	private Date createdAt;
@@ -289,7 +301,7 @@ public class Vendor implements Serializable {
 				+ coverPicture + ", aboutme=" + aboutme + ", address="
 				+ address + ", country=" + country + ", enabled=" + enabled
 				+ ", token=" + token + ", normalizedName=" + normalizedName
-				+ ", lastUpdated=" + lastUpdated + ", createdAt=" + createdAt
+				+ ", lastUpdate=" + lastUpdate + ", createdAt=" + createdAt
 				+ ", nbViews=" + nbViews + ", district=" + district + "]";
 	}
 
@@ -320,7 +332,7 @@ public class Vendor implements Serializable {
 				+ ((fbUsername == null) ? 0 : fbUsername.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result
-				+ ((lastUpdated == null) ? 0 : lastUpdated.hashCode());
+				+ ((lastUpdate == null) ? 0 : lastUpdate.hashCode());
 		result = prime * result + nbViews;
 		result = prime * result
 				+ ((normalizedName == null) ? 0 : normalizedName.hashCode());
@@ -405,10 +417,10 @@ public class Vendor implements Serializable {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (lastUpdated == null) {
-			if (other.lastUpdated != null)
+		if (lastUpdate == null) {
+			if (other.lastUpdate != null)
 				return false;
-		} else if (!lastUpdated.equals(other.lastUpdated))
+		} else if (!lastUpdate.equals(other.lastUpdate))
 			return false;
 		if (nbViews != other.nbViews)
 			return false;
@@ -613,7 +625,7 @@ public class Vendor implements Serializable {
 	 * @param lastUpdated the lastUpdated to set
 	 */
 	public void setLastUpdated(Date lastUpdated) {
-		this.lastUpdated = lastUpdated;
+		this.lastUpdate = lastUpdated;
 	}
 
 
@@ -622,7 +634,7 @@ public class Vendor implements Serializable {
 	 * @return the lastUpdated
 	 */
 	public Date getLastUpdated() {
-		return lastUpdated;
+		return lastUpdate;
 	}
 
 

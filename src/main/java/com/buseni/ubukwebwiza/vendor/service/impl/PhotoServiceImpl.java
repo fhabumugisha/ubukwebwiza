@@ -87,9 +87,9 @@ public class PhotoServiceImpl implements PhotoService {
 	 * @see com.buseni.ubukwebwiza.administrator.service.PhotoService#findByActiveFlag(int, org.springframework.data.domain.Pageable)
 	 */
 	@Override
-	public Page<Photo> findByActiveFlag(int activeFlag, Pageable pageable) {
+	public Page<Photo> findByEnabled(boolean enabled, Pageable pageable) {
 		PageRequest pr = new PageRequest(pageable.getPageNumber()-1, pageable.getPageSize());
-		return photoRepo.findByActiveFlag(activeFlag, pr);
+		return photoRepo.findByEnabled(enabled, pr);
 	}
 	
 	/*

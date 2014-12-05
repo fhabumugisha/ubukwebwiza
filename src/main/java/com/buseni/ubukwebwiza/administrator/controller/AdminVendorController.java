@@ -1,5 +1,6 @@
 package com.buseni.ubukwebwiza.administrator.controller;
 
+import java.io.File;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -7,6 +8,7 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -16,13 +18,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
 import com.buseni.ubukwebwiza.exceptions.ErrorsHelper;
 import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
 import com.buseni.ubukwebwiza.vendor.domain.District;
-import com.buseni.ubukwebwiza.vendor.domain.Province;
 import com.buseni.ubukwebwiza.vendor.domain.Vendor;
 import com.buseni.ubukwebwiza.vendor.service.DistrictService;
 import com.buseni.ubukwebwiza.vendor.service.VendorService;
@@ -40,6 +42,9 @@ public class AdminVendorController {
 	@Autowired
 	private DistrictService  districtService;
 	
+	@Autowired
+	private Environment env;
+	
 	@RequestMapping(value="/vendors",method=RequestMethod.GET)
 	public String vendors(Model model, Pageable page){				
 		Page<Vendor> vendorPage  =  vendorService.findAll(page);		
@@ -54,7 +59,7 @@ public class AdminVendorController {
 	}
 	
 	@RequestMapping(value="/vendors/save",method=RequestMethod.POST)
-	public String save(@Valid @ModelAttribute Vendor vendor , BindingResult result, RedirectAttributes attributes) throws ServiceLayerException{		
+	public String save(@Valid @ModelAttribute Vendor vendor , BindingResult result, RedirectAttributes attributes,  @RequestParam("file") MultipartFile file) throws ServiceLayerException{		
 		LOGGER.info("IN: vendors/save-POSST");
 		//Validation erros	
 		if (result.hasErrors()) {
@@ -65,6 +70,34 @@ public class AdminVendorController {
 
 		}else{
 
+			if (!file.isEmpty()) {
+	            try {
+	               
+	                String saveDirectory =  env.getProperty("files.location");
+	                file.transferTo(new File(saveDirectory + file.getOriginalFilename()));
+	               /*
+	                 byte[] bytes = file.getBytes();
+	                   BufferedOutputStream stream =
+	                        new BufferedOutputStream(new FileOutputStream(new File(file.getOriginalFilename() + "-uploaded")));
+	                stream.write(bytes);
+	                stream.close(); */
+	                LOGGER.info("You successfully uploaded " + file.getOriginalFilename() + " into " + file.getOriginalFilename() + "-uploaded !");
+	                vendor.setProfilPicture(file.getOriginalFilename());
+	            } catch (Exception e) {
+	            	LOGGER.info("You failed to upload " + file.getName() + " => " + e.getMessage());
+	            	result.reject(e.getMessage());
+	            	attributes.addFlashAttribute("org.springframework.validation.BindingResult.vendor", result);
+	    			attributes.addFlashAttribute("vendor", vendor);
+	    			return "adminpanel/vendor/editVendor";
+	            }
+	        } else {
+	        	LOGGER.info("You failed to upload  because the file was empty.");
+	        	result.reject("You failed to upload  because the file was empty.");
+            	attributes.addFlashAttribute("org.springframework.validation.BindingResult.vendor", result);
+    			attributes.addFlashAttribute("vendor", vendor);
+    			return "adminpanel/vendor/editVendor";
+	        }
+			
 			try {
 				vendorService.add(vendor);
 				//Business errors	

@@ -2,13 +2,17 @@ package com.buseni.ubukwebwiza.config;
 
 import java.nio.charset.Charset;
 import java.util.List;
-import java.util.Properties;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.core.env.Environment;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -19,7 +23,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
 import com.buseni.ubukwebwiza.breadcrumbs.interceptor.SetUpNavigationPathInterceptor;
 //@ActiveProfiles("embedded")
@@ -30,10 +33,14 @@ import com.buseni.ubukwebwiza.breadcrumbs.interceptor.SetUpNavigationPathInterce
 @EnableWebMvcSecurity
 @Import({PersistenceMySqlConfig.class, ServiceConfiguration.class, ViewConfiguration.class, ControllerConfiguration.class, SecurityConfig.class})
 public class WebConfiguration extends WebMvcConfigurerAdapter{
+	
+	@Autowired
+	private Environment env;
 	// Maps resources path to webapp/resources
 		@Override
 		public void addResourceHandlers(ResourceHandlerRegistry registry) {
 			registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+			registry.addResourceHandler("/images/**").addResourceLocations("file:"+env.getProperty("files.location"));
 		}
 		
 		@Override
@@ -71,9 +78,14 @@ public class WebConfiguration extends WebMvcConfigurerAdapter{
 	       // r.setWarnLogCategory("example.MvcLogger");     // No default
 	        return r;
 	    }*/
-		/*
 		@Bean
-		public OpenEntityManagerInViewInterceptor openEntityManagerInViewInterceptor() {
-			return new OpenEntityManagerInViewInterceptor();
-		}*/
+		public static PropertySourcesPlaceholderConfigurer properties(){
+		   PropertySourcesPlaceholderConfigurer pspc =
+		      new PropertySourcesPlaceholderConfigurer();
+		   Resource[] resources = new ClassPathResource[ ]
+		      { new ClassPathResource( "application.properties" ) };
+		  pspc.setLocations( resources );
+		  pspc.setIgnoreUnresolvablePlaceholders( true );
+		  return pspc;
+		}
 }

@@ -31,17 +31,19 @@ public class VendorWeddingService implements Serializable{
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="last_update")
-	private Date lastUpdated;
+	private Date lastUpdate;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="created_at")
 	private Date createdAt;
 	
+	
+
 	private BigDecimal price;
 	
 	private String description;
-	@Column(name="active_flag")
-	private int activeFlag;
+	
+	private boolean enabled;
 	
 	@OneToOne
 	@JoinColumn(name="id_wedding_service")
@@ -67,31 +69,34 @@ public class VendorWeddingService implements Serializable{
 		this.weddingService = weddingService;
 	}
 
-	
-	
-	public Date getLastUpdated() {
-		return lastUpdated;
+	public Date getLastUpdate() {
+		return lastUpdate;
 	}
 
-	public void setLastUpdated(Date lastUpdated) {
-		this.lastUpdated = lastUpdated;
+	public void setLastUpdate(Date lastUpdate) {
+		this.lastUpdate = lastUpdate;
 	}
 
-	public Date getCreated_at() {
+	public Date getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreated_at(Date created_at) {
-		this.createdAt = created_at;
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+	
+	public Date getLastUpdated() {
+		return lastUpdate;
 	}
 
-	public int getActiveFlag() {
-		return activeFlag;
+	public void setLastUpdated(Date lastUpdated) {
+		this.lastUpdate = lastUpdated;
 	}
 
-	public void setActiveFlag(int activeFlag) {
-		this.activeFlag = activeFlag;
-	}
+	
+	
+
+	
 
 	public VendorWeddingService(){
 		
@@ -101,17 +106,18 @@ public class VendorWeddingService implements Serializable{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + activeFlag;
-		result = prime
-				* result
-				+ ((weddingService == null) ? 0 : weddingService
-						.hashCode());
+		result = prime * result
+				+ ((createdAt == null) ? 0 : createdAt.hashCode());
 		result = prime * result
 				+ ((description == null) ? 0 : description.hashCode());
+		result = prime * result + (enabled ? 1231 : 1237);
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result
-				+ ((lastUpdated == null) ? 0 : lastUpdated.hashCode());
+				+ ((lastUpdate == null) ? 0 : lastUpdate.hashCode());
 		result = prime * result + ((price == null) ? 0 : price.hashCode());
+		result = prime * result + ((vendor == null) ? 0 : vendor.hashCode());
+		result = prime * result
+				+ ((weddingService == null) ? 0 : weddingService.hashCode());
 		return result;
 	}
 
@@ -124,43 +130,53 @@ public class VendorWeddingService implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		VendorWeddingService other = (VendorWeddingService) obj;
-		if (activeFlag != other.activeFlag)
-			return false;
-		if (weddingService == null) {
-			if (other.weddingService != null)
+		if (createdAt == null) {
+			if (other.createdAt != null)
 				return false;
-		} else if (!weddingService.equals(other.weddingService))
+		} else if (!createdAt.equals(other.createdAt))
 			return false;
 		if (description == null) {
 			if (other.description != null)
 				return false;
 		} else if (!description.equals(other.description))
 			return false;
+		if (enabled != other.enabled)
+			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (lastUpdated == null) {
-			if (other.lastUpdated != null)
+		if (lastUpdate == null) {
+			if (other.lastUpdate != null)
 				return false;
-		} else if (!lastUpdated.equals(other.lastUpdated))
+		} else if (!lastUpdate.equals(other.lastUpdate))
 			return false;
 		if (price == null) {
 			if (other.price != null)
 				return false;
 		} else if (!price.equals(other.price))
 			return false;
+		if (vendor == null) {
+			if (other.vendor != null)
+				return false;
+		} else if (!vendor.equals(other.vendor))
+			return false;
+		if (weddingService == null) {
+			if (other.weddingService != null)
+				return false;
+		} else if (!weddingService.equals(other.weddingService))
+			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "VendorWeddingService [id=" + id + ", lastUpdated="
-				+ lastUpdated + ", created_at=" + createdAt + ", price="
-				+ price + ", description=" + description + ", activeFlag="
-				+ activeFlag + ", weddingService=" + weddingService
-				+ ", vendor=" + vendor + "]";
+		return "VendorWeddingService [id=" + id + ", lastUpdate=" + lastUpdate
+				+ ", createdAt=" + createdAt + ", price=" + price
+				+ ", description=" + description + ", enabled=" + enabled
+				+ ", weddingService=" + weddingService + ", vendor=" + vendor
+				+ "]";
 	}
 
 	public Integer getId() {
@@ -192,27 +208,14 @@ public class VendorWeddingService implements Serializable{
 	}
 
 	
+	
 
-	/**
-	 * @param date the date to set
-	 */
-	public void setDate(Date date) {
-		this.lastUpdated = date;
+	public boolean isEnabled() {
+		return enabled;
 	}
 
-	/**
-	 * @return the date
-	 */
-	public Date getDate() {
-		return lastUpdated;
-	}
-
-	public void setState(int state) {
-		this.activeFlag = state;
-	}
-
-	public int getState() {
-		return activeFlag;
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 
 	

@@ -1,6 +1,7 @@
 package com.buseni.ubukwebwiza.vendor.domain;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -29,6 +32,30 @@ public class Province implements Serializable {
 	private String libelle;
 	
 	private boolean enabled;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="last_update")
+	private Date lastUpdate;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="created_at")
+	private Date createdAt;
+	public Date getLastUpdate() {
+		return lastUpdate;
+	}
+
+	public void setLastUpdate(Date lastUpdate) {
+		this.lastUpdate = lastUpdate;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
 	public Province(){
 		
 	}
@@ -57,15 +84,20 @@ public class Province implements Serializable {
 	@Override
 	public String toString() {
 		return "Province [id=" + id + ", libelle=" + libelle + ", enabled="
-				+ enabled + "]";
+				+ enabled + ", lastUpdate=" + lastUpdate + ", createdAt="
+				+ createdAt + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result
+				+ ((createdAt == null) ? 0 : createdAt.hashCode());
 		result = prime * result + (enabled ? 1231 : 1237);
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result
+				+ ((lastUpdate == null) ? 0 : lastUpdate.hashCode());
 		result = prime * result + ((libelle == null) ? 0 : libelle.hashCode());
 		return result;
 	}
@@ -79,12 +111,22 @@ public class Province implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Province other = (Province) obj;
+		if (createdAt == null) {
+			if (other.createdAt != null)
+				return false;
+		} else if (!createdAt.equals(other.createdAt))
+			return false;
 		if (enabled != other.enabled)
 			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
+			return false;
+		if (lastUpdate == null) {
+			if (other.lastUpdate != null)
+				return false;
+		} else if (!lastUpdate.equals(other.lastUpdate))
 			return false;
 		if (libelle == null) {
 			if (other.libelle != null)

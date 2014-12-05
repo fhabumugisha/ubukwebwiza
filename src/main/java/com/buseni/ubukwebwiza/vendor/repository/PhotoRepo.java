@@ -12,5 +12,5 @@ public interface PhotoRepo extends JpaRepository<Photo, Integer> {
 
 	List<Photo> findByVendor_id(Integer idVendor);
 	
-	Page<Photo> findByActiveFlag(int activeFlag, Pageable pageable);
+	Page<Photo> findByEnabled(boolean enabled, Pageable pageable);
 }

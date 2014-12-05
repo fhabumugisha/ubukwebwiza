@@ -6,6 +6,8 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.thymeleaf.extras.springsecurity3.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
@@ -54,4 +56,11 @@ public class ViewConfiguration {
 	        messageSource.setCacheSeconds(5);
 	        return messageSource;
 	    }
+	 
+	 @Bean
+	 public MultipartResolver createMultipartResolver() {
+	     /*CommonsMultipartResolver resolver=new CommonsMultipartResolver();
+	     resolver.setDefaultEncoding("utf-8");*/
+	     return new StandardServletMultipartResolver();
+	 }
 }

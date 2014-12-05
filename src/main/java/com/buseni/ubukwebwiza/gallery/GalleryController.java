@@ -25,7 +25,7 @@ public class GalleryController {
 
 	@RequestMapping(value="/gallery", method=RequestMethod.GET)
 	public String photos(Model model, Pageable page){
-		Page<Photo>  photosPage = photoService.findByActiveFlag(1, page);
+		Page<Photo>  photosPage = photoService.findByEnabled(Boolean.TRUE, page);
 		model.addAttribute("photos", photosPage.getContent());
 		PageWrapper<Photo> pageWrapper = new PageWrapper<Photo>(photosPage, "/gallery");
 		model.addAttribute("page", pageWrapper);

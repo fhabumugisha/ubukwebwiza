@@ -21,7 +21,7 @@
 
 		<div class="panel panel-default">
 			<div class="panel-body">
-				<form class="form-horizontal" role="form" action="#"
+				<form class="form-horizontal" role="form" action="#" enctype="multipart/form-data"
 					th:action="@{/admin/vendors/save}" th:object="${vendor}"
 					method="post">
 					<div th:if="${#fields.hasGlobalErrors()}"
@@ -41,9 +41,9 @@
 
 							<div class="form-group"
 								th:classappend="${#fields.hasErrors('email')}? has-error">
-								<label for="email" class="col-sm-3 control-label"
+								<label for="email" class="col-sm-4 control-label"
 									th:text="#{vendor.list.email}">email</label>
-								<div class="col-sm-8">
+								<div class="col-sm-7">
 									<input id="email" type="email" class="form-control"
 										th:field="*{email}" placeholder="Enter email"
 										required="required" /> <span class="text-danger"
@@ -55,9 +55,9 @@
 							
 							<div class="form-group"
 								th:classappend="${#fields.hasErrors('businessName')}? has-error">
-								<label for="businessName" class="col-sm-3 control-label"
+								<label for="businessName" class="col-sm-4 control-label"
 									th:text="#{vendor.list.businessname}">businessName</label>
-								<div class="col-sm-8">
+								<div class="col-sm-7">
 									<input id="businessName" type="text" class="form-control"
 										th:field="*{businessName}" placeholder="Enter businessName"
 										required="required" /> <span class="text-danger"
@@ -69,10 +69,10 @@
 							
 							<div class="form-group"
 								th:classappend="${#fields.hasErrors('district')}? has-error">
-								<label for="district" class="col-sm-3 control-label"
+								<label for="district" class="col-sm-4 control-label"
 									th:text="#{vendor.list.district}">district</label>
 
-								<div class="col-sm-8">
+								<div class="col-sm-7">
 									<select th:field="*{district.id}" id="idDistrict"
 										class="form-control" required="required">
 										<option value="" th:text="#{common.select.prompt}"></option>
@@ -87,9 +87,9 @@
 							
 							<div class="form-group"
 								th:classappend="${#fields.hasErrors('phoneNumber')}? has-error">
-								<label for="phoneNumber" class="col-sm-3 control-label"
+								<label for="phoneNumber" class="col-sm-4 control-label"
 									th:text="#{vendor.list.phonenumber}">phoneNumber</label>
-								<div class="col-sm-8">
+								<div class="col-sm-7">
 									<input id="phoneNumber" type="text" class="form-control"
 										th:field="*{phoneNumber}" placeholder="Enter phoneNumber" />
 									<span class="text-danger"
@@ -100,9 +100,9 @@
 							</div>
 							<div class="form-group"
 								th:classappend="${#fields.hasErrors('website')}? has-error">
-								<label for="website" class="col-sm-3 control-label"
+								<label for="website" class="col-sm-4 control-label"
 									th:text="#{vendor.list.website}">website</label>
-								<div class="col-sm-8">
+								<div class="col-sm-7">
 									<input id="website" type="text" class="form-control"
 										th:field="*{website}" placeholder="Enter website" />
 									<span class="text-danger"
@@ -113,9 +113,9 @@
 							</div>
 							<div class="form-group"
 								th:classappend="${#fields.hasErrors('fbUsername')}? has-error">
-								<label for="fbUsername" class="col-sm-3 control-label"
+								<label for="fbUsername" class="col-sm-4 control-label"
 									th:text="#{vendor.list.fbusername}">fbUsername</label>
-								<div class="col-sm-8">
+								<div class="col-sm-7">
 									<input id="fbUsername" type="text" class="form-control"
 										th:field="*{fbUsername}" placeholder="Enter fbUsername" />
 									<span class="text-danger"
@@ -126,7 +126,7 @@
 							</div>
 							<div class="form-group"
 								th:classappend="${#fields.hasErrors('profilPicture')}? has-error">
-								<label for="profilPicture" class="col-sm-3 control-label"
+								<label for="profilPicture" class="col-sm-4 control-label"
 									th:text="#{vendor.list.profilpic}">profilPicture</label>
 								<div class="col-sm-4">
 

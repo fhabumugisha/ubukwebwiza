@@ -47,7 +47,7 @@ public interface PhotoService {
 	 * @param pageable
 	 * @return
 	 */
-	Page<Photo> findByActiveFlag(int activeFlag, Pageable pageable);
+	Page<Photo> findByEnabled(boolean enabled, Pageable pageable);
 	
 	/**
 	 * 

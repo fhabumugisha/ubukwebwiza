@@ -31,8 +31,8 @@ public class Photo implements Serializable{
 	private Integer id;
 	
 	@NotEmpty(message="You must choose a photo")
-	@Column(name="photo_name")
-	private String photoName;
+	@Column(name="name")
+	private String name;
 	
 	@NotEmpty(message="You must write a description")
 	private String description;
@@ -43,14 +43,21 @@ public class Photo implements Serializable{
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="created_at")
-	private Date created_at;
+	private Date createdAt;
 	
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
 	@ManyToOne
 	@JoinColumn(name="id_vendor")
 	private Vendor vendor;
 	
-	@Column(name="active_flag")
-	private int activeFlag;
+	private boolean enabled;
 	
 	public Photo(){
 		
@@ -60,62 +67,70 @@ public class Photo implements Serializable{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((photoName == null) ? 0 : photoName.hashCode());
-		result = prime * result + ((lastUpdate == null) ? 0 : lastUpdate.hashCode());
+		result = prime * result
+				+ ((createdAt == null) ? 0 : createdAt.hashCode());
 		result = prime * result
 				+ ((description == null) ? 0 : description.hashCode());
+		result = prime * result + (enabled ? 1231 : 1237);
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result
+				+ ((lastUpdate == null) ? 0 : lastUpdate.hashCode());
+		result = prime * result
+				+ ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((vendor == null) ? 0 : vendor.hashCode());
 		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
+		if (this == obj)
 			return true;
-		}
-		if (obj == null) {
+		if (obj == null)
 			return false;
-		}
-		if (getClass() != obj.getClass()) {
+		if (getClass() != obj.getClass())
 			return false;
-		}
 		Photo other = (Photo) obj;
-		if (photoName == null) {
-			if (other.photoName != null) {
+		if (createdAt == null) {
+			if (other.createdAt != null)
 				return false;
-			}
-		} else if (!photoName.equals(other.photoName)) {
+		} else if (!createdAt.equals(other.createdAt))
 			return false;
-		}
-		if (lastUpdate == null) {
-			if (other.lastUpdate != null) {
-				return false;
-			}
-		} else if (!lastUpdate.equals(other.lastUpdate)) {
-			return false;
-		}
 		if (description == null) {
-			if (other.description != null) {
+			if (other.description != null)
 				return false;
-			}
-		} else if (!description.equals(other.description)) {
+		} else if (!description.equals(other.description))
 			return false;
-		}
+		if (enabled != other.enabled)
+			return false;
 		if (id == null) {
-			if (other.id != null) {
+			if (other.id != null)
 				return false;
-			}
-		} else if (!id.equals(other.id)) {
+		} else if (!id.equals(other.id))
 			return false;
-		}
+		if (lastUpdate == null) {
+			if (other.lastUpdate != null)
+				return false;
+		} else if (!lastUpdate.equals(other.lastUpdate))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (vendor == null) {
+			if (other.vendor != null)
+				return false;
+		} else if (!vendor.equals(other.vendor))
+			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Photo [id=" + id + ", photoName=" + photoName + ", description="
-				+ description + ", lastUpdate=" + lastUpdate + ", vendor=" + vendor
-				+ "]";
+		return "Photo [id=" + id + ", photoName=" + name
+				+ ", description=" + description + ", lastUpdate=" + lastUpdate
+				+ ", createdAt=" + createdAt + ", vendor=" + vendor
+				+ ", enabled=" + enabled + "]";
 	}
 
 	public Integer getId() {
@@ -127,11 +142,11 @@ public class Photo implements Serializable{
 	}
 
 	public String getAvatar() {
-		return photoName;
+		return name;
 	}
 
 	public void setAvatar(String avatar) {
-		this.photoName = avatar;
+		this.name = avatar;
 	}
 
 	public String getDescription() {
@@ -159,33 +174,14 @@ public class Photo implements Serializable{
 
 	
 
-	/**
-	 * @return the professional
-	 */
-	public Vendor getProvider() {
-		return vendor;
-	}
-
-	public void setState(int state) {
-		this.activeFlag = state;
-	}
-
-	public int getState() {
-		return activeFlag;
-	}
-
 	
 
-	public void setProvider(Vendor vendor) {
-		this.vendor = vendor;
-	}
-
 	public String getPhotoName() {
-		return photoName;
+		return name;
 	}
 
 	public void setPhotoName(String photoName) {
-		this.photoName = photoName;
+		this.name = photoName;
 	}
 
 	public Date getLastUpdate() {
@@ -204,20 +200,14 @@ public class Photo implements Serializable{
 		this.vendor = vendor;
 	}
 
-	public int getActiveFlag() {
-		return activeFlag;
+	
+
+	public boolean isEnabled() {
+		return enabled;
 	}
 
-	public void setActiveFlag(int activeFlag) {
-		this.activeFlag = activeFlag;
-	}
-
-	public Date getCreated_at() {
-		return created_at;
-	}
-
-	public void setCreated_at(Date created_at) {
-		this.created_at = created_at;
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 
 }
