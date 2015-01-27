@@ -135,12 +135,12 @@
 										<img id="profilPicturePreview" data-src="holder.js/100%x150"
 											src="#" alt="your image" width="100" height="150" /> -->
 											
-									<img id="profilPicturePreview"   width="80" height="150" 
+									<img id="profilPicturePreview"   width="100" height="150" 
 									     alt="profil pic"  th:if="*{profilPicture}" 
-									     th:alt="${businessName}" th:src="@{'/images/'+$profilPicture}} "></img>
+									     th:alt="${businessName}" th:src="@{'/images/'+*{profilPicture}} "></img>
 									
-									 <img id="profilPicturePreview"  width="80" height="150" alt="profil pic" 
-									      th:if="${#strings.isEmpty(profilPicture)}" th:alt="${businessName}" 
+									 <img id="profilPicturePreview"  width="100" height="150" alt="profil pic" 
+									      th:unless="*{profilPicture}" th:alt="${businessName}" 
 									      th:src="@{/resources/images/application/no_person.jpg} "></img>
 										
 										<div class="caption">
