@@ -73,8 +73,9 @@ public class AdminVendorController {
 			if (!file.isEmpty()) {
 	            try {
 	               
+	            	String workingDir = System.getProperty("user.dir");
 	                String saveDirectory =  env.getProperty("files.location");
-	                file.transferTo(new File(saveDirectory + file.getOriginalFilename()));
+	                file.transferTo(new File(workingDir+saveDirectory + file.getOriginalFilename()));
 	               /*
 	                 byte[] bytes = file.getBytes();
 	                   BufferedOutputStream stream =
@@ -92,7 +93,7 @@ public class AdminVendorController {
 	            }
 	        } else {
 	        	LOGGER.info("You failed to upload  because the file was empty.");
-	        	result.reject("You failed to upload  because the file was empty.");
+	        	result.reject("error.file.empty");
             	attributes.addFlashAttribute("org.springframework.validation.BindingResult.vendor", result);
     			attributes.addFlashAttribute("vendor", vendor);
     			return "adminpanel/vendor/editVendor";

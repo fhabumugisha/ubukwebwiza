@@ -40,7 +40,8 @@ public class WebConfiguration extends WebMvcConfigurerAdapter{
 		@Override
 		public void addResourceHandlers(ResourceHandlerRegistry registry) {
 			registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
-			registry.addResourceHandler("/images/**").addResourceLocations("file:"+env.getProperty("files.location"));
+			String workingDir = System.getProperty("user.dir");
+			registry.addResourceHandler("/images/**").addResourceLocations("file:"+workingDir+env.getProperty("files.location"));
 		}
 		
 		@Override
