@@ -2,9 +2,9 @@ package com.buseni.ubukwebwiza.administrator.controller;
 
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,15 +14,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.buseni.ubukwebwiza.administrator.domain.Administrator;
 import com.buseni.ubukwebwiza.administrator.service.AdministratorService;
 import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
-import com.buseni.ubukwebwiza.vendor.utils.PageWrapper;
 @Controller
 //@SessionAttributes({"allDistricts", "allWeddingServices"})
 @Navigation(url="/admin" ,name = "Dashbord")
 public class AdminHomeController {
-	
+	public  static final Logger LOGGER = LoggerFactory.getLogger(AdminHomeController.class);
 	@Autowired
 	private AdministratorService administratorService;
 	
@@ -57,15 +55,6 @@ public class AdminHomeController {
 		  return "adminpanel/403";
 		}
 		  
-	@RequestMapping(value="/admin/admins",method=RequestMethod.GET)
-	public String admins(Model model, Pageable page){
-		Page<Administrator> adminPage  =  administratorService.findAll(page);	
-		PageWrapper<Administrator> pageWrapper = new PageWrapper<Administrator>(adminPage, "/admins");
-		model.addAttribute("page", pageWrapper);
-		model.addAttribute("currentMenu", "admins");
-		model.addAttribute("admins", adminPage.getContent());		
-		return "adminpanel/admin/listing";
-	}
 	
 
 }

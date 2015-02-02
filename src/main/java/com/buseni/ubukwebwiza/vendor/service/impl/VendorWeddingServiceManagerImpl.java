@@ -3,10 +3,12 @@
  */
 package com.buseni.ubukwebwiza.vendor.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +38,8 @@ public class VendorWeddingServiceManagerImpl implements VendorWeddingServiceMana
 	@Transactional
 	public void create(VendorWeddingService vendorWeddingService) {
 		// TODO control before save
+		vendorWeddingService.setCreatedAt(new Date());
+		vendorWeddingService.setLastUpdate(new Date());
 		vendorWeddingServiceRepo.save(vendorWeddingService);
 
 	}
@@ -47,6 +51,7 @@ public class VendorWeddingServiceManagerImpl implements VendorWeddingServiceMana
 	@Transactional
 	public VendorWeddingService update(VendorWeddingService vendorWeddingService) {
 		// TODO control  before save
+		vendorWeddingService.setLastUpdate(new Date());
 		return vendorWeddingServiceRepo.save(vendorWeddingService);
 	}
 
@@ -69,6 +74,7 @@ public class VendorWeddingServiceManagerImpl implements VendorWeddingServiceMana
 		if(null == idVendor){
 			return null;
 		}
+		
 		return vendorWeddingServiceRepo.findByVendor_id(idVendor);
 	}
 
@@ -77,7 +83,8 @@ public class VendorWeddingServiceManagerImpl implements VendorWeddingServiceMana
 	 */
 	@Override
 	public Page<VendorWeddingService> findAll(Pageable pageable) {
-		return vendorWeddingServiceRepo.findAll(pageable);
+		PageRequest pr = new PageRequest(pageable.getPageNumber()-1, pageable.getPageSize());
+		return vendorWeddingServiceRepo.findAll(pr);
 	}
 	/*
 	 * (non-Javadoc)

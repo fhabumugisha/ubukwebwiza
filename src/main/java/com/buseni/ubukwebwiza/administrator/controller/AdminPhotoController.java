@@ -22,10 +22,10 @@ public class AdminPhotoController {
 	public String photos(Model model, Pageable page){
 		Page<Photo>  pagePhoto = photoService.findAll(page);
 		model.addAttribute("photos", pagePhoto.getContent());		
-		PageWrapper<Photo> pageWrapper = new PageWrapper<Photo>(pagePhoto, "/photos");
+		PageWrapper<Photo> pageWrapper = new PageWrapper<Photo>(pagePhoto, "/admin/photos");
 		model.addAttribute("page", pageWrapper);
 		//model.addAttribute("currentMenu", "photos");		
-		return "adminpanel/photo/listing";
+		return "adminpanel/photo/listingPhoto";
 	}
 
 	

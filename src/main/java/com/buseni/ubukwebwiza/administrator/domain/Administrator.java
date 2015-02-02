@@ -4,8 +4,10 @@
 package com.buseni.ubukwebwiza.administrator.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -17,6 +19,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -39,8 +42,8 @@ public class Administrator implements Serializable {
 
 	@Column(unique = true)
 	@Email
-	@NotEmpty(message = "The username must not be empty")
-	private String username;
+	@NotEmpty(message = "The email must not be empty")
+	private String email;
 
 	@NotEmpty(message = "The password must not be empty")
 	private String password;
@@ -69,7 +72,8 @@ public class Administrator implements Serializable {
 
 	@OneToMany(mappedBy="admin")
 	private Set<AdminRole> roles =  new HashSet<AdminRole>();
-
+	@Transient
+	private List<Integer> listRoles = new ArrayList<Integer>();
 
 	/**
 	 * 
@@ -87,7 +91,7 @@ public class Administrator implements Serializable {
 	 */
 	public Administrator(String email, String password, String fName,
 			String lName) {
-		this.username = email;
+		this.email = email;
 		this.firstName = fName;
 		this.lastName = lName;
 	}
@@ -133,7 +137,7 @@ public class Administrator implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Administrator [id=" + id + ", username=" + username
+		return "Administrator [id=" + id + ", email=" + email
 				+ ", password=" + password + ", firstName=" + firstName
 				+ ", lastName=" + lastName + ", lastUpdate=" + lastUpdate
 				+ ", createdAt=" + createdAt + ", enabled=" + enabled + "]";
@@ -172,7 +176,7 @@ public class Administrator implements Serializable {
 		result = prime * result
 				+ ((password == null) ? 0 : password.hashCode());
 		result = prime * result
-				+ ((username == null) ? 0 : username.hashCode());
+				+ ((email == null) ? 0 : email.hashCode());
 		return result;
 	}
 
@@ -217,10 +221,10 @@ public class Administrator implements Serializable {
 				return false;
 		} else if (!password.equals(other.password))
 			return false;
-		if (username == null) {
-			if (other.username != null)
+		if (email == null) {
+			if (other.email != null)
 				return false;
-		} else if (!username.equals(other.username))
+		} else if (!email.equals(other.email))
 			return false;
 		return true;
 	}
@@ -253,12 +257,12 @@ public class Administrator implements Serializable {
 		this.createdAt = createdAt;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setEmail(String username) {
+		this.email = username;
 	}
 
 	public boolean isEnabled() {
@@ -275,6 +279,14 @@ public class Administrator implements Serializable {
 
 	public void setRoles(Set<AdminRole> roles) {
 		this.roles = roles;
+	}
+
+	public List<Integer> getListRoles() {
+		return listRoles;
+	}
+
+	public void setListRoles(List<Integer> listRoles) {
+		this.listRoles = listRoles;
 	}
 
 

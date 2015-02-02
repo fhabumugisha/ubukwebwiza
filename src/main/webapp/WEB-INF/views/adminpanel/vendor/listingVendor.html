@@ -3,7 +3,7 @@
 	layout:decorator="adminpanel/fragments/mainAdminLayout">
 
 <head>
-<title th:text="#{vendor.title}">Provinces</title>
+<title th:text="#{vendor.title}">Providers</title>
 </head>
 <body>
 	<div layout:fragment="pageContent">
@@ -46,7 +46,7 @@
 							<td th:text="${vendor.email}">Email</td>
 							<td th:text="${vendor.businessName}">Ok</td>
 							<td >
-								<img class="img-thumbnail"  width="100" height="50" alt="profil pic" th:if="${!#strings.isEmpty(vendor.profilPicture)}" th:alt="${vendor.businessName}" th:src="@{'/images/'+${vendor.profilPicture}} "></img>
+								<img class="img-thumbnail"  width="100" height="50" alt="profil pic" th:if="${!#strings.isEmpty(vendor.profilPicture)}" th:alt="${vendor.businessName}" th:src="@{'/images/profil/'+${vendor.profilPicture}} "></img>
 								<img class="img-thumbnail"  width="100" height="50" alt="profil pic" th:if="${#strings.isEmpty(vendor.profilPicture)}" th:alt="${vendor.businessName}" th:src="@{/resources/images/application/no_person.jpg} "></img>
 							</td>
 							<td><span th:if="${vendor.district}" th:text="${vendor.district.libelle}"></span> </td>

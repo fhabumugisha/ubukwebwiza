@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -40,7 +41,8 @@ public class VendorWeddingService implements Serializable{
 	
 
 	private BigDecimal price;
-	
+	@Lob
+	@Column(length=500)
 	private String description;
 	
 	private boolean enabled;
@@ -85,13 +87,7 @@ public class VendorWeddingService implements Serializable{
 		this.createdAt = createdAt;
 	}
 	
-	public Date getLastUpdated() {
-		return lastUpdate;
-	}
-
-	public void setLastUpdated(Date lastUpdated) {
-		this.lastUpdate = lastUpdated;
-	}
+	
 
 	
 	

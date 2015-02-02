@@ -21,11 +21,11 @@ public class AdminVendorWeddingServiceController {
 	@RequestMapping(value="/admin/vendorweddingservices",method=RequestMethod.GET)
 	public String vendors(Model model, Pageable page){				
 		Page<VendorWeddingService> vendorWeddingServicePage  =  vendorWeddingServiceManager.findAll(page);		
-		PageWrapper<VendorWeddingService> pageWrapper = new PageWrapper<VendorWeddingService>(vendorWeddingServicePage, "/vendorweddingservices");
+		PageWrapper<VendorWeddingService> pageWrapper = new PageWrapper<VendorWeddingService>(vendorWeddingServicePage, "/admin/vendorweddingservices");
 		model.addAttribute("page", pageWrapper);
 	//	model.addAttribute("currentMenu", "vendorweddingservices");
 		model.addAttribute("vendorWeddingServices", vendorWeddingServicePage.getContent());		
-		return "adminpanel/vendorweddingservice/listing";
+		return "adminpanel/vendorweddingservice/listingVendorWeddingService";
 	}
 
 	

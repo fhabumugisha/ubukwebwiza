@@ -3,6 +3,7 @@
  */
 package com.buseni.ubukwebwiza.vendor.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,8 @@ public class PhotoServiceImpl implements PhotoService {
 	@Transactional
 	public void create(Photo photo) {
 		// TODO control before save
+		photo.setCreatedAt(new Date());
+		photo.setLastUpdate(new Date());
 		photoRepo.save(photo);
 
 	}
@@ -52,6 +55,7 @@ public class PhotoServiceImpl implements PhotoService {
 	@Transactional
 	public Photo update(Photo photo) {
 		// TODO control before save
+		photo.setLastUpdate(new Date());
 		return photoRepo.save(photo);
 	}
 

@@ -75,7 +75,7 @@ public class AdminVendorController {
 	               
 	            	String workingDir = System.getProperty("user.dir");
 	                String saveDirectory =  env.getProperty("files.location");
-	                file.transferTo(new File(workingDir+saveDirectory + file.getOriginalFilename()));
+	                file.transferTo(new File(workingDir+saveDirectory+"/profil/" + file.getOriginalFilename()));
 	               /*
 	                 byte[] bytes = file.getBytes();
 	                   BufferedOutputStream stream =

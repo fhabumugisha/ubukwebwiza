@@ -1,12 +1,14 @@
 package com.buseni.ubukwebwiza.administrator.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -48,6 +50,8 @@ public class AdministratorServiceImpl implements AdministratorService
 	@Transactional
 	public void create(Administrator administrator) {
 		// Control before saving
+		administrator.setCreatedAt(new Date());;
+		administrator.setLastUpdate(new Date());
 		administratorRepo.save(administrator);
 
 	}
@@ -63,6 +67,7 @@ public class AdministratorServiceImpl implements AdministratorService
 	@Transactional
 	public Administrator update(Administrator administrator) {
 		// TODO Control
+		administrator.setLastUpdate(new Date());
 		return administratorRepo.save(administrator);
 	}
 
@@ -90,7 +95,8 @@ public class AdministratorServiceImpl implements AdministratorService
 	 */
 	@Override
 	public Page<Administrator> findAll(Pageable pageable) {
-		return administratorRepo.findAll(pageable);
+		PageRequest pr = new PageRequest(pageable.getPageNumber()-1, pageable.getPageSize());
+		return administratorRepo.findAll(pr);
 	}
 
 	/*
@@ -112,7 +118,7 @@ public class AdministratorServiceImpl implements AdministratorService
 	@Override
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException {
-		Administrator admin = administratorRepo.findByUsername(username);
+		Administrator admin = administratorRepo.findByEmail(username);
 		List<GrantedAuthority> authorities = buildAdminAuthority(admin.getRoles());
 
 		return buildAdminForAuthentication(admin, authorities);
@@ -136,7 +142,7 @@ public class AdministratorServiceImpl implements AdministratorService
 	// Converts admin to org.springframework.security.core.userdetails.User
 	private User buildAdminForAuthentication(Administrator admin,
 			List<GrantedAuthority> authorities) {
-		return new User(admin.getUsername(), admin.getPassword(),
+		return new User(admin.getEmail(), admin.getPassword(),
 				admin.isEnabled(), true, true, true, authorities);
 	}
 

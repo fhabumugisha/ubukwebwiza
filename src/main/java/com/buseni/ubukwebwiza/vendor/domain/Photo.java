@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -35,6 +36,8 @@ public class Photo implements Serializable{
 	private String name;
 	
 	@NotEmpty(message="You must write a description")
+	@Lob
+	@Column(length=500)
 	private String description;
 	
 	@Temporal(TemporalType.TIMESTAMP)
@@ -165,23 +168,14 @@ public class Photo implements Serializable{
 		this.lastUpdate = date;
 	}
 
-	/**
-	 * @return the lastUpdate
-	 */
-	public Date getDate() {
-		return lastUpdate;
-	}
 
-	
 
-	
-
-	public String getPhotoName() {
+	public String getName() {
 		return name;
 	}
 
-	public void setPhotoName(String photoName) {
-		this.name = photoName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public Date getLastUpdate() {

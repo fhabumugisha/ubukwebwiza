@@ -17,7 +17,7 @@ public class AdministratorBuilder  {
 		return this;
 	}
 	public AdministratorBuilder username(String username){
-		administrator.setUsername(username);
+		administrator.setEmail(username);
 		return this;
 	}
 	public AdministratorBuilder password(String password){
