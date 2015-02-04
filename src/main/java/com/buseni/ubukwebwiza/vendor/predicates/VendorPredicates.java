@@ -6,9 +6,8 @@ import com.buseni.ubukwebwiza.vendor.utils.VendorSearch;
 import com.mysema.query.types.Predicate;
 
 public class VendorPredicates {
-	
 	private static final QVendor VENDOR = QVendor.vendor;
-	
+
 	
 
 	public static Predicate businessNameLike(String  searchTerm){
