@@ -15,6 +15,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -52,16 +54,26 @@ public class AdministratorServiceImpl implements AdministratorService
 	@Transactional
 	public void create(Administrator administrator) {
 		// Control before saving
-		administrator.setCreatedAt(new Date());;
+		if(administrator.getId() == null){
+			administrator.setCreatedAt(new Date());
+		}
+		
 		administrator.setLastUpdate(new Date());
 		if(!CollectionUtils.isEmpty(administrator.getListRoles())){
-			List<AdminRole> roles  =  new ArrayList<AdminRole>();
-			for(Integer idRole : administrator.getListRoles()){
+			//List<AdminRole> roles  =  new ArrayList<AdminRole>();
+			for(String roleName : administrator.getListRoles()){
 				AdminRole role = new AdminRole();
 				role.setAdmin(administrator);
-				//role.setRole();
+				role.setRole(roleName);
+			//	role.setId(idRole);
+				administrator.getRoles().add(role);
 			}
 		}
+		if(administrator.getId() == null){
+			PasswordEncoder encoder = new BCryptPasswordEncoder();
+			administrator.setPassword(encoder.encode(administrator.getPassword()));
+		}
+		
 		administratorRepo.save(administrator);
 
 	}
@@ -97,10 +109,11 @@ public class AdministratorServiceImpl implements AdministratorService
 		if(admin  == null){
 			return null;
 		}
-		List<Integer> listRoles =  new ArrayList<Integer>();
+		List<String> listRoles =  new ArrayList<String>();
 		for(AdminRole role : admin.getRoles()){
-			listRoles.add(role.getId());
+			listRoles.add(role.getRole());
 		}
+		
 		admin.setListRoles(listRoles);
 		return admin;
 	}

@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -70,10 +71,10 @@ public class Administrator implements Serializable {
 	
 	private boolean enabled;
 
-	@OneToMany(mappedBy="admin")
-	private Set<AdminRole> roles =  new HashSet<AdminRole>();
+	@OneToMany(mappedBy="admin", cascade =CascadeType.ALL)
+	private Set<AdminRole> roles =  new HashSet<AdminRole>(); 
 	@Transient
-	private List<Integer> listRoles = new ArrayList<Integer>();
+	private List<String> listRoles = new ArrayList<String>();
 
 	/**
 	 * 
@@ -281,11 +282,11 @@ public class Administrator implements Serializable {
 		this.roles = roles;
 	}
 
-	public List<Integer> getListRoles() {
+	public List<String> getListRoles() {
 		return listRoles;
 	}
 
-	public void setListRoles(List<Integer> listRoles) {
+	public void setListRoles(List<String> listRoles) {
 		this.listRoles = listRoles;
 	}
 

@@ -34,6 +34,8 @@
 
 
 					<input type="text" hidden="hidden" th:field="*{id}" class="hidden" />
+					<span th:if="*{id}"> <input type="text" hidden="hidden" th:field="*{password}" class="hidden" /></span>
+					
 					<div class="row">
 
 						<div class="col-sm-6">
@@ -97,12 +99,12 @@
 
 						<div class="col-sm-6">
 						
-							<div class="form-group"
+							<div class="form-group" th:unless="*{password}"
 								th:classappend="${#fields.hasErrors('password')}? has-error">
 								<label for="password" class="col-sm-3 control-label"
 									th:text="#{administrator.list.password}">password</label>
 								<div class="col-sm-8">
-									<input id="password" type="password" class="form-control"  readonly="readonly"
+									<input id="password" type="text" class="form-control"  
 										th:field="*{password}" placeholder="Enter password"
 										required="required" /> <span class="text-danger"
 										th:if="${#fields.hasErrors('password')}"
@@ -130,7 +132,7 @@
 							<div class="form-group" th:each="role : ${allRoles} ">
                             <label class="col-sm-5 control-label" data-th-text="${role.name}">ADMIN</label>
                             <div class="col-sm-7">
-                                <input type="checkbox" th:field="*{listRoles}" th:value="${role.id}" required="required"></input>
+                                <input type="checkbox" th:field="*{listRoles}" th:value="${role.name}" required="required"></input>
                             </div>
                         </div>
 							

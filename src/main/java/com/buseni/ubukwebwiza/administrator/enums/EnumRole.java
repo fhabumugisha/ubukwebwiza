@@ -28,4 +28,15 @@ public enum EnumRole {
 	public Integer getId() {
 		return id;
 	}
+	
+	public static String getNameFromId(Integer id){
+		for(EnumRole role : EnumRole.values()){
+			if(role.getId().equals(id)){
+				return role.getName();
+			}
+		}
+		return null;
+	}
+	
+	
 }
