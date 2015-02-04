@@ -130,7 +130,7 @@
 							<div class="form-group" th:each="role : ${allRoles} ">
                             <label class="col-sm-5 control-label" data-th-text="${role.name}">ADMIN</label>
                             <div class="col-sm-7">
-                                <input type="checkbox" th:field="*{listRoles}" th:value="${role.id}"></input>
+                                <input type="checkbox" th:field="*{listRoles}" th:value="${role.id}" required="required"></input>
                             </div>
                         </div>
 							

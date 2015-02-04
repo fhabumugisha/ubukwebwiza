@@ -17,9 +17,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import com.buseni.ubukwebwiza.administrator.domain.AdminRole;
 import com.buseni.ubukwebwiza.administrator.domain.Administrator;
+import com.buseni.ubukwebwiza.administrator.enums.EnumRole;
 import com.buseni.ubukwebwiza.administrator.repository.AdministratorRepo;
 import com.buseni.ubukwebwiza.administrator.service.AdministratorService;
 
@@ -52,6 +54,14 @@ public class AdministratorServiceImpl implements AdministratorService
 		// Control before saving
 		administrator.setCreatedAt(new Date());;
 		administrator.setLastUpdate(new Date());
+		if(!CollectionUtils.isEmpty(administrator.getListRoles())){
+			List<AdminRole> roles  =  new ArrayList<AdminRole>();
+			for(Integer idRole : administrator.getListRoles()){
+				AdminRole role = new AdminRole();
+				role.setAdmin(administrator);
+				//role.setRole();
+			}
+		}
 		administratorRepo.save(administrator);
 
 	}
@@ -83,7 +93,16 @@ public class AdministratorServiceImpl implements AdministratorService
 		if (null == id) {
 			return null;
 		}
-		return administratorRepo.findOne(id);
+		Administrator admin   = administratorRepo.findOne(id);
+		if(admin  == null){
+			return null;
+		}
+		List<Integer> listRoles =  new ArrayList<Integer>();
+		for(AdminRole role : admin.getRoles()){
+			listRoles.add(role.getId());
+		}
+		admin.setListRoles(listRoles);
+		return admin;
 	}
 
 	/*

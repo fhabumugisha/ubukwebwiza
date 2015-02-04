@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.buseni.ubukwebwiza.administrator.domain.Administrator;
+import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
 
 public interface AdministratorService extends UserDetailsService {
 	
@@ -12,7 +13,7 @@ public interface AdministratorService extends UserDetailsService {
 	 * 
 	 * @param weddingService
 	 */
-	void create(Administrator administrator);
+	void create(Administrator administrator) throws ServiceLayerException;
 	
 	/**
 	 * 

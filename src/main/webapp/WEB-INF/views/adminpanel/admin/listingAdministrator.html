@@ -28,7 +28,7 @@
 							<th class="col-sm-1" th:text="#{administrator.list.email}">Email</th>
 							<th class="col-sm-1" th:text="#{administrator.list.firstname}">First name</th>
 							<th class="col-sm-1" th:text="#{administrator.list.lastname}">Last name</th>
-							
+							<th class="col-sm-1" th:text="#{administrator.list.roles}">Last name</th>
 							<th class="col-sm-1" th:text="#{list.lastupdate}">Last update</th>							
 							<th class="col-sm-1" th:text="#{list.createdat}">Created at</th>
 							<th class="col-sm-1" th:text="#{list.enabled}">Enabled</th>
@@ -43,7 +43,12 @@
 							<td th:text="${administrator.email}">Email</td>
 							<td th:text="${administrator.firstName}">Ok</td>
 							<td th:text="${administrator.lastName}">Ok</td>
-							
+							<td>
+							<ul th:if="${not #lists.isEmpty(administrator.roles)}">
+									<li th:each="role :${administrator.roles}" th:text="${role.role}">
+									</li>
+								</ul>
+							</td>
 							<td th:text="${#dates.format(administrator.lastUpdate, 'dd/MM/yyyy')}">Ok</td>
 							<td th:text="${#dates.format(administrator.createdAt, 'dd/MM/yyyy')}">Ok</td>
 							<td th:text="${administrator.enabled}">Ok</td>
