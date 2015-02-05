@@ -56,26 +56,58 @@ public class AdministratorServiceImpl implements AdministratorService
 		// Control before saving
 		if(administrator.getId() == null){
 			administrator.setCreatedAt(new Date());
-		}
+			administrator.setLastUpdate(new Date());
+			
+				for(String roleName : administrator.getListRoles()){
+					AdminRole role = new AdminRole();
+					role.setAdmin(administrator);
+					role.setRole(roleName);
+				//	role.setId(idRole);
+					administrator.getRoles().add(role);
+					
+					
+				}
+			
+			
+				PasswordEncoder encoder = new BCryptPasswordEncoder();
+				administrator.setPassword(encoder.encode(administrator.getPassword()));
+			
+			
+			administratorRepo.save(administrator);
 		
-		administrator.setLastUpdate(new Date());
-		if(!CollectionUtils.isEmpty(administrator.getListRoles())){
-			//List<AdminRole> roles  =  new ArrayList<AdminRole>();
+		}else{
+			Administrator adminDb = administratorRepo.findOne(administrator.getId());
+			adminDb.setLastUpdate(new Date());
+			adminDb.setEmail(administrator.getEmail());
+			adminDb.setEnabled(administrator.isEnabled());
+			adminDb.setLastName(administrator.getLastName());
+			adminDb.setFirstName(administrator.getFirstName());
 			for(String roleName : administrator.getListRoles()){
 				AdminRole role = new AdminRole();
 				role.setAdmin(administrator);
 				role.setRole(roleName);
-			//	role.setId(idRole);
-				administrator.getRoles().add(role);
+			if(!containsRole(adminDb, roleName)){
+				adminDb.getRoles().add(role);
 			}
-		}
-		if(administrator.getId() == null){
-			PasswordEncoder encoder = new BCryptPasswordEncoder();
-			administrator.setPassword(encoder.encode(administrator.getPassword()));
+				
+				
+				
+			}
+			 administratorRepo.save(adminDb);
 		}
 		
-		administratorRepo.save(administrator);
+		
+		
 
+	}
+	
+	private boolean containsRole(Administrator admin, String role){
+		for(AdminRole adminRole : admin.getRoles()){
+			if(adminRole.getRole().equals(role)){
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/*

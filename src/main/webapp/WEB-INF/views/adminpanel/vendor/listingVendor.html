@@ -76,10 +76,34 @@
 									</li>
 									<li>
 									
-									<a href="#" th:href="@{/admin/vendors/delete(id=${vendor.id})}" class="deleteProvince">
+									<a href="#" th:href="@{/admin/vendors/delete(id=${vendor.id})}" class="deleteVendor">
 											
 											<button type="button" class="btn btn-default btn-xs">
          									  <span class="glyphicon glyphicon-trash"></span>&nbsp; <span th:text="#{list.delete}">delete</span>
+       								 		 </button>
+									
+									
+									</a>
+
+									</li>
+									<li>
+									
+									<a href="#" th:href="@{'/admin/vendors/' + ${vendor.id} +'/photos'}" class="vendorPhotos">
+											
+											<button type="button" class="btn btn-default btn-xs">
+         									  <span class="glyphicon glyphicon-picture"></span>&nbsp; <span th:text="#{list.photos}">Photos</span>
+       								 		 </button>
+									
+									
+									</a>
+
+									</li>
+									<li>
+									
+									<a href="#" th:href="@{'/admin/vendors/' + ${vendor.id} + '/services'}" class="vendorServices">
+											
+											<button type="button" class="btn btn-default btn-xs">
+         									  <span class="glyphicon glyphicon-tasks"></span>&nbsp; <span th:text="#{list.services}">Services</span>
        								 		 </button>
 									
 									

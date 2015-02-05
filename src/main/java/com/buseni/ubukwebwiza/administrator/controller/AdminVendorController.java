@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -136,9 +137,25 @@ public class AdminVendorController {
 		model.addAttribute("vendor", vendor);
 		return "adminpanel/vendor/editVendor";
 	}
+	
+	@RequestMapping(value="/vendors/{idVendor:[\\d]+}/photos", method=RequestMethod.GET)
+	public String photos(@PathVariable Integer idVendor, Model model) {
+		LOGGER.info("IN: vendors/photos-GET");
+		Vendor vendor =  vendorService.findOne(idVendor);
+		model.addAttribute("vendor", vendor);
+		return "adminpanel/vendor/photos";
+	}
 
+	@RequestMapping(value="/vendors/{idVendor:[\\d]+}/services", method=RequestMethod.GET)
+	public String services( @PathVariable Integer idVendor, Model model) {		
+		LOGGER.info("IN: vendors/services");		
+		Vendor vendor =  vendorService.findOne(idVendor);
+		model.addAttribute("vendor", vendor);
+		return "adminpanel/vendor/services";
+	}
+	
 	@RequestMapping(value="/vendors/new", method=RequestMethod.GET)
-	public String newProvince( Model model) {		
+	public String newVendor( Model model) {		
 		LOGGER.info("IN: vendors/new-GET");
 		model.addAttribute("vendor", new Vendor());
 		return "adminpanel/vendor/editVendor";
