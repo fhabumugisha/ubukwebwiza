@@ -9,7 +9,7 @@
 	<div layout:fragment="pageContent">
 
 			<div th:if="${message}" class="alert alert-success" th:text="${message}">Cool</div>
-			<h2 class="sub-header" th:text="#{photos.list.title}">Listing vendors photos</h2>
+			<h2 class="sub-header" th:text="#{vendor.photos.list.title(${vendor.businessName})}">Listing vendor's photos</h2>
 					
 			
 				<!-- <a href="#" th:href="@{/admin/vendorweddingservices/new}">  			
@@ -31,7 +31,7 @@
 							<th class="col-sm-1" th:text="#{list.lastupdate}">Last update</th>							
 							<th class="col-sm-1" th:text="#{list.createdat}">Created at</th>
 							<th class="col-sm-1" th:text="#{list.enabled}">Enabled</th>
-<!-- 							<th class="col-sm-1"  th:text="#{list.actions}">Actions</th> -->
+							<th class="col-sm-1"  th:text="#{list.actions}">Actions</th>
 							
 
 						</tr>
@@ -52,11 +52,11 @@
 							<td th:text="${#dates.format(photo.lastUpdate, 'dd/MM/yyyy')}">Ok</td>
 							<td th:text="${#dates.format(photo.createdAt, 'dd/MM/yyyy')}">Ok</td>
 							<td th:text="${photo.enabled}">Ok</td>
-							<!-- <td class="dropdown">
+							<td class="dropdown">
 							<a id="dLabel" data-toggle="dropdown" href="#"> <span th:text="#{list.actions}">Actions</span>
 									<span class="caret"></span></a>
 								<ul class="dropdown-menu no-collapse" role="menu" aria-labelledby="dLabel">
-									<li><a href="#" th:href="@{/admin/vendorweddingservices/edit(id=${vendorService.id})}">
+									<li><a href="#" th:href="@{'/admin/vendors/' + ${vendor.id} +'/photos'+'/edit(id=${photo.id})'}">
 									
 											<button type="button" class="btn btn-default btn-xs">
          									  <span class="glyphicon glyphicon-pencil"></span>&nbsp; <span th:text="#{list.edit}">edit</span>
@@ -67,7 +67,7 @@
 									</li>
 									<li>
 									
-									<a href="#" th:href="@{/admin/vendorweddingservices/delete(id=${vendorService.id})}" class="deleteVendorService">
+									<a href="#" th:href="@{'/admin/vendors/' + ${vendor.id} +'/photos'+'/delete(id=${photo.id})'}" class="deleteVendorService">
 											
 											<button type="button" class="btn btn-default btn-xs">
          									  <span class="glyphicon glyphicon-trash"></span>&nbsp; <span th:text="#{list.delete}">delete</span>
@@ -78,7 +78,7 @@
 
 									</li>
 								</ul>
-								</td> -->
+								</td> 
 						</tr>
 						<tr th:remove="all">
 							<td>1,002</td>
@@ -107,7 +107,118 @@
 
 			<div>
 
+			<div class="panel panel-default">
+			<div class="panel-body">
+				<form class="form-horizontal" role="form" action="#" enctype="multipart/form-data"
+					th:action="@{/admin/vendors/savePhoto}" th:object="${photo}"
+					method="post">
+					<div th:if="${#fields.hasGlobalErrors()}"
+						class="alert alert-danger">
+						<ul>
+							<li th:each="err : ${#fields.globalErrors()}" th:text="${err}">Input
+								is incorrect</li>
+						</ul>
+					</div>
 
+
+					<input type="text" hidden="hidden" th:field="*{id}" class="hidden" />
+					<div class="row">
+
+						
+							<div class="col-sm-6">
+
+							<div class="form-group"
+								th:classappend="${#fields.hasErrors('name')}? has-error">
+								<label for="name" class="col-sm-4 control-label"
+									th:text="#{photo.list.name}">name</label>
+								<div class="col-sm-4">
+
+									<div class="thumbnail">
+																	
+										
+											
+									<img id="picturePreview"   width="100" height="150" 
+									     alt="profil pic"  th:if="*{name}" 
+									     th:alt="${businessName}" th:src="@{'/images/'+*{name}} "></img>
+									
+									 <img id="picturePreview"  width="100" height="150" alt="profil pic" 
+									      th:unless="*{name}" th:alt="${name}" 
+									      th:src="@{/resources/images/application/no_person.jpg} "></img>
+										
+										<div class="caption">
+
+											<input id="picture" type="file" class="filestyle"
+												name="file"
+												data-classButton="btn btn-default btn-sm btn-block"
+												data-input="false"
+												data-classIcon="glyphicon glyphicon-folder-open" />
+												
+
+										</div>
+										
+									</div>
+									<a href="#" id="remove" style="display: none;" class="btn btn-default fileupload-exists"  data-dismiss="fileupload">Remove</a>
+
+
+
+
+									<span class="text-danger"
+										th:if="${#fields.hasErrors('name')}"
+										th:errors="*{name}">Required field</span>
+								</div>
+
+							</div>
+							
+													
+
+						</div>
+						<div class="col-sm-6">
+
+							
+							
+							<div class="form-group"
+								th:classappend="${#fields.hasErrors('description')}? has-error">
+								<label for="description" class="col-sm-3 control-label"
+									th:text="#{photo.list.description}">description</label>
+								<div class="col-sm-8">
+									<textarea id="description" rows="3" cols="5" class="form-control"
+										th:field="*{description}"></textarea>
+
+									<span class="text-danger"
+										th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Required
+										field</span>
+								</div>
+
+							</div>
+							
+													
+
+						</div>
+
+
+					</div>
+
+
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<button type="submit"
+								th:text="${vendor.id} ? #{update.button.label} : #{add.button.label}"
+								class="btn btn-primary">Action</button>
+
+							<a href="#" th:href="@{/admin/vendors}">
+								<button type="button" class="btn  btn-default">
+									<span th:text="#{cancel.button.label}">Cancel</span>
+								</button>
+							</a>
+
+							
+						</div>
+					</div>
+
+
+				</form>
+			</div>
+		</div> 
 				
 			</div>
 		

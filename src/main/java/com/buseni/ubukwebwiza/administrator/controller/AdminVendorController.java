@@ -26,9 +26,13 @@ import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
 import com.buseni.ubukwebwiza.exceptions.ErrorsHelper;
 import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
 import com.buseni.ubukwebwiza.vendor.domain.District;
+import com.buseni.ubukwebwiza.vendor.domain.Photo;
 import com.buseni.ubukwebwiza.vendor.domain.Vendor;
+import com.buseni.ubukwebwiza.vendor.domain.VendorWeddingService;
+import com.buseni.ubukwebwiza.vendor.domain.WeddingService;
 import com.buseni.ubukwebwiza.vendor.service.DistrictService;
 import com.buseni.ubukwebwiza.vendor.service.VendorService;
+import com.buseni.ubukwebwiza.vendor.service.WeddingServiceManager;
 import com.buseni.ubukwebwiza.vendor.utils.PageWrapper;
 
 @Controller
@@ -42,6 +46,9 @@ public class AdminVendorController {
 	
 	@Autowired
 	private DistrictService  districtService;
+	
+	@Autowired
+	private WeddingServiceManager weddingServiceManager;
 	
 	@Autowired
 	private Environment env;
@@ -143,6 +150,7 @@ public class AdminVendorController {
 		LOGGER.info("IN: vendors/photos-GET");
 		Vendor vendor =  vendorService.findOne(idVendor);
 		model.addAttribute("vendor", vendor);
+		model.addAttribute("photo", new Photo());
 		return "adminpanel/vendor/photos";
 	}
 
@@ -151,6 +159,7 @@ public class AdminVendorController {
 		LOGGER.info("IN: vendors/services");		
 		Vendor vendor =  vendorService.findOne(idVendor);
 		model.addAttribute("vendor", vendor);
+		model.addAttribute("vendorService", new VendorWeddingService());
 		return "adminpanel/vendor/services";
 	}
 	
@@ -166,6 +175,10 @@ public class AdminVendorController {
 		return "vendors";
 	}
 	
+	@ModelAttribute("allWeddingServices")
+	public List<WeddingService> populateWeddingServices(){
+		return weddingServiceManager.findByEnabled(Boolean.TRUE);
+	}
 	@ModelAttribute("districts")
 	public List<District> populateDistricts(){
 		return districtService.findByEnabled(Boolean.TRUE);
