@@ -138,6 +138,13 @@ public class Vendor implements Serializable {
 
 	}
 
+	/**
+	 * 
+	 */
+	public Vendor(Integer id) {
+		this.id = id;
+	}
+
 
 
 	/**

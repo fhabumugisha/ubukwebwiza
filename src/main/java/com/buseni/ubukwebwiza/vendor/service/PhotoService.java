@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
 import com.buseni.ubukwebwiza.vendor.domain.Photo;
 
 public interface PhotoService {
@@ -12,8 +13,9 @@ public interface PhotoService {
 	/**
 	 * 
 	 * @param weddingService
+	 * @return 
 	 */
-	void create(Photo photo);
+	void create(Photo photo) throws ServiceLayerException;
 	
 	/**
 	 * 

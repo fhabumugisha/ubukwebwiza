@@ -19,7 +19,7 @@
        			</button>
 				</a>  -->
 		
-			
+			<div id="listPhotos-bloc" th:fragment="listPhotos">
 			<div class="table-responsive">
 				<table class="table table-striped table-bordered table-hover">
 					<thead>
@@ -92,7 +92,7 @@
 					</tbody>
 				</table>
 			</div>
-
+			</div>
 			<!-- <div th:replace="util :: paginator ">
 				<ul class="pagination pagination-lg">
 					<li><a href="#">&laquo;</a></li>
@@ -110,8 +110,8 @@
 			<div class="panel panel-default">
 			<div class="panel-body">
 				<form class="form-horizontal" role="form" action="#" enctype="multipart/form-data"
-					th:action="@{/admin/vendors/savePhoto}" th:object="${photo}"
-					method="post">
+					th:action="@{/admin/vendors/savePhoto}" th:object="${photoForm}"
+					method="post" id="uploadPhotoForm">
 					<div th:if="${#fields.hasGlobalErrors()}"
 						class="alert alert-danger">
 						<ul>
@@ -122,6 +122,7 @@
 
 
 					<input type="text" hidden="hidden" th:field="*{id}" class="hidden" />
+					<input type="text" hidden="hidden" th:field="*{idVendor}" class="hidden" />
 					<div class="row">
 
 						
@@ -228,5 +229,29 @@
 	
 	
 </body>
+<script type="text/javascript">
 
+
+
+//using FormData() object
+function uploadFormData(){
+   // $('#result').html('');
+ var form = document.getElementById("uploadPhotoForm");
+  var oMyForm = new FormData(form);
+  oMyForm.append("file", file2.files[0]);
+ 
+  $.ajax({
+    url: form.attr('action'),
+    data: oMyForm,
+    dataType: 'text',
+    processData: false,
+    contentType: false,
+    type: 'POST',
+    success: function(data){
+      $('#listPhotos').html(data);
+    }
+  });
+}
+
+</script>
 </html>

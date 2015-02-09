@@ -207,7 +207,49 @@
 		    })
 		});
 		
-		  
+		function previewPicture() {
+		    var oFReader = new FileReader();
+		    oFReader.readAsDataURL(document.getElementById("picture").files[0]);
+
+		    oFReader.onload = function (oFREvent) {
+		        document.getElementById("picturePreview").src = oFREvent.target.result;
+		    };
+		};
+		$("#picture").change(function(){
+		 //   readURL(this);
+		    previewPicture();
+		    $('#removePicture').show();
+		});
+		$('#removePicture').click(function(){
+			$('#picture').val('');
+		$("#picturePreview").attr('src','holder.js/100%x150');
+			$(this).hide();
+		})
+
+		$(function() {
+		    $('#uploadPhotoForm').submit(function(event) {
+		        event.preventDefault(); // prevent this form from being submited
+		        var form = document.getElementById("uploadPhotoForm");
+		        var oMyForm = new FormData(form);
+		       // oMyForm.append("file", file2.files[0]);
+		       
+		        $.ajax({
+		          url: form.action,
+		          data: oMyForm,
+		          dataType: 'text',
+		          processData: false,
+		          contentType: false,
+		          type: 'POST',
+		          success: function(data){
+		        	  console.log(data);
+		            $('#listPhotos-bloc').html(data);
+		          }
+		        });
+		        form.reset();
+		        return false;
+		    });
+		});
+
 		  
 	</script>
 </body>

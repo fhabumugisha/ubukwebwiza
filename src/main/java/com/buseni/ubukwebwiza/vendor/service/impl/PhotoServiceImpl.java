@@ -42,9 +42,11 @@ public class PhotoServiceImpl implements PhotoService {
 	@Transactional
 	public void create(Photo photo) {
 		// TODO control before save
-		photo.setCreatedAt(new Date());
-		photo.setLastUpdate(new Date());
-		photoRepo.save(photo);
+		if(photo.getId() == null){
+			photo.setCreatedAt(new Date());
+		}
+		photo.setLastUpdate(new Date());		
+		 photoRepo.save(photo);
 
 	}
 

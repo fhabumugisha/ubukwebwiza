@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.buseni.ubukwebwiza.administrator.forms.PhotoForm;
 import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
 import com.buseni.ubukwebwiza.exceptions.ErrorsHelper;
 import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
@@ -31,6 +32,7 @@ import com.buseni.ubukwebwiza.vendor.domain.Vendor;
 import com.buseni.ubukwebwiza.vendor.domain.VendorWeddingService;
 import com.buseni.ubukwebwiza.vendor.domain.WeddingService;
 import com.buseni.ubukwebwiza.vendor.service.DistrictService;
+import com.buseni.ubukwebwiza.vendor.service.PhotoService;
 import com.buseni.ubukwebwiza.vendor.service.VendorService;
 import com.buseni.ubukwebwiza.vendor.service.WeddingServiceManager;
 import com.buseni.ubukwebwiza.vendor.utils.PageWrapper;
@@ -49,6 +51,9 @@ public class AdminVendorController {
 	
 	@Autowired
 	private WeddingServiceManager weddingServiceManager;
+	
+	@Autowired
+	private PhotoService photoService;
 	
 	@Autowired
 	private Environment env;
@@ -150,7 +155,9 @@ public class AdminVendorController {
 		LOGGER.info("IN: vendors/photos-GET");
 		Vendor vendor =  vendorService.findOne(idVendor);
 		model.addAttribute("vendor", vendor);
-		model.addAttribute("photo", new Photo());
+		PhotoForm photoForm = new PhotoForm();
+		photoForm.setIdVendor(vendor.getId());
+		model.addAttribute("photoForm", photoForm);
 		return "adminpanel/vendor/photos";
 	}
 
@@ -170,6 +177,73 @@ public class AdminVendorController {
 		return "adminpanel/vendor/editVendor";
 	}
 	
+	@RequestMapping(value="/vendors/savePhoto",method=RequestMethod.POST)
+	public String savePhoto( @ModelAttribute PhotoForm photoForm, Model model) throws ServiceLayerException{		
+		LOGGER.info("IN: vendors/save-POSST");
+	
+			MultipartFile file  = photoForm.getFile();
+			Photo photo = new Photo();
+			if (!file.isEmpty()) {
+	            try {
+	               
+	            	String workingDir = System.getProperty("user.dir");
+	                String saveDirectory =  env.getProperty("files.location");
+	                file.transferTo(new File(workingDir+saveDirectory+"/" + file.getOriginalFilename()));
+	             
+	                LOGGER.info("You successfully uploaded " + file.getOriginalFilename() + " into " + file.getOriginalFilename() + "-uploaded !");
+	               
+	                photo.setName(file.getOriginalFilename());
+	            } catch (Exception e) {
+	            	LOGGER.info("You failed to upload " + file.getName() + " => " + e.getMessage());
+	            	//result.reject(e.getMessage());
+	            	
+	    			
+	    			return "adminpanel/vendor/photos::error";
+	            }
+	        } else {
+	        	LOGGER.info("You failed to upload  because the file was empty.");
+	        	//result.reject("error.file.empty");	
+    			
+    			return "adminpanel/vendor/photos::error";
+	        }
+			
+			try {
+				photo.setDescription(photoForm.getDescription());
+				photo.setId(photoForm.getId());
+				Vendor vendor = vendorService.findOne(photoForm.getIdVendor());
+				photo.setVendor(vendor);
+				vendor.getPhotos().add(photo);
+				photoService.create(photo);
+
+				String message = "Photo " + photo.getId() + " was successfully added";
+				//attributes.addFlashAttribute("message", message);
+				model.addAttribute("vendor", vendor);
+				return "adminpanel/vendor/photos::listPhotos";
+				
+					
+			
+				//Business errors
+			} catch (final ServiceLayerException e) {
+				//ErrorsHelper.rejectErrors(result, e.getErrors());
+				//LOGGER.info("Photo save error: " + result.toString());
+								
+				return "adminpanel/vendor/photos::error";
+			}
+			
+		
+
+
+	}
+	
+
+	@RequestMapping(value="/vendors/deletePhoto", method=RequestMethod.POST)
+	public String deletePhoto( @RequestParam(value="id", required=true) Integer id, RedirectAttributes attributes) {
+		LOGGER.info("IN: vendors/deletePhoto-GET");
+		vendorService.delete(id);
+		String message = "Vendor " + id + " was successfully deleted";
+		attributes.addFlashAttribute("message", message);		
+		return "redirect:/admin/vendors";
+	}
 	@ModelAttribute("currentMenu")
 	public String module(){
 		return "vendors";
