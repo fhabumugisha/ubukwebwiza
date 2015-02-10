@@ -236,14 +236,17 @@ public class AdminVendorController {
 	}
 	
 
-	@RequestMapping(value="/vendors/deletePhoto", method=RequestMethod.POST)
-	public String deletePhoto( @RequestParam(value="id", required=true) Integer id, RedirectAttributes attributes) {
-		LOGGER.info("IN: vendors/deletePhoto-GET");
-		vendorService.delete(id);
+	@RequestMapping(value="/vendors/{idVendor:[\\d]+}/photos/deletePhoto", method=RequestMethod.GET)
+	public String deletePhoto(@PathVariable Integer idVendor, @RequestParam(value="id", required=true) Integer id, Model model) {
+		LOGGER.info("IN: vendors/deletePhoto-POST");
+		photoService.delete(id);
 		String message = "Vendor " + id + " was successfully deleted";
-		attributes.addFlashAttribute("message", message);		
-		return "redirect:/admin/vendors";
+		model.addAttribute("message", message);		
+		model.addAttribute("vendor", vendorService.findOne(idVendor));
+		return "adminpanel/vendor/photos::listPhotos";
 	}
+	
+	
 	@ModelAttribute("currentMenu")
 	public String module(){
 		return "vendors";

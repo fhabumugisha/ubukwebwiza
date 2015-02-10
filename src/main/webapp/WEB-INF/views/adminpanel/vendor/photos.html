@@ -8,7 +8,7 @@
 <body>
 	<div layout:fragment="pageContent">
 
-			<div th:if="${message}" class="alert alert-success" th:text="${message}">Cool</div>
+			
 			<h2 class="sub-header" th:text="#{vendor.photos.list.title(${vendor.businessName})}">Listing vendor's photos</h2>
 					
 			
@@ -20,6 +20,7 @@
 				</a>  -->
 		
 			<div id="listPhotos-bloc" th:fragment="listPhotos">
+			<div th:if="${message}" class="alert alert-success" th:text="${message}">Cool</div>
 			<div class="table-responsive">
 				<table class="table table-striped table-bordered table-hover">
 					<thead>
@@ -56,7 +57,7 @@
 							<a id="dLabel" data-toggle="dropdown" href="#"> <span th:text="#{list.actions}">Actions</span>
 									<span class="caret"></span></a>
 								<ul class="dropdown-menu no-collapse" role="menu" aria-labelledby="dLabel">
-									<li><a href="#" th:href="@{'/admin/vendors/' + ${vendor.id} +'/photos'+'/edit(id=${photo.id})'}">
+									<li><a href="#" th:href="@{'/admin/vendors/' + ${vendor.id} +'/photos/editPhoto'(id=${photo.id})}">
 									
 											<button type="button" class="btn btn-default btn-xs">
          									  <span class="glyphicon glyphicon-pencil"></span>&nbsp; <span th:text="#{list.edit}">edit</span>
@@ -67,7 +68,7 @@
 									</li>
 									<li>
 									
-									<a href="#" th:href="@{'/admin/vendors/' + ${vendor.id} +'/photos'+'/delete(id=${photo.id})'}" class="deleteVendorService">
+									<a href="#" th:href="@{'/admin/vendors/' + ${vendor.id} +'/photos/deletePhoto'(id=${photo.id})}" class="deletePhoto">
 											
 											<button type="button" class="btn btn-default btn-xs">
          									  <span class="glyphicon glyphicon-trash"></span>&nbsp; <span th:text="#{list.delete}">delete</span>

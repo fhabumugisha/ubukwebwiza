@@ -249,7 +249,43 @@
 		        return false;
 		    });
 		});
-
+		
+		$(".deletePhoto").click(function(){
+			var url = $(this).attr('href');
+			console.log(url);
+			 $("#dialog-confirm").dialog({
+			      resizable: false,
+			      height:200,
+			      modal: true,
+			      buttons: {
+			        Delete: function() {
+			        	 $.ajax({
+					          url: url,
+					          dataType: 'html',					       
+					          type: 'POST',
+					          success: function(data){
+					        	  console.log(data);
+					            $('#listPhotos-bloc').html(data);
+					          },
+					          error : function() {
+					              console.log('Deconnexion du serveur');
+					          }
+					        });
+			         $( this ).dialog( "close" );
+			        
+			       
+			        },
+			        Cancel: function() {
+			          $( this ).dialog( "close" );
+			        }
+			      },
+			        open: function() {
+			            $('.ui-dialog-buttonpane').find('button:contains("Cancel")').addClass('btn-primary');
+			            $('.ui-dialog-buttonpane').find('button:contains("Delete")').addClass('btn-default');
+			        }
+			    });
+			 return false;
+		}); 
 		  
 	</script>
 </body>
