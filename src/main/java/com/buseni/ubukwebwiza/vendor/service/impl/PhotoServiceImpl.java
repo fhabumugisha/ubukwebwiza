@@ -44,8 +44,14 @@ public class PhotoServiceImpl implements PhotoService {
 		// TODO control before save
 		if(photo.getId() == null){
 			photo.setCreatedAt(new Date());
+		}else{
+			Photo photoBdd = photoRepo.findOne(photo.getId());
+			photo.setName(photoBdd.getName());
+			photo.setCreatedAt(photoBdd.getCreatedAt());
+			
 		}
-		photo.setLastUpdate(new Date());		
+		photo.setLastUpdate(new Date());	
+		
 		 photoRepo.save(photo);
 
 	}

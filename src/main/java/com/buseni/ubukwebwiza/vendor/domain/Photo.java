@@ -144,13 +144,7 @@ public class Photo implements Serializable{
 		this.id = id;
 	}
 
-	public String getAvatar() {
-		return name;
-	}
-
-	public void setAvatar(String avatar) {
-		this.name = avatar;
-	}
+	
 
 	public String getDescription() {
 		return description;
@@ -161,12 +155,7 @@ public class Photo implements Serializable{
 	}
 
 
-	/**
-	 * @param lastUpdate the lastUpdate to set
-	 */
-	public void setDate(Date date) {
-		this.lastUpdate = date;
-	}
+	
 
 
 

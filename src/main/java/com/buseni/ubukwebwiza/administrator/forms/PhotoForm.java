@@ -15,7 +15,7 @@ public class PhotoForm implements Serializable{
 	private String description;
 	private  MultipartFile file;
 	private String name;
-	
+	private boolean enabled;
 	
 	public Integer getId() {
 		return id;
@@ -46,6 +46,12 @@ public class PhotoForm implements Serializable{
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public boolean isEnabled() {
+		return enabled;
+	}
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 	
 	

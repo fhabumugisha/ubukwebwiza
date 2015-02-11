@@ -1,10 +1,12 @@
 package com.buseni.ubukwebwiza.administrator.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import javax.validation.Valid;
 
+import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.buseni.ubukwebwiza.administrator.forms.PhotoForm;
@@ -183,7 +187,7 @@ public class AdminVendorController {
 	
 			MultipartFile file  = photoForm.getFile();
 			Photo photo = new Photo();
-			if (!file.isEmpty()) {
+			if (file != null && !file.isEmpty()) {
 	            try {
 	               
 	            	String workingDir = System.getProperty("user.dir");
@@ -201,23 +205,33 @@ public class AdminVendorController {
 	    			return "adminpanel/vendor/photos::error";
 	            }
 	        } else {
-	        	LOGGER.info("You failed to upload  because the file was empty.");
-	        	//result.reject("error.file.empty");	
-    			
-    			return "adminpanel/vendor/photos::error";
+	        	if(photoForm.getId() == null){
+	        		LOGGER.info("You failed to upload  because the file was empty.");
+		        	//result.reject("error.file.empty");	
+	    			
+	    			return "adminpanel/vendor/photos::error";
+	        	}
+	        	
 	        }
 			
 			try {
 				photo.setDescription(photoForm.getDescription());
 				photo.setId(photoForm.getId());
+				photo.setEnabled(photoForm.isEnabled());
 				Vendor vendor = vendorService.findOne(photoForm.getIdVendor());
 				photo.setVendor(vendor);
-				vendor.getPhotos().add(photo);
+				/*if(vendor.getPhotos().contains(photo)){
+					vendor.getPhotos().remove(photo);
+				}*/
+				
 				photoService.create(photo);
-
+				//vendor.getPhotos().add(photo);
 				String message = "Photo " + photo.getId() + " was successfully added";
-				//attributes.addFlashAttribute("message", message);
+				model.addAttribute("message", message);
 				model.addAttribute("vendor", vendor);
+				 photoForm = new PhotoForm();
+				photoForm.setIdVendor(vendor.getId());
+				model.addAttribute("photoForm", photoForm);
 				return "adminpanel/vendor/photos::listPhotos";
 				
 					
@@ -238,14 +252,49 @@ public class AdminVendorController {
 
 	@RequestMapping(value="/vendors/{idVendor:[\\d]+}/photos/deletePhoto", method=RequestMethod.GET)
 	public String deletePhoto(@PathVariable Integer idVendor, @RequestParam(value="id", required=true) Integer id, Model model) {
-		LOGGER.info("IN: vendors/deletePhoto-POST");
+		LOGGER.info("IN: vendors/deletePhoto-GETT");
 		photoService.delete(id);
-		String message = "Vendor " + id + " was successfully deleted";
+		String message = "Photo " + id + " was successfully deleted";
 		model.addAttribute("message", message);		
 		model.addAttribute("vendor", vendorService.findOne(idVendor));
+		PhotoForm photoForm = new PhotoForm();
+			photoForm.setIdVendor(idVendor);
+		model.addAttribute("photoForm", photoForm);	
 		return "adminpanel/vendor/photos::listPhotos";
 	}
 	
+	@RequestMapping(value="/vendors/{idVendor:[\\d]+}/photos/editPhoto", method=RequestMethod.GET)
+	public String editPhoto(@PathVariable Integer idVendor, @RequestParam(value="id", required=true) Integer id, Model model) {
+		LOGGER.info("IN: vendors/editPhoto-GET");
+		Photo photo = photoService.findById(id);
+		PhotoForm photoForm = new PhotoForm();
+		photoForm.setDescription(photo.getDescription());
+		photoForm.setId(id);
+		photoForm.setName(photo.getName());
+		photoForm.setIdVendor(idVendor);
+		photoForm.setEnabled(photo.isEnabled());
+		/*String workingDir = System.getProperty("user.dir");
+        String saveDirectory =  env.getProperty("files.location");
+        File filePhoto = new File(workingDir+saveDirectory+"/" + photo.getName());
+        DiskFileItem diskFile =  new DiskFileItem("file", "multipart/form-data", false, filePhoto.getName(), (int)filePhoto.length(), filePhoto.getParentFile());
+        try {
+			diskFile.getOutputStream();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        MultipartFile file =  new CommonsMultipartFile(diskFile);
+        
+		photoForm.setFile(file);*/
+		model.addAttribute("photoForm", photoForm);	
+		Vendor vendor = vendorService.findOne(idVendor);
+		if(!CollectionUtils.isEmpty(vendor.getPhotos()) ){
+			vendor.getPhotos().remove(photo);
+		}
+		
+		model.addAttribute("vendor", vendor );
+		return "adminpanel/vendor/photos::listPhotos";
+	}
 	
 	@ModelAttribute("currentMenu")
 	public String module(){
