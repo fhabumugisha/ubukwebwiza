@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
 import com.buseni.ubukwebwiza.vendor.domain.VendorWeddingService;
 
 public interface VendorWeddingServiceManager {
@@ -12,7 +13,7 @@ public interface VendorWeddingServiceManager {
 	 * 
 	 * @param weddingService
 	 */
-	void create(VendorWeddingService vendorWeddingService);
+	void create(VendorWeddingService vendorWeddingService) throws ServiceLayerException;
 	
 	/**
 	 * 

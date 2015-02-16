@@ -226,30 +226,7 @@
 			$(this).hide();
 		})
 
-// 		$(function() {
-// 		    $('#uploadPhotoForm').submit(function(event) {
-// 		        event.preventDefault(); // prevent this form from being submited
-// 		        var form = document.getElementById("uploadPhotoForm");
-// 		        var oMyForm = new FormData(form);
-// 		       // oMyForm.append("file", file2.files[0]);
-		       
-// 		        $.ajax({
-// 		          url: form.action,
-// 		          data: oMyForm,
-// 		          dataType: 'text',
-// 		          processData: false,
-// 		          contentType: false,
-// 		          type: 'POST',
-// 		          success: function(data){
-// 		        	  console.log(data);
-// 		            $('#listPhotos-bloc').html(data);
-// 		          }
-// 		        });
-// 		        form.reset();
-// 		        $('#picture').val('');
-// 		        return false;
-// 		    });
-// 		});
+
 		
 		$(document).on("submit","#uploadPhotoForm",function(event){
 			 event.preventDefault(); // prevent this form from being submited
@@ -329,6 +306,90 @@
 		          }
 		        });
 			
+			 return false;
+			 });
+		
+		
+		
+		/**
+		* SERVICES
+		*/
+		$(document).on("submit","#addServiceForm",function(event){
+			 event.preventDefault(); // prevent this form from being submited
+		        var form = document.getElementById("addServiceForm");
+		        var oMyForm = new FormData(form);
+		       // oMyForm.append("file", file2.files[0]);
+		       
+		        $.ajax({
+		          url: form.action,
+		          data: oMyForm,
+		          dataType: 'text',
+		          processData: false,
+		          contentType: false,
+		          type: 'POST',
+		          success: function(data){
+		        	  console.log(data);
+		            $('#listServices-bloc').html(data);
+		          }
+		        });
+		        form.reset();
+		       
+			
+			 return false;
+		});
+		$(document).on("click",".editService",function(){
+			var url = $(this).attr('href');
+			console.log(url);
+			 $.ajax({
+		          url: url,
+		          dataType: 'html',					       
+		          type: 'GET',
+		          success: function(data){
+		        	  console.log(data);
+		            $('#listServices-bloc').html(data);
+		          },
+		          error : function() {
+		              console.log('Deconnexion du serveur');
+		          }
+		        });
+			
+			 return false;
+			 });
+		
+		$(document).on("click",".deleteService",function(){
+			var url = $(this).attr('href');
+			console.log(url);
+			 $("#dialog-confirm").dialog({
+			      resizable: false,
+			      height:200,
+			      modal: true,
+			      buttons: {
+			        Delete: function() {
+			        	 $.ajax({
+					          url: url,
+					          dataType: 'html',					       
+					          type: 'GET',
+					          success: function(data){
+					        	  console.log(data);
+					            $('#listServices-bloc').html(data);
+					          },
+					          error : function() {
+					              console.log('Deconnexion du serveur');
+					          }
+					        });
+			         $( this ).dialog( "close" );
+			       
+			       
+			        },
+			        Cancel: function() {
+			          $( this ).dialog( "close" );
+			        }
+			      },
+			        open: function() {
+			            $('.ui-dialog-buttonpane').find('button:contains("Cancel")').addClass('btn-primary');
+			            $('.ui-dialog-buttonpane').find('button:contains("Delete")').addClass('btn-default');
+			        }
+			    });
 			 return false;
 			 });
 		  

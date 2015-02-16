@@ -31,6 +31,7 @@ public class ApplicationInitializer implements WebApplicationInitializer {
 	public void onStartup(ServletContext servletContext) throws ServletException {
 		AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
 		rootContext.register(WebConfiguration.class);
+		//rootContext.getEnvironment().setActiveProfiles("dev");
 		rootContext.setDisplayName("Ubukwe bwiza");
 		servletContext.addListener(new ContextLoaderListener(rootContext));
 		ServletRegistration.Dynamic dispatcher = 

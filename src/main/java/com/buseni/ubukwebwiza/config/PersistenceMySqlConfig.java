@@ -53,9 +53,9 @@ public class PersistenceMySqlConfig {
 		dataSource.setPassword( getRequired( DATASOURCE_PASSWORD ) );
 		Properties connectionProperties = new Properties();
 		//Parametrage d'un proxy http
-		connectionProperties.put("http.proxyHost", "172.27.231.250");
+		/*connectionProperties.put("http.proxyHost", "172.27.231.250");
 		connectionProperties.put("http.proxyPort", "8080");
-		dataSource.setConnectionProperties(connectionProperties);
+		dataSource.setConnectionProperties(connectionProperties);*/
 		return dataSource;
 	}
 

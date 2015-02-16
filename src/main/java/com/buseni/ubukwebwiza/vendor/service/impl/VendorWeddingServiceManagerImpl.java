@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
 import com.buseni.ubukwebwiza.vendor.domain.VendorWeddingService;
 import com.buseni.ubukwebwiza.vendor.repository.VendorWeddingServiceRepo;
 import com.buseni.ubukwebwiza.vendor.service.VendorWeddingServiceManager;
@@ -36,11 +37,18 @@ public class VendorWeddingServiceManagerImpl implements VendorWeddingServiceMana
 	 */
 	@Override
 	@Transactional
-	public void create(VendorWeddingService vendorWeddingService) {
+	public void create(VendorWeddingService vendorWeddingService) throws ServiceLayerException{
 		// TODO control before save
-		vendorWeddingService.setCreatedAt(new Date());
-		vendorWeddingService.setLastUpdate(new Date());
+		
+		if(vendorWeddingService.getId() == null){
+			vendorWeddingService.setCreatedAt(new Date());
+		}else{
+			VendorWeddingService vwsBdd = vendorWeddingServiceRepo.findOne(vendorWeddingService.getId());
+			vendorWeddingService.setCreatedAt(vwsBdd.getCreatedAt());			
+		}
+		vendorWeddingService.setLastUpdate(new Date());			
 		vendorWeddingServiceRepo.save(vendorWeddingService);
+		
 
 	}
 

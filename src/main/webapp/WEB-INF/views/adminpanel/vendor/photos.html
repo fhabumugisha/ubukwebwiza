@@ -27,7 +27,6 @@
 						<tr>
 							<th class="col-sm-1" >#</th>
 							<th class="col-sm-2" th:text="#{photo.list.name}">Name</th>
-							<th class="col-sm-1" th:text="#{photo.list.vendor}">Vendor</th>
 							<th class="col-sm-3" th:text="#{photo.list.description}">Description</th>							
 							<th class="col-sm-1" th:text="#{list.lastupdate}">Last update</th>							
 							<th class="col-sm-1" th:text="#{list.createdat}">Created at</th>
@@ -47,7 +46,7 @@
 								<img class="img-thumbnail"  width="100" height="50" alt="Photo" th:if="${#strings.isEmpty(photo.name)}" th:alt="${photo.name}" th:src="@{/resources/images/application/no_person.jpg} "></img>
 							
 							</td>
-							<td th:text="${photo.vendor.businessName}">Wedding Planning</td>
+							
 							<td th:text="${photo.description}">Wedding Planning</td>
 							
 							<td th:text="${#dates.format(photo.lastUpdate, 'dd/MM/yyyy')}">Ok</td>
@@ -109,7 +108,7 @@
 			<div class="panel panel-default">
 			<div class="panel-body">
 				<form class="form-horizontal" role="form" action="#" enctype="multipart/form-data"
-					th:action="@{/admin/vendors/savePhoto}" th:object="${photoForm}"
+					th:action="@{'/admin/vendors/' + ${vendor.id} +'/photos/addPhoto'}" th:object="${photoForm}"
 					method="post" id="uploadPhotoForm">
 					<div th:if="${#fields.hasGlobalErrors()}"
 						class="alert alert-danger">
@@ -121,7 +120,7 @@
 
 
 					<input type="text" hidden="hidden" th:field="*{id}" class="hidden" />
-					<input type="text" hidden="hidden" th:field="*{idVendor}" class="hidden" />
+<!-- 					<input type="text" hidden="hidden" th:field="*{idVendor}" class="hidden" /> -->
 					<div class="row">
 
 						
@@ -220,7 +219,7 @@
 								th:text="${vendor.id} ? #{update.button.label} : #{add.button.label}"
 								class="btn btn-primary">Action</button>
 
-							<a href="#" th:href="@{'/admin/vendors/' + ${vendor.id} +'/photos'}">
+							<a href="#" th:href="@{/admin/vendors/}">
 								<button type="button" class="btn  btn-default">
 									<span th:text="#{cancel.button.label}">Cancel</span>
 								</button>

@@ -1,12 +1,10 @@
 package com.buseni.ubukwebwiza.administrator.controller;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 import javax.validation.Valid;
 
-import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +21,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.buseni.ubukwebwiza.administrator.forms.PhotoForm;
+import com.buseni.ubukwebwiza.administrator.forms.ServiceForm;
 import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
 import com.buseni.ubukwebwiza.exceptions.ErrorsHelper;
 import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
@@ -38,6 +36,7 @@ import com.buseni.ubukwebwiza.vendor.domain.WeddingService;
 import com.buseni.ubukwebwiza.vendor.service.DistrictService;
 import com.buseni.ubukwebwiza.vendor.service.PhotoService;
 import com.buseni.ubukwebwiza.vendor.service.VendorService;
+import com.buseni.ubukwebwiza.vendor.service.VendorWeddingServiceManager;
 import com.buseni.ubukwebwiza.vendor.service.WeddingServiceManager;
 import com.buseni.ubukwebwiza.vendor.utils.PageWrapper;
 
@@ -55,6 +54,9 @@ public class AdminVendorController {
 	
 	@Autowired
 	private WeddingServiceManager weddingServiceManager;
+	
+	@Autowired
+	private VendorWeddingServiceManager vendorWeddingServiceManager;
 	
 	@Autowired
 	private PhotoService photoService;
@@ -154,6 +156,16 @@ public class AdminVendorController {
 		return "adminpanel/vendor/editVendor";
 	}
 	
+
+	
+	@RequestMapping(value="/vendors/new", method=RequestMethod.GET)
+	public String newVendor( Model model) {		
+		LOGGER.info("IN: vendors/new-GET");
+		model.addAttribute("vendor", new Vendor());
+		return "adminpanel/vendor/editVendor";
+	}
+	
+	
 	@RequestMapping(value="/vendors/{idVendor:[\\d]+}/photos", method=RequestMethod.GET)
 	public String photos(@PathVariable Integer idVendor, Model model) {
 		LOGGER.info("IN: vendors/photos-GET");
@@ -165,24 +177,10 @@ public class AdminVendorController {
 		return "adminpanel/vendor/photos";
 	}
 
-	@RequestMapping(value="/vendors/{idVendor:[\\d]+}/services", method=RequestMethod.GET)
-	public String services( @PathVariable Integer idVendor, Model model) {		
-		LOGGER.info("IN: vendors/services");		
-		Vendor vendor =  vendorService.findOne(idVendor);
-		model.addAttribute("vendor", vendor);
-		model.addAttribute("vendorService", new VendorWeddingService());
-		return "adminpanel/vendor/services";
-	}
 	
-	@RequestMapping(value="/vendors/new", method=RequestMethod.GET)
-	public String newVendor( Model model) {		
-		LOGGER.info("IN: vendors/new-GET");
-		model.addAttribute("vendor", new Vendor());
-		return "adminpanel/vendor/editVendor";
-	}
 	
-	@RequestMapping(value="/vendors/savePhoto",method=RequestMethod.POST)
-	public String savePhoto( @ModelAttribute PhotoForm photoForm, Model model) throws ServiceLayerException{		
+	@RequestMapping(value="/vendors/{idVendor:[\\d]+}/photos/addPhoto",method=RequestMethod.POST)
+	public String savePhoto(@PathVariable Integer idVendor, @ModelAttribute PhotoForm photoForm, Model model) throws ServiceLayerException{		
 		LOGGER.info("IN: vendors/save-POSST");
 	
 			MultipartFile file  = photoForm.getFile();
@@ -218,7 +216,7 @@ public class AdminVendorController {
 				photo.setDescription(photoForm.getDescription());
 				photo.setId(photoForm.getId());
 				photo.setEnabled(photoForm.isEnabled());
-				Vendor vendor = vendorService.findOne(photoForm.getIdVendor());
+				Vendor vendor = vendorService.findOne(idVendor);
 				photo.setVendor(vendor);
 				/*if(vendor.getPhotos().contains(photo)){
 					vendor.getPhotos().remove(photo);
@@ -230,7 +228,7 @@ public class AdminVendorController {
 				model.addAttribute("message", message);
 				model.addAttribute("vendor", vendor);
 				 photoForm = new PhotoForm();
-				photoForm.setIdVendor(vendor.getId());
+				//photoForm.setIdVendor(vendor.getId());
 				model.addAttribute("photoForm", photoForm);
 				return "adminpanel/vendor/photos::listPhotos";
 				
@@ -243,10 +241,6 @@ public class AdminVendorController {
 								
 				return "adminpanel/vendor/photos::error";
 			}
-			
-		
-
-
 	}
 	
 
@@ -258,7 +252,7 @@ public class AdminVendorController {
 		model.addAttribute("message", message);		
 		model.addAttribute("vendor", vendorService.findOne(idVendor));
 		PhotoForm photoForm = new PhotoForm();
-			photoForm.setIdVendor(idVendor);
+		//	photoForm.setIdVendor(idVendor);
 		model.addAttribute("photoForm", photoForm);	
 		return "adminpanel/vendor/photos::listPhotos";
 	}
@@ -271,7 +265,7 @@ public class AdminVendorController {
 		photoForm.setDescription(photo.getDescription());
 		photoForm.setId(id);
 		photoForm.setName(photo.getName());
-		photoForm.setIdVendor(idVendor);
+		//photoForm.setIdVendor(idVendor);
 		photoForm.setEnabled(photo.isEnabled());
 		/*String workingDir = System.getProperty("user.dir");
         String saveDirectory =  env.getProperty("files.location");
@@ -287,7 +281,7 @@ public class AdminVendorController {
         
 		photoForm.setFile(file);*/
 		model.addAttribute("photoForm", photoForm);	
-		Vendor vendor = vendorService.findOne(idVendor);
+		Vendor vendor = photo.getVendor();
 		if(!CollectionUtils.isEmpty(vendor.getPhotos()) ){
 			vendor.getPhotos().remove(photo);
 		}
@@ -295,6 +289,89 @@ public class AdminVendorController {
 		model.addAttribute("vendor", vendor );
 		return "adminpanel/vendor/photos::listPhotos";
 	}
+	
+	
+	@RequestMapping(value="/vendors/{idVendor:[\\d]+}/services", method=RequestMethod.GET)
+	public String services( @PathVariable Integer idVendor, Model model) {		
+		LOGGER.info("IN: vendors/services");		
+		Vendor vendor =  vendorService.findOne(idVendor);
+		model.addAttribute("vendor", vendor);
+		ServiceForm serviceForm = new ServiceForm();
+		model.addAttribute("serviceForm", serviceForm);
+		return "adminpanel/vendor/services";
+	}
+	
+	
+	@RequestMapping(value="/vendors/{idVendor:[\\d]+}/services/addService",method=RequestMethod.POST)
+	public String addService( @PathVariable Integer idVendor, @ModelAttribute ServiceForm serviceForm, Model model) throws ServiceLayerException{		
+		LOGGER.info("IN: vendors/addService-POST");
+			VendorWeddingService vws  = new VendorWeddingService();	
+			
+			try {
+				vws.setDescription(serviceForm.getDescription());
+				vws.setId(serviceForm.getId());
+				vws.setEnabled(serviceForm.isEnabled());
+				Vendor vendor = vendorService.findOne(idVendor);
+				vws.setVendor(vendor);
+				WeddingService  ws = weddingServiceManager.findOne(serviceForm.getIdcService());
+				vws.setWeddingService(ws);
+				/*if(vendor.getPhotos().contains(photo)){
+					vendor.getPhotos().remove(photo);
+				}*/
+				vendorWeddingServiceManager.create(vws);
+				
+				String message = "Service " + vws.getId() + " was successfully added";
+				model.addAttribute("message", message);
+				model.addAttribute("vendor", vendor);
+				 serviceForm = new ServiceForm();
+				model.addAttribute("serviceForm", serviceForm);
+				return "adminpanel/vendor/services::listServices";
+				
+					
+			
+				//Business errors
+			} catch (final ServiceLayerException e) {
+				//ErrorsHelper.rejectErrors(result, e.getErrors());
+				//LOGGER.info("Photo save error: " + result.toString());
+								
+				return "adminpanel/vendor/services::error";
+			}
+	}
+	
+	@RequestMapping(value="/vendors/{idVendor:[\\d]+}/services/editService", method=RequestMethod.GET)
+	public String editService(@PathVariable Integer idVendor, @RequestParam(value="id", required=true) Integer id, Model model) {
+		LOGGER.info("IN: vendors/editService-GET");
+		VendorWeddingService vws =  vendorWeddingServiceManager.findById(id);
+		ServiceForm serviceForm = new ServiceForm();
+		serviceForm.setDescription(vws.getDescription());
+		serviceForm.setId(vws.getId());
+	//	serviceForm.setIdVendor(vws.getVendor().getId());
+		serviceForm.setIdcService(vws.getWeddingService().getId());
+		serviceForm.setEnabled(vws.isEnabled());
+		
+		model.addAttribute("serviceForm", serviceForm);	
+		Vendor vendor = vws.getVendor();
+		if(!CollectionUtils.isEmpty(vendor.getVendorWeddingServices()) ){
+			vendor.getVendorWeddingServices().remove(vws);
+		}
+		
+		model.addAttribute("vendor", vendor );
+		return "adminpanel/vendor/services::listServices";
+	}
+	
+	@RequestMapping(value="/vendors/{idVendor:[\\d]+}/services/deleteService", method=RequestMethod.GET)
+	public String deleteService(@PathVariable Integer idVendor, @RequestParam(value="id", required=true) Integer id, Model model) {
+		LOGGER.info("IN: vendors/deleteService-GET");
+		vendorWeddingServiceManager.delete(id);
+		String message = "Service " + id + " was successfully deleted";
+		model.addAttribute("message", message);		
+		model.addAttribute("vendor", vendorService.findOne(idVendor));
+		ServiceForm serviceForm = new ServiceForm();
+		model.addAttribute("serviceForm", serviceForm);	
+		return "adminpanel/vendor/services::listServices";
+	}
+	
+	
 	
 	@ModelAttribute("currentMenu")
 	public String module(){
