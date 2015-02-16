@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
 import com.buseni.ubukwebwiza.vendor.domain.District;
 import com.buseni.ubukwebwiza.vendor.domain.Vendor;
 import com.buseni.ubukwebwiza.vendor.domain.WeddingService;
@@ -21,6 +22,7 @@ import com.buseni.ubukwebwiza.vendor.utils.VendorSearch;
 
 @Controller
 //@SessionAttributes({"allDistricts", "allWeddingServices"})
+@Navigation(url="/", name="Home")
 public class HomeController {
 
 	

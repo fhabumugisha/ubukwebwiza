@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.buseni.ubukwebwiza.administrator.controller.AdminHomeController;
+import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
+import com.buseni.ubukwebwiza.home.HomeController;
 import com.buseni.ubukwebwiza.vendor.domain.District;
 import com.buseni.ubukwebwiza.vendor.domain.Vendor;
 import com.buseni.ubukwebwiza.vendor.domain.WeddingService;
@@ -28,6 +31,7 @@ import com.buseni.ubukwebwiza.vendor.utils.PageWrapper;
 import com.buseni.ubukwebwiza.vendor.utils.VendorSearch;
 
 @Controller
+@Navigation(url="/vendors", name="Vendors", parent= HomeController.class)
 public class VendorController {
 	
 	public static final Logger LOGGER = LoggerFactory.getLogger( VendorController.class );

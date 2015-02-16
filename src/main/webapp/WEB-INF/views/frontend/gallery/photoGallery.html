@@ -9,6 +9,7 @@
 
 <link rel="stylesheet"
 	href="http://blueimp.github.io/Gallery/css/blueimp-gallery.min.css" />
+
 <link rel="stylesheet"
 	href="../../../../resources/plugins/bs-image-gallery-3.1.0/css/bootstrap-image-gallery.min.css"
 	th:href="@{/resources/plugins/bs-image-gallery-3.1.0/css/bootstrap-image-gallery.min.css}" />
@@ -80,16 +81,16 @@
 									<a
 										href="../../../../resources/images/application/wedding_4_content.jpg"
 										title="Wedding planner" data-gallery=""
-										th:href="@{'/resources/images/application/'+${photo.name}}">
+										th:href="@{'/images/'+${photo.name}}">
 										<img height="150" width="210" alt="Wedding planner"
 										th:alt="${photo.name}"
 										src="../../../../resources/images/application/wedding_4_content.jpg"
-										th:src="@{'/resources/images/application/'+${photo.name}}" />
+										th:src="@{'/images/'+${photo.name}}" />
 									</a>
 								</th:bloc>
 
-
-								<a
+								
+								<a th:remove="all"
 									href="../../../../resources/images/application/Wedding_rings.jpg"
 									title="Wedding rings" data-gallery=""
 									th:href="@{/resources/images/application/Wedding_rings.jpg}">
@@ -97,7 +98,7 @@
 									src="../../../../resources/images/application/Wedding_rings.jpg"
 									alt="Wedding rings"
 									th:src="@{/resources/images/application/Wedding_rings.jpg}"></img>
-								</a> <a
+								</a> <a th:remove="all"
 									href="../../../../resources/images/application/wedding-banner.png"
 									title="Bannner" data-gallery=""
 									th:href="@{/resources/images/application/wedding-banner.png}">
@@ -105,7 +106,7 @@
 									src="../../../../resources/images/application/wedding-banner.png"
 									alt="Orange"
 									th:src="@{/resources/images/application/wedding-banner.png}"></img>
-								</a> <a
+								</a> <a th:remove="all"
 									href="../../../../resources/images/application/wedding-banner.png"
 									title="Bannner" data-gallery=""
 									th:href="@{/resources/images/application/wedding-banner.png}">

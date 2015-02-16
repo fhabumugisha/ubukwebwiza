@@ -93,7 +93,15 @@
 						<th:block th:each="vendor :${featuredVendors}">
 							<div class="col-md-3">
 								<div class="thumbnail">
-									<img data-src="holder.js/100%x150" alt="..." />
+									
+									
+									<img id="profilPicturePreview"    style="height: 150px; width: 100%"
+									     alt="profil pic"  th:if="*{vendor.profilPicture}" 
+									     th:alt="${businessName}" th:src="@{'/images/profil/'+*{vendor.profilPicture}} "></img>
+									
+									 <img id="profilPicturePreview" alt="profil pic" 
+									      th:unless="*{vendor.profilPicture}" th:alt="${businessName}" 
+									      data-src="holder.js/100%x150"></img>
 									<div class="caption">
 										<h5>
 											<span th:text="${vendor.businessName}">Thumbnail label</span>

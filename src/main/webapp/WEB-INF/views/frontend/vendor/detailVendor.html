@@ -27,9 +27,18 @@
 				<div id="content" class="col-md-10 container">
 
 					<div class="row">
-						<div class="col-md-4 ">
+						<div class="col-md-3 ">
 							<div class="thumbnail">
-								<img data-src="holder.js/100%x150" alt="..."></img>
+							
+								
+								<img id="profilPicturePreview"    style="height: 150px; width: 100%"
+									     alt="profil pic"  th:if="*{vendor.profilPicture}" 
+									     th:alt="${businessName}" th:src="@{'/images/profil/'+*{vendor.profilPicture}} "></img>
+									
+									 <img id="profilPicturePreview" alt="profil pic" 
+									      th:unless="*{vendor.profilPicture}" th:alt="${businessName}" 
+									      data-src="holder.js/100%x150"></img>
+									      
 								<div class="caption">
 									<h5>
 										<span th:text="${vendor.businessName}">Thumbnail label</span>
@@ -48,7 +57,7 @@
 
 
 						</div>
-						<div class="col-md-4 ">
+						<div class="col-md-5 ">
 							<div class="panel  panel-default">
 								<div class="panel-heading">
 									<h3 class="panel-title">About</h3>
@@ -193,16 +202,16 @@
 												href="../../../../resources/images/application/wedding_4_content.jpg"
 												title="Wedding planner" th:title="${photo.description}"
 												data-gallery=""
-												th:href="@{'/resources/images/application/'+${photo.name}}">
+												th:href="@{'/images/'+${photo.name}}">
 												<img height="150" width="210"
 												src="../../../../resources/images/application/wedding_4_content.jpg"
 												alt="Wedding planner" th:alt="${photo.name}"
-												th:src="@{'/resources/images/application/'+${photo.name}}" />
+												th:src="@{'/images/'+${photo.name}}" />
 											</a>
 										</th:bloc>
 
 
-										<a
+										<a th:remove="all"
 											href="../../../../resources/images/application/Wedding_rings.jpg"
 											th:href="@{/resources/images/application/Wedding_rings.jpg}"
 											title="Wedding rings" data-gallery=""> 
@@ -211,7 +220,7 @@
 											alt="Wedding rings"
 											th:src="@{/resources/images/application/Wedding_rings.jpg}"></img>
 										</a> 
-										<a 	href="../../../../resources/images/application/wedding-banner.png"
+										<a th:remove="all"	href="../../../../resources/images/application/wedding-banner.png"
 											th:href="@{/resources/images/application/wedding-banner.png}"
 											title="Bannner" data-gallery="">
 											 <img height="150"	width="210"
@@ -219,7 +228,7 @@
 											alt="Orange"
 											th:src="@{/resources/images/application/wedding-banner.png}"></img>
 										</a> 
-										<a href="../../../../resources/images/application/wedding-banner.png"
+										<a th:remove="all" href="../../../../resources/images/application/wedding-banner.png"
 										   th:href="@{/resources/images/application/wedding-banner.png}"
 											title="Bannner" data-gallery=""> 
 											<img height="150" width="210"

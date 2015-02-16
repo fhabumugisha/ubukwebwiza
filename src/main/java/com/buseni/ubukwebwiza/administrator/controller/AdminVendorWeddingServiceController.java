@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
 import com.buseni.ubukwebwiza.vendor.domain.VendorWeddingService;
 import com.buseni.ubukwebwiza.vendor.service.VendorWeddingServiceManager;
 import com.buseni.ubukwebwiza.vendor.utils.PageWrapper;
 @Controller
+@Navigation(url="/admin/vendorweddingservices", name="Vendor wedding services", parent= AdminHomeController.class)
 public class AdminVendorWeddingServiceController {
 	
 	@Autowired

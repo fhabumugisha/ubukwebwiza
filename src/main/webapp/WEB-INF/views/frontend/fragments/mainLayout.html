@@ -10,6 +10,11 @@
 <link href="../../../../resources/css/bootstrap-theme.min.css" rel="stylesheet" th:href="@{/resources/css/font-awesome.min.css}" />
 <link href="../../../../resources/css/ubukwenyarwanda.css" rel="stylesheet" th:href="@{/resources/css/ubukwenyarwanda.css}" />
 <link href="../../../../resources/css/social-buttons.css" rel="stylesheet" th:href="@{/resources/css/social-buttons.css}" />
+
+<link rel="stylesheet" 	href="http://blueimp.github.io/Gallery/css/blueimp-gallery.min.css" />
+
+<link rel="stylesheet" 	href="../../../../resources/plugins/bs-image-gallery-3.1.0/css/bootstrap-image-gallery.min.css"
+	th:href="@{/resources/plugins/bs-image-gallery-3.1.0/css/bootstrap-image-gallery.min.css}" />
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
@@ -24,9 +29,11 @@
 		<!--/* Standard layout can be mixed with Layout Dialect */-->
 		<div th:replace="frontendHeader :: header">&nbsp;</div>
 		<div id="breadcumbsContainer" th:if="${currentMenu != 'home'}">
+			<div th:replace="util :: breadcrumbs">
 			<ol class="breadcrumb container">
 				<li class="active"><a href="index.html" th:href="@{/}">Home</a></li>
 			</ol>
+			</div>
 		</div>
 		<div id="mainContentContainer" class="container">
 			<div class="row">
@@ -55,7 +62,11 @@
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<script src="../../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
 	<script src="../../../../resources/js/holder.js" th:src="@{/resources/js/holder.js}"></script>
-
+	<script
+		src="http://blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js"></script>
+	<script
+		src="../../../../resources/plugins/bs-image-gallery-3.1.0/js/bootstrap-image-gallery.min.js"
+		th:src="@{/resources/plugins/bs-image-gallery-3.1.0/js/bootstrap-image-gallery.min.js}"></script>
 	<script type="text/javascript">
 	$('.carousel').carousel({
 		  interval: 2000

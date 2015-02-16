@@ -53,7 +53,7 @@ public class WebConfiguration extends WebMvcConfigurerAdapter{
 		@Override
 		public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
 			PageableHandlerMethodArgumentResolver resolver =	new PageableHandlerMethodArgumentResolver();
-			resolver.setFallbackPageable(new PageRequest(1, 3));
+			resolver.setFallbackPageable(new PageRequest(1, 4));
 			resolver.setMaxPageSize(3);
 			
 			argumentResolvers.add(resolver);

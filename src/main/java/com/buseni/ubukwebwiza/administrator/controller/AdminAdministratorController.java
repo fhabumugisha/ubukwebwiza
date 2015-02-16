@@ -27,7 +27,6 @@ import com.buseni.ubukwebwiza.administrator.service.AdministratorService;
 import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
 import com.buseni.ubukwebwiza.exceptions.ErrorsHelper;
 import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
-import com.buseni.ubukwebwiza.vendor.domain.District;
 import com.buseni.ubukwebwiza.vendor.utils.PageWrapper;
 @Controller
 //@SessionAttributes({"allDistricts", "allWeddingServices"})
