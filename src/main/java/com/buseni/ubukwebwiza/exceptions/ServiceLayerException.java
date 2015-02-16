@@ -21,4 +21,8 @@ public class ServiceLayerException extends Exception{
 	public ServiceLayerException(CustomError error){
 		errors.add(error);
 	}
+	
+	public void addError(CustomError error){
+		errors.add(error);
+	}
 }

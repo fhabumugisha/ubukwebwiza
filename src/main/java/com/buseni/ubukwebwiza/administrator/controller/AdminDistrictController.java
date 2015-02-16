@@ -64,25 +64,25 @@ public class AdminDistrictController {
 			attributes.addFlashAttribute("district", district);
 			return "adminpanel/district/editDistrict";
 
-		}else{
-
-			try {
-				districtService.add(district);
-				//Business errors	
-			} catch (final ServiceLayerException e) {
-				ErrorsHelper.rejectErrors(result, e.getErrors());
-				LOGGER.info("District-edit error: " + result.toString());
-				attributes.addFlashAttribute("org.springframework.validation.BindingResult.district", result);
-				attributes.addFlashAttribute("district", district);
-				return "adminpanel/district/editDistrict";
-			}
-
-
-			LOGGER.info("IN: Districts/save-POSST");
-			String message = "District " + district.getId() + " was successfully added";
-			attributes.addFlashAttribute("message", message);
-			return "redirect:/admin/districts";
 		}
+
+		try {
+			districtService.add(district);
+			//Business errors	
+		} catch (final ServiceLayerException e) {
+			ErrorsHelper.rejectErrors(result, e.getErrors());
+			LOGGER.info("District-edit error: " + result.toString());
+			attributes.addFlashAttribute("org.springframework.validation.BindingResult.district", result);
+			attributes.addFlashAttribute("district", district);
+			return "adminpanel/district/editDistrict";
+		}
+
+
+		LOGGER.info("IN: Districts/save-POSST");
+		String message = "District " + district.getId() + " was successfully added";
+		attributes.addFlashAttribute("message", message);
+		return "redirect:/admin/districts";
+
 
 
 	}
