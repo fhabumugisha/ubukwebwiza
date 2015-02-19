@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.buseni.ubukwebwiza.exceptions.ResourceNotFoundException;
 import com.buseni.ubukwebwiza.vendor.domain.Vendor;
 import com.buseni.ubukwebwiza.vendor.predicates.VendorPredicates;
 import com.buseni.ubukwebwiza.vendor.repository.VendorRepo;
@@ -129,11 +130,14 @@ public class VendorServiceImpl implements VendorService {
 		}
 		
 		Vendor vendor  = vendorRepo.findOne(id);
-		if(vendor != null){
+		if(vendor ==  null){
+			throw new ResourceNotFoundException();
+		}
+		
 			vendor.setNbViews(vendor.getNbViews() + 1);
 			vendor.setLastUpdated(new Date());
 			vendorRepo.save(vendor);
-		}
+		
 		return vendor;
 	}
 

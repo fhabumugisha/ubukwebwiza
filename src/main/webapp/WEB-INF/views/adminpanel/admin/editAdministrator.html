@@ -43,14 +43,15 @@
 
 							<div class="form-group"
 								th:classappend="${#fields.hasErrors('email')}? has-error">
+								
 								<label for="email" class="col-sm-4 control-label"
 									th:text="#{administrator.list.email}">email</label>
+								
 								<div class="col-sm-7">
 									<input id="email" type="email" class="form-control"
 										th:field="*{email}" placeholder="Enter email"
-										required="required" /> <span class="text-danger"
-										th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Required
-										field</span>
+										required="required" />
+										 <span class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Required 	field</span>
 								</div>
 
 							</div>

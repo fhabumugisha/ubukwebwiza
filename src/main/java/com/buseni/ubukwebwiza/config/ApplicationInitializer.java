@@ -34,8 +34,10 @@ public class ApplicationInitializer implements WebApplicationInitializer {
 		//rootContext.getEnvironment().setActiveProfiles("dev");
 		rootContext.setDisplayName("Ubukwe bwiza");
 		servletContext.addListener(new ContextLoaderListener(rootContext));
+		DispatcherServlet dispatcherServlet = new DispatcherServlet(rootContext);
+		dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
 		ServletRegistration.Dynamic dispatcher = 
-				servletContext.addServlet("dispatcher", new DispatcherServlet(rootContext));
+				servletContext.addServlet("dispatcher", dispatcherServlet);
 		dispatcher.setLoadOnStartup(1); 
 		dispatcher.addMapping("/");
 		 MultipartConfigElement mce = new MultipartConfigElement("", 1024*1024*5, 1024*1024*5*5, 1024*1024);
