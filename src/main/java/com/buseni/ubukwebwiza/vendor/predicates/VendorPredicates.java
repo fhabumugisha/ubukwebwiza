@@ -18,8 +18,19 @@ public class VendorPredicates {
 		return VENDOR.district().eq(cd);
 	}
 
-	public static Predicate search(VendorSearch searchTerm){	
-		return  VENDOR.enabled.isTrue().and(VENDOR.district().id.eq(searchTerm.getDistrict()))
-				.or(VENDOR.vendorWeddingServices.any().weddingService().id.eq(searchTerm.getService()));
+	public static Predicate search(VendorSearch searchTerm){
+		if(searchTerm.getDistrict() != null ){
+			if(searchTerm.getService() != null){
+				return  VENDOR.enabled.isTrue().and(VENDOR.district().id.eq(searchTerm.getDistrict()))
+						.and(VENDOR.vendorWeddingServices.any().weddingService().id.eq(searchTerm.getService()));
+			}else{
+				return  VENDOR.enabled.isTrue().and(VENDOR.district().id.eq(searchTerm.getDistrict()));
+			}
+		}else if(searchTerm.getService() != null){
+			return  VENDOR.enabled.isTrue().and(VENDOR.vendorWeddingServices.any().weddingService().id.eq(searchTerm.getService()));
+		}else{
+			return  VENDOR.enabled.isTrue();
+		}
+		
 	}
 }

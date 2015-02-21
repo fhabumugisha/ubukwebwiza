@@ -42,8 +42,8 @@
 							
 							<td>
 							
-								<img class="img-thumbnail"  width="100" height="50" alt="Photo" th:if="${!#strings.isEmpty(photo.name)}" th:alt="${photo.name}" th:src="@{'/images/'+${photo.name}} "></img>
-								<img class="img-thumbnail"  width="100" height="50" alt="Photo" th:if="${#strings.isEmpty(photo.name)}" th:alt="${photo.name}" th:src="@{/resources/images/application/no_person.jpg} "></img>
+								<img class="img-thumbnail"  width="100" height="50" alt="Photo" th:if="${!#strings.isEmpty(photo.thumbnail)}" th:alt="${photo.thumbnail}" th:src="@{'/images/'+${photo.thumbnail}} "></img>
+								<img class="img-thumbnail"  width="100" height="50" alt="Photo" th:if="${#strings.isEmpty(photo.thumbnail)}" th:alt="${photo.name}" th:src="@{/resources/images/application/no_person.jpg} "></img>
 							
 							</td>
 							

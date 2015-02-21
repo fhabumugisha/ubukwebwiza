@@ -3,7 +3,7 @@
 	xmlns:th="http://www.thymeleaf.org"
 	layout:decorator="frontend/fragments/mainLayout">
 <head>
-<title>Vendors</title>
+<title th:text="#{vendors.list.title}">Vendors</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
 
 </head>
@@ -38,6 +38,7 @@
 
 										<select th:field="*{service}" id="idWeddingService"
 											class="form-control">
+											<option value="" th:text="#{common.select.prompt}"></option>
 											<option th:each="weddingService : ${allWeddingServices}"
 												th:value="${weddingService.id}"
 												th:text="${weddingService.libelle}">Wedding planner</option>
@@ -48,6 +49,7 @@
 									<div class="col-md-2 ">
 										<select th:field="*{district}" id="idDistrict"
 											class="form-control">
+											<option value="" th:text="#{common.select.prompt}"></option>
 											<option th:each="district : ${allDistricts}"
 												th:value="${district.id}" th:text="${district.libelle}">Kigali</option>
 										</select>
@@ -97,34 +99,41 @@
 							<th:block th:each="vendor :${vendors}">
 
 								<div class="row">
-									<div class="col-md-6">
+									<div class="col-md-6 col-sm-3">
 										
 										
-										<img id="profilPicturePreview"   height="150" width="100%"
+										<img id="profilPicturePreview"   height="150" width="173px"
 									     alt="profil pic"  th:if="*{vendor.profilPicture}" 
-									     th:alt="${businessName}" th:src="@{'/images/profil/'+*{vendor.profilPicture}} "></img>
+									     th:alt="${businessName}" th:src="@{'/images/profil/'+*{vendor.thumbnail}} "></img>
 									
 									 <img id="profilPicturePreview" alt="profil pic" 
 									      th:unless="*{vendor.profilPicture}" th:alt="${businessName}" 
 									      data-src="holder.js/100%x150"></img>
 									
 									</div>
-									<div class="col-md-6">
-										<h5>
-											<span th:text="${vendor.businessName}">Thumbnail label</span>
-										</h5>
-										<span th:if="${not #lists.isEmpty(vendor.vendorWeddingServices)}"
-											th:text="${vendor.weddingService}"> Wedding planner</span>
+									<div class="col-md-6 col-sm-9">
+										<h3>
+										
+										<a href="detailVendor.html"
+												th:href="@{/vendors/details(id=${vendor.id})}"
+												>  <span th:text="${vendor.businessName}">Thumbnail label</span></a> 										
+												
+											
+										</h3>
+										<h4> <span th:if="${not #lists.isEmpty(vendor.vendorWeddingServices)}"
+											th:text="${vendor.weddingService}"> Wedding planner</span></h4>
+										
 										<h6>
 											<span th:text="${vendor.district.libelle}">Nyarugenge</span>
 										</h6>
 
-										<p>
+										<!-- <p>
 											<a href="detailVendor.html"
 												th:href="@{/vendors/details(id=${vendor.id})}"
-												class="btn btn-primary btn-xs" role="button">Follow</a> <a
+												class="btn btn-primary btn-xs" role="button">Follow</a> 
+												<a
 												href="#" class="btn btn-default btn-xs" role="button">Like</a>
-										</p>
+										</p> -->
 									</div>
 								</div>
 

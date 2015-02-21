@@ -30,7 +30,7 @@ import com.buseni.ubukwebwiza.vendor.utils.PageWrapper;
 import com.buseni.ubukwebwiza.vendor.utils.VendorSearch;
 
 @Controller
-@Navigation(url="/vendors", name="Vendors", parent= HomeController.class)
+@Navigation(url="/vendors", name="Service providers", parent= HomeController.class)
 public class ListVendorController {
 
 	public static final Logger LOGGER = LoggerFactory.getLogger( ListVendorController.class );

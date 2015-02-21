@@ -3,7 +3,7 @@
 	xmlns:th="http://www.thymeleaf.org"
 	layout:decorator="frontend/fragments/mainLayout">
 <head>
-<title>Photo gallery</title>
+<title th:texte="#{photogallery.title}">Photo gallery</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
 
 
@@ -85,7 +85,7 @@
 										<img height="150" width="210" alt="Wedding planner"
 										th:alt="${photo.name}"
 										src="../../../../resources/images/application/wedding_4_content.jpg"
-										th:src="@{'/images/'+${photo.name}}" />
+										th:src="@{'/images/'+${photo.thumbnail}}" />
 									</a>
 								</th:bloc>
 

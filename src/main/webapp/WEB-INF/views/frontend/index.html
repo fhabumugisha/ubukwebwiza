@@ -46,7 +46,7 @@
 						<div id="mainPitch">
 							<div id="homeSearchFormContainer">
 								<h2>
-									<span>Looking for a wedding service ?</span>
+									<span th:text="#{home.search}">Looking for a wedding service provider ?</span>
 								</h2>
 
 								<form action="listingVendor.html" role="form" class="form-inline" th:action="@{/search}" th:object="${vendorSearch}"
@@ -95,25 +95,28 @@
 								<div class="thumbnail">
 									
 									
-									<img id="profilPicturePreview"    style="height: 150px; width: 100%"
-									     alt="profil pic"  th:if="*{vendor.profilPicture}" 
-									     th:alt="${businessName}" th:src="@{'/images/profil/'+*{vendor.profilPicture}} "></img>
+									<img id="profilPicturePreview"    style="height: 150px; width: 204px"
+									     alt="profil pic"  th:if="*{vendor.thumbnail}" 
+									     th:alt="${businessName}" th:src="@{'/images/profil/'+*{vendor.thumbnail}} "></img>
 									
 									 <img id="profilPicturePreview" alt="profil pic" 
-									      th:unless="*{vendor.profilPicture}" th:alt="${businessName}" 
+									      th:unless="*{vendor.thumbnail}" th:alt="${businessName}" 
 									      data-src="holder.js/100%x150"></img>
 									<div class="caption">
-										<h5>
-											<span th:text="${vendor.businessName}">Thumbnail label</span>
-										</h5>
-										<span th:if="${not #lists.isEmpty(vendor.vendorWeddingServices)}" th:text="${vendor.weddingService}">Planner</span>
+										<h3>
+										<a href="vendor/detailVendor.html" 
+												th:href="@{/vendors/details(id=${vendor.id})}"><span th:text="${vendor.businessName}">Thumbnail label</span></a>
+											
+										</h3>
+										<h4><span th:if="${not #lists.isEmpty(vendor.vendorWeddingServices)}" th:text="${vendor.weddingService}">Planner</span> </h4>
+										
 										<h6>
 											<span th:text="${vendor.district.libelle}"> Nyarugenge</span>
 										</h6>
-										<p>
+										<!-- <p>
 											<a href="vendor/detailVendor.html" class="btn btn-primary btn-xs" role="button"
 												th:href="@{/vendors/details(id=${vendor.id})}">Follow</a> <a href="#" class="btn btn-default btn-xs" role="button">Like</a>
-										</p>
+										</p> -->
 									</div>
 								</div>
 
@@ -166,10 +169,10 @@
 						<div class="col-md-3">
 							<div class="thumbnail">
 
-								<img src="../../../resources/images/application/no_person.jpg" style="width: 203px; height: 125px; display: block;"
+								<img src="../../../resources/images/application/no_person.jpg" style="width: 203px; height: 110px; display: block;"
 									alt="..." th:src="@{/resources/images/application/no_person.jpg}" />
 								<div class="caption">
-									<p class="text-center text-primary">Are you a wedding professional ?</p>
+									<p class="text-center text-primary">Are you a wedding service provider ?</p>
 
 
 									<p>
@@ -178,7 +181,7 @@
 									</p>
 								</div>
 							</div>
-							<a href="vendor/listingVendor.html" class="btn btn-primary btn-block" role="button" th:href="@{/vendors}">Find more services </a>
+							<a href="vendor/listingVendor.html" class="btn btn-primary btn-block" role="button" th:href="@{/vendors}">Find more service providers </a>
 						</div>
 					</div>
 

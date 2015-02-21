@@ -16,8 +16,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.buseni.ubukwebwiza.exceptions.ResourceNotFoundException;
 import com.buseni.ubukwebwiza.vendor.domain.Vendor;
+import com.buseni.ubukwebwiza.vendor.domain.VendorWeddingService;
+import com.buseni.ubukwebwiza.vendor.domain.WeddingService;
 import com.buseni.ubukwebwiza.vendor.predicates.VendorPredicates;
 import com.buseni.ubukwebwiza.vendor.repository.VendorRepo;
+import com.buseni.ubukwebwiza.vendor.repository.VendorWeddingServiceRepo;
+import com.buseni.ubukwebwiza.vendor.repository.WeddingServiceRepo;
 import com.buseni.ubukwebwiza.vendor.service.VendorService;
 import com.buseni.ubukwebwiza.vendor.utils.VendorSearch;
 
@@ -30,10 +34,13 @@ import com.buseni.ubukwebwiza.vendor.utils.VendorSearch;
 public class VendorServiceImpl implements VendorService {
 	
 	private VendorRepo vendorRepo;
-	
+	private WeddingServiceRepo weddingServiceRepo;
+	private VendorWeddingServiceRepo vendorWeddingServiceRepo;
 	@Autowired
-	public VendorServiceImpl(VendorRepo vendorRepo){
+	public VendorServiceImpl(VendorRepo vendorRepo, WeddingServiceRepo weddingServiceRepo, VendorWeddingServiceRepo vendorWeddingServiceRepo){
 		this.vendorRepo = vendorRepo;
+		this.weddingServiceRepo = weddingServiceRepo;
+		this.vendorWeddingServiceRepo = vendorWeddingServiceRepo;
 		
 	}
 
@@ -46,6 +53,19 @@ public class VendorServiceImpl implements VendorService {
 		// TODO control before save
 		vendor.setCreatedAt(new Date());
 		vendor.setLastUpdate(new Date());
+		if(vendor.getIdcService() != null){
+			WeddingService weddingService = weddingServiceRepo.findOne(vendor.getIdcService());
+			VendorWeddingService vws = new VendorWeddingService();
+			vws.setWeddingService(weddingService);
+			vws.setVendor(vendor);
+			vws.setCreatedAt(new Date());
+			vws.setLastUpdate(new Date());
+			vws.setEnabled(true);
+			vendorWeddingServiceRepo.save(vws);
+			vendor.getVendorWeddingServices().add(vws);
+			
+		}
+		
 		vendorRepo.save(vendor);
 
 	}

@@ -1,10 +1,15 @@
 package com.buseni.ubukwebwiza.administrator.controller;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.validation.Valid;
 
+import org.apache.commons.fileupload.disk.DiskFileItem;
+import org.imgscalr.Scalr;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.buseni.ubukwebwiza.administrator.forms.PhotoForm;
@@ -102,7 +108,10 @@ public class AdminVendorController {
 	                stream.write(bytes);
 	                stream.close(); */
 	                LOGGER.info("You successfully uploaded " + file.getOriginalFilename() + " into " + file.getOriginalFilename() + "-uploaded !");
+	              
+	                resizeImagScal(new File(workingDir+saveDirectory+"/profil/" + file.getOriginalFilename()), new File(workingDir+saveDirectory+"/profil/" + "thumbnail" + file.getOriginalFilename()));
 	                vendor.setProfilPicture(file.getOriginalFilename());
+	                vendor.setThumbnail("thumbnail"+file.getOriginalFilename());
 	            } catch (Exception e) {
 	            	LOGGER.info("You failed to upload " + file.getName() + " => " + e.getMessage());
 	            	result.reject(e.getMessage());
@@ -153,6 +162,21 @@ public class AdminVendorController {
 		LOGGER.info("IN: vendors/edit-GET");
 		Vendor vendor =  vendorService.findOne(id);
 		model.addAttribute("vendor", vendor);
+		
+		
+		String workingDir = System.getProperty("user.dir");
+        String saveDirectory =  env.getProperty("files.location");
+        File filePhoto = new File(workingDir+saveDirectory+"/profil/" + vendor.getProfilPicture());
+        DiskFileItem diskFile =  new DiskFileItem("file", "multipart/form-data", false, filePhoto.getName(), (int)filePhoto.length(), filePhoto.getParentFile());
+        try {
+			diskFile.getOutputStream();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        MultipartFile file =  new CommonsMultipartFile(diskFile);
+        
+		model.addAttribute(file);
 		return "adminpanel/vendor/editVendor";
 	}
 	
@@ -194,7 +218,10 @@ public class AdminVendorController {
 	             
 	                LOGGER.info("You successfully uploaded " + file.getOriginalFilename() + " into " + file.getOriginalFilename() + "-uploaded !");
 	               
+	                resizeImagScal(new File(workingDir+saveDirectory+"/" + file.getOriginalFilename()), new File(workingDir+saveDirectory+"/" + "thumbnail" + file.getOriginalFilename()));
+	                
 	                photo.setName(file.getOriginalFilename());
+	                photo.setThumbnail("thumbnail"+file.getOriginalFilename());
 	            } catch (Exception e) {
 	            	LOGGER.info("You failed to upload " + file.getName() + " => " + e.getMessage());
 	            	//result.reject(e.getMessage());
@@ -386,4 +413,25 @@ public class AdminVendorController {
 	public List<District> populateDistricts(){
 		return districtService.findByEnabled(Boolean.TRUE);
 	}
+	
+	public  void resizeImagScal(File original, File thumnail) {
+		BufferedImage originalImage = null;
+		try {
+			originalImage = ImageIO.read(original);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//BufferedImage thumbnail = Scalr.resize(originalImage, 150);
+	
+		BufferedImage thumbnailImage =
+				  Scalr.resize(originalImage, Scalr.Method.QUALITY, Scalr.Mode.FIT_TO_WIDTH,
+				               204, 150, Scalr.OP_ANTIALIAS, Scalr.OP_BRIGHTER);
+		
+		try {
+		ImageIO.write(thumbnailImage, "png", thumnail);
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}}
 }

@@ -35,6 +35,10 @@ public class Photo implements Serializable{
 	@Column(name="name")
 	private String name;
 	
+	
+	@Column(name="thumbnail")
+	private String thumbnail;
+	
 	@NotEmpty(message="You must write a description")
 	@Lob
 	@Column(length=500)
@@ -191,6 +195,14 @@ public class Photo implements Serializable{
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
+	}
+
+	public String getThumbnail() {
+		return thumbnail;
+	}
+
+	public void setThumbnail(String thumbnail) {
+		this.thumbnail = thumbnail;
 	}
 
 }

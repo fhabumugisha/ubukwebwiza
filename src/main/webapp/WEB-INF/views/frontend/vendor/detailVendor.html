@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org" layout:decorator="frontend/fragments/mainLayout">
 <head>
-<title>Ubukwe Nyarwanda Template</title>
+<title th:text="${vendor.businessName}">Ubukwebwiza  - Vendor details</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
 
 <link rel="stylesheet"	href="http://blueimp.github.io/Gallery/css/blueimp-gallery.min.css"></link>
@@ -33,25 +33,25 @@
 								
 								<img id="profilPicturePreview"    style="height: 150px; width: 100%"
 									     alt="profil pic"  th:if="*{vendor.profilPicture}" 
-									     th:alt="${businessName}" th:src="@{'/images/profil/'+*{vendor.profilPicture}} "></img>
+									     th:alt="${businessName}" th:src="@{'/images/profil/'+*{vendor.thumbnail}} "></img>
 									
 									 <img id="profilPicturePreview" alt="profil pic" 
-									      th:unless="*{vendor.profilPicture}" th:alt="${businessName}" 
+									      th:unless="*{vendor.thumbnail}" th:alt="${businessName}" 
 									      data-src="holder.js/100%x150"></img>
 									      
 								<div class="caption">
-									<h5>
+									<h4>
 										<span th:text="${vendor.businessName}">Thumbnail label</span>
-									</h5>
+									</h4>
 
-									<p>
+									<!-- <p>
 										<a href="detailVendor.html" class="btn btn-primary btn-xs"
 											role="button">Follow</a> <a href="#"
 											class="btn btn-default btn-xs" role="button">Like</a>
 										<button class="btn btn-default btn-lg btn-xs">
 											<span class="glyphicon glyphicon-print"></span>
 										</button>
-									</p>
+									</p> -->
 								</div>
 							</div>
 
@@ -135,13 +135,13 @@
 										
 										
 										
-										<div class="list-group-item">
+										<div class="list-group-item" th:remove="all">
 											<h4 class="list-group-item-heading">Wedding Planner</h4>
 											<p class="list-group-item-text">I do all the job from A
 												to Z</p>
 
 										</div>
-										<div class="list-group-item">
+										<div class="list-group-item" th:remove="all">
 											<h4 class="list-group-item-heading"> cars</h4>
 											<p class="list-group-item-text">I offer the best cars</p>
 

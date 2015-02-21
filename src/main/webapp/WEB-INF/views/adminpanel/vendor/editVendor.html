@@ -86,6 +86,26 @@
 							</div>
 							
 							<div class="form-group"
+								th:classappend="${#fields.hasErrors('idcService')}? has-error">
+								<label for="idWeddingService" class="col-sm-4 control-label"
+									th:text="#{vendorWeddingService.list.service}">service</label>
+								<div class="col-sm-7">
+
+									<select th:field="*{idcService}" id="idWeddingService" class="form-control" required="required">
+									<option value="" th:text="#{common.select.prompt}"></option>
+												<option th:each="weddingService : ${allWeddingServices}" th:value="${weddingService.id}"
+													th:text="${weddingService.libelle}">Wedding planner</option>
+									</select>
+
+
+									<span class="text-danger"
+										th:if="${#fields.hasErrors('idcService')}"
+										th:errors="*{idcService}">Required field</span>
+								</div>
+
+							</div>
+							
+							<div class="form-group"
 								th:classappend="${#fields.hasErrors('phoneNumber')}? has-error">
 								<label for="phoneNumber" class="col-sm-4 control-label"
 									th:text="#{vendor.list.phonenumber}">phoneNumber</label>
@@ -111,19 +131,7 @@
 								</div>
 
 							</div>
-							<div class="form-group"
-								th:classappend="${#fields.hasErrors('fbUsername')}? has-error">
-								<label for="fbUsername" class="col-sm-4 control-label"
-									th:text="#{vendor.list.fbusername}">fbUsername</label>
-								<div class="col-sm-7">
-									<input id="fbUsername" type="text" class="form-control"
-										th:field="*{fbUsername}" placeholder="Enter fbUsername" />
-									<span class="text-danger"
-										th:if="${#fields.hasErrors('fbUsername')}"
-										th:errors="*{fbUsername}">Required field</span>
-								</div>
-
-							</div>
+							
 							<div class="form-group"
 								th:classappend="${#fields.hasErrors('profilPicture')}? has-error">
 								<label for="profilPicture" class="col-sm-4 control-label"
@@ -243,6 +251,20 @@
 									<span class="text-danger"
 										th:if="${#fields.hasErrors('twitterUsername')}"
 										th:errors="*{ftwitterUsername}">Required field</span>
+								</div>
+
+							</div>
+							
+							<div class="form-group"
+								th:classappend="${#fields.hasErrors('fbUsername')}? has-error">
+								<label for="fbUsername" class="col-sm-3 control-label"
+									th:text="#{vendor.list.fbusername}">fbUsername</label>
+								<div class="col-sm-8">
+									<input id="fbUsername" type="text" class="form-control"
+										th:field="*{fbUsername}" placeholder="Enter fbUsername" />
+									<span class="text-danger"
+										th:if="${#fields.hasErrors('fbUsername')}"
+										th:errors="*{fbUsername}">Required field</span>
 								</div>
 
 							</div>

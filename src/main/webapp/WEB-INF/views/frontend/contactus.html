@@ -29,7 +29,7 @@
 									
 									<div class="input-group col-md-4">
 										<span class="input-group-addon"><i class="fa fa-user"></i></span>
-										<input type="text" class="form-control" th:field="*{name}"
+										<input type="text" class="form-control" th:field="*{name}" autofocus="autofocus"
 											id="name" placeholder="Enter your name" required="required" />
 											<span class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Required 	field</span>
 									</div>

@@ -129,7 +129,11 @@ public class Vendor implements Serializable {
 	@JoinColumn(name="id_district")
 	private District district;
 
+	@Column(name ="thumbnail")
+	private String thumbnail;
 
+	@Transient
+	private Integer idcService;
 
 	/**
 	 * 
@@ -713,6 +717,31 @@ public class Vendor implements Serializable {
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
+	}
+
+
+
+	public void setThumbnail(String thumbnail) {
+		this.thumbnail = thumbnail;
+		
+	}
+
+
+
+	public String getThumbnail() {
+		return thumbnail;
+	}
+
+
+
+	public Integer getIdcService() {
+		return idcService;
+	}
+
+
+
+	public void setIdcService(Integer idcService) {
+		this.idcService = idcService;
 	}
 
 
