@@ -32,15 +32,15 @@
   }
 }
    </style>
+   
 </head>
-<script th:remove="all" src="../../../../resources/js/thymol/thymol.js" th:src="@{/resources/js/thymol/thymol.js}"
-	type="text/javascript"></script>
+
 <body>
 	<div id="wrap">
 		<!--/* Standard layout can be mixed with Layout Dialect */-->
 		<div th:replace="frontendHeader :: header">&nbsp;</div>
 		<div id="breadcumbsContainer" th:if="${currentMenu != 'home'}">
-			<div th:replace="util :: breadcrumbs">
+			<div th:replace="util/navigation :: breadcrumbs">
 			<ol class="breadcrumb container">
 				<li class="active"><a href="index.html" th:href="@{/}">Home</a></li>
 			</ol>
@@ -70,6 +70,7 @@
 
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	<script src="https://code.jquery.com/jquery.js"></script>
+<!-- 	<script th:remove="all" src="../../../../resources/js/thymol/thymol.js" th:src="@{/resources/js/thymol/thymol.js}" 	type="text/javascript"></script> -->
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<script src="../../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
 	<script src="../../../../resources/js/holder.js" th:src="@{/resources/js/holder.js}"></script>
@@ -78,6 +79,7 @@
 	<script
 		src="../../../../resources/plugins/bs-image-gallery-3.1.0/js/bootstrap-image-gallery.min.js"
 		th:src="@{/resources/plugins/bs-image-gallery-3.1.0/js/bootstrap-image-gallery.min.js}"></script>
+	
 	<script type="text/javascript">
 	$('.carousel').carousel({
 		  interval: 2000

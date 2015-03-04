@@ -16,7 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
 import com.buseni.ubukwebwiza.home.HomeController;
@@ -31,6 +31,7 @@ import com.buseni.ubukwebwiza.vendor.utils.VendorSearch;
 
 @Controller
 @Navigation(url="/vendors", name="Service providers", parent= HomeController.class)
+@SessionAttributes({"allWeddingServices","allDistricts"})
 public class ListVendorController {
 
 	public static final Logger LOGGER = LoggerFactory.getLogger( ListVendorController.class );
@@ -58,12 +59,6 @@ public class ListVendorController {
 		return "frontend/vendor/listingVendor";
 	}
 
-	@RequestMapping(value="/vendors/details{id}",method=RequestMethod.GET)
-	public String getVendor(@RequestParam Integer id, Model model){
-		Vendor vendor = vendorService.getVendor(id);
-		model.addAttribute("vendor", vendor);
-		return "frontend/vendor/detailVendor";
-	}
 
 	@RequestMapping(value="/search",method=RequestMethod.GET)
 	public String search(VendorSearch vendorSearch, Model model, Pageable page, HttpServletRequest request){
@@ -83,7 +78,8 @@ public class ListVendorController {
 		model.addAttribute("vendorSearch", vendorSearch);
 		return "frontend/vendor/listingVendor";
 	}
-	@ModelAttribute("allWeddingServices")
+	
+	/*@ModelAttribute("allWeddingServices")
 	public List<WeddingService> populateWeddingServices(){
 		return weddingServiceManager.findByEnabled(Boolean.TRUE);
 	}
@@ -91,7 +87,8 @@ public class ListVendorController {
 	@ModelAttribute("allDistricts")
 	public List<District> populateDistricts(){
 		return districtService.findByEnabled(Boolean.TRUE);
-	}
+	}*/
+	
 	@ModelAttribute("currentMenu")
 	public String module(){
 		return "vendors";

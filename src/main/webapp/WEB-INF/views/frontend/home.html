@@ -23,12 +23,15 @@ th:href="@{/resources/css/social-buttons.css}"
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
 </head>
+<script th:remove="all" src="../../../resources/js/thymol/thymol.js" th:src="@{/resources/js/thymol/thymol.js}"
+		type="text/javascript"></script>
+<script type="text/javascript"> var thDebug = true;</script>
 <body>
 
 	<div id="wrap">
 	
 	<!-- Head to be included -->
-	<div th:replace="frontendHeader :: header">&nbsp;</div>
+	<div th:replace="frontend/fragments/header :: header">&nbsp;</div>
 	<!-- end of head -->
 
 
@@ -207,7 +210,7 @@ th:href="@{/resources/css/social-buttons.css}"
 				</div>
 
 				<!-- sidebar to be included -->
-					<div th:replace="frontendSidebar :: #sidebar">&nbsp;</div>
+					<div th:replace="frontend/fragments/sidebar :: sidebar">&nbsp;</div>
 				<!-- end of sidebar -->
 				
 
@@ -215,7 +218,7 @@ th:href="@{/resources/css/social-buttons.css}"
 		</div>
 		
 		<!-- footer to be included -->
-		<div th:replace="frontendFooter :: #footer">&nbsp;</div>
+		<div th:replace="frontend/fragments/footer :: footer">&nbsp;</div>
 		<!-- end of footer -->
 		
 	</div>

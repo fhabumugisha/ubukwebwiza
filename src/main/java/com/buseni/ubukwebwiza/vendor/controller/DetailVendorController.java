@@ -1,66 +1,57 @@
-package com.buseni.ubukwebwiza.home;
+package com.buseni.ubukwebwiza.vendor.controller;
 
-
-
-import java.util.List;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
-import com.buseni.ubukwebwiza.vendor.domain.District;
 import com.buseni.ubukwebwiza.vendor.domain.Vendor;
-import com.buseni.ubukwebwiza.vendor.domain.WeddingService;
-import com.buseni.ubukwebwiza.vendor.service.DistrictService;
-import com.buseni.ubukwebwiza.vendor.service.PhotoService;
 import com.buseni.ubukwebwiza.vendor.service.VendorService;
-import com.buseni.ubukwebwiza.vendor.service.WeddingServiceManager;
-import com.buseni.ubukwebwiza.vendor.utils.VendorSearch;
 
 @Controller
+@Navigation(url="/vendors/details", name="Provider", parent= ListVendorController.class)
 @SessionAttributes({"allWeddingServices","allDistricts"})
-@Navigation(url="/", name="Home")
-public class HomeController {
+public class DetailVendorController {
 
-	
-	@Autowired
+	public static final Logger LOGGER = LoggerFactory.getLogger( DetailVendorController.class );
+
+	/*@Autowired
 	private WeddingServiceManager weddingServiceManager;
-	
+
 	@Autowired
-	private DistrictService districtService;
-	
+	private DistrictService districtService;*/
+
 	@Autowired
 	private VendorService vendorService;
-	
-	@Autowired
-	private PhotoService photoService;
-	
-	@RequestMapping(value="/", method=RequestMethod.GET)
-	public String home(VendorSearch vendorSearch){
-		return "frontend/index";
+
+
+
+	@RequestMapping(value="/vendors/details{id}",method=RequestMethod.GET)
+	public String getVendor(@RequestParam Integer id, Model model){
+		Vendor vendor = vendorService.getVendor(id);
+		model.addAttribute("vendor", vendor);
+		return "frontend/vendor/detailVendor";
 	}
 
 	
-	@ModelAttribute("allWeddingServices")
+/*	@ModelAttribute("allWeddingServices")
 	public List<WeddingService> populateWeddingServices(){
 		return weddingServiceManager.findByEnabled(Boolean.TRUE);
 	}
-	
+
 	@ModelAttribute("allDistricts")
 	public List<District> populateDistricts(){
 		return districtService.findByEnabled(Boolean.TRUE);
-	}
-	
-	@ModelAttribute("featuredVendors")
-	public List<Vendor> populateFeaturedVendors(){
-		return vendorService.getFeaturedVendors();
-	}
+	}*/
 	@ModelAttribute("currentMenu")
 	public String module(){
-		return "home";
+		return "vendors";
 	}
 }
