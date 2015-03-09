@@ -186,9 +186,12 @@ html, body {
   }
 }
 .navbar-toggle {
-	float: none;
+	float: left;
 }
 
+.navbar-default {
+  border-color: #e7e7e7;
+}
 .tab-pane {
 	border-bottom: 1px solid #DDDDDD;
 	border-left: 1px solid #DDDDDD;

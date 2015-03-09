@@ -31,8 +31,8 @@
 							<div class="thumbnail">
 							
 								
-								<img id="profilPicturePreview"    style="height: 150px; width: 100%"
-									     alt="profil pic"  th:if="*{vendor.profilPicture}" 
+								<img id="profilPicturePreview"    style="max-height: 150px; max-width: 173px;"
+									     alt="profil pic"  th:if="*{vendor.profilPicture}" class="img-responsive"
 									     th:alt="${businessName}" th:src="@{'/images/profil/'+*{vendor.thumbnail}} "></img>
 									
 									 <img id="profilPicturePreview" alt="profil pic" 
