@@ -95,12 +95,12 @@
 								<div class="thumbnail">
 									
 									
-									<img id="profilPicturePreview"    style="height: 150px; width: 204px"
-									     alt="profil pic"  th:if="*{vendor.thumbnail}" 
-									     th:alt="${businessName}" th:src="@{'/images/profil/'+*{vendor.thumbnail}} "></img>
+									<img id="profilPicturePreview"  style="height: 150px; width: 204px"
+									     alt="profil pic"  th:if="*{vendor.profilPicture}" 
+									     th:alt="${businessName}" th:src="@{'/image/'+*{vendor.profilPicture.id}} "></img>
 									
 									 <img id="profilPicturePreview" alt="profil pic" 
-									      th:unless="*{vendor.thumbnail}" th:alt="${businessName}" 
+									      th:unless="*{vendor.profilPicture}" th:alt="${businessName}" 
 									      data-src="holder.js/100%x150"></img>
 									<div class="caption">
 										<h3>

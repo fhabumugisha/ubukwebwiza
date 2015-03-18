@@ -33,7 +33,7 @@
 								th:object="${vendorSearch}" method="get">
 
 								<div class="row">
-
+									
 									<div class="col-md-2  col-md-offset-3">
 
 										<select th:field="*{service}" id="idWeddingService"
@@ -45,7 +45,9 @@
 										</select>
 
 									</div>
+									
 									<div class="col-md-1 "></div>
+									
 									<div class="col-md-2 ">
 										<select th:field="*{district}" id="idDistrict"
 											class="form-control">
@@ -55,14 +57,15 @@
 										</select>
 
 									</div>
-
+								
+								
 									<div class="col-md-2">
 										<button type="submit" class="btn btn-primary btn-block">
 											Find <span class="glyphicon glyphicon-search"></span>
 										</button>
 									</div>
-								</div>
-
+								
+				</div>
 
 
 
@@ -102,9 +105,9 @@
 									<div class="col-md-6 col-sm-3">
 										
 										
-										<img id="profilPicturePreview"   height="150" width="173"
+										<img id="profilPicturePreview"   height="150" width="173" 
 									     alt="profil pic"  th:if="*{vendor.profilPicture}" 
-									     th:alt="${businessName}" th:src="@{'/images/profil/'+*{vendor.thumbnail}} "></img>
+									     th:alt="${businessName}" th:src="@{'/image/'+*{vendor.profilPicture.id}} "></img>
 									
 									 <img id="profilPicturePreview" alt="profil pic" 
 									      th:unless="*{vendor.profilPicture}" th:alt="${businessName}" 
@@ -120,8 +123,17 @@
 												
 											
 										</h3>
-										<h4> <span th:if="${not #lists.isEmpty(vendor.vendorWeddingServices)}"
-											th:text="${vendor.weddingService}"> Wedding planner</span></h4>
+										
+										<ul class="list-inline" th:if="${not #lists.isEmpty(vendor.vendorWeddingServices)}">									
+									   <li th:each="vendorService : ${vendor.vendorWeddingServices}" th:text="${vendorService.weddingService.libelle}">
+									     Wedding planner
+									  </li>
+								     </ul>
+										
+											
+											
+							
+											
 										
 										<h6>
 											<span th:text="${vendor.district.libelle}">Nyarugenge</span>
@@ -210,10 +222,6 @@
 		th:src="@{/resources/js/bootstrap.min.js}"></script>
 	<script src="../../../../resources/js/holder.js"
 		th:src="@{/resources/js/holder.js}"></script>
-	<script type="text/javascript">
-		$('.carousel').carousel({
-			interval : 2000
-		})
-	</script>
+	
 </body>
 </html>

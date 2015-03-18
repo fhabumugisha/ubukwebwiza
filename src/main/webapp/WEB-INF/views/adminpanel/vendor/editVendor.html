@@ -86,7 +86,7 @@
 							</div>
 							
 							<div class="form-group"
-								th:classappend="${#fields.hasErrors('idcService')}? has-error">
+								th:classappend="${#fields.hasErrors('idcService')}? has-error" th:unless="*{id}">
 								<label for="idWeddingService" class="col-sm-4 control-label"
 									th:text="#{vendorWeddingService.list.service}">service</label>
 								<div class="col-sm-7">

@@ -30,6 +30,11 @@ public interface VendorService {
 	 */
 	Vendor findOne(Integer id);
 	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
 	Vendor getVendor(Integer id);
 	
 	/**

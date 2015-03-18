@@ -81,11 +81,12 @@
 									<a
 										href="../../../../resources/images/application/wedding_4_content.jpg"
 										title="Wedding planner" data-gallery=""
-										th:href="@{'/images/'+${photo.name}}">
+										th:href="@{'/image/'+${photo.id}}">
+										
 										<img height="150" width="210" alt="Wedding planner"
-										th:alt="${photo.name}"
+										th:alt="${photo.filename}"
 										src="../../../../resources/images/application/wedding_4_content.jpg"
-										th:src="@{'/images/'+${photo.thumbnail}}" />
+										th:src="@{'/image/'+${photo.id}}" />
 									</a>
 								</th:bloc>
 
@@ -146,10 +147,6 @@
 	<script
 		src="../../../../resources/plugins/bs-image-gallery-3.1.0/js/bootstrap-image-gallery.min.js"
 		th:src="@{/resources/plugins/bs-image-gallery-3.1.0/js/bootstrap-image-gallery.min.js}"></script>
-	<script type="text/javascript">
-	$('.carousel').carousel({
-		  interval: 2000
-		})
-	</script>
+	
 </body>
 </html>

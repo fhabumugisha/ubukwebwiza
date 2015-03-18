@@ -8,9 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -32,12 +30,14 @@ public class Photo implements Serializable{
 	private Integer id;
 	
 	@NotEmpty(message="You must choose a photo")
-	@Column(name="name")
-	private String name;
+	@Column(name="filename")
+	private String filename;
 	
+	@Column(name="content")
+	private byte[] content;
 	
-	@Column(name="thumbnail")
-	private String thumbnail;
+	@Column(name="contentType")
+	private String contentType;
 	
 	@NotEmpty(message="You must write a description")
 	@Lob
@@ -59,15 +59,75 @@ public class Photo implements Serializable{
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
-
-	@ManyToOne
-	@JoinColumn(name="id_vendor")
-	private Vendor vendor;
 	
 	private boolean enabled;
 	
 	public Photo(){
 		
+	}
+
+
+
+	
+	@Override
+	public String toString() {
+		return "Photo [id=" + id + ", filename=" + filename + ", description="
+				+ description + ", lastUpdate=" + lastUpdate + ", createdAt="
+				+ createdAt + ", enabled=" + enabled + "]";
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+
+
+	public Date getLastUpdate() {
+		return lastUpdate;
+	}
+
+	public void setLastUpdate(Date lastUpdate) {
+		this.lastUpdate = lastUpdate;
+	}
+	
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	
+	public String getFilename() {
+		return filename;
+	}
+
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+
+	public byte[] getContent() {
+		return content;
+	}
+
+	public void setContent(byte[] content) {
+		this.content = content;
 	}
 
 	@Override
@@ -79,12 +139,11 @@ public class Photo implements Serializable{
 		result = prime * result
 				+ ((description == null) ? 0 : description.hashCode());
 		result = prime * result + (enabled ? 1231 : 1237);
+		result = prime * result
+				+ ((filename == null) ? 0 : filename.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result
 				+ ((lastUpdate == null) ? 0 : lastUpdate.hashCode());
-		result = prime * result
-				+ ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((vendor == null) ? 0 : vendor.hashCode());
 		return result;
 	}
 
@@ -109,6 +168,11 @@ public class Photo implements Serializable{
 			return false;
 		if (enabled != other.enabled)
 			return false;
+		if (filename == null) {
+			if (other.filename != null)
+				return false;
+		} else if (!filename.equals(other.filename))
+			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -119,90 +183,15 @@ public class Photo implements Serializable{
 				return false;
 		} else if (!lastUpdate.equals(other.lastUpdate))
 			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		if (vendor == null) {
-			if (other.vendor != null)
-				return false;
-		} else if (!vendor.equals(other.vendor))
-			return false;
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		return "Photo [id=" + id + ", photoName=" + name
-				+ ", description=" + description + ", lastUpdate=" + lastUpdate
-				+ ", createdAt=" + createdAt + ", vendor=" + vendor
-				+ ", enabled=" + enabled + "]";
+	public String getContentType() {
+		return contentType;
 	}
 
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-
-	
-
-
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Date getLastUpdate() {
-		return lastUpdate;
-	}
-
-	public void setLastUpdate(Date lastUpdate) {
-		this.lastUpdate = lastUpdate;
-	}
-
-	public Vendor getVendor() {
-		return vendor;
-	}
-
-	public void setVendor(Vendor vendor) {
-		this.vendor = vendor;
-	}
-
-	
-
-	public boolean isEnabled() {
-		return enabled;
-	}
-
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
-
-	public String getThumbnail() {
-		return thumbnail;
-	}
-
-	public void setThumbnail(String thumbnail) {
-		this.thumbnail = thumbnail;
+	public void setContentType(String contentType) {
+		this.contentType = contentType;
 	}
 
 }

@@ -85,13 +85,19 @@ public class VendorServiceImpl implements VendorService {
 	 * @see com.buseni.ubukwebwiza.administrator.service.VendorService#findById(java.lang.Integer)
 	 */
 	@Override
-	public Vendor findOne(Integer id) {
+	public Vendor getVendor(Integer id) {
 		if(null == id){
 			throw new NullPointerException();
 		}
 		
-		
-		return vendorRepo.findOne(id);
+		Vendor vendor  = vendorRepo.findOne(id);
+		if(vendor ==  null){
+			throw new ResourceNotFoundException();
+		}
+		vendor.setNbViews(vendor.getNbViews() + 1);
+		vendor.setLastUpdated(new Date());
+		vendorRepo.save(vendor);
+		return vendor;
 	}
 
 	/* (non-Javadoc)
@@ -144,7 +150,7 @@ public class VendorServiceImpl implements VendorService {
 
 	@Override
 	@Transactional
-	public Vendor getVendor(Integer id) {
+	public Vendor findOne(Integer id) {
 		if(null == id){
 			throw new NullPointerException();
 		}
@@ -154,9 +160,7 @@ public class VendorServiceImpl implements VendorService {
 			throw new ResourceNotFoundException();
 		}
 		
-			vendor.setNbViews(vendor.getNbViews() + 1);
-			vendor.setLastUpdated(new Date());
-			vendorRepo.save(vendor);
+			
 		
 		return vendor;
 	}

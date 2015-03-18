@@ -15,9 +15,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -54,8 +56,6 @@ public class Vendor implements Serializable {
 	@NotEmpty(message="{error.vendor.requiredfield.password}")
 	private String password;
 
-	@Transient
-	private String confirmPassword;
 	
 	@Column(name="business_name")
 	@NotEmpty(message="{error.vendor.requiredfield.businessname}")
@@ -72,11 +72,15 @@ public class Vendor implements Serializable {
 	@Column(name="twitter_username")
 	private String twitterUsername;
 	
-	@Column(name="profil_picture")
-	private String profilPicture;
 	
-	@Column(name="cover_picture")
-	private String coverPicture;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_profil_picture", referencedColumnName="id_photo")
+	private Photo profilPicture;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_cover_picture" , referencedColumnName="id_photo")
+	private Photo coverPicture;
+	
 	@Lob
 	@Column(length=500)
 	private String aboutme;
@@ -96,16 +100,6 @@ public class Vendor implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="last_update")
 	private Date lastUpdate;
-	
-	public Date getLastUpdate() {
-		return lastUpdate;
-	}
-
-
-
-	public void setLastUpdate(Date lastUpdate) {
-		this.lastUpdate = lastUpdate;
-	}
 
 
 
@@ -117,7 +111,13 @@ public class Vendor implements Serializable {
 	private Set<VendorWeddingService> vendorWeddingServices = new HashSet<VendorWeddingService>();
 	
 	
-	@OneToMany(mappedBy="vendor",cascade=CascadeType.REMOVE)
+	@OneToMany(cascade=CascadeType.ALL)
+	 @JoinTable
+	  (
+	      name="vendor_photo",
+	      joinColumns={ @JoinColumn(name="id_vendor", referencedColumnName="id_vendor") },
+	      inverseJoinColumns={ @JoinColumn(name="id_photo", referencedColumnName="id_photo", unique=true) }
+	  )
 	private Set<Photo> photos = new HashSet<Photo>();
 	
 	@Column(name="nb_views")
@@ -129,8 +129,7 @@ public class Vendor implements Serializable {
 	@JoinColumn(name="id_district")
 	private District district;
 
-	@Column(name ="thumbnail")
-	private String thumbnail;
+	
 
 	@Transient
 	private Integer idcService;
@@ -303,17 +302,16 @@ public class Vendor implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "Vendor [id=" + id + ", email=" + email + ", password="
-				+ password + ", confirmPassword=" + confirmPassword
-				+ ", businessName=" + businessName + ", phoneNumber="
-				+ phoneNumber + ", website=" + website + ", fbUsername="
-				+ fbUsername + ", twitterUsername=" + twitterUsername
-				+ ", profilPicture=" + profilPicture + ", coverPicture="
-				+ coverPicture + ", aboutme=" + aboutme + ", address="
-				+ address + ", country=" + country + ", enabled=" + enabled
-				+ ", token=" + token + ", normalizedName=" + normalizedName
-				+ ", lastUpdate=" + lastUpdate + ", createdAt=" + createdAt
-				+ ", nbViews=" + nbViews + ", district=" + district + "]";
+		return "Vendor [id=" + id + ", email=" + email + ", businessName="
+				+ businessName + ", phoneNumber=" + phoneNumber + ", website="
+				+ website + ", fbUsername=" + fbUsername + ", twitterUsername="
+				+ twitterUsername + ", profilPicture=" + profilPicture
+				+ ", coverPicture=" + coverPicture + ", aboutme=" + aboutme
+				+ ", address=" + address + ", country=" + country
+				+ ", enabled=" + enabled + ", token=" + token
+				+ ", normalizedName=" + normalizedName + ", lastUpdate="
+				+ lastUpdate + ", createdAt=" + createdAt + ", nbViews="
+				+ nbViews + ", district=" + district + "]";
 	}
 
 
@@ -328,8 +326,6 @@ public class Vendor implements Serializable {
 		result = prime * result + ((address == null) ? 0 : address.hashCode());
 		result = prime * result
 				+ ((businessName == null) ? 0 : businessName.hashCode());
-		result = prime * result
-				+ ((confirmPassword == null) ? 0 : confirmPassword.hashCode());
 		result = prime * result + ((country == null) ? 0 : country.hashCode());
 		result = prime * result
 				+ ((coverPicture == null) ? 0 : coverPicture.hashCode());
@@ -343,17 +339,16 @@ public class Vendor implements Serializable {
 				+ ((fbUsername == null) ? 0 : fbUsername.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result
+				+ ((idcService == null) ? 0 : idcService.hashCode());
+		result = prime * result
 				+ ((lastUpdate == null) ? 0 : lastUpdate.hashCode());
 		result = prime * result + nbViews;
 		result = prime * result
 				+ ((normalizedName == null) ? 0 : normalizedName.hashCode());
 		result = prime * result
-				+ ((password == null) ? 0 : password.hashCode());
-		result = prime * result
 				+ ((phoneNumber == null) ? 0 : phoneNumber.hashCode());
 		result = prime * result
 				+ ((profilPicture == null) ? 0 : profilPicture.hashCode());
-		result = prime * result + ((token == null) ? 0 : token.hashCode());
 		result = prime * result
 				+ ((twitterUsername == null) ? 0 : twitterUsername.hashCode());
 		result = prime * result + ((website == null) ? 0 : website.hashCode());
@@ -385,11 +380,6 @@ public class Vendor implements Serializable {
 			if (other.businessName != null)
 				return false;
 		} else if (!businessName.equals(other.businessName))
-			return false;
-		if (confirmPassword == null) {
-			if (other.confirmPassword != null)
-				return false;
-		} else if (!confirmPassword.equals(other.confirmPassword))
 			return false;
 		if (country == null) {
 			if (other.country != null)
@@ -428,6 +418,11 @@ public class Vendor implements Serializable {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
+		if (idcService == null) {
+			if (other.idcService != null)
+				return false;
+		} else if (!idcService.equals(other.idcService))
+			return false;
 		if (lastUpdate == null) {
 			if (other.lastUpdate != null)
 				return false;
@@ -440,11 +435,6 @@ public class Vendor implements Serializable {
 				return false;
 		} else if (!normalizedName.equals(other.normalizedName))
 			return false;
-		if (password == null) {
-			if (other.password != null)
-				return false;
-		} else if (!password.equals(other.password))
-			return false;
 		if (phoneNumber == null) {
 			if (other.phoneNumber != null)
 				return false;
@@ -454,11 +444,6 @@ public class Vendor implements Serializable {
 			if (other.profilPicture != null)
 				return false;
 		} else if (!profilPicture.equals(other.profilPicture))
-			return false;
-		if (token == null) {
-			if (other.token != null)
-				return false;
-		} else if (!token.equals(other.token))
 			return false;
 		if (twitterUsername == null) {
 			if (other.twitterUsername != null)
@@ -579,24 +564,6 @@ public class Vendor implements Serializable {
 
 
 	/**
-	 * @param photos the photos to set
-	 */
-	public void setFashions(Set<Photo> photos) {
-		this.photos = photos;
-	}
-
-
-
-	/**
-	 * @return the photos
-	 */
-	public Set<Photo> getFashions() {
-		return photos;
-	}
-
-
-
-	/**
 	 * @param normalizedName the normalizedName to set
 	 */
 	public void setNormalizedName(String normalizedName) {
@@ -614,21 +581,6 @@ public class Vendor implements Serializable {
 
 
 
-	/**
-	 * @param confirmPassword the confirmPassword to set
-	 */
-	public void setConfirmPassword(String confirmPassword) {
-		this.confirmPassword = confirmPassword;
-	}
-
-
-
-	/**
-	 * @return the confirmPassword
-	 */
-	public String getConfirmPassword() {
-		return confirmPassword;
-	}
 
 
 
@@ -662,28 +614,6 @@ public class Vendor implements Serializable {
 
 
 
-	public String getProfilPicture() {
-		return profilPicture;
-	}
-
-
-
-	public void setProfilPicture(String profilPicture) {
-		this.profilPicture = profilPicture;
-	}
-
-
-
-	public String getCoverPicture() {
-		return coverPicture;
-	}
-
-
-
-	public void setCoverPicture(String coverPicture) {
-		this.coverPicture = coverPicture;
-	}
-
 
 
 	public String getWeddingService() {		
@@ -700,6 +630,18 @@ public class Vendor implements Serializable {
 	public District getDistrict() {
 		return district;
 	}
+	
+	
+	public Date getLastUpdate() {
+		return lastUpdate;
+	}
+
+
+
+	public void setLastUpdate(Date lastUpdate) {
+		this.lastUpdate = lastUpdate;
+	}
+
 
 
 
@@ -721,19 +663,6 @@ public class Vendor implements Serializable {
 
 
 
-	public void setThumbnail(String thumbnail) {
-		this.thumbnail = thumbnail;
-		
-	}
-
-
-
-	public String getThumbnail() {
-		return thumbnail;
-	}
-
-
-
 	public Integer getIdcService() {
 		return idcService;
 	}
@@ -742,6 +671,22 @@ public class Vendor implements Serializable {
 
 	public void setIdcService(Integer idcService) {
 		this.idcService = idcService;
+	}
+
+	public Photo getProfilPicture() {
+		return profilPicture;
+	}
+
+	public void setProfilPicture(Photo profilPicture) {
+		this.profilPicture = profilPicture;
+	}
+
+	public Photo getCoverPicture() {
+		return coverPicture;
+	}
+
+	public void setCoverPicture(Photo coverPicture) {
+		this.coverPicture = coverPicture;
 	}
 
 

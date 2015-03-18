@@ -4,7 +4,6 @@
 package com.buseni.ubukwebwiza.vendor.service.impl;
 
 import java.util.Date;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -46,7 +45,7 @@ public class PhotoServiceImpl implements PhotoService {
 			photo.setCreatedAt(new Date());
 		}else{
 			Photo photoBdd = photoRepo.findOne(photo.getId());
-			photo.setName(photoBdd.getName());
+			photo.setFilename(photoBdd.getFilename());
 			photo.setCreatedAt(photoBdd.getCreatedAt());
 			
 		}
@@ -78,13 +77,7 @@ public class PhotoServiceImpl implements PhotoService {
 		return photoRepo.findOne(id);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.buseni.ubukwebwiza.administrator.service.PhotoService#findAllByProvider(java.lang.Integer)
-	 */
-	@Override
-	public List<Photo> findAllByVendor(Integer idVendor) {
-		return photoRepo.findByVendor_id(idVendor);
-	}
+	
 
 	/* (non-Javadoc)
 	 * @see com.buseni.ubukwebwiza.administrator.service.PhotoService#findAll(org.springframework.data.domain.Pageable)

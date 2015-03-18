@@ -2,12 +2,18 @@ package com.buseni.ubukwebwiza.gallery;
 
 
 
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -34,7 +40,17 @@ public class GalleryController {
 		model.addAttribute("page", pageWrapper);
 		return "frontend/gallery/photoGallery";
 	}
-		
+	
+	@RequestMapping(value = "/image/{imageId}", method = RequestMethod.GET)
+	public void showImage(@PathVariable("imageId") Integer imageId,
+			HttpServletResponse response, HttpServletRequest request)
+			throws IOException {
+		Photo photo = photoService.findById(imageId);
+		byte[] imageContent = photo.getContent();
+		response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
+		response.getOutputStream().write(imageContent);
+		response.getOutputStream().close();
+	}
 	@ModelAttribute("currentMenu")
 	public String module(){
 		return "gallery";

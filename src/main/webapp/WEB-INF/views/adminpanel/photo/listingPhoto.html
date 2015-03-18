@@ -26,7 +26,6 @@
 						<tr>
 							<th class="col-sm-1" >#</th>
 							<th class="col-sm-2" th:text="#{photo.list.name}">Name</th>
-							<th class="col-sm-1" th:text="#{photo.list.vendor}">Vendor</th>
 							<th class="col-sm-3" th:text="#{photo.list.description}">Description</th>							
 							<th class="col-sm-1" th:text="#{list.lastupdate}">Last update</th>							
 							<th class="col-sm-1" th:text="#{list.createdat}">Created at</th>
@@ -42,11 +41,11 @@
 							
 							<td>
 							
-								<img class="img-thumbnail"  width="100" height="50" alt="Photo" th:if="${!#strings.isEmpty(photo.thumbnail)}" th:alt="${photo.name}" th:src="@{'/images/'+${photo.thumbnail}} "></img>
-								<img class="img-thumbnail"  width="100" height="50" alt="Photo" th:if="${#strings.isEmpty(photo.thumbnail)}" th:alt="${photo.name}" th:src="@{/resources/images/application/no_person.jpg} "></img>
+								<img class="img-thumbnail"  width="100" height="50" alt="Photo" th:if="${!#strings.isEmpty(photo.filename)}" th:alt="${photo.filename}" th:src="@{'/admin/image/'+${photo.id}} "></img>
+								<img class="img-thumbnail"  width="100" height="50" alt="Photo" th:if="${#strings.isEmpty(photo.filename)}" th:alt="${photo.filename}" th:src="@{/resources/images/application/no_person.jpg} "></img>
 							
 							</td>
-							<td th:text="${photo.vendor.businessName}">Wedding Planning</td>
+							
 							<td th:text="${photo.description}">Wedding Planning</td>
 							
 							<td th:text="${#dates.format(photo.lastUpdate, 'dd/MM/yyyy')}">Ok</td>

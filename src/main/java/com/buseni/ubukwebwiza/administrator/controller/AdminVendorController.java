@@ -3,12 +3,19 @@ package com.buseni.ubukwebwiza.administrator.controller;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.fileupload.disk.DiskFileItem;
+import org.apache.commons.io.IOUtils;
 import org.imgscalr.Scalr;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +23,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
@@ -25,6 +36,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -98,20 +110,31 @@ public class AdminVendorController {
 			if (!file.isEmpty()) {
 	            try {
 	               
-	            	String workingDir = System.getProperty("user.dir");
-	                String saveDirectory =  env.getProperty("files.location");
-	                file.transferTo(new File(workingDir+saveDirectory+"/profil/" + file.getOriginalFilename()));
+	            	//String workingDir = System.getProperty("user.dir");
+	               /* String saveDirectory =  env.getProperty("files.location");
+	                file.transferTo(new File(saveDirectory+"/profil/" + file.getOriginalFilename()));*/
 	               /*
 	                 byte[] bytes = file.getBytes();
 	                   BufferedOutputStream stream =
 	                        new BufferedOutputStream(new FileOutputStream(new File(file.getOriginalFilename() + "-uploaded")));
 	                stream.write(bytes);
 	                stream.close(); */
-	                LOGGER.info("You successfully uploaded " + file.getOriginalFilename() + " into " + file.getOriginalFilename() + "-uploaded !");
+	                /*LOGGER.info("You successfully uploaded " + file.getOriginalFilename() + " into " + file.getOriginalFilename() + "-uploaded !");
 	              
-	                resizeImagScal(new File(workingDir+saveDirectory+"/profil/" + file.getOriginalFilename()), new File(workingDir+saveDirectory+"/profil/" + "thumbnail" + file.getOriginalFilename()));
-	                vendor.setProfilPicture(file.getOriginalFilename());
-	                vendor.setThumbnail("thumbnail"+file.getOriginalFilename());
+	                resizeImagScal(new File(saveDirectory+"/profil/" + file.getOriginalFilename()), new File(saveDirectory+"/profil/" + "thumbnail" + file.getOriginalFilename()));*/
+	              
+	                Photo profil = new Photo();
+	               profil.setFilename(file.getOriginalFilename());
+	               profil.setDescription(vendor.getBusinessName());
+	               profil.setContent(file.getBytes());
+	               profil.setEnabled(false);
+	               profil.setCreatedAt(new Date());
+	               profil.setContentType(file.getContentType());
+	               vendor.setProfilPicture(profil);
+	               
+	                
+	                /*vendor.setProfilPicture(file.getOriginalFilename());
+	                vendor.setThumbnail("thumbnail"+file.getOriginalFilename());*/
 	            } catch (Exception e) {
 	            	LOGGER.info("You failed to upload " + file.getName() + " => " + e.getMessage());
 	            	result.reject(e.getMessage());
@@ -164,9 +187,9 @@ public class AdminVendorController {
 		model.addAttribute("vendor", vendor);
 		
 		
-		String workingDir = System.getProperty("user.dir");
-        String saveDirectory =  env.getProperty("files.location");
-        File filePhoto = new File(workingDir+saveDirectory+"/profil/" + vendor.getProfilPicture());
+		//String workingDir = System.getProperty("user.dir");
+       /* String saveDirectory =  env.getProperty("files.location");
+        File filePhoto = new File(saveDirectory+"/profil/" + vendor.getProfilPicture());
         DiskFileItem diskFile =  new DiskFileItem("file", "multipart/form-data", false, filePhoto.getName(), (int)filePhoto.length(), filePhoto.getParentFile());
         try {
 			diskFile.getOutputStream();
@@ -176,7 +199,7 @@ public class AdminVendorController {
 		}
         MultipartFile file =  new CommonsMultipartFile(diskFile);
         
-		model.addAttribute(file);
+		model.addAttribute(file);*/
 		return "adminpanel/vendor/editVendor";
 	}
 	
@@ -212,16 +235,17 @@ public class AdminVendorController {
 			if (file != null && !file.isEmpty()) {
 	            try {
 	               
-	            	String workingDir = System.getProperty("user.dir");
-	                String saveDirectory =  env.getProperty("files.location");
-	                file.transferTo(new File(workingDir+saveDirectory+"/" + file.getOriginalFilename()));
+	            	//String workingDir = System.getProperty("user.dir");
+	    /*            String saveDirectory =  env.getProperty("files.location");
+	                file.transferTo(new File(saveDirectory+"/" + file.getOriginalFilename()));
 	             
 	                LOGGER.info("You successfully uploaded " + file.getOriginalFilename() + " into " + file.getOriginalFilename() + "-uploaded !");
 	               
-	                resizeImagScal(new File(workingDir+saveDirectory+"/" + file.getOriginalFilename()), new File(workingDir+saveDirectory+"/" + "thumbnail" + file.getOriginalFilename()));
+	                resizeImagScal(new File(saveDirectory+"/" + file.getOriginalFilename()), new File(saveDirectory+"/" + "thumbnail" + file.getOriginalFilename()));*/
 	                
-	                photo.setName(file.getOriginalFilename());
-	                photo.setThumbnail("thumbnail"+file.getOriginalFilename());
+	                photo.setFilename(file.getOriginalFilename());
+	                photo.setContent(file.getBytes());
+	                photo.setContentType(file.getContentType());
 	            } catch (Exception e) {
 	            	LOGGER.info("You failed to upload " + file.getName() + " => " + e.getMessage());
 	            	//result.reject(e.getMessage());
@@ -242,24 +266,18 @@ public class AdminVendorController {
 			try {
 				photo.setDescription(photoForm.getDescription());
 				photo.setId(photoForm.getId());
-				photo.setEnabled(photoForm.isEnabled());
-				Vendor vendor = vendorService.findOne(idVendor);
-				photo.setVendor(vendor);
-				/*if(vendor.getPhotos().contains(photo)){
-					vendor.getPhotos().remove(photo);
-				}*/
-				
+				photo.setEnabled(photoForm.isEnabled());				
 				photoService.create(photo);
-				//vendor.getPhotos().add(photo);
+				Vendor vendor = vendorService.findOne(idVendor);
+				vendor.getPhotos().add(photo);
+				vendorService.update(vendor);
 				String message = "Photo " + photo.getId() + " was successfully added";
 				model.addAttribute("message", message);
 				model.addAttribute("vendor", vendor);
 				 photoForm = new PhotoForm();
 				//photoForm.setIdVendor(vendor.getId());
 				model.addAttribute("photoForm", photoForm);
-				return "adminpanel/vendor/photos::listPhotos";
-				
-					
+				return "adminpanel/vendor/photos::listPhotos";					
 			
 				//Business errors
 			} catch (final ServiceLayerException e) {
@@ -291,7 +309,7 @@ public class AdminVendorController {
 		PhotoForm photoForm = new PhotoForm();
 		photoForm.setDescription(photo.getDescription());
 		photoForm.setId(id);
-		photoForm.setName(photo.getName());
+		photoForm.setName(photo.getFilename());
 		//photoForm.setIdVendor(idVendor);
 		photoForm.setEnabled(photo.isEnabled());
 		/*String workingDir = System.getProperty("user.dir");
@@ -308,7 +326,7 @@ public class AdminVendorController {
         
 		photoForm.setFile(file);*/
 		model.addAttribute("photoForm", photoForm);	
-		Vendor vendor = photo.getVendor();
+		Vendor vendor = vendorService.findOne(idVendor);
 		if(!CollectionUtils.isEmpty(vendor.getPhotos()) ){
 			vendor.getPhotos().remove(photo);
 		}
@@ -398,7 +416,29 @@ public class AdminVendorController {
 		return "adminpanel/vendor/services::listServices";
 	}
 	
-	
+	/*@RequestMapping(value = "/image/{image_id}", method = RequestMethod.GET, produces = { MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
+	@ResponseBody
+    public ResponseEntity<byte[]> getImage(@PathVariable("image_id") Integer imageId) throws IOException {
+    	Photo photo = photoService.findById(imageId);
+        byte[] imageContent = photo.getContent();
+        final HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_JPEG);
+      List<MediaType> mediaTypes = Arrays.asList(MediaType.IMAGE_JPEG, MediaType.IMAGE_PNG);
+      headers.setAccept(mediaTypes);
+        InputStream in = ServletContext.class.getResourceAsStream("/userimages/new_look.jpg");
+        return new ResponseEntity<byte[]>(IOUtils.toByteArray(in), headers, HttpStatus.OK);
+    }*/
+    
+	@RequestMapping(value = "/image/{imageId}", method = RequestMethod.GET)
+	public void showImage(@PathVariable("imageId") Integer imageId,
+			HttpServletResponse response, HttpServletRequest request)
+			throws IOException {
+		Photo photo = photoService.findById(imageId);
+		byte[] imageContent = photo.getContent();
+		response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
+		response.getOutputStream().write(imageContent);
+		response.getOutputStream().close();
+	}
 	
 	@ModelAttribute("currentMenu")
 	public String module(){

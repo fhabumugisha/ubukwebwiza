@@ -31,12 +31,12 @@
 							<div class="thumbnail">
 							
 								
-								<img id="profilPicturePreview"    style="max-height: 150px; max-width: 173px;"
+								<img id="profilPicturePreview" style="height: 150px; width: 200px;"
 									     alt="profil pic"  th:if="*{vendor.profilPicture}" class="img-responsive"
-									     th:alt="${businessName}" th:src="@{'/images/profil/'+*{vendor.thumbnail}} "></img>
+									     th:alt="${businessName}" th:src="@{'/image/'+*{vendor.profilPicture.id}} "></img>
 									
 									 <img id="profilPicturePreview" alt="profil pic" 
-									      th:unless="*{vendor.thumbnail}" th:alt="${businessName}" 
+									      th:unless="*{vendor.profilPicture}" th:alt="${businessName}" 
 									      data-src="holder.js/100%x150"></img>
 									      
 								<div class="caption">
@@ -202,11 +202,11 @@
 												href="../../../../resources/images/application/wedding_4_content.jpg"
 												title="Wedding planner" th:title="${photo.description}"
 												data-gallery=""
-												th:href="@{'/images/'+${photo.name}}">
+												th:href="@{'/image/'+${photo.id}}">
 												<img height="150" width="210"
 												src="../../../../resources/images/application/wedding_4_content.jpg"
-												alt="Wedding planner" th:alt="${photo.name}"
-												th:src="@{'/images/'+${photo.name}}" />
+												alt="Wedding planner" th:alt="${photo.filename}"
+												th:src="@{'/image/'+${photo.id}}" />
 											</a>
 										</th:bloc>
 
@@ -267,10 +267,6 @@
 	<script
 		src="../../../../resources/plugins/bs-image-gallery-3.1.0/js/bootstrap-image-gallery.min.js"
 		th:src="@{/resources/plugins/bs-image-gallery-3.1.0/js/bootstrap-image-gallery.min.js}"></script>
-	<script type="text/javascript">
-	$('.carousel').carousel({
-		  interval: 2000
-		})
-	</script>
+	
 </body>
 </html>

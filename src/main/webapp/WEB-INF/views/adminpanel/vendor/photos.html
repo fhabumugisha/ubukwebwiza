@@ -42,8 +42,8 @@
 							
 							<td>
 							
-								<img class="img-thumbnail"  width="100" height="50" alt="Photo" th:if="${!#strings.isEmpty(photo.thumbnail)}" th:alt="${photo.thumbnail}" th:src="@{'/images/'+${photo.thumbnail}} "></img>
-								<img class="img-thumbnail"  width="100" height="50" alt="Photo" th:if="${#strings.isEmpty(photo.thumbnail)}" th:alt="${photo.name}" th:src="@{/resources/images/application/no_person.jpg} "></img>
+								<img class="img-thumbnail"  width="100" height="50" alt="Photo" th:if="${!#strings.isEmpty(photo.filename)}" th:alt="${photo.filename}" th:src="@{'/admin/image/'+${photo.id}}"></img>
+								<img class="img-thumbnail"  width="100" height="50" alt="Photo" th:if="${#strings.isEmpty(photo.filename)}"  th:src="@{/resources/images/application/no_person.jpg} "></img>
 							
 							</td>
 							
@@ -138,10 +138,10 @@
 											
 									<img id="picturePreview"   width="100" height="150" 
 									     alt="profil pic"  th:if="*{name}" 
-									     th:alt="${businessName}" th:src="@{'/images/'+*{name}} "></img>
+									     th:alt="${name}" th:src="@{'/images/'+*{name}} "></img>
 									
 									 <img id="picturePreview"  width="100" height="150" alt="profil pic" 
-									      th:unless="*{name}" th:alt="${name}" 
+									      th:unless="*{name}"  
 									      th:src="@{/resources/images/application/no_person.jpg} "></img>
 										
 										<div class="caption">
@@ -249,29 +249,5 @@
 	
 	
 </body>
-<script type="text/javascript">
 
-
-
-//using FormData() object
-function uploadFormData(){
-   // $('#result').html('');
- var form = document.getElementById("uploadPhotoForm");
-  var oMyForm = new FormData(form);
-  oMyForm.append("file", file2.files[0]);
- 
-  $.ajax({
-    url: form.attr('action'),
-    data: oMyForm,
-    dataType: 'text',
-    processData: false,
-    contentType: false,
-    type: 'POST',
-    success: function(data){
-      $('#listPhotos').html(data);
-    }
-  });
-}
-
-</script>
 </html>
