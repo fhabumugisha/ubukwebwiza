@@ -79,7 +79,7 @@ public class ListVendorController {
 		return "frontend/vendor/listingVendor";
 	}
 	
-	/*@ModelAttribute("allWeddingServices")
+	@ModelAttribute("allWeddingServices")
 	public List<WeddingService> populateWeddingServices(){
 		return weddingServiceManager.findByEnabled(Boolean.TRUE);
 	}
@@ -87,7 +87,7 @@ public class ListVendorController {
 	@ModelAttribute("allDistricts")
 	public List<District> populateDistricts(){
 		return districtService.findByEnabled(Boolean.TRUE);
-	}*/
+	}
 	
 	@ModelAttribute("currentMenu")
 	public String module(){

@@ -27,12 +27,12 @@
 				<div id="content" class="col-md-10 container">
 
 					<div class="row">
-						<div class="col-md-3 ">
+						<div class="col-md-3 col-sm-5">
 							<div class="thumbnail">
 							
 								
-								<img id="profilPicturePreview" style="height: 150px; width: 200px;"
-									     alt="profil pic"  th:if="*{vendor.profilPicture}" class="img-responsive"
+								<img id="profilPicturePreview" style="height: 150px; width: 100%;"
+									     alt="profil pic"  th:if="*{vendor.profilPicture}" 
 									     th:alt="${businessName}" th:src="@{'/image/'+*{vendor.profilPicture.id}} "></img>
 									
 									 <img id="profilPicturePreview" alt="profil pic" 
@@ -57,7 +57,7 @@
 
 
 						</div>
-						<div class="col-md-5 ">
+						<div class="col-md-5  col-sm-7">
 							<div class="panel  panel-default">
 								<div class="panel-heading">
 									<h3 class="panel-title">About</h3>
@@ -72,7 +72,7 @@
 
 
 						</div>
-						<div class="col-md-4 ">
+						<div class="col-md-4 col-sm-12">
 							<div class="panel  panel-default">
 								<div class="panel-heading">
 									<h3 class="panel-title">Contact</h3>

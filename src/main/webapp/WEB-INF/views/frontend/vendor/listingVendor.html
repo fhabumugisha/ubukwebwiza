@@ -26,50 +26,38 @@
 				<div class="col-md-12 container ">
 					<div class="panel  panel-primary">
 						<div class="panel-body">
-
-
-							<form action="listingVendor.html" role="form"
-								class="form-inline " th:action="@{/search}"
-								th:object="${vendorSearch}" method="get">
-
-								<div class="row">
-									
-									<div class="col-md-2  col-md-offset-3">
-
-										<select th:field="*{service}" id="idWeddingService"
+							<div class="row">
+								<div class="col-md-8  col-md-offset-3 col-xs-offset-0">
+									<form action="listingVendor.html" role="form" 	class="form-inline " th:action="@{/search}" th:object="${vendorSearch}" method="get">
+										<div class="form-group">
+											<label  for="idWeddingService">Service: </label> 
+												
+												<select th:field="*{service}" id="idWeddingService"
 											class="form-control">
 											<option value="" th:text="#{common.select.prompt}"></option>
 											<option th:each="weddingService : ${allWeddingServices}"
 												th:value="${weddingService.id}"
 												th:text="${weddingService.libelle}">Wedding planner</option>
 										</select>
-
-									</div>
-									
-									<div class="col-md-1 "></div>
-									
-									<div class="col-md-2 ">
-										<select th:field="*{district}" id="idDistrict"
+												
+										</div>
+										<div class="form-group">
+											<label  for="idDistrict">District: </label>
+											<select th:field="*{district}" id="idDistrict"
 											class="form-control">
 											<option value="" th:text="#{common.select.prompt}"></option>
 											<option th:each="district : ${allDistricts}"
 												th:value="${district.id}" th:text="${district.libelle}">Kigali</option>
 										</select>
-
-									</div>
-								
-								
-									<div class="col-md-2">
-										<button type="submit" class="btn btn-primary btn-block">
+											
+										</div>
+										<button type="submit" class="btn btn-primary ">
 											Find <span class="glyphicon glyphicon-search"></span>
 										</button>
-									</div>
-								
-				</div>
-
-
-
-							</form>
+									</form>
+								</div>
+							</div>
+											
 						</div>
 					</div>
 
@@ -97,12 +85,12 @@
 				<div class="col-md-12 container">
 
 					<div class="row">
-						<div class="col-md-5 container">
+						<div class="col-md-7 container">
 
 							<th:block th:each="vendor :${vendors}">
 
 								<div class="row">
-									<div class="col-md-6 col-sm-3">
+									<div class="col-md-5 col-sm-3">
 										
 										
 										<img id="profilPicturePreview"   height="150" width="173" 
@@ -114,7 +102,7 @@
 									      data-src="holder.js/100%x150"></img>
 									
 									</div>
-									<div class="col-md-6 col-sm-9">
+									<div class="col-md-7 col-sm-9">
 										<h3>
 										
 										<a href="detailVendor.html"
@@ -203,7 +191,7 @@
 							
 							<hr th:remove="all" />
 						</div>
-						<div class="col-md-7"></div>
+						<div class="col-md-5"></div>
 					</div>
 
 				</div>

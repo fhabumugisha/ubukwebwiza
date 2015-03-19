@@ -53,7 +53,7 @@
 									method="get">
 
 									<div class="row">
-										<div class="col-md-2 col-md-offset-3">
+										<div class="col-md-2 col-sm-3  col-md-offset-3 col-sm-offset-1">
 
 											<select th:field="*{service}" id="idWeddingService" class="form-control">
 												<option th:each="weddingService : ${allWeddingServices}" th:value="${weddingService.id}"
@@ -61,13 +61,13 @@
 											</select>
 										</div>
 
-										<div class="col-md-2 ">
+										<div class="col-md-2  col-sm-3  ">
 											<select th:field="*{district}" id="idDistrict" class="form-control">
 												<option th:each="district : ${allDistricts}" th:value="${district.id}" th:text="${district.libelle}">Kigali</option>
 											</select>
 
 										</div>
-										<div class="col-md-2">
+										<div class="col-md-2 col-sm-3   ">
 											<button type="submit" class="btn btn-primary btn-block">
 												Find <span class="glyphicon glyphicon-search"></span>
 											</button>
@@ -91,11 +91,11 @@
 
 					<div class="row">
 						<th:block th:each="vendor :${featuredVendors}">
-							<div class="col-md-3">
+							<div class="col-md-3 col-sm-6 col-xs-12">
 								<div class="thumbnail">
 									
 									
-									<img id="profilPicturePreview"  style="height: 150px; width: 204px"
+									<img id="profilPicturePreview"  style="height: 150px; width: 100%" 
 									     alt="profil pic"  th:if="*{vendor.profilPicture}" 
 									     th:alt="${businessName}" th:src="@{'/image/'+*{vendor.profilPicture.id}} "></img>
 									
@@ -126,7 +126,7 @@
 
 						<!-- This code is for prototype -->
 						<!--/*-->
-						<div class="col-md-3" th:remove="all">
+						<div class="col-md-3 col-sm-6 col-xs-12" th:remove="all">
 							<div class="thumbnail">
 								<img data-src="holder.js/100%x150" alt="..." />
 								<div class="caption">
@@ -146,7 +146,7 @@
 
 						</div>
 
-						<div class="col-md-3" th:remove="all">
+						<div class="col-md-3 col-sm-6 col-xs-12" th:remove="all">
 							<div class="thumbnail">
 								<img data-src="holder.js/100%x150" alt="..." />
 								<div class="caption">
@@ -166,10 +166,10 @@
 						</div>
 
 						<!--*/-->
-						<div class="col-md-3">
+						<div class="col-md-3 col-sm-6 col-xs-12">
 							<div class="thumbnail">
 
-								<img src="../../../resources/images/application/no_person.jpg" style="width: 203px; height: 110px; display: block;"
+								<img src="../../../resources/images/application/no_person.jpg" style="height: 110px; display: block;"
 									alt="..." th:src="@{/resources/images/application/no_person.jpg}" />
 								<div class="caption">
 									<p class="text-center text-primary">Are you a wedding service provider ?</p>
@@ -181,7 +181,7 @@
 									</p>
 								</div>
 							</div>
-							<a href="vendor/listingVendor.html" class="btn btn-primary btn-block" role="button" th:href="@{/vendors}">Find more service providers </a>
+							<a href="vendor/listingVendor.html" class="btn btn-primary btn-block" role="button" th:href="@{/vendors}">Find more providers </a>
 						</div>
 					</div>
 
