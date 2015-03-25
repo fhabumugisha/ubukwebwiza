@@ -9,8 +9,10 @@ import javax.imageio.ImageIO;
 import net.coobird.thumbnailator.Thumbnails;
 
 import org.imgscalr.Scalr;
+import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.MimeTypeUtils;
 
 public class Sandbox {
 
@@ -18,8 +20,10 @@ public class Sandbox {
 		// TODO Auto-generated method stub
 		//PasswordEncoder encoder = new BCryptPasswordEncoder();
 		//System.out.println("123456 encode is " + encoder.encode("123456"));
-		resizeImagScal();
+		//resizeImagScal();
 		//resizeThumbnail();
+		
+		System.out.println(MimeTypeUtils.parseMimeType(MediaType.IMAGE_JPEG_VALUE));
 	}
 	
 	
@@ -52,6 +56,28 @@ public class Sandbox {
 		BufferedImage thumbnail =
 				  Scalr.resize(originalImage, Scalr.Method.QUALITY, Scalr.Mode.FIT_TO_WIDTH,
 				               204, 150, Scalr.OP_ANTIALIAS, Scalr.OP_BRIGHTER);
+		
+		try {
+		ImageIO.write(thumbnail, "png", new File("BoboThumnailImageScal2.jpg"));
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	}
+	
+	public static void resizeImgCarousel() {
+		BufferedImage originalImage = null;
+		try {
+			originalImage = ImageIO.read(new File("Bobo.jpg"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//BufferedImage thumbnail = Scalr.resize(originalImage, 150);
+	
+		BufferedImage thumbnail =
+				  Scalr.resize(originalImage, Scalr.Method.QUALITY, Scalr.Mode.FIT_TO_WIDTH,
+				               944, 300, Scalr.OP_ANTIALIAS, Scalr.OP_BRIGHTER);
 		
 		try {
 		ImageIO.write(thumbnail, "png", new File("BoboThumnailImageScal2.jpg"));
