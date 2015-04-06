@@ -42,7 +42,7 @@ public class GalleryController {
 		return "frontend/gallery/photoGallery";
 	}
 	
-	@RequestMapping(value = "/image/{imageId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/image/{imageId:[\\d]+}", method = RequestMethod.GET)
 	public void showImage(@PathVariable("imageId") Integer imageId,
 			HttpServletResponse response, HttpServletRequest request)
 			throws IOException {

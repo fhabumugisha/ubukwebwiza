@@ -33,7 +33,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.resource.PathResourceResolver;
 
-import com.buseni.ubukwebwiza.breadcrumbs.interceptor.SetUpNavigationPathInterceptor;
+import com.buseni.ubukwebwiza.breadcrumbs.interceptor.NavigationPathInterceptor;
 //@ActiveProfiles("embedded")
 @Configuration
 @ComponentScan(basePackages = {"com.buseni.ubukwebwiza"})
@@ -80,7 +80,7 @@ public class WebConfiguration extends WebMvcConfigurerAdapter{
 		}
 		@Override
 		public void addInterceptors(InterceptorRegistry registry) {
-			registry.addInterceptor(new SetUpNavigationPathInterceptor());
+			registry.addInterceptor(new NavigationPathInterceptor());
 		}
 		
 	/*	@Bean(name="simpleMappingExceptionResolver")

@@ -1,6 +1,7 @@
 package com.buseni.ubukwebwiza.breadcrumbs.interceptor;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,13 +18,11 @@ import com.buseni.ubukwebwiza.breadcrumbs.navigation.NavigationEntry;
 import com.buseni.ubukwebwiza.breadcrumbs.navigation.NavigationInfoProvider;
 
 /**
- * Created with IntelliJ IDEA.
- * User: yfliu
- * Date: 12/18/12
- * Time: 9:41 PM
- * To change this template use File | Settings | File Templates.
+ * 
+ * @author fahabumu
+ *
  */
-public class SetUpNavigationPathInterceptor extends HandlerInterceptorAdapter {
+public class NavigationPathInterceptor extends HandlerInterceptorAdapter {
 
     public static final String NAVIGATION_PATH = "navigationPath";
 
@@ -33,15 +32,10 @@ public class SetUpNavigationPathInterceptor extends HandlerInterceptorAdapter {
         HandlerMethod handlerMethod = (HandlerMethod) handler;
         Class<? extends Object> entryClass = handlerMethod.getBean().getClass();
         
-        if (entryClass.isAnnotationPresent(Navigation.class)) {
-            List<NavigationEntry> prevPath = (List<NavigationEntry>) currentSession.getAttribute(NAVIGATION_PATH);
-            if (prevPath == null) {
-                prevPath = new ArrayList<NavigationEntry>();
-            }
-
-            List<NavigationEntry> basePath = buildBasePath(prevPath, entryClass);
-            NavigationEntry entry = generateNavigationEntry(entryClass, currentSession);
-            basePath.add(entry);
+        if (entryClass.isAnnotationPresent(Navigation.class)) {            
+            List<NavigationEntry> basePath =  new ArrayList<NavigationEntry>();                       
+            generateNavigationEntry(entryClass, currentSession, basePath);
+            Collections.reverse( basePath);
             currentSession.setAttribute(NAVIGATION_PATH, basePath);
         } else {
             clearNavigationPath(currentSession);
@@ -52,35 +46,10 @@ public class SetUpNavigationPathInterceptor extends HandlerInterceptorAdapter {
         session.setAttribute(NAVIGATION_PATH, new ArrayList<NavigationEntry>());
     }
 
-    private List<NavigationEntry> buildBasePath(List<NavigationEntry> prevPath, Class<? extends Object> entryClass) {
+  
+    
+    private List<NavigationEntry> generateNavigationEntry(Class<? extends Object> entryClass, HttpSession session, List<NavigationEntry>  navigationPath) throws IllegalAccessException, InstantiationException {
         Navigation navigation = entryClass.getAnnotation(Navigation.class);
-        Class<? extends Object>[] parentClassArray = navigation.parent();
-        List<NavigationEntry> basePath = new ArrayList<NavigationEntry>();
-        if (parentClassArray.length > 0) {
-            for (int i = 0; i < prevPath.size(); i++) {
-                NavigationEntry entry = prevPath.get(i);
-                if (arrayContains(parentClassArray, entry.getNavigationClass())) {
-                    basePath = prevPath.subList(0, i + 1);
-                }
-            }
-        }
-
-        return basePath;
-    }
-
-    private static boolean arrayContains(Object[] array, Object target) {
-        for (Object arrayElem : array) {
-            if (arrayElem.equals(target)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private NavigationEntry generateNavigationEntry(Class<? extends Object> entryClass, HttpSession session) throws IllegalAccessException, InstantiationException {
-        Navigation navigation = entryClass.getAnnotation(Navigation.class);
-
         NavigationInfoProvider infoProvider;
         if (navigation.infoProvider().length > 0) {
             infoProvider = navigation.infoProvider()[0].newInstance();
@@ -94,7 +63,10 @@ public class SetUpNavigationPathInterceptor extends HandlerInterceptorAdapter {
         navigationEntry.setName(infoProvider.getName(session));
         navigationEntry.setUrl(infoProvider.getUrl(session));
         navigationEntry.setNavigationClass(entryClass);
+        navigationPath.add(navigationEntry);
+        if(navigation.parent().length > 0){
+        generateNavigationEntry(navigation.parent()[0], session, navigationPath);}
 
-        return navigationEntry;
+        return navigationPath;
     }
 }

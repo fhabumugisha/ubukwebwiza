@@ -105,7 +105,7 @@
 									<div class="caption">
 										<h3>
 										<a href="vendor/detailVendor.html" 
-												th:href="@{/vendors/details(id=${vendor.id})}"><span th:text="${vendor.businessName}">Thumbnail label</span></a>
+												th:href="@{'/providers/'+${vendor.id}}"><span th:text="${vendor.businessName}">Thumbnail label</span></a>
 											
 										</h3>
 										<h4><span th:if="${not #lists.isEmpty(vendor.vendorWeddingServices)}" th:text="${vendor.weddingService}">Planner</span> </h4>

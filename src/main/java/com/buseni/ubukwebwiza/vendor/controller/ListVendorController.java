@@ -30,7 +30,7 @@ import com.buseni.ubukwebwiza.vendor.utils.PageWrapper;
 import com.buseni.ubukwebwiza.vendor.utils.VendorSearch;
 
 @Controller
-@Navigation(url="/vendors", name="Service providers", parent= HomeController.class)
+@Navigation(url="/providers", name="Service providers", parent= HomeController.class)
 @SessionAttributes({"allWeddingServices","allDistricts"})
 public class ListVendorController {
 
@@ -46,7 +46,7 @@ public class ListVendorController {
 	private VendorService vendorService;
 
 
-	@RequestMapping(value="/vendors",method=RequestMethod.GET)
+	@RequestMapping(value="/providers",method=RequestMethod.GET)
 	public String listing(Model model, Pageable page){
 
 		Page<Vendor> vendorPage  =  vendorService.findByEnabled(Boolean.TRUE, page);
