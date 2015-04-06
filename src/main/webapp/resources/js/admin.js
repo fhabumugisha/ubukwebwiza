@@ -2,7 +2,8 @@
  *  Admin panel Js
  */
 
-$(".deleteProvince").click(function(){
+$(".deleteProvince").click(function(event){
+	event.preventDefault(); 
 	var url = $(this).attr('href');
 	console.log(url);
 	$("#dialog-confirm").dialog({
@@ -85,7 +86,8 @@ $(document).on("submit","#uploadPhotoForm",function(event){
 });
 
 
-$(document).on("click",".deletePhoto",function(){
+$(document).on("click",".deletePhoto",function(event){
+	event.preventDefault(); 
 	var url = $(this).attr('href');
 	console.log(url);
 	$("#dialog-confirm").dialog({
@@ -122,7 +124,8 @@ $(document).on("click",".deletePhoto",function(){
 	
 });
 
-$(document).on("click",".editPhoto",function(){
+$(document).on("click",".editPhoto",function(event){
+	event.preventDefault(); 
 	var url = $(this).attr('href');
 	console.log(url);
 	$.ajax({
@@ -167,7 +170,8 @@ $(document).on("submit","#addServiceForm",function(event){
 });
 
 
-$(document).on("click",".editService",function(){
+$(document).on("click",".editService",function(event){
+	event.preventDefault(); 
 	var url = $(this).attr('href');
 	console.log(url);
 	$.ajax({
@@ -184,7 +188,8 @@ $(document).on("click",".editService",function(){
 	});
 });
 
-$(document).on("click",".deleteService",function(){
+$(document).on("click",".deleteService",function(event){
+	event.preventDefault(); 
 	var url = $(this).attr('href');
 	console.log(url);
 	$("#dialog-confirm").dialog({

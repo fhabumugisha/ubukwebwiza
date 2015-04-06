@@ -138,14 +138,14 @@
 									th:text="#{vendor.list.profilpic}">profilPicture</label>
 								<div class="col-sm-4">
 
-									<div class="thumbnail">
-<!-- 											
+									<!-- <div class="thumbnail">
+											
 										<img id="profilPicturePreview" data-src="holder.js/100%x150"
-											src="#" alt="your image" width="100" height="150" /> -->
+											src="#" alt="your image" width="100" height="150" />
 											
 									<img id="profilPicturePreview"   width="100" height="150" 
 									     alt="profil pic"  th:if="*{profilPicture}" 
-									     th:alt="${businessName}" th:src="@{'/images/profil/'+*{profilPicture}} "></img>
+									     th:alt="${businessName}" th:src="@{'/admin/image/'+*{profilPicture.id}} "></img>
 									
 									 <img id="profilPicturePreview"  width="100" height="150" alt="profil pic" 
 									      th:unless="*{profilPicture}" th:alt="${businessName}" 
@@ -163,8 +163,31 @@
 										</div>
 										
 									</div>
-									<a href="#" id="remove" style="display: none;" class="btn btn-default fileupload-exists"  data-dismiss="fileupload">Remove</a>
+									<a href="#" id="remove" style="display: none;" class="btn btn-default fileupload-exists"  data-dismiss="fileupload">Remove</a> -->
 
+									<div class="fileinput fileinput-new" data-provides="fileinput">
+										<div class="fileinput-new thumbnail"
+											style="width: 200px; height: 150px;">
+											<img data-src="holder.js/100%x100%" alt="Select profile pic"
+												th:unless="*{profilPicture}"></img> 
+												<img
+												id="profilPicturePreview" width="200" height="150"
+												alt="profile pic" th:if="*{profilPicture}"
+												th:alt="${businessName}"
+												th:src="@{'/admin/image/'+*{profilPicture.id}} "></img>
+
+										</div>
+										<div class="fileinput-preview fileinput-exists thumbnail"
+											style="max-width: 200px; max-height: 150px;"></div>
+										<div>
+											<span class="btn btn-default btn-file"><span
+												class="fileinput-new">Select image</span><span
+												class="fileinput-exists">Change</span>
+												<input type="file" 	name="file" /></span> <a href="#"
+												class="btn btn-default fileinput-exists"
+												data-dismiss="fileinput">Remove</a>
+										</div>
+									</div>
 
 
 
@@ -276,15 +299,17 @@
 
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-10">
-							<button type="submit"
-								th:text="${vendor.id} ? #{update.button.label} : #{add.button.label}"
-								class="btn btn-primary">Action</button>
-
 							<a href="#" th:href="@{/admin/vendors}">
 								<button type="button" class="btn  btn-default">
 									<span th:text="#{cancel.button.label}">Cancel</span>
 								</button>
 							</a>
+							
+							<button type="submit"
+								th:text="${vendor.id} ? #{update.button.label} : #{add.button.label}"
+								class="btn btn-primary">Action</button>
+
+							
 
 							<!-- <button type="submit"  class="btn btn-default active" name="action" value="cancel" data-th-text="#{cancel.button.label}">Cancel</button> -->
 						</div>

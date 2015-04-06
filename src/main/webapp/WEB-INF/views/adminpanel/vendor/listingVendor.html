@@ -26,11 +26,11 @@
 						<tr>
 							<th class="col-sm-1" >#</th>
 							<th class="col-sm-1" th:text="#{vendor.list.email}">Email</th>
-							<th class="col-sm-1" th:text="#{vendor.list.businessname}">Business name</th>
+							<th class="col-sm-2" th:text="#{vendor.list.businessname}">Business name</th>
 							<th class="col-sm-1" th:text="#{vendor.list.profilpic}">Profil pic</th>
 							<th class="col-sm-1" th:text="#{vendor.list.district}">District</th>
 							<th class="col-sm-1" th:text="#{vendor.list.address}">Address</th>
-							<th class="col-sm-1" th:text="#{vendor.list.services}">Services</th>
+<!-- 							<th class="col-sm-1" th:text="#{vendor.list.services}">Services</th> -->
 							<th class="col-sm-1" th:text="#{vendor.list.nbviews}">Nb views</th>
 							<th class="col-sm-1" th:text="#{vendor.list.lastupdate}">Last update</th>							
 							<th class="col-sm-1" th:text="#{vendor.list.createdat}">Created at</th>
@@ -46,17 +46,17 @@
 							<td th:text="${vendor.email}">Email</td>
 							<td th:text="${vendor.businessName}">Ok</td>
 							<td >
-								<img class="img-thumbnail"  width="100" height="50" alt="profil pic" th:if="${!#strings.isEmpty(vendor.profilPicture)}" th:alt="${vendor.businessName}" th:src="@{'/admin/image/'+${vendor.profilPicture.id}} "></img>
-								<img class="img-thumbnail"  width="100" height="50" alt="profil pic" th:if="${#strings.isEmpty(vendor.profilPicture)}" th:alt="${vendor.businessName}" th:src="@{/resources/images/application/no_person.jpg} "></img>
+								<img class="img-thumbnail"  width="100" height="50" alt="profil pic" th:if="*{vendor.profilPicture}" th:alt="${vendor.businessName}" th:src="@{'/admin/image/'+${vendor.profilPicture.id}} "></img>
+								<img class="img-thumbnail"  width="100" height="50" alt="profil pic" th:unless="*{vendor.profilPicture}" th:alt="${vendor.businessName}" th:src="@{/resources/images/application/no_person.jpg} "></img>
 							</td>
 							<td><span th:if="${vendor.district}" th:text="${vendor.district.libelle}"></span> </td>
 							<td th:text="${vendor.address}">Ok</td>
-							<td>
-								<ul th:if="${not #lists.isEmpty(vendor.vendorWeddingServices)}">
-									<li th:each="vendorWeddingService :${vendor.vendorWeddingServices}" th:text="${vendorWeddingService.weddingService.libelle}">
-									</li>
-								</ul>
-							</td>
+<!-- 							<td> -->
+<!-- 								<ul th:if="${not #lists.isEmpty(vendor.vendorWeddingServices)}"> -->
+<!-- 									<li th:each="vendorWeddingService :${vendor.vendorWeddingServices}" th:text="${vendorWeddingService.weddingService.libelle}"> -->
+<!-- 									</li> -->
+<!-- 								</ul> -->
+<!-- 							</td> -->
 							<td th:text="${vendor.nbViews}">Ok</td>
 							<td th:text="${#dates.format(vendor.lastUpdate, 'dd/MM/yyyy')}">Ok</td>
 							<td th:text="${#dates.format(vendor.createdAt, 'dd/MM/yyyy')}">Ok</td>

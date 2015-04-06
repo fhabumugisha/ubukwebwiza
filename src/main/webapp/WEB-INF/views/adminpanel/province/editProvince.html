@@ -48,13 +48,15 @@
 					</div>
 					<div class="form-group">
    							 <div class="col-sm-offset-2 col-sm-10">
-      							<button type="submit" th:text="${province.id} ? #{update.button.label} : #{add.button.label}"  class="btn btn-primary">Action</button>
       							
       							<a href="#" th:href="@{/admin/provinces}">  			
   									<button type="button" class="btn  btn-default">
-         								<span th:text="#{cancel.button.label}">Add</span>
+         								<span th:text="#{cancel.button.label}">Cancel</span>
        								</button>
 									</a>
+      							<button type="submit" th:text="${province.id} ? #{update.button.label} : #{add.button.label}"  class="btn btn-primary">Action</button>
+      							
+      							
       							
       							<!-- <button type="submit"  class="btn btn-default active" name="action" value="cancel" data-th-text="#{cancel.button.label}">Cancel</button> -->
    							 </div>
