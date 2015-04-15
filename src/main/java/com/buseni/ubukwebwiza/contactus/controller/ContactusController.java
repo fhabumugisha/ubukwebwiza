@@ -1,4 +1,4 @@
-package com.buseni.ubukwebwiza.contactus;
+package com.buseni.ubukwebwiza.contactus.controller;
 
 
 
@@ -16,11 +16,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
+import com.buseni.ubukwebwiza.contactus.domain.ContactusForm;
 import com.buseni.ubukwebwiza.contactus.service.ContactusService;
+import com.buseni.ubukwebwiza.exceptions.ErrorsHelper;
+import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
 import com.buseni.ubukwebwiza.home.HomeController;
 
 @Controller
-//@SessionAttributes({"allDistricts", "allWeddingServices"})
 @Navigation(url="/contactus", name="Contact us" , parent = HomeController.class)
 public class ContactusController {
 
@@ -45,7 +47,15 @@ public class ContactusController {
 			return "frontend/contactus";
 
 		}
-		contactusService.add(contactusForm);
+		try {
+			contactusService.add(contactusForm);
+		} catch (ServiceLayerException e) {
+			ErrorsHelper.rejectErrors(result, e.getErrors());
+			LOGGER.info("Contactus-edit error: " + result.toString());
+			attributes.addFlashAttribute("org.springframework.validation.BindingResult.contactusForm", result);
+			attributes.addFlashAttribute("contactusForm", contactusForm);
+			return "frontend/contactus";
+		}
 		attributes.addFlashAttribute("message", "Your message have been sent! Thank you");
 		return "redirect:/contactus";
 	}

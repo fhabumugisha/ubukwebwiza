@@ -1,6 +1,8 @@
-package com.buseni.ubukwebwiza.administrator.controller;
+package com.buseni.ubukwebwiza.administration.controller;
 
 
+
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,11 +13,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.buseni.ubukwebwiza.administrator.service.AdministratorService;
 import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
+import com.buseni.ubukwebwiza.contactus.domain.ContactusForm;
+import com.buseni.ubukwebwiza.contactus.service.ContactusService;
 @Controller
 //@SessionAttributes({"allDistricts", "allWeddingServices"})
 @Navigation(url="/admin" ,name = "Dashbord")
@@ -23,6 +29,9 @@ public class AdminHomeController {
 	public  static final Logger LOGGER = LoggerFactory.getLogger(AdminHomeController.class);
 	@Autowired
 	private AdministratorService administratorService;
+	
+	@Autowired
+	private ContactusService contactusService;
 	
 	
 	@RequestMapping(value="/admin", method=RequestMethod.GET)
@@ -55,6 +64,14 @@ public class AdminHomeController {
 		  return "adminpanel/403";
 		}
 		  
-	
+		@ModelAttribute("unreadMessages")
+		public int unreadMessages(){
+			List<ContactusForm>  unreadMessages = contactusService.findUnread();
+			if(!CollectionUtils.isEmpty(unreadMessages)){
+				return unreadMessages.size();
+				
+			}
+			return 0;
+		}
 
 }

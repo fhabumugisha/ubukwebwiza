@@ -1,8 +1,8 @@
 package com.buseni.ubukwebwiza.vendor.predicates;
 
+import com.buseni.ubukwebwiza.vendor.beans.VendorSearch;
 import com.buseni.ubukwebwiza.vendor.domain.District;
 import com.buseni.ubukwebwiza.vendor.domain.QVendor;
-import com.buseni.ubukwebwiza.vendor.utils.VendorSearch;
 import com.mysema.query.types.Predicate;
 
 public class VendorPredicates {

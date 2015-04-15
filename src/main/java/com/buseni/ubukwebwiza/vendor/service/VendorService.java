@@ -6,8 +6,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
+import com.buseni.ubukwebwiza.vendor.beans.VendorSearch;
 import com.buseni.ubukwebwiza.vendor.domain.Vendor;
-import com.buseni.ubukwebwiza.vendor.utils.VendorSearch;
 
 public interface VendorService {
 	

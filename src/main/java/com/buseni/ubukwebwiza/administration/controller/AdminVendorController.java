@@ -1,4 +1,4 @@
-package com.buseni.ubukwebwiza.administrator.controller;
+package com.buseni.ubukwebwiza.administration.controller;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -42,11 +42,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.buseni.ubukwebwiza.administrator.forms.PhotoForm;
-import com.buseni.ubukwebwiza.administrator.forms.ServiceForm;
 import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
 import com.buseni.ubukwebwiza.exceptions.ErrorsHelper;
 import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
+import com.buseni.ubukwebwiza.gallery.beans.PhotoForm;
+import com.buseni.ubukwebwiza.vendor.beans.ServiceForm;
 import com.buseni.ubukwebwiza.vendor.domain.District;
 import com.buseni.ubukwebwiza.vendor.domain.Photo;
 import com.buseni.ubukwebwiza.vendor.domain.Vendor;

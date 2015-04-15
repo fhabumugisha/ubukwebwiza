@@ -1,4 +1,4 @@
-package com.buseni.ubukwebwiza.administrator.forms;
+package com.buseni.ubukwebwiza.gallery.beans;
 
 import java.io.Serializable;
 

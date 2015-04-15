@@ -1,4 +1,4 @@
-package com.buseni.ubukwebwiza.administrator.controller;
+package com.buseni.ubukwebwiza.administration.controller;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;

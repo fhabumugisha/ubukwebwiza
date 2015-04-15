@@ -1,4 +1,4 @@
-package com.buseni.ubukwebwiza.administrator.controller;
+package com.buseni.ubukwebwiza.administration.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

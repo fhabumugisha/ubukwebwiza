@@ -1,4 +1,4 @@
-package com.buseni.ubukwebwiza.contactus;
+package com.buseni.ubukwebwiza.contactus.domain;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -34,6 +34,10 @@ public class ContactusForm implements Serializable{
 	@Temporal(TemporalType.DATE)
 	@Column(name="created_at")
 	private Date createdAt;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="last_update")
+	private Date lastUpdate;
 	
 	private boolean readed;
 	
@@ -134,6 +138,12 @@ public class ContactusForm implements Serializable{
 	}
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
+	}
+	public Date getLastUpdate() {
+		return lastUpdate;
+	}
+	public void setLastUpdate(Date lastUpdate) {
+		this.lastUpdate = lastUpdate;
 	}
 	
 

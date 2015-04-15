@@ -1,4 +1,4 @@
-package com.buseni.ubukwebwiza.gallery;
+package com.buseni.ubukwebwiza.gallery.controller;
 
 
 

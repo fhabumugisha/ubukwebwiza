@@ -1,4 +1,4 @@
-package com.buseni.ubukwebwiza.vendor.utils;
+package com.buseni.ubukwebwiza.vendor.beans;
 
 public class VendorSearch {
 	

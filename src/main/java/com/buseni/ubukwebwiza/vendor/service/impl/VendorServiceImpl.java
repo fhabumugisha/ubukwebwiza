@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.buseni.ubukwebwiza.exceptions.ResourceNotFoundException;
+import com.buseni.ubukwebwiza.vendor.beans.VendorSearch;
 import com.buseni.ubukwebwiza.vendor.domain.Vendor;
 import com.buseni.ubukwebwiza.vendor.domain.VendorWeddingService;
 import com.buseni.ubukwebwiza.vendor.domain.WeddingService;
@@ -23,7 +24,6 @@ import com.buseni.ubukwebwiza.vendor.repository.VendorRepo;
 import com.buseni.ubukwebwiza.vendor.repository.VendorWeddingServiceRepo;
 import com.buseni.ubukwebwiza.vendor.repository.WeddingServiceRepo;
 import com.buseni.ubukwebwiza.vendor.service.VendorService;
-import com.buseni.ubukwebwiza.vendor.utils.VendorSearch;
 
 /**
  * @author habumugisha

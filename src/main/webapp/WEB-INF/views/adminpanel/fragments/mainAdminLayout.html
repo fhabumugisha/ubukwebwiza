@@ -101,6 +101,9 @@
 					<li th:classappend="${currentMenu == 'vendorweddingservices' ? 'active' : ''}"><a href="#"
 						th:href="@{/admin/vendorweddingservices}">Vendor wedding service</a></li>
 					<li th:classappend="${currentMenu == 'photos' ? 'active' : ''}"><a href="#" th:href="@{/admin/photos}">Photos</a></li>
+					<li th:classappend="${currentMenu == 'contactus' ? 'active' : ''}"><a href="#" th:href="@{/admin/contactus}">Contactus 
+					<span th:if="${unreadMessages > 0}" class="badge" th:text="${unreadMessages}"> </span>
+					</a></li>
 					<li th:classappend="${currentMenu == 'administrators' ? 'active' : ''}"><a href="#" th:href="@{/admin/administrators}">Administrators</a></li>
 
 				</ul>
