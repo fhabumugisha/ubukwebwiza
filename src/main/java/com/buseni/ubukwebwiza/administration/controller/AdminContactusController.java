@@ -24,7 +24,7 @@ import com.buseni.ubukwebwiza.contactus.domain.ContactusForm;
 import com.buseni.ubukwebwiza.contactus.service.ContactusService;
 import com.buseni.ubukwebwiza.exceptions.ErrorsHelper;
 import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
-import com.buseni.ubukwebwiza.vendor.utils.PageWrapper;
+import com.buseni.ubukwebwiza.utils.PageWrapper;
 
 @Controller
 @RequestMapping(value="/admin")

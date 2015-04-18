@@ -46,14 +46,14 @@ public class AdminHomeController {
 		return "adminpanel/dashbord";
 	}
 	
-	@RequestMapping(value="/login", method=RequestMethod.GET)
+	@RequestMapping(value="/adminlogin", method=RequestMethod.GET)
 	public String login(Model model){
 		//model.addAttribute("currentMenu", "dashbord");
 		return "adminpanel/signin";
 	}
 
 	//for 403 access denied page
-		@RequestMapping(value = "/403", method = RequestMethod.GET)
+		@RequestMapping(value = "/admin403", method = RequestMethod.GET)
 		public String accesssDenied(Model model) {	 
 		  //check if user is login
 		  Authentication auth = SecurityContextHolder.getContext().getAuthentication();

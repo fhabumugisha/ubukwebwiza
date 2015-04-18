@@ -21,11 +21,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
 import com.buseni.ubukwebwiza.exceptions.ErrorsHelper;
 import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
+import com.buseni.ubukwebwiza.utils.PageWrapper;
 import com.buseni.ubukwebwiza.vendor.domain.District;
 import com.buseni.ubukwebwiza.vendor.domain.Province;
 import com.buseni.ubukwebwiza.vendor.service.DistrictService;
 import com.buseni.ubukwebwiza.vendor.service.ProvinceService;
-import com.buseni.ubukwebwiza.vendor.utils.PageWrapper;
 
 @Controller
 @RequestMapping(value="/admin")

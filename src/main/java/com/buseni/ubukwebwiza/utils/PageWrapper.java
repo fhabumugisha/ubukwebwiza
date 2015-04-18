@@ -1,4 +1,4 @@
-package com.buseni.ubukwebwiza.vendor.utils;
+package com.buseni.ubukwebwiza.utils;
 
 import java.util.ArrayList;
 import java.util.List;

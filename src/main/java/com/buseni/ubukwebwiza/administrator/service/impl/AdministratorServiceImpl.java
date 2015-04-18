@@ -19,11 +19,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import com.buseni.ubukwebwiza.administrator.domain.AdminRole;
 import com.buseni.ubukwebwiza.administrator.domain.Administrator;
+import com.buseni.ubukwebwiza.administrator.repository.AdminRoleRepo;
 import com.buseni.ubukwebwiza.administrator.repository.AdministratorRepo;
 import com.buseni.ubukwebwiza.administrator.service.AdministratorService;
+import com.buseni.ubukwebwiza.exceptions.CustomError;
+import com.buseni.ubukwebwiza.exceptions.CustomErrorBuilder;
+import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
 
 @Service
 @Transactional(readOnly = true)
@@ -31,10 +36,12 @@ public class AdministratorServiceImpl implements AdministratorService
 		{
 
 	private AdministratorRepo administratorRepo;
+	private AdminRoleRepo adminRoleRepo;
 
 	@Autowired
-	public AdministratorServiceImpl(AdministratorRepo administratorRepo) {
+	public AdministratorServiceImpl(AdministratorRepo administratorRepo, AdminRoleRepo adminRoleRepo) {
 		this.administratorRepo = administratorRepo;
+		this.adminRoleRepo = adminRoleRepo;
 	}
 
 	public AdministratorServiceImpl() {
@@ -50,62 +57,84 @@ public class AdministratorServiceImpl implements AdministratorService
 	 */
 	@Override
 	@Transactional
-	public void create(Administrator administrator) {
+	public void create(Administrator administrator) throws ServiceLayerException {
 		// Control before saving
-		if(administrator.getId() == null){
+		if(administrator == null){
+			throw new NullPointerException();
+		}
+		if(CollectionUtils.isEmpty(administrator.getListRoles())){
+			CustomErrorBuilder ceb =  new CustomErrorBuilder("error.administrator.missingroles");			
+			CustomError  ce = ceb.field("listRoles").buid();
+			throw new ServiceLayerException(ce);
+		}
+		if (administrator.getId() == null) {
 			administrator.setCreatedAt(new Date());
 			administrator.setLastUpdate(new Date());
-			
-				for(String roleName : administrator.getListRoles()){
-					AdminRole role = new AdminRole();
-					role.setAdmin(administrator);
-					role.setRole(roleName);
-				//	role.setId(idRole);
-					administrator.getRoles().add(role);
-					
-					
-				}
-			
-			
-				PasswordEncoder encoder = new BCryptPasswordEncoder();
-				administrator.setPassword(encoder.encode(administrator.getPassword()));
-			
-			
+			for (String roleName : administrator.getListRoles()) {
+				AdminRole role = new AdminRole();
+				role.setAdmin(administrator);
+				role.setRole(roleName);
+				// role.setId(idRole);
+				administrator.getRoles().add(role);
+
+			}
+
+			PasswordEncoder encoder = new BCryptPasswordEncoder();
+			administrator.setPassword(encoder.encode(administrator
+					.getPassword()));
+
 			administratorRepo.save(administrator);
-		
-		}else{
-			Administrator adminDb = administratorRepo.findOne(administrator.getId());
+
+		} else {
+			Administrator adminDb = administratorRepo.findOne(administrator
+					.getId());
 			adminDb.setLastUpdate(new Date());
 			adminDb.setEmail(administrator.getEmail());
 			adminDb.setEnabled(administrator.isEnabled());
 			adminDb.setLastName(administrator.getLastName());
 			adminDb.setFirstName(administrator.getFirstName());
-			for(String roleName : administrator.getListRoles()){
-				AdminRole role = new AdminRole();
-				role.setAdmin(administrator);
-				role.setRole(roleName);
-			if(!containsRole(adminDb, roleName)){
-				adminDb.getRoles().add(role);
+			//Changes in roles
+			if (adminDb.getRoles().size() != administrator.getListRoles()
+					.size()) {
+				//Add new roles
+				if(administrator.getListRoles().size() > adminDb.getRoles().size()){
+					for (String roleName : administrator.getListRoles()) {
+						AdminRole role = new AdminRole();
+						role.setAdmin(administrator);
+						role.setRole(roleName);
+						// add new role
+						AdminRole adminRole = containsRole(adminDb, roleName);
+						if (adminRole == null) {
+							adminDb.getRoles().add(role);
+						}
+
+					}
+				//remove of roles
+				}else if(administrator.getListRoles().size() < adminDb.getRoles().size()){
+					for (AdminRole adminRole : adminDb.getRoles()) {
+						for (String roleName : administrator.getListRoles()) {
+							if(!adminRole.getRole().equals(roleName)){
+								adminDb.getRoles().remove(adminRole);
+								adminRoleRepo.delete(adminRole);
+							}
+						}
+						
+					}
+				}
+				
 			}
-				
-				
-				
-			}
-			 administratorRepo.save(adminDb);
+			administratorRepo.save(adminDb);
 		}
-		
-		
-		
 
 	}
 	
-	private boolean containsRole(Administrator admin, String role){
+	private AdminRole containsRole(Administrator admin, String role){
 		for(AdminRole adminRole : admin.getRoles()){
 			if(adminRole.getRole().equals(role)){
-				return true;
+				return adminRole;
 			}
 		}
-		return false;
+		return null;
 	}
 
 	/*
@@ -137,7 +166,7 @@ public class AdministratorServiceImpl implements AdministratorService
 		}
 		Administrator admin   = administratorRepo.findOne(id);
 		if(admin  == null){
-			return null;
+			throw new NullPointerException();
 		}
 		List<String> listRoles =  new ArrayList<String>();
 		for(AdminRole role : admin.getRoles()){
@@ -170,6 +199,7 @@ public class AdministratorServiceImpl implements AdministratorService
 	 */
 	@Override
 	@Transactional
+	//@PreAuthorize(value = "hasRole('SUPER_ADMIN')")
 	public void delete(Integer id) {
 		if (null != id) {
 			administratorRepo.delete(id);

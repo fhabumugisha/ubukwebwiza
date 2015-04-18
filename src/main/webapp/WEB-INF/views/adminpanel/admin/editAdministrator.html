@@ -130,10 +130,12 @@
 
 							</div>
 							
-							<div class="form-group" th:each="role : ${allRoles} ">
+							<div class="form-group" th:each="role : ${allRoles} " th:classappend="${#fields.hasErrors('listRoles')}? has-error">
                             <label class="col-sm-5 control-label" data-th-text="${role.name}">ADMIN</label>
                             <div class="col-sm-7">
-                                <input type="checkbox" th:field="*{listRoles}" th:value="${role.name}" required="required"></input>
+                                <input type="checkbox" th:field="*{listRoles}" th:value="${role.name}" />
+                                <span class="text-danger" th:if="${#fields.hasErrors('listRoles')}"
+										th:errors="*{listRoles}">Required field</span>
                             </div>
                         </div>
 							

@@ -43,18 +43,18 @@ public class Administrator implements Serializable {
 
 	@Column(unique = true)
 	@Email
-	@NotEmpty(message = "The email must not be empty")
+	@NotEmpty(message = "{error.administrator.requiredfield.email}")
 	private String email;
 
-	@NotEmpty(message = "The password must not be empty")
+	@NotEmpty(message = "{error.admnistrator.requiredfield.password}")
 	private String password;
 
 
-	@NotEmpty(message = "The administrator first name must not be empty")
+	@NotEmpty(message = "{error.administrator.requiredfield.firstname}")
 	@Column(name="first_name")
 	private String firstName;
 
-	@NotEmpty(message = "The administrator last name must not be empty")
+	@NotEmpty(message = "{error.administrator.requiredfield.lastname}")
 	@Column(name="last_name")
 	private String lastName;
 	

@@ -33,10 +33,10 @@ public class SecurityConfig extends  WebSecurityConfigurerAdapter {
  
 	  http.authorizeRequests()
 		.antMatchers("/admin/**").access("hasRole('ADMIN')")
-		.and().formLogin().loginPage("/login").usernameParameter("username")
+		.and().formLogin().loginPage("/adminlogin").usernameParameter("username")
 		.passwordParameter("password")
         .and()
-        .logout().logoutSuccessUrl("/admin").and().exceptionHandling().accessDeniedPage("/403");
+        .logout().logoutSuccessUrl("/admin").and().exceptionHandling().accessDeniedPage("/admin403");
         
  
 	}

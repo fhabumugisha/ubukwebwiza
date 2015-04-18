@@ -12,6 +12,7 @@ import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -29,7 +30,7 @@ public class Photo implements Serializable{
 	@Column(name="id_photo")
 	private Integer id;
 	
-	@NotEmpty(message="You must choose a photo")
+	@NotEmpty(message="{error.photo.requiredfield.filename}")
 	@Column(name="filename")
 	private String filename;
 	
@@ -39,7 +40,11 @@ public class Photo implements Serializable{
 	@Column(name="contentType")
 	private String contentType;
 	
-	@NotEmpty(message="You must write a description")
+	@Column(name="category")
+	@NotNull(message="{error.photo.requiredfield.category}")
+	private Integer category;
+	
+	
 	@Lob
 	@Column(length=500)
 	private String description;
@@ -192,6 +197,14 @@ public class Photo implements Serializable{
 
 	public void setContentType(String contentType) {
 		this.contentType = contentType;
+	}
+
+	public Integer getCategory() {
+		return category;
+	}
+
+	public void setCategory(Integer category) {
+		this.category = category;
 	}
 
 }

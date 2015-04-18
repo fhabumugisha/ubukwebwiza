@@ -9,4 +9,9 @@ import com.buseni.ubukwebwiza.vendor.domain.Photo;
 public interface PhotoRepo extends JpaRepository<Photo, Integer> {
 
 	Page<Photo> findByEnabled(boolean enabled, Pageable pageable);
+	
+	Page<Photo> findByCategory(Integer category, Pageable pageable);
+	
+	Page<Photo> findByEnabledAndCategory(boolean enabled, Integer category, Pageable pageable);
+	
 }

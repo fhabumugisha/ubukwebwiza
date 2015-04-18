@@ -3,15 +3,19 @@
  */
 package com.buseni.ubukwebwiza.vendor.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.buseni.ubukwebwiza.administrator.enums.EnumPhotoCategory;
 import com.buseni.ubukwebwiza.vendor.domain.Photo;
 import com.buseni.ubukwebwiza.vendor.repository.PhotoRepo;
 import com.buseni.ubukwebwiza.vendor.service.PhotoService;
@@ -40,18 +44,23 @@ public class PhotoServiceImpl implements PhotoService {
 	@Override
 	@Transactional
 	public void create(Photo photo) {
-		// TODO control before save
-		if(photo.getId() == null){
+		// control before save
+		if (photo == null) {
+			throw new NullPointerException();
+		}
+		if (photo.getId() == null) {
 			photo.setCreatedAt(new Date());
-		}else{
+		} else {
 			Photo photoBdd = photoRepo.findOne(photo.getId());
 			photo.setFilename(photoBdd.getFilename());
 			photo.setCreatedAt(photoBdd.getCreatedAt());
-			
+			if (photo.getContent() == null) {
+				photo.setContent(photoBdd.getContent());
+			}
 		}
-		photo.setLastUpdate(new Date());	
-		
-		 photoRepo.save(photo);
+		photo.setLastUpdate(new Date());
+
+		photoRepo.save(photo);
 
 	}
 
@@ -84,6 +93,9 @@ public class PhotoServiceImpl implements PhotoService {
 	 */
 	@Override
 	public Page<Photo> findAll(Pageable pageable) {
+		if( pageable == null){
+			throw new NullPointerException();
+		}
 		PageRequest pr = new PageRequest(pageable.getPageNumber()-1, pageable.getPageSize());
 		return photoRepo.findAll(pr);
 	}
@@ -93,6 +105,9 @@ public class PhotoServiceImpl implements PhotoService {
 	 */
 	@Override
 	public Page<Photo> findByEnabled(boolean enabled, Pageable pageable) {
+		if( pageable == null){
+			throw new NullPointerException();
+		}
 		PageRequest pr = new PageRequest(pageable.getPageNumber()-1, pageable.getPageSize());
 		return photoRepo.findByEnabled(enabled, pr);
 	}
@@ -108,6 +123,26 @@ public class PhotoServiceImpl implements PhotoService {
 			photoRepo.delete(id);
 		}
 		
+	}
+
+	@Override
+	public Page<Photo> findByEnabledAndCategory(boolean enabled,
+			Integer category, Pageable pageable) {
+		if(category == null || pageable == null){
+			throw new NullPointerException();
+		}
+		PageRequest pr = new PageRequest(pageable.getPageNumber()-1, pageable.getPageSize());
+		return photoRepo.findByEnabledAndCategory(enabled, category, pr);
+	
+	}
+	
+	@Override
+	public List<Photo>  homePagePhotos(){
+		Page<Photo>  photosPage = photoRepo.findByEnabledAndCategory(Boolean.TRUE,EnumPhotoCategory.HOME_PAGE.getId(), new PageRequest(0, 5, Sort.Direction.DESC, "lastUpdate"));
+		if(photosPage != null){
+			return  photosPage.getContent();
+		}
+		return new ArrayList<>();
 	}
 
 }

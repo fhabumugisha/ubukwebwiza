@@ -41,9 +41,20 @@
           </div>
 
           <h2 class="sub-header">Section title</h2>
-          <div class="table-responsive">
-          
-          </div>
+          <ol class="breadcrumb">
+  					<li ><a href="#" th:href="@{/admin/provinces}">Provinces</a></li>
+					<li ><a href="#" th:href="@{/admin/districts}">Districts</a></li>
+					<li ><a href="#" th:href="@{/admin/weddingservices}">Wedding
+							services</a></li>
+					<li ><a href="#" th:href="@{/admin/vendors}">Vendors</a></li>
+					<li><a href="#"
+						th:href="@{/admin/vendorweddingservices}">Vendor wedding service</a></li>
+					<li><a href="#" th:href="@{/admin/photos}">Photos</a></li>
+					<li ><a href="#" th:href="@{/admin/contactus}">Contactus <span th:if="${unreadMessages > 0}" class="badge" th:text="${unreadMessages}"> </span>		</a>
+					
+					</li>
+					<li sec:authorize="hasRole('SUPER_ADMIN')" th:classappend="${currentMenu == 'administrators' ? 'active' : ''}"><a href="#" th:href="@{/admin/administrators}">Administrators</a></li>
+		</ol>
         </div>
    
   </body>

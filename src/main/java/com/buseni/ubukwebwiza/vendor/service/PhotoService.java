@@ -1,5 +1,7 @@
 package com.buseni.ubukwebwiza.vendor.service;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -46,8 +48,22 @@ public interface PhotoService {
 	
 	/**
 	 * 
+	 * @param activeFlag
+	 * @param pageable
+	 * @return
+	 */
+	Page<Photo> findByEnabledAndCategory(boolean enabled, Integer category, Pageable pageable);
+	
+	/**
+	 * 
 	 * @param id
 	 */
 	void delete(Integer id);
+
+	/**
+	 * Return the list of home page photos
+	 * @return
+	 */
+	List<Photo> homePagePhotos();
 
 }

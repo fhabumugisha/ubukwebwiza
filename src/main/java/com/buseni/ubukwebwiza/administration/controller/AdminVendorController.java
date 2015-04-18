@@ -1,33 +1,19 @@
 package com.buseni.ubukwebwiza.administration.controller;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import javax.imageio.ImageIO;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import org.apache.commons.fileupload.disk.DiskFileItem;
-import org.apache.commons.io.IOUtils;
-import org.imgscalr.Scalr;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
@@ -37,15 +23,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.buseni.ubukwebwiza.administrator.enums.EnumPhotoCategory;
 import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
 import com.buseni.ubukwebwiza.exceptions.ErrorsHelper;
 import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
 import com.buseni.ubukwebwiza.gallery.beans.PhotoForm;
+import com.buseni.ubukwebwiza.utils.ImagesUtils;
+import com.buseni.ubukwebwiza.utils.PageWrapper;
 import com.buseni.ubukwebwiza.vendor.beans.ServiceForm;
 import com.buseni.ubukwebwiza.vendor.domain.District;
 import com.buseni.ubukwebwiza.vendor.domain.Photo;
@@ -57,12 +44,15 @@ import com.buseni.ubukwebwiza.vendor.service.PhotoService;
 import com.buseni.ubukwebwiza.vendor.service.VendorService;
 import com.buseni.ubukwebwiza.vendor.service.VendorWeddingServiceManager;
 import com.buseni.ubukwebwiza.vendor.service.WeddingServiceManager;
-import com.buseni.ubukwebwiza.vendor.utils.PageWrapper;
 
 @Controller
 @RequestMapping(value="/admin")
 @Navigation(url="/admin/vendors", name="Vendors", parent= AdminHomeController.class)
 public class AdminVendorController {
+	public static final int PROFILE_IMAGE_HEIGHT = 150;
+
+	public static final int PROFILE_IMAGE_WIDTH = 213;
+
 	public  static final Logger LOGGER = LoggerFactory.getLogger(AdminVendorController.class);
 
 	@Autowired
@@ -124,13 +114,15 @@ public class AdminVendorController {
 	              
 	                resizeImagScal(new File(saveDirectory+"/profil/" + file.getOriginalFilename()), new File(saveDirectory+"/profil/" + "thumbnail" + file.getOriginalFilename()));*/
 	              
-	                Photo profil = new Photo();
+	               Photo profil = new Photo();
 	               profil.setFilename(file.getOriginalFilename());
 	               profil.setDescription(vendor.getBusinessName());
-	               profil.setContent(resizeProfileImage(file));
+	               profil.setContent(ImagesUtils.resizeImage(file, PROFILE_IMAGE_WIDTH, PROFILE_IMAGE_HEIGHT));
 	               profil.setEnabled(false);
 	               profil.setCreatedAt(new Date());
+	               profil.setLastUpdate(new Date());
 	               profil.setContentType(file.getContentType());
+	               profil.setCategory(EnumPhotoCategory.PROFILE.getId());
 	               vendor.setProfilPicture(profil);
 	               
 	                
@@ -247,6 +239,7 @@ public class AdminVendorController {
 	                photo.setFilename(file.getOriginalFilename());
 	                photo.setContent(file.getBytes());
 	                photo.setContentType(file.getContentType());
+	                photo.setCategory(EnumPhotoCategory.PROVIDER.getId());
 	            } catch (Exception e) {
 	            	LOGGER.info("You failed to upload " + file.getName() + " => " + e.getMessage());
 	            	//result.reject(e.getMessage());
@@ -455,59 +448,6 @@ public class AdminVendorController {
 		return districtService.findByEnabled(Boolean.TRUE);
 	}
 	
-	public byte[] resizeProfileImage(MultipartFile profileImage) throws IOException {
-		BufferedImage originalImage = null;
-		try {
-			originalImage = ImageIO.read(profileImage.getInputStream());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		BufferedImage thumbnailImage = Scalr.resize(originalImage,
-				Scalr.Method.QUALITY, Scalr.Mode.FIT_TO_WIDTH, 213, 150,
-				Scalr.OP_ANTIALIAS, Scalr.OP_BRIGHTER);
-
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		String contentType = profileImage.getContentType();
-		String imgExt = "png";
-		if(MediaType.IMAGE_GIF_VALUE.equals(contentType)){
-			imgExt = "gif";
-		}else if(MediaType.IMAGE_JPEG_VALUE.equals(contentType)){
-			imgExt = "jpg";
-		}
-		try {
-			ImageIO.write(thumbnailImage, imgExt, baos);
-			baos.flush();
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		byte[] bytes = baos.toByteArray();
-		baos.close();
-		return bytes;
-	}
-	/*public  void resizeImagScal(File original, File thumnail) {
-		BufferedImage originalImage = null;
-		try {
-			originalImage = ImageIO.read(original);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//BufferedImage thumbnail = Scalr.resize(originalImage, 150);
 	
-		BufferedImage thumbnailImage =
-				  Scalr.resize(originalImage, Scalr.Method.QUALITY, Scalr.Mode.FIT_TO_WIDTH,
-				               213, 150, Scalr.OP_ANTIALIAS, Scalr.OP_BRIGHTER);
-		
-		
-		try {
-		ImageIO.write(thumbnailImage, "png", thumnail);
-		
-	} catch (IOException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}}*/
+	
 }

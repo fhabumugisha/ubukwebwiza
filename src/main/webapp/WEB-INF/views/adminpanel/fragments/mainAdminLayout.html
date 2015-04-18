@@ -53,7 +53,8 @@
 					<li><a href="#">Settings</a></li>
 					<li><a href="#">Help</a></li>
 					<li><a href="#" target="_blank" th:href="@{/}">Visite website</a></li>
-					<li class="dropdown"><a id="dLabel" data-toggle="dropdown" href="#"> <span class="glyphicon glyphicon-user"></span>&nbsp;
+					<li class="dropdown">
+					<a id="dLabel" data-toggle="dropdown" href="#"> <span class="glyphicon glyphicon-user"></span>&nbsp;
 							<span sec:authentication="name">Bob</span> &nbsp; <span class="caret"></span></a>
 						<ul class="dropdown-menu no-collapse" role="menu" aria-labelledby="dLabel">
 							<li>
@@ -103,8 +104,10 @@
 					<li th:classappend="${currentMenu == 'photos' ? 'active' : ''}"><a href="#" th:href="@{/admin/photos}">Photos</a></li>
 					<li th:classappend="${currentMenu == 'contactus' ? 'active' : ''}"><a href="#" th:href="@{/admin/contactus}">Contactus 
 					<span th:if="${unreadMessages > 0}" class="badge" th:text="${unreadMessages}"> </span>
-					</a></li>
-					<li th:classappend="${currentMenu == 'administrators' ? 'active' : ''}"><a href="#" th:href="@{/admin/administrators}">Administrators</a></li>
+					</a>
+					
+					</li>
+					<li sec:authorize="hasRole('SUPER_ADMIN')" th:classappend="${currentMenu == 'administrators' ? 'active' : ''}"><a href="#" th:href="@{/admin/administrators}">Administrators</a></li>
 
 				</ul>
 

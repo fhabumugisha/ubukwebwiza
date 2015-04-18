@@ -20,17 +20,24 @@
 
 						<!-- Wrapper for slides -->
 						<div class="carousel-inner">
-							<div class="item active">
+							<th:block th:each="photo :${sliderPhotos}" >
+									<div class="item" th:classappend="${photoStat.first}? 'active'">
+								<img src="../../../resources/images/application/wedding_4_content.jpg" 
+								     alt="..." th:src="@{'/image/'+*{photo.id}} "/>
+								<div class="carousel-caption"><span th:text="${photo.description}"> Planning</span></div>
+							</div>
+							</th:block>
+							<div class="item active" th:remove="all">
 								<img src="../../../resources/images/application/wedding_4_content.jpg" alt="..."
 									th:src="@{/resources/images/application/wedding_4_content.jpg}" />
 								<div class="carousel-caption">Cool</div>
 							</div>
-							<div class="item">
+							<div class="item" th:remove="all">
 								<img src="../../../resources/images/application/Wedding_rings.jpg" alt="..."
 									th:src="@{/resources/images/application/Wedding_rings.jpg}" />
 								<div class="carousel-caption">Staff</div>
 							</div>
-							<div class="item">
+							<div class="item" th:remove="all">
 								<img src="../../../resources/images/application/wedding-banner.png" alt="..."
 									th:src="@{/resources/images/application/wedding-banner.png}" />
 								<div class="carousel-caption">Here</div>

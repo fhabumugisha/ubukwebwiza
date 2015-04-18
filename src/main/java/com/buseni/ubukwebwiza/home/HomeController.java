@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
 import com.buseni.ubukwebwiza.vendor.beans.VendorSearch;
 import com.buseni.ubukwebwiza.vendor.domain.District;
+import com.buseni.ubukwebwiza.vendor.domain.Photo;
 import com.buseni.ubukwebwiza.vendor.domain.Vendor;
 import com.buseni.ubukwebwiza.vendor.domain.WeddingService;
 import com.buseni.ubukwebwiza.vendor.service.DistrictService;
@@ -22,7 +23,7 @@ import com.buseni.ubukwebwiza.vendor.service.VendorService;
 import com.buseni.ubukwebwiza.vendor.service.WeddingServiceManager;
 
 @Controller
-@SessionAttributes({"allWeddingServices","allDistricts"})
+@SessionAttributes({"allWeddingServices","allDistricts", "featuredVendors", "sliderPhotos"})
 @Navigation(url="/", name="Home")
 public class HomeController {
 
@@ -62,5 +63,11 @@ public class HomeController {
 	@ModelAttribute("currentMenu")
 	public String module(){
 		return "home";
+	}
+	
+	@ModelAttribute("sliderPhotos")
+	public List<Photo> sliderPhotos(){
+		return photoService.homePagePhotos();
+	
 	}
 }

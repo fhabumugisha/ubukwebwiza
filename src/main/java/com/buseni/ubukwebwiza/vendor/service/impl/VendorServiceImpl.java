@@ -110,7 +110,7 @@ public class VendorServiceImpl implements VendorService {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.buseni.ubukwebwiza.administrator.service.VendorService#findAll(com.buseni.ubukwebwiza.vendor.utils.VendorSearch, org.springframework.data.domain.Pageable)
+	 * @see com.buseni.ubukwebwiza.administrator.service.VendorService#findAll(com.buseni.ubukwebwiza.utils.VendorSearch, org.springframework.data.domain.Pageable)
 	 */
 	@Override
 	public Page<Vendor> search(VendorSearch vendorSearch,

@@ -27,7 +27,7 @@ import com.buseni.ubukwebwiza.administrator.service.AdministratorService;
 import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
 import com.buseni.ubukwebwiza.exceptions.ErrorsHelper;
 import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
-import com.buseni.ubukwebwiza.vendor.utils.PageWrapper;
+import com.buseni.ubukwebwiza.utils.PageWrapper;
 @Controller
 //@SessionAttributes({"allDistricts", "allWeddingServices"})
 
@@ -79,8 +79,8 @@ public class AdminAdministratorController {
 	public String save(@Valid @ModelAttribute Administrator administrator , BindingResult result, RedirectAttributes attributes) throws ServiceLayerException{		
 		//Validation erros	
 		if (result.hasErrors()) {
-			LOGGER.info("Strategy-edit error: " + result.toString());
-			attributes.addFlashAttribute("org.springframework.validation.BindingResult.district", result);
+			LOGGER.info("Administrator-save error: " + result.toString());
+			attributes.addFlashAttribute("org.springframework.validation.BindingResult.admnistrator", result);
 			attributes.addFlashAttribute("administrator", administrator);
 			return "adminpanel/admin/editAdministrator";
 
@@ -91,8 +91,8 @@ public class AdminAdministratorController {
 				//Business errors	
 			} catch (final ServiceLayerException e) {
 				ErrorsHelper.rejectErrors(result, e.getErrors());
-				LOGGER.info("Administrator-edit error: " + result.toString());
-				attributes.addFlashAttribute("org.springframework.validation.BindingResult.district", result);
+				LOGGER.info("Administrator-save error: " + result.toString());
+				attributes.addFlashAttribute("org.springframework.validation.BindingResult.admnistrator", result);
 				attributes.addFlashAttribute("administrator", administrator);
 				return "adminpanel/admin/editAdministrator";
 			}
