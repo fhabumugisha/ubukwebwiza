@@ -22,8 +22,8 @@ import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
 import com.buseni.ubukwebwiza.gallery.beans.PhotoForm;
 import com.buseni.ubukwebwiza.utils.ImagesUtils;
 import com.buseni.ubukwebwiza.utils.PageWrapper;
-import com.buseni.ubukwebwiza.vendor.domain.Photo;
-import com.buseni.ubukwebwiza.vendor.service.PhotoService;
+import com.buseni.ubukwebwiza.provider.domain.Photo;
+import com.buseni.ubukwebwiza.provider.service.PhotoService;
 @Controller
 @Navigation(url="/admin/photos", name="Photos", parent= AdminHomeController.class)
 @RequestMapping(value="/admin")
@@ -33,14 +33,14 @@ public class AdminPhotoController {
 
 	public static final int HP_IMAGE_WIDTH = 944;
 
-	public  static final Logger LOGGER = LoggerFactory.getLogger(AdminVendorController.class);
+	public  static final Logger LOGGER = LoggerFactory.getLogger(AdminProviderController.class);
 	
 	@Autowired
 	private PhotoService photoService;
 	
 	@RequestMapping(value="/photos", method=RequestMethod.GET)
 	public String photos(Model model, Pageable page){
-		Page<Photo>  pagePhoto = photoService.findAll(page);
+		Page<Photo>  pagePhoto = photoService.findByCategory(EnumPhotoCategory.HOME_PAGE.getId(), page);
 		model.addAttribute("photos", pagePhoto.getContent());		
 		PageWrapper<Photo> pageWrapper = new PageWrapper<Photo>(pagePhoto, "/admin/photos");
 		model.addAttribute("page", pageWrapper);	

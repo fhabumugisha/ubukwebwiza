@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	layout:decorator="adminpanel/fragments/mainAdminLayout">
+
+<head>
+<title th:text="#{provider.title}">Providers</title>
+</head>
+<body>
+	<div layout:fragment="pageContent">
+
+			<div th:if="${message}" class="alert alert-success" th:text="${message}">Cool</div>
+			<h2 class="sub-header" th:text="#{provider.list.title}">Listing providers</h2>
+					
+			
+				<a href="#" th:href="@{/admin/providers/new}">  			
+  				<button type="button" class="btn  btn-primary btn-xs">
+         			<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> &nbsp;	
+         			<span th:text="#{list.add}">Add</span>
+       			</button>
+				</a> 
+		
+			
+			<div class="table-responsive">
+				<table class="table table-striped table-bordered table-hover">
+					<thead>
+						<tr>
+							<th class="col-sm-1" >#</th>
+							<th class="col-sm-1" th:text="#{provider.list.email}">Email</th>
+							<th class="col-sm-2" th:text="#{provider.list.businessname}">Business name</th>
+							<th class="col-sm-1" th:text="#{provider.list.profilpic}">Profil pic</th>
+							<th class="col-sm-1" th:text="#{provider.list.district}">District</th>
+							<th class="col-sm-1" th:text="#{provider.list.address}">Address</th>
+<!-- 							<th class="col-sm-1" th:text="#{provider.list.services}">Services</th> -->
+							<th class="col-sm-1" th:text="#{provider.list.nbviews}">Nb views</th>
+							<th class="col-sm-1" th:text="#{provider.list.lastupdate}">Last update</th>							
+							<th class="col-sm-1" th:text="#{provider.list.createdat}">Created at</th>
+							<th class="col-sm-1" th:text="#{provider.list.enabled}">Enabled</th>
+							<th class="col-sm-1"  th:text="#{list.actions}">Actions</th>
+							
+
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="provider : ${providers}" th:classappend="${providerStat.odd}? 'odd'">
+							<td th:text="${provider.id}">1</td>
+							<td th:text="${provider.email}">Email</td>
+							<td th:text="${provider.businessName}">Ok</td>
+							<td >
+								<img class="img-thumbnail"  width="100" height="50" alt="profil pic" th:if="*{provider.profilPicture}" th:alt="${provider.businessName}" th:src="@{'/admin/image/'+${provider.profilPicture.id}} "></img>
+								<img class="img-thumbnail"  width="100" height="50" alt="profil pic" th:unless="*{provider.profilPicture}" th:alt="${provider.businessName}" th:src="@{/resources/images/application/no_person.jpg} "></img>
+							</td>
+							<td><span th:if="${provider.district}" th:text="${provider.district.libelle}"></span> </td>
+							<td th:text="${provider.address}">Ok</td>
+<!-- 							<td> -->
+<!-- 								<ul th:if="${not #lists.isEmpty(provider.providerWeddingServices)}"> -->
+<!-- 									<li th:each="providerWeddingService :${provider.providerWeddingServices}" th:text="${providerWeddingService.weddingService.libelle}"> -->
+<!-- 									</li> -->
+<!-- 								</ul> -->
+<!-- 							</td> -->
+							<td th:text="${provider.nbViews}">Ok</td>
+							<td th:text="${#dates.format(provider.lastUpdate, 'dd/MM/yyyy')}">Ok</td>
+							<td th:text="${#dates.format(provider.createdAt, 'dd/MM/yyyy')}">Ok</td>
+							<td th:text="${provider.enabled}">Ok</td>
+							<td class="dropdown">
+							<a id="dLabel" data-toggle="dropdown" href="#"> <span th:text="#{list.actions}">Actions</span>
+									<span class="caret"></span></a>
+								<ul class="dropdown-menu no-collapse" role="menu" aria-labelledby="dLabel">
+									<li><a href="#" th:href="@{/admin/providers/edit(id=${provider.id})}">
+									
+											<button type="button" class="btn btn-default btn-xs">
+         									  <span class="glyphicon glyphicon-pencil"></span>&nbsp; <span th:text="#{list.edit}">edit</span>
+       								 		 </button>
+										
+									 </a>
+
+									</li>
+									<li>
+									
+									<a href="#" th:href="@{/admin/providers/delete(id=${provider.id})}" class="deleteProvider">
+											
+											<button type="button" class="btn btn-default btn-xs">
+         									  <span class="glyphicon glyphicon-trash"></span>&nbsp; <span th:text="#{list.delete}">delete</span>
+       								 		 </button>
+									
+									
+									</a>
+
+									</li>
+									<li>
+									
+									<a href="#" th:href="@{'/admin/providers/' + ${provider.id} +'/photos'}" class="providerPhotos">
+											
+											<button type="button" class="btn btn-default btn-xs">
+         									  <span class="glyphicon glyphicon-picture"></span>&nbsp; <span th:text="#{list.photos}">Photos</span>
+       								 		 </button>
+									
+									
+									</a>
+
+									</li>
+									<li>
+									
+									<a href="#" th:href="@{'/admin/providers/' + ${provider.id} + '/services'}" class="providerServices">
+											
+											<button type="button" class="btn btn-default btn-xs">
+         									  <span class="glyphicon glyphicon-tasks"></span>&nbsp; <span th:text="#{list.services}">Services</span>
+       								 		 </button>
+									
+									
+									</a>
+
+									</li>
+								</ul></td>
+						</tr>
+						<tr th:remove="all">
+							<td>1,002</td>
+							<td>amet</td>
+							<td>elit</td>
+							<td>elit</td>
+						</tr>
+
+
+
+					</tbody>
+				</table>
+			</div>
+
+			<div th:replace="util :: paginator ">
+				<ul class="pagination pagination-lg">
+					<li><a href="#">&laquo;</a></li>
+					<li><a href="#">1</a></li>
+					<li><a href="#">2</a></li>
+					<li><a href="#">3</a></li>
+					<li><a href="#">4</a></li>
+					<li><a href="#">5</a></li>
+					<li><a href="#">&raquo;</a></li>
+				</ul>
+			</div>
+
+			<div>
+
+
+				
+			</div>
+		
+
+
+	</div>
+	
+	
+</body>
+
+</html>

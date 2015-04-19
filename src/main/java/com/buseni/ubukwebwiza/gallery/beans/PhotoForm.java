@@ -11,7 +11,7 @@ public class PhotoForm implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	private Integer id;
-	private Integer idVendor;
+	private Integer idProvider;
 	private String description;
 	private  MultipartFile file;
 	private String name;
@@ -23,11 +23,11 @@ public class PhotoForm implements Serializable{
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public Integer getIdVendor() {
-		return idVendor;
+	public Integer getIdProvider() {
+		return idProvider;
 	}
-	public void setIdVendor(Integer idVendor) {
-		this.idVendor = idVendor;
+	public void setIdProvider(Integer idProvider) {
+		this.idProvider = idProvider;
 	}
 	public String getDescription() {
 		return description;

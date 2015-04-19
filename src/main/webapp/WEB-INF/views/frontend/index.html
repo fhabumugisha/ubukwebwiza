@@ -56,7 +56,7 @@
 									<span th:text="#{home.search}">Looking for a wedding service provider ?</span>
 								</h2>
 
-								<form action="listingVendor.html" role="form" class="form-inline" th:action="@{/search}" th:object="${vendorSearch}"
+								<form action="listingProvider.html" role="form" class="form-inline" th:action="@{/search}" th:object="${providerSearch}"
 									method="get">
 
 									<div class="row">
@@ -97,32 +97,32 @@
 					<!-- This code will be parsed at thymeleaf parsing time! -->
 
 					<div class="row">
-						<th:block th:each="vendor :${featuredVendors}">
+						<th:block th:each="provider :${featuredProviders}">
 							<div class="col-md-3 col-sm-6 col-xs-12">
 								<div class="thumbnail">
 									
 									
 									<img id="profilPicturePreview"  style="height: 150px; width: 213px;" 
-									     alt="profil pic"  th:if="*{vendor.profilPicture}" 
-									     th:alt="${businessName}" th:src="@{'/image/'+*{vendor.profilPicture.id}} "></img>
+									     alt="profil pic"  th:if="*{provider.profilPicture}" 
+									     th:alt="${businessName}" th:src="@{'/image/'+*{provider.profilPicture.id}} "></img>
 									
 									 <img id="profilPicturePreview" alt="profil pic" 
-									      th:unless="*{vendor.profilPicture}" th:alt="${businessName}" 
+									      th:unless="*{provider.profilPicture}" th:alt="${businessName}" 
 									      data-src="holder.js/100%x150"></img>
 									<div class="caption">
 										<h3>
-										<a href="vendor/detailVendor.html" 
-												th:href="@{'/providers/'+${vendor.id}}"><span th:text="${vendor.businessName}">Thumbnail label</span></a>
+										<a href="provider/detailProvider.html" 
+												th:href="@{'/providers/'+${provider.id}}"><span th:text="${provider.businessName}">Thumbnail label</span></a>
 											
 										</h3>
-										<h4><span th:if="${not #lists.isEmpty(vendor.vendorWeddingServices)}" th:text="${vendor.weddingService}">Planner</span> </h4>
+										<h4><span th:if="${not #lists.isEmpty(provider.providerWeddingServices)}" th:text="${provider.weddingService}">Planner</span> </h4>
 										
 										<h6>
-											<span th:text="${vendor.district.libelle}"> Nyarugenge</span>
+											<span th:text="${provider.district.libelle}"> Nyarugenge</span>
 										</h6>
 										<!-- <p>
-											<a href="vendor/detailVendor.html" class="btn btn-primary btn-xs" role="button"
-												th:href="@{/vendors/details(id=${vendor.id})}">Follow</a> <a href="#" class="btn btn-default btn-xs" role="button">Like</a>
+											<a href="provider/detailProvider.html" class="btn btn-primary btn-xs" role="button"
+												th:href="@{/providers/details(id=${provider.id})}">Follow</a> <a href="#" class="btn btn-default btn-xs" role="button">Like</a>
 										</p> -->
 									</div>
 								</div>
@@ -145,7 +145,7 @@
 										<span>Nyarugenge</span>
 									</h6>
 									<p>
-										<a href="vendor/detailVendor.html" class="btn btn-primary btn-xs" role="button">Follow</a> <a href="#"
+										<a href="provider/detailProvider.html" class="btn btn-primary btn-xs" role="button">Follow</a> <a href="#"
 											class="btn btn-default btn-xs" role="button">Like</a>
 									</p>
 								</div>
@@ -164,7 +164,7 @@
 									</h6>
 									<br />
 									<p>
-										<a href="vendor/detailVendor.html" class="btn btn-primary btn-xs" role="button">Follow</a> <a href="#"
+										<a href="provider/detailProvider.html" class="btn btn-primary btn-xs" role="button">Follow</a> <a href="#"
 											class="btn btn-default btn-xs" role="button">Like</a>
 									</p>
 								</div>
@@ -188,7 +188,7 @@
 									</p>
 								</div>
 							</div>
-							<a href="vendor/listingVendor.html" class="btn btn-primary btn-block" role="button" th:href="@{/vendors}">Find more providers </a>
+							<a href="provider/listingProvider.html" class="btn btn-primary btn-block" role="button" th:href="@{/providers}">Find more providers </a>
 						</div>
 					</div>
 

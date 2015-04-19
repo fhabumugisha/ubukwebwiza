@@ -4,12 +4,12 @@ package com.buseni.ubukwebwiza.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.buseni.ubukwebwiza.vendor.repository.DistrictRepo;
-import com.buseni.ubukwebwiza.vendor.repository.WeddingServiceRepo;
-import com.buseni.ubukwebwiza.vendor.service.DistrictService;
-import com.buseni.ubukwebwiza.vendor.service.WeddingServiceManager;
-import com.buseni.ubukwebwiza.vendor.service.impl.DistrictServiceImpl;
-import com.buseni.ubukwebwiza.vendor.service.impl.WeddingServiceManagerImpl;
+import com.buseni.ubukwebwiza.provider.repository.DistrictRepo;
+import com.buseni.ubukwebwiza.provider.repository.WeddingServiceRepo;
+import com.buseni.ubukwebwiza.provider.service.DistrictService;
+import com.buseni.ubukwebwiza.provider.service.WeddingServiceManager;
+import com.buseni.ubukwebwiza.provider.service.impl.DistrictServiceImpl;
+import com.buseni.ubukwebwiza.provider.service.impl.WeddingServiceManagerImpl;
 
 @Configuration 
 public class ServiceConfiguration {

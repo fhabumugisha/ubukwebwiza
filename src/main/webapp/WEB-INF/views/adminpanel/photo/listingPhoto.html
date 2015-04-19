@@ -39,8 +39,8 @@
 						<tr th:each="photo : ${photos}" th:classappend="${photoStat.odd}? 'odd'">
 							<td th:text="${photo.id}">1</td>							
 							<td>							
-								<img class="img-thumbnail"  width="100" height="70" alt="Photo" th:if="${!#strings.isEmpty(photo.filename)}" th:alt="${photo.filename}" th:src="@{'/admin/image/'+${photo.id}} "></img>
-								<img class="img-thumbnail"  width="100" height="70" alt="Photo" th:if="${#strings.isEmpty(photo.filename)}" th:alt="${photo.filename}" th:src="@{/resources/images/application/no_person.jpg} "></img>
+								<img class="img-thumbnail"  width="100" height="100" alt="Photo" th:if="${!#strings.isEmpty(photo.filename)}" th:alt="${photo.filename}" th:src="@{'/admin/image/'+${photo.id}} "></img>
+								<img class="img-thumbnail"  width="100" height="100" alt="Photo" th:if="${#strings.isEmpty(photo.filename)}" th:alt="${photo.filename}" th:src="@{/resources/images/application/no_person.jpg} "></img>
 							
 							</td>							
 							<td th:text="${photo.description}">Wedding Planning</td>

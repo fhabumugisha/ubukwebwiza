@@ -22,8 +22,8 @@ import com.buseni.ubukwebwiza.administrator.enums.EnumPhotoCategory;
 import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
 import com.buseni.ubukwebwiza.home.HomeController;
 import com.buseni.ubukwebwiza.utils.PageWrapper;
-import com.buseni.ubukwebwiza.vendor.domain.Photo;
-import com.buseni.ubukwebwiza.vendor.service.PhotoService;
+import com.buseni.ubukwebwiza.provider.domain.Photo;
+import com.buseni.ubukwebwiza.provider.service.PhotoService;
 
 @Controller
 //@SessionAttributes({"allDistricts", "allWeddingServices"})

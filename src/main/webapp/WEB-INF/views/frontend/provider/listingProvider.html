@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	layout:decorator="frontend/fragments/mainLayout">
+<head>
+<title th:text="#{providers.list.title}">Providers</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+
+</head>
+<body>
+
+
+	<div layout:fragment="pageContent">
+
+		<div id="content" class="col-md-10 container">
+
+			<div class="row">
+				<div class="col-md-12 container ">
+					<div class="panel  panel-primary">
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-md-8  col-md-offset-3 col-xs-offset-0">
+									<form action="listingProvider.html" role="form" 	class="form-inline " th:action="@{/search}" th:object="${providerSearch}" method="get">
+										<div class="form-group">
+											<label  for="idWeddingService">Service: </label> 
+												
+												<select th:field="*{service}" id="idWeddingService"
+											class="form-control">
+											<option value="" th:text="#{common.select.prompt}"></option>
+											<option th:each="weddingService : ${allWeddingServices}"
+												th:value="${weddingService.id}"
+												th:text="${weddingService.libelle}">Wedding planner</option>
+										</select>
+												
+										</div>
+										<div class="form-group">
+											<label  for="idDistrict">District: </label>
+											<select th:field="*{district}" id="idDistrict"
+											class="form-control">
+											<option value="" th:text="#{common.select.prompt}"></option>
+											<option th:each="district : ${allDistricts}"
+												th:value="${district.id}" th:text="${district.libelle}">Kigali</option>
+										</select>
+											
+										</div>
+										<button type="submit" class="btn btn-primary ">
+											Find <span class="glyphicon glyphicon-search"></span>
+										</button>
+									</form>
+								</div>
+							</div>
+											
+						</div>
+					</div>
+
+
+				</div>
+			</div>
+
+
+			<div class="row">
+				<div class="col-md-12 ">
+					<p>
+						<a href="#" title="List view" id="listView"
+							class="btn btn-primary disabled btn-xs"><span
+							class="glyphicon glyphicon-th-list "></span></a> &nbsp; <a href="#"
+							id="gridView" title="Grid view"
+							class="btn btn-primary  active  btn-xs"><span
+							class="glyphicon glyphicon-th "></span></a>
+					</p>
+
+
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-12 container">
+
+					<div class="row">
+						<div class="col-md-7 container">
+
+							<th:block th:each="provider :${providers}">
+
+								<div class="row">
+									<div class="col-md-5 col-sm-3">
+										
+										
+										<img id="profilPicturePreview"   height="150" width="213" 
+									     alt="profil pic"  th:if="*{provider.profilPicture}" 
+									     th:alt="${businessName}" th:src="@{'/image/'+*{provider.profilPicture.id}} "></img>
+									
+									 <img id="profilPicturePreview" alt="profil pic" 
+									      th:unless="*{provider.profilPicture}" th:alt="${businessName}" 
+									      data-src="holder.js/100%x150"></img>
+									
+									</div>
+									<div class="col-md-7 col-sm-9">
+										<h3>
+										
+										<a href="detailProvider.html"
+												th:href="@{'/providers/'+${provider.id}}"
+												>  <span th:text="${provider.businessName}">Thumbnail label</span></a> 										
+												
+											
+										</h3>
+										
+										<ul class="list-inline" th:if="${not #lists.isEmpty(provider.providerWeddingServices)}">									
+									   <li th:each="providerService : ${provider.providerWeddingServices}" th:text="${providerService.weddingService.libelle}">
+									     Wedding planner
+									  </li>
+								     </ul>
+										
+											
+											
+							
+											
+										
+										<h6>
+											<span th:text="${provider.district.libelle}">Nyarugenge</span>
+										</h6>
+
+										<!-- <p>
+											<a href="detailProvider.html"
+												th:href="@{/providers/details(id=${provider.id})}"
+												class="btn btn-primary btn-xs" role="button">Follow</a> 
+												<a
+												href="#" class="btn btn-default btn-xs" role="button">Like</a>
+										</p> -->
+									</div>
+								</div>
+
+
+
+								<hr />
+							</th:block>
+							<div class="row">
+								<div class="col-md-12">
+								<div th:replace="util :: paginator ">
+									<ul class="pagination pagination-lg">
+										<li><a href="#">&laquo;</a></li>
+										<li><a href="#">1</a></li>
+										<li><a href="#">2</a></li>
+										<li><a href="#">3</a></li>
+										<li><a href="#">4</a></li>
+										<li><a href="#">5</a></li>
+										<li><a href="#">&raquo;</a></li>
+									</ul>
+								</div>
+									
+								</div>
+							</div>
+							<div class="row" th:remove="all">
+								<div class="col-md-6">
+									<img data-src="holder.js/100%x150" alt="..."></img>
+								</div>
+								<div class="col-md-6">
+									<h5>Thumbnail label</h5>
+
+									<p>
+										<a href="detailProvider.html" class="btn btn-primary btn-xs"
+											role="button">Follow</a> <a href="#"
+											class="btn btn-default btn-xs" role="button">Like</a>
+									</p>
+								</div>
+							</div>
+
+							<hr th:remove="all" />
+							<div class="row" th:remove="all">
+								<div class="col-md-6">
+									<img data-src="holder.js/100%x150" alt="..."></img>
+								</div>
+								<div class="col-md-6">
+									<h5>Thumbnail label</h5>
+
+									<p>
+										<a href="detailProvider.html" class="btn btn-primary btn-xs"
+											role="button">Follow</a> <a href="#"
+											class="btn btn-default btn-xs" role="button">Like</a>
+									</p>
+								</div>
+							</div>
+							<hr th:remove="all" />
+							
+							<hr th:remove="all" />
+						</div>
+						<div class="col-md-5"></div>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+
+
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="https://code.jquery.com/jquery.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="../../../../resources/js/bootstrap.min.js"
+		th:src="@{/resources/js/bootstrap.min.js}"></script>
+	<script src="../../../../resources/js/holder.js"
+		th:src="@{/resources/js/holder.js}"></script>
+	
+</body>
+</html>

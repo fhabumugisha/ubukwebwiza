@@ -20,8 +20,8 @@ import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
 import com.buseni.ubukwebwiza.exceptions.ErrorsHelper;
 import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
 import com.buseni.ubukwebwiza.utils.PageWrapper;
-import com.buseni.ubukwebwiza.vendor.domain.WeddingService;
-import com.buseni.ubukwebwiza.vendor.service.WeddingServiceManager;
+import com.buseni.ubukwebwiza.provider.domain.WeddingService;
+import com.buseni.ubukwebwiza.provider.service.WeddingServiceManager;
 
 @Controller
 @RequestMapping(value="/admin")

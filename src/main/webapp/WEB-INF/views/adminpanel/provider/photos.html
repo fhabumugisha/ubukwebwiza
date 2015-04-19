@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	layout:decorator="adminpanel/fragments/mainAdminLayout">
+
+<head>
+<title th:text="#{photo.title}">Photos</title>
+</head>
+<body>
+	<div layout:fragment="pageContent">
+
+			
+			<h2 class="sub-header" th:text="#{provider.photos.list.title(${provider.businessName})}">Listing provider's photos</h2>
+					
+			
+				<!-- <a href="#" th:href="@{/admin/providerweddingservices/new}">  			
+  				<button type="button" class="btn  btn-primary btn-xs">
+         			<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> &nbsp;	
+         			<span th:text="#{list.add}">Add</span>
+       			</button>
+				</a>  -->
+		
+			<div id="listPhotos-bloc" th:fragment="listPhotos">
+			<div th:if="${message}" class="alert alert-success" th:text="${message}">Cool</div>
+			<div class="table-responsive">
+				<table class="table table-striped table-bordered table-hover">
+					<thead>
+						<tr>
+							<th class="col-sm-1" >#</th>
+							<th class="col-sm-2" th:text="#{photo.list.name}">Name</th>
+							<th class="col-sm-3" th:text="#{photo.list.description}">Description</th>							
+							<th class="col-sm-1" th:text="#{list.lastupdate}">Last update</th>							
+							<th class="col-sm-1" th:text="#{list.createdat}">Created at</th>
+							<th class="col-sm-1" th:text="#{list.enabled}">Enabled</th>
+							<th class="col-sm-1"  th:text="#{list.actions}">Actions</th>
+							
+
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="photo : ${provider.photos}" th:classappend="${photoStat.odd}? 'odd'">
+							<td th:text="${photo.id}">1</td>
+							
+							<td>
+							
+								<img class="img-thumbnail"  width="100" height="50" alt="Photo" th:if="${!#strings.isEmpty(photo.filename)}" th:alt="${photo.filename}" th:src="@{'/admin/image/'+${photo.id}}"></img>
+								<img class="img-thumbnail"  width="100" height="50" alt="Photo" th:if="${#strings.isEmpty(photo.filename)}"  th:src="@{/resources/images/application/no_person.jpg} "></img>
+							
+							</td>
+							
+							<td th:text="${photo.description}">Wedding Planning</td>
+							
+							<td th:text="${#dates.format(photo.lastUpdate, 'dd/MM/yyyy')}">Ok</td>
+							<td th:text="${#dates.format(photo.createdAt, 'dd/MM/yyyy')}">Ok</td>
+							<td th:text="${photo.enabled}">Ok</td>
+							<td class="dropdown">
+							<a id="dLabel" data-toggle="dropdown" href="#"> <span th:text="#{list.actions}">Actions</span>
+									<span class="caret"></span></a>
+								<ul class="dropdown-menu no-collapse" role="menu" aria-labelledby="dLabel">
+									<li><a href="#" th:href="@{'/admin/providers/' + ${provider.id} +'/photos/editPhoto'(id=${photo.id})}" class="editPhoto">
+									
+											<button type="button" class="btn btn-default btn-xs">
+         									  <span class="glyphicon glyphicon-pencil"></span>&nbsp; <span th:text="#{list.edit}">edit</span>
+       								 		 </button>
+										
+									 </a>
+
+									</li>
+									<li>
+									
+									<a href="#" th:href="@{'/admin/providers/' + ${provider.id} +'/photos/deletePhoto'(id=${photo.id})}" class="deletePhoto">
+											
+											<button type="button" class="btn btn-default btn-xs">
+         									  <span class="glyphicon glyphicon-trash"></span>&nbsp; <span th:text="#{list.delete}">delete</span>
+       								 		 </button>
+									
+									
+									</a>
+
+									</li>
+								</ul>
+								</td> 
+						</tr>
+						<tr th:remove="all">
+							<td>1,002</td>
+							<td>amet</td>
+							<td>elit</td>
+							<td>elit</td>
+						</tr>
+
+
+
+					</tbody>
+				</table>
+			</div>
+			
+			<!-- <div th:replace="util :: paginator ">
+				<ul class="pagination pagination-lg">
+					<li><a href="#">&laquo;</a></li>
+					<li><a href="#">1</a></li>
+					<li><a href="#">2</a></li>
+					<li><a href="#">3</a></li>
+					<li><a href="#">4</a></li>
+					<li><a href="#">5</a></li>
+					<li><a href="#">&raquo;</a></li>
+				</ul>
+			</div> -->
+			
+			<div class="panel panel-default">
+			<div class="panel-body">
+				<form class="form-horizontal" role="form" action="#" enctype="multipart/form-data"
+					th:action="@{'/admin/providers/' + ${provider.id} +'/photos/addPhoto'}" th:object="${photoForm}"
+					method="post" id="uploadPhotoForm">
+					<div th:if="${#fields.hasGlobalErrors()}"
+						class="alert alert-danger">
+						<ul>
+							<li th:each="err : ${#fields.globalErrors()}" th:text="${err}">Input
+								is incorrect</li>
+						</ul>
+					</div>
+
+
+					<input type="text" hidden="hidden" th:field="*{id}" class="hidden" />
+<!-- 					<input type="text" hidden="hidden" th:field="*{idProvider}" class="hidden" /> -->
+					<div class="row">
+
+						
+							<div class="col-sm-6">
+
+							<div class="form-group"
+								th:classappend="${#fields.hasErrors('name')}? has-error">
+								<label for="name" class="col-sm-4 control-label"
+									th:text="#{photo.list.name}">name</label>
+								<div class="col-sm-4">
+
+									<!-- <div class="thumbnail">
+																	
+										
+											
+									<img id="picturePreview"   width="100" height="150" 
+									     alt="profil pic"  th:if="*{name}" 
+									     th:alt="${name}" th:src="@{'/images/'+*{name}} "></img>
+									
+									 <img id="picturePreview"  width="100" height="150" alt="profil pic" 
+									      th:unless="*{name}"  
+									      th:src="@{/resources/images/application/no_person.jpg} "></img>
+										
+										<div class="caption">
+
+											<input id="picture" type="file" class="filestyle"
+												name="file"  th:unless="*{name}"
+												data-classButton="btn btn-default btn-sm btn-block"
+												data-input="false"
+												data-classIcon="glyphicon glyphicon-folder-open" />
+												
+
+										</div>
+										
+									</div>
+									<a href="#" id="remove" style="display: none;" class="btn btn-default fileupload-exists"  data-dismiss="fileupload">Remove</a> -->
+
+									<div class="fileinput fileinput-new" data-provides="fileinput">
+										<div class="fileinput-new thumbnail"
+											style="width: 200px; height: 150px;">
+											<img data-src="holder.js/100%x100%" alt="Select profile pic"
+												th:unless="*{name}"></img> 
+												<img
+												id="profilPicturePreview" width="200" height="150"
+												alt="pic" th:if="*{name}"
+												
+												th:src="@{'/admin/image/'+*{id}} "></img>
+
+										</div>
+										<div class="fileinput-preview fileinput-exists thumbnail"
+											style="max-width: 200px; max-height: 150px;"></div>
+										<div>
+											<span class="btn btn-default btn-file"><span
+												class="fileinput-new">Select image</span><span
+												class="fileinput-exists">Change</span>
+												<input type="file" 	name="file" /></span> <a href="#"
+												class="btn btn-default fileinput-exists"
+												data-dismiss="fileinput">Remove</a>
+										</div>
+									</div>
+
+
+									<span class="text-danger"
+										th:if="${#fields.hasErrors('name')}"
+										th:errors="*{name}">Required field</span>
+								</div>
+
+							</div>
+							
+													
+
+						</div>
+						<div class="col-sm-6">
+
+							
+							
+							<div class="form-group"
+								th:classappend="${#fields.hasErrors('description')}? has-error">
+								<label for="description" class="col-sm-3 control-label"
+									th:text="#{photo.list.description}">description</label>
+								<div class="col-sm-8">
+									<textarea id="description" rows="3" cols="5" class="form-control"
+										th:field="*{description}"></textarea>
+
+									<span class="text-danger"
+										th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Required
+										field</span>
+								</div>
+
+							</div>
+							<div class="form-group"
+								th:classappend="${#fields.hasErrors('enabled')}? has-error">
+
+								<div class="col-sm-offset-2 col-sm-3">
+									<div class="checkbox">
+										<label> <input type="checkbox" th:field="*{enabled}" />
+											<span th:text="#{provider.list.enabled}">Enabled</span> <br />
+											<span class="text-danger"
+											th:if="${#fields.hasErrors('enabled')}"
+											th:errors="*{enabled}">check field</span>
+										</label>
+									</div>
+								</div>
+
+
+							</div>
+													
+
+						</div>
+
+
+					</div>
+
+
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							
+							<a href="#" th:href="@{/admin/providers/}">
+								<button type="button" class="btn  btn-default">
+									<span th:text="#{cancel.button.label}">Cancel</span>
+								</button>
+							</a>
+							<button type="submit"
+								th:text="${provider.id} ? #{update.button.label} : #{add.button.label}"
+								class="btn btn-primary">Action</button>
+
+							
+
+							
+						</div>
+					</div>
+
+
+				</form>
+			</div>
+		</div> 
+			
+			</div>
+			
+
+			<div>
+
+			
+				
+			</div>
+		
+
+
+	</div>
+	
+	
+</body>
+
+</html>

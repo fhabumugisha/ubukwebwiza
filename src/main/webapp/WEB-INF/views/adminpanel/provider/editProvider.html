@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	layout:decorator="adminpanel/fragments/mainAdminLayout">
+
+<head>
+<title
+	th:text="${provider.id} ? #{provider.edit.title} : #{provider.create.title}">Edit
+	provider</title>
+</head>
+<body>
+	<div layout:fragment="pageContent">
+
+
+		<div th:if="${message}" class="alert alert-success"
+			th:text="${message}">Cool</div>
+
+		<h2 class="sub-header"
+			th:text="${provider.id} ? #{provider.edit.title} : #{provider.create.title}">Edit
+			provider</h2>
+
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<form class="form-horizontal" role="form" action="#" enctype="multipart/form-data"
+					th:action="@{/admin/providers/save}" th:object="${provider}"
+					method="post">
+					<div th:if="${#fields.hasGlobalErrors()}"
+						class="alert alert-danger">
+						<ul>
+							<li th:each="err : ${#fields.globalErrors()}" th:text="${err}">Input
+								is incorrect</li>
+						</ul>
+					</div>
+
+
+					<input type="text" hidden="hidden" th:field="*{id}" class="hidden" />
+					<div class="row">
+
+						<div class="col-sm-6">
+
+
+							<div class="form-group"
+								th:classappend="${#fields.hasErrors('email')}? has-error">
+								<label for="email" class="col-sm-4 control-label"
+									th:text="#{provider.list.email}">email</label>
+								<div class="col-sm-7">
+									<input id="email" type="email" class="form-control"
+										th:field="*{email}" placeholder="Enter email"
+										required="required" /> <span class="text-danger"
+										th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Required
+										field</span>
+								</div>
+
+							</div>
+							
+							<div class="form-group"
+								th:classappend="${#fields.hasErrors('businessName')}? has-error">
+								<label for="businessName" class="col-sm-4 control-label"
+									th:text="#{provider.list.businessname}">businessName</label>
+								<div class="col-sm-7">
+									<input id="businessName" type="text" class="form-control"
+										th:field="*{businessName}" placeholder="Enter businessName"
+										required="required" /> <span class="text-danger"
+										th:if="${#fields.hasErrors('businessName')}"
+										th:errors="*{businessName}">Required field</span>
+								</div>
+
+							</div>
+							
+							<div class="form-group"
+								th:classappend="${#fields.hasErrors('district')}? has-error">
+								<label for="district" class="col-sm-4 control-label"
+									th:text="#{provider.list.district}">district</label>
+
+								<div class="col-sm-7">
+									<select th:field="*{district.id}" id="idDistrict"
+										class="form-control" required="required">
+										<option value="" th:text="#{common.select.prompt}"></option>
+										<option th:each="district : ${districts}"
+											th:value="${district.id}" th:text="${district.libelle}">Nyarugenge</option>
+									</select> <span class="text-danger"
+										th:if="${#fields.hasErrors('district')}"
+										th:errors="*{district}">Required field</span>
+								</div>
+
+							</div>
+							
+							<div class="form-group"
+								th:classappend="${#fields.hasErrors('idcService')}? has-error" th:unless="*{id}">
+								<label for="idWeddingService" class="col-sm-4 control-label"
+									th:text="#{providerWeddingService.list.service}">service</label>
+								<div class="col-sm-7">
+
+									<select th:field="*{idcService}" id="idWeddingService" class="form-control" required="required">
+									<option value="" th:text="#{common.select.prompt}"></option>
+												<option th:each="weddingService : ${allWeddingServices}" th:value="${weddingService.id}"
+													th:text="${weddingService.libelle}">Wedding planner</option>
+									</select>
+
+
+									<span class="text-danger"
+										th:if="${#fields.hasErrors('idcService')}"
+										th:errors="*{idcService}">Required field</span>
+								</div>
+
+							</div>
+							
+							<div class="form-group"
+								th:classappend="${#fields.hasErrors('phoneNumber')}? has-error">
+								<label for="phoneNumber" class="col-sm-4 control-label"
+									th:text="#{provider.list.phonenumber}">phoneNumber</label>
+								<div class="col-sm-7">
+									<input id="phoneNumber" type="text" class="form-control"
+										th:field="*{phoneNumber}" placeholder="Enter phoneNumber" />
+									<span class="text-danger"
+										th:if="${#fields.hasErrors('phoneNumber')}"
+										th:errors="*{phoneNumber}">Required field</span>
+								</div>
+
+							</div>
+							<div class="form-group"
+								th:classappend="${#fields.hasErrors('website')}? has-error">
+								<label for="website" class="col-sm-4 control-label"
+									th:text="#{provider.list.website}">website</label>
+								<div class="col-sm-7">
+									<input id="website" type="text" class="form-control"
+										th:field="*{website}" placeholder="Enter website" />
+									<span class="text-danger"
+										th:if="${#fields.hasErrors('website')}"
+										th:errors="*{website}">Required field</span>
+								</div>
+
+							</div>
+							
+							<div class="form-group"
+								th:classappend="${#fields.hasErrors('profilPicture')}? has-error">
+								<label for="profilPicture" class="col-sm-4 control-label"
+									th:text="#{provider.list.profilpic}">profilPicture</label>
+								<div class="col-sm-4">
+
+									<!-- <div class="thumbnail">
+											
+										<img id="profilPicturePreview" data-src="holder.js/100%x150"
+											src="#" alt="your image" width="100" height="150" />
+											
+									<img id="profilPicturePreview"   width="100" height="150" 
+									     alt="profil pic"  th:if="*{profilPicture}" 
+									     th:alt="${businessName}" th:src="@{'/admin/image/'+*{profilPicture.id}} "></img>
+									
+									 <img id="profilPicturePreview"  width="100" height="150" alt="profil pic" 
+									      th:unless="*{profilPicture}" th:alt="${businessName}" 
+									      th:src="@{/resources/images/application/no_person.jpg} "></img>
+										
+										<div class="caption">
+
+											<input id="profilPicture" type="file" class="filestyle"
+												name="file"
+												data-classButton="btn btn-default btn-sm btn-block"
+												data-input="false"
+												data-classIcon="glyphicon glyphicon-folder-open" />
+												
+
+										</div>
+										
+									</div>
+									<a href="#" id="remove" style="display: none;" class="btn btn-default fileupload-exists"  data-dismiss="fileupload">Remove</a> -->
+
+									<div class="fileinput fileinput-new" data-provides="fileinput">
+										<div class="fileinput-new thumbnail"
+											style="width: 200px; height: 150px;">
+											<img data-src="holder.js/100%x100%" alt="Select profile pic"
+												th:unless="*{profilPicture}"></img> 
+												<img
+												id="profilPicturePreview" width="200" height="150"
+												alt="profile pic" th:if="*{profilPicture}"
+												th:alt="${businessName}"
+												th:src="@{'/admin/image/'+*{profilPicture.id}} "></img>
+
+										</div>
+										<div class="fileinput-preview fileinput-exists thumbnail"
+											style="max-width: 200px; max-height: 150px;"></div>
+										<div>
+											<span class="btn btn-default btn-file"><span
+												class="fileinput-new">Select image</span><span
+												class="fileinput-exists">Change</span>
+												<input type="file" 	name="file" /></span> <a href="#"
+												class="btn btn-default fileinput-exists"
+												data-dismiss="fileinput">Remove</a>
+										</div>
+									</div>
+
+
+
+									<span class="text-danger"
+										th:if="${#fields.hasErrors('profilPicture')}"
+										th:errors="*{profilPicture}">Required field</span>
+								</div>
+
+							</div>
+							
+													
+							<div class="form-group"
+								th:classappend="${#fields.hasErrors('enabled')}? has-error">
+
+								<div class="col-sm-offset-2 col-sm-3">
+									<div class="checkbox">
+										<label> <input type="checkbox" th:field="*{enabled}" />
+											<span th:text="#{provider.list.enabled}">Enabled</span> <br />
+											<span class="text-danger"
+											th:if="${#fields.hasErrors('enabled')}"
+											th:errors="*{enabled}">check field</span>
+										</label>
+									</div>
+								</div>
+
+
+							</div>
+
+
+						</div>
+
+
+						<div class="col-sm-6">
+						
+							<div class="form-group"
+								th:classappend="${#fields.hasErrors('password')}? has-error">
+								<label for="password" class="col-sm-3 control-label"
+									th:text="#{provider.list.password}">password</label>
+								<div class="col-sm-8">
+									<input id="password" type="text" class="form-control"
+										th:field="*{password}" placeholder="Enter password"
+										required="required" /> <span class="text-danger"
+										th:if="${#fields.hasErrors('password')}"
+										th:errors="*{password}">Required field</span>
+								</div>
+
+							</div>
+							<div class="form-group"
+								th:classappend="${#fields.hasErrors('aboutme')}? has-error">
+								<label for="aboutme" class="col-sm-3 control-label"
+									th:text="#{provider.list.aboutme}">aboutme</label>
+								<div class="col-sm-8">
+									<textarea id="aboutme" rows="3" cols="5" class="form-control"
+										th:field="*{aboutme}"></textarea>
+
+									<span class="text-danger"
+										th:if="${#fields.hasErrors('aboutme')}" th:errors="*{aboutme}">Required
+										field</span>
+								</div>
+
+							</div>
+							<div class="form-group"
+								th:classappend="${#fields.hasErrors('address')}? has-error">
+								<label for="address" class="col-sm-3 control-label"
+									th:text="#{provider.list.address}">address</label>
+								<div class="col-sm-8">
+									<textarea id="address" rows="3" cols="5" class="form-control"
+										th:field="*{address}"></textarea>
+
+									<span class="text-danger"
+										th:if="${#fields.hasErrors('address')}" th:errors="*{aboutme}">Required
+										field</span>
+								</div>
+
+							</div>
+							
+							<div class="form-group"
+								th:classappend="${#fields.hasErrors('twitterUsername')}? has-error">
+								<label for="twitterUsername" class="col-sm-3 control-label"
+									th:text="#{provider.list.twitterusername}">twitterUsername</label>
+								<div class="col-sm-8">
+									<input id="twitterUsername" type="text" class="form-control"
+										th:field="*{twitterUsername}" placeholder="Enter website" />
+									<span class="text-danger"
+										th:if="${#fields.hasErrors('twitterUsername')}"
+										th:errors="*{ftwitterUsername}">Required field</span>
+								</div>
+
+							</div>
+							
+							<div class="form-group"
+								th:classappend="${#fields.hasErrors('fbUsername')}? has-error">
+								<label for="fbUsername" class="col-sm-3 control-label"
+									th:text="#{provider.list.fbusername}">fbUsername</label>
+								<div class="col-sm-8">
+									<input id="fbUsername" type="text" class="form-control"
+										th:field="*{fbUsername}" placeholder="Enter fbUsername" />
+									<span class="text-danger"
+										th:if="${#fields.hasErrors('fbUsername')}"
+										th:errors="*{fbUsername}">Required field</span>
+								</div>
+
+							</div>
+							
+						</div>
+					</div>
+
+
+
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<a href="#" th:href="@{/admin/providers}">
+								<button type="button" class="btn  btn-default">
+									<span th:text="#{cancel.button.label}">Cancel</span>
+								</button>
+							</a>
+							
+							<button type="submit"
+								th:text="${provider.id} ? #{update.button.label} : #{add.button.label}"
+								class="btn btn-primary">Action</button>
+
+							
+
+							<!-- <button type="submit"  class="btn btn-default active" name="action" value="cancel" data-th-text="#{cancel.button.label}">Cancel</button> -->
+						</div>
+					</div>
+
+
+
+
+
+				</form>
+			</div>
+		</div>
+
+
+
+
+
+	</div>
+</body>
+
+</html>
