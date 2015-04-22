@@ -104,20 +104,16 @@
 											
 										</h3>
 										
-										<ul class="list-inline" th:if="${not #lists.isEmpty(provider.providerWeddingServices)}">									
-									   <li th:each="providerService : ${provider.providerWeddingServices}" th:text="${providerService.weddingService.libelle}">
-									     Wedding planner
-									  </li>
-								     </ul>
+										<h5>
+										<strong>Services&nbsp;:&nbsp;</strong>
+										<th:block th:each="providerService : ${provider.providerWeddingServices}">
+											<span th:text="${providerService.weddingService.libelle}"></span>
+											<span th:text="${providerServiceStat.last}? '.' : ', ' "></span>
+										</th:block>
+										</h5>
 										
-											
-											
-							
-											
 										
-										<h6>
-											<span th:text="${provider.district.libelle}">Nyarugenge</span>
-										</h6>
+										<h5><strong>Location&nbsp;: &nbsp;</strong> <span th:text="${provider.district.libelle}">Nyarugenge</span> </h5>
 
 										<!-- <p>
 											<a href="detailProvider.html"

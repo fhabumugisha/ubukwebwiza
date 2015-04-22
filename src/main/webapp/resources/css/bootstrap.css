@@ -6362,6 +6362,7 @@ button.close {
 
 .carousel-inner > .active {
   left: 0;
+  opacity:1;
 }
 
 .carousel-inner > .next,

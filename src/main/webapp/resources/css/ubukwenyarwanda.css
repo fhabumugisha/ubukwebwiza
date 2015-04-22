@@ -218,7 +218,7 @@ body {
 
 #homeSearchFormContainer {
 	text-align: center;
-	color: #fff;
+	color: #ffffff;
 	
 }
 
@@ -226,5 +226,7 @@ body {
 	margin-bottom: 10px;
 	font-family: 'GothamBook', Shift, Helvetica Neue;
 	font-weight: bold;
+	 z-index: 10;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
 	
 }
