@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
@@ -31,6 +32,7 @@ public class District implements Serializable {
 	private Integer id;	
 	
 	@NotEmpty(message="{error.district.requiredfield.libelle}")
+	@Length(min=1, max=25)
 	private String libelle;
 	@Column(name="libelle_fr")
 	private String libelleFr;

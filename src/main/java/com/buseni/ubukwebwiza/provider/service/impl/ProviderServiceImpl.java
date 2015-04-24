@@ -51,21 +51,35 @@ public class ProviderServiceImpl implements ProviderService {
 	@Transactional
 	public void add(Provider provider) {
 		// TODO control before save
-		provider.setCreatedAt(new Date());
-		provider.setLastUpdate(new Date());
-		if(provider.getIdcService() != null){
-			WeddingService weddingService = weddingServiceRepo.findOne(provider.getIdcService());
-			ProviderWeddingService vws = new ProviderWeddingService();
-			vws.setWeddingService(weddingService);
-			vws.setProvider(provider);
-			vws.setCreatedAt(new Date());
-			vws.setLastUpdate(new Date());
-			vws.setEnabled(true);
-			providerWeddingServiceRepo.save(vws);
-			provider.getProviderWeddingServices().add(vws);
-			
+		if(null == provider){
+			throw new NullPointerException();
 		}
-		
+		//Creation
+		if(provider.getId() == null){
+			provider.setCreatedAt(new Date());			
+			if(provider.getIdcService() != null){
+				WeddingService weddingService = weddingServiceRepo.findOne(provider.getIdcService());
+				ProviderWeddingService vws = new ProviderWeddingService();
+				vws.setWeddingService(weddingService);
+				vws.setProvider(provider);
+				vws.setCreatedAt(new Date());
+				vws.setLastUpdate(new Date());
+				vws.setEnabled(true);
+				providerWeddingServiceRepo.save(vws);
+				provider.getProviderWeddingServices().add(vws);
+				
+			}
+		//Update
+		}else{
+			Provider bdd =  providerRepo.findOne(provider.getId());
+			if(provider.getProfilPicture() == null){				
+				provider.setProfilPicture(bdd.getProfilPicture());
+			}
+			provider.setCreatedAt(bdd.getCreatedAt());
+			provider.setNbViews(bdd.getNbViews());
+		}
+	
+		provider.setLastUpdate(new Date());
 		providerRepo.save(provider);
 
 	}

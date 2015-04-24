@@ -43,11 +43,11 @@ public class ProvinceServiceImpl implements ProvinceService{
 	//@Valid
 	@Transactional
 	public void add(Province province) throws ServiceLayerException {
-		if(!province.isEnabled() ){
+		/*if(!province.isEnabled() ){
 			CustomErrorBuilder ceb =  new CustomErrorBuilder("error.province.enabled.notchecked");			
 			CustomError  ce = ceb.field("enabled").buid();
 			throw new ServiceLayerException(ce);
-		}
+		}*/
 		provinceRepo.save(province);
 		
 	}

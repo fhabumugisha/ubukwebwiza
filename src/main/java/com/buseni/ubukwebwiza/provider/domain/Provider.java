@@ -26,6 +26,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 
@@ -51,6 +52,7 @@ public class Provider implements Serializable {
 	@Column(unique = true)
 	@Email
 	@NotEmpty(message="{error.provider.requiredfield.email}")
+	@Length(min=1, max=50)
 	private String email;
 
 	@NotEmpty(message="{error.provider.requiredfield.password}")
@@ -59,17 +61,22 @@ public class Provider implements Serializable {
 	
 	@Column(name="business_name")
 	@NotEmpty(message="{error.provider.requiredfield.businessname}")
+	@Length(min=1, max=50)
 	private String businessName;
 
 	@Column(name="phone_number")
+	@Length(min=1, max=50)
 	private String phoneNumber;
 
+	@Length(min=1, max=50)
 	private String website;
 	
 	@Column(name="fb_username")
+	@Length(min=1, max=50)
 	private String fbUsername;
 	
 	@Column(name="twitter_username")
+	@Length(min=1, max=50)
 	private String twitterUsername;
 	
 	
@@ -84,7 +91,8 @@ public class Provider implements Serializable {
 	@Lob
 	@Column(length=500)
 	private String aboutme;
-		
+	
+	@Length(min=1, max=100)
 	private String address;		
 	
 	private String country;

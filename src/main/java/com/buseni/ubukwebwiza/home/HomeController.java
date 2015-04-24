@@ -23,7 +23,7 @@ import com.buseni.ubukwebwiza.provider.service.ProviderService;
 import com.buseni.ubukwebwiza.provider.service.WeddingServiceManager;
 
 @Controller
-@SessionAttributes({"allWeddingServices","allDistricts", "featuredProviders", "sliderPhotos"})
+@SessionAttributes({"allWeddingServices","allDistricts"})
 @Navigation(url="/", name="Home")
 public class HomeController {
 

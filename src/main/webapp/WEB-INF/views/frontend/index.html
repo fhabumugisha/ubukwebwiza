@@ -59,8 +59,8 @@
 								<form action="listingProvider.html" role="form" class="form-inline" th:action="@{/search}" th:object="${providerSearch}"
 									method="get">
 
-									<div class="row">
-										<div class="col-md-2 col-sm-3  col-md-offset-3 col-sm-offset-1">
+									 <div class="row">
+										<div class="col-md-3 col-sm-3  col-md-offset-2 col-sm-offset-1">
 
 											<select th:field="*{service}" id="idWeddingService" class="form-control">
 												<option th:each="weddingService : ${allWeddingServices}" th:value="${weddingService.id}"
@@ -68,7 +68,7 @@
 											</select>
 										</div>
 
-										<div class="col-md-2  col-sm-3  ">
+										<div class="col-md-3  col-sm-3  ">
 											<select th:field="*{district}" id="idDistrict" class="form-control">
 												<option th:each="district : ${allDistricts}" th:value="${district.id}" th:text="${district.libelle}">Kigali</option>
 											</select>
@@ -79,7 +79,9 @@
 												Find <span class="glyphicon glyphicon-search"></span>
 											</button>
 										</div>
-									</div>
+									</div> 
+									
+									
 								</form>
 							</div>
 						</div>
@@ -98,11 +100,11 @@
 
 					<div class="row">
 						<th:block th:each="provider :${featuredProviders}">
-							<div class="col-md-3 col-sm-6 col-xs-12">
+							<div class="col-md-4 col-sm-6 col-xs-12">
 								<div class="thumbnail">
 									
 									
-									<img id="profilPicturePreview"  style="height: 150px; width: 213px;" 
+									<img id="profilPicturePreview"  style="height: 150px; width: 290px;" 
 									     alt="profil pic"  th:if="*{provider.profilPicture}" 
 									     th:alt="${businessName}" th:src="@{'/image/'+*{provider.profilPicture.id}} "></img>
 									
@@ -110,11 +112,11 @@
 									      th:unless="*{provider.profilPicture}" th:alt="${businessName}" 
 									      data-src="holder.js/100%x150"></img>
 									<div class="caption">
-										<h3>
+										<h4 >
 										<a href="provider/detailProvider.html" 
 												th:href="@{'/providers/'+${provider.id}}"><span th:text="${provider.businessName}">Thumbnail label</span></a>
 											
-										</h3>
+										</h4>
 										<h4><span th:if="${not #lists.isEmpty(provider.providerWeddingServices)}" th:text="${provider.weddingService}">Planner</span> </h4>
 										
 										<h6>
@@ -173,7 +175,7 @@
 						</div>
 
 						<!--*/-->
-						<div class="col-md-3 col-sm-6 col-xs-12">
+						<!-- <div class="col-md-3 col-sm-6 col-xs-12">
 							<div class="thumbnail">
 
 								<img src="../../../resources/images/application/no_person.jpg" style="height: 110px; display: block;"
@@ -189,7 +191,7 @@
 								</div>
 							</div>
 							<a href="provider/listingProvider.html" class="btn btn-primary btn-block" role="button" th:href="@{/providers}">Find more providers </a>
-						</div>
+						</div> -->
 					</div>
 
 
@@ -201,9 +203,14 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-12 panel">
-					
-				</div>
+				<div class="col-md-12" style="text-align:center">  						
+  						  <h2>Are you a wedding service provider ? </h2>  		  					 			
+				</div>				
+			</div>
+			<div class="row">
+				<div class="col-md-12 " style="text-align:center">  						
+  						  <a href="contactus.html" th:href="@{/contactus}" class="btn btn-primary btn-lg " role="button">Join us</a> 		  					 			
+				</div>				
 			</div>
 		</div>
 

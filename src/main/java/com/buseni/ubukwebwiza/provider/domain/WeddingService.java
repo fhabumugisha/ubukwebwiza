@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
@@ -26,6 +27,7 @@ public class WeddingService implements Serializable {
 	private Integer id;	
 	
 	@NotEmpty(message="{error.weddingservice.requiredfield.libelle}")
+	@Length(min=1, max=100)
 	private String libelle;
 	@Column(name="libelle_fr")
 	private String libelleFr;

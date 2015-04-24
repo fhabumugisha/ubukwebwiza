@@ -136,11 +136,14 @@ public class AdminProviderController {
 	    			return "adminpanel/provider/editProvider";
 	            }
 	        } else {
-	        	LOGGER.info("You failed to upload  because the file was empty.");
-	        	result.reject("error.file.empty");
-            	attributes.addFlashAttribute("org.springframework.validation.BindingResult.provider", result);
-    			attributes.addFlashAttribute("provider", provider);
-    			return "adminpanel/provider/editProvider";
+	        	if(provider.getId() == null){
+	        		LOGGER.info("You failed to upload  because the file was empty.");
+		        	result.reject("error.file.empty");
+	            	attributes.addFlashAttribute("org.springframework.validation.BindingResult.provider", result);
+	    			attributes.addFlashAttribute("provider", provider);
+	    			return "adminpanel/provider/editProvider";
+	        	}
+	        	
 	        }
 			
 			try {

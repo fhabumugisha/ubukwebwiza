@@ -44,7 +44,7 @@
 								<label for="email" class="col-sm-4 control-label"
 									th:text="#{provider.list.email}">email</label>
 								<div class="col-sm-7">
-									<input id="email" type="email" class="form-control"
+									<input id="email" type="email" class="form-control" maxlength="50"
 										th:field="*{email}" placeholder="Enter email"
 										required="required" /> <span class="text-danger"
 										th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Required
@@ -58,7 +58,7 @@
 								<label for="businessName" class="col-sm-4 control-label"
 									th:text="#{provider.list.businessname}">businessName</label>
 								<div class="col-sm-7">
-									<input id="businessName" type="text" class="form-control"
+									<input id="businessName" type="text" class="form-control" maxlength="30"
 										th:field="*{businessName}" placeholder="Enter businessName"
 										required="required" /> <span class="text-danger"
 										th:if="${#fields.hasErrors('businessName')}"
@@ -110,7 +110,7 @@
 								<label for="phoneNumber" class="col-sm-4 control-label"
 									th:text="#{provider.list.phonenumber}">phoneNumber</label>
 								<div class="col-sm-7">
-									<input id="phoneNumber" type="text" class="form-control"
+									<input id="phoneNumber" type="text" class="form-control" maxlength="50"
 										th:field="*{phoneNumber}" placeholder="Enter phoneNumber" />
 									<span class="text-danger"
 										th:if="${#fields.hasErrors('phoneNumber')}"
@@ -123,7 +123,7 @@
 								<label for="website" class="col-sm-4 control-label"
 									th:text="#{provider.list.website}">website</label>
 								<div class="col-sm-7">
-									<input id="website" type="text" class="form-control"
+									<input id="website" type="text" class="form-control" maxlength="50"
 										th:field="*{website}" placeholder="Enter website" />
 									<span class="text-danger"
 										th:if="${#fields.hasErrors('website')}"
@@ -177,6 +177,7 @@
 												th:src="@{'/admin/image/'+*{profilPicture.id}} "></img>
 
 										</div>
+										
 										<div class="fileinput-preview fileinput-exists thumbnail"
 											style="max-width: 200px; max-height: 150px;"></div>
 										<div>
@@ -240,7 +241,7 @@
 								<label for="aboutme" class="col-sm-3 control-label"
 									th:text="#{provider.list.aboutme}">aboutme</label>
 								<div class="col-sm-8">
-									<textarea id="aboutme" rows="3" cols="5" class="form-control"
+									<textarea id="aboutme" rows="3" cols="5" class="form-control" maxlength="100"
 										th:field="*{aboutme}"></textarea>
 
 									<span class="text-danger"

@@ -77,7 +77,7 @@
 				<div class="col-md-12 container">
 
 					<div class="row">
-						<div class="col-md-7 container">
+						<div class="col-md-8 container">
 
 							<th:block th:each="provider :${providers}">
 
@@ -108,7 +108,7 @@
 										<strong>Services&nbsp;:&nbsp;</strong>
 										<th:block th:each="providerService : ${provider.providerWeddingServices}">
 											<span th:text="${providerService.weddingService.libelle}"></span>
-											<span th:text="${providerServiceStat.last}? '.' : ', ' "></span>
+											<span th:text="${providerServiceStat.last}? '' : ', ' "></span>
 										</th:block>
 										</h5>
 										
@@ -179,7 +179,7 @@
 							
 							<hr th:remove="all" />
 						</div>
-						<div class="col-md-5"></div>
+						<div class="col-md-4"></div>
 					</div>
 
 				</div>

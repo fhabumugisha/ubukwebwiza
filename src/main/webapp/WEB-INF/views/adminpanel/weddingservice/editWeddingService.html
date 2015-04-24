@@ -26,7 +26,7 @@
 					<div class="form-group" th:classappend="${#fields.hasErrors('libelle')}? has-error">
 						<label for="libelle" class="col-sm-2 control-label" th:text="#{weddingservice.list.libelle}">Libelle</label>
 						<div class="col-sm-5">							
-							 <input id="libelle" type="text"
+							 <input id="libelle" type="text" maxlength="100"
 								class="form-control" th:field="*{libelle}" placeholder="Enter name" required="required" />
 								<span class="text-danger" th:if="${#fields.hasErrors('libelle')}" th:errors="*{libelle}">Required field</span>
 						</div>

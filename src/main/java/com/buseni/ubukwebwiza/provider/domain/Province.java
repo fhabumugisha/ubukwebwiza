@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
@@ -29,6 +30,7 @@ public class Province implements Serializable {
 	private Integer id;	
 	
 	@NotEmpty(message="{error.province.requiredfield.libelle}")
+	@Length(min=1, max=25)
 	private String libelle;
 	
 	private boolean enabled;

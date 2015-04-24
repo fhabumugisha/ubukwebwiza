@@ -24,12 +24,12 @@
 				<table class="table table-striped table-bordered table-hover">
 					<thead>
 						<tr>
-							<th class="col-sm-1" >#</th>
+							<!-- <th class="col-sm-1" >#</th> -->
 							<th class="col-sm-1" th:text="#{provider.list.email}">Email</th>
 							<th class="col-sm-2" th:text="#{provider.list.businessname}">Business name</th>
-							<th class="col-sm-1" th:text="#{provider.list.profilpic}">Profil pic</th>
+							<th class="col-sm-3" th:text="#{provider.list.profilpic}">Profil pic</th>
 							<th class="col-sm-1" th:text="#{provider.list.district}">District</th>
-							<th class="col-sm-1" th:text="#{provider.list.address}">Address</th>
+							<!-- <th class="col-sm-1" th:text="#{provider.list.address}">Address</th> -->
 <!-- 							<th class="col-sm-1" th:text="#{provider.list.services}">Services</th> -->
 							<th class="col-sm-1" th:text="#{provider.list.nbviews}">Nb views</th>
 							<th class="col-sm-1" th:text="#{provider.list.lastupdate}">Last update</th>							
@@ -42,7 +42,7 @@
 					</thead>
 					<tbody>
 						<tr th:each="provider : ${providers}" th:classappend="${providerStat.odd}? 'odd'">
-							<td th:text="${provider.id}">1</td>
+							<!-- <td th:text="${provider.id}">1</td> -->
 							<td th:text="${provider.email}">Email</td>
 							<td th:text="${provider.businessName}">Ok</td>
 							<td >
@@ -50,7 +50,7 @@
 								<img class="img-thumbnail"  width="100" height="50" alt="profil pic" th:unless="*{provider.profilPicture}" th:alt="${provider.businessName}" th:src="@{/resources/images/application/no_person.jpg} "></img>
 							</td>
 							<td><span th:if="${provider.district}" th:text="${provider.district.libelle}"></span> </td>
-							<td th:text="${provider.address}">Ok</td>
+							<!-- <td th:text="${provider.address}">Ok</td> -->
 <!-- 							<td> -->
 <!-- 								<ul th:if="${not #lists.isEmpty(provider.providerWeddingServices)}"> -->
 <!-- 									<li th:each="providerWeddingService :${provider.providerWeddingServices}" th:text="${providerWeddingService.weddingService.libelle}"> -->

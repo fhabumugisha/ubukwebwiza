@@ -99,8 +99,10 @@
 					<li th:classappend="${currentMenu == 'weddingservices' ? 'active' : ''}"><a href="#" th:href="@{/admin/weddingservices}">Wedding
 							services</a></li>
 					<li th:classappend="${currentMenu == 'providers' ? 'active' : ''}"><a href="#" th:href="@{/admin/providers}">Providers</a></li>
-					<li th:classappend="${currentMenu == 'providerweddingservices' ? 'active' : ''}"><a href="#"
-						th:href="@{/admin/providerweddingservices}">Provider wedding service</a></li>
+					
+					<!-- <li th:classappend="${currentMenu == 'providerweddingservices' ? 'active' : ''}"><a href="#"
+						th:href="@{/admin/providerweddingservices}">Provider wedding service</a></li> -->
+					
 					<li th:classappend="${currentMenu == 'photos' ? 'active' : ''}"><a href="#" th:href="@{/admin/photos}">HomePage Photos</a></li>
 					<li th:classappend="${currentMenu == 'contactus' ? 'active' : ''}"><a href="#" th:href="@{/admin/contactus}">Contactus 
 					<span th:if="${unreadMessages > 0}" class="badge" th:text="${unreadMessages}"> </span>
