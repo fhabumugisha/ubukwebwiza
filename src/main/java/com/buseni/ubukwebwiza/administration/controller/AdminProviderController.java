@@ -51,7 +51,7 @@ import com.buseni.ubukwebwiza.provider.service.WeddingServiceManager;
 public class AdminProviderController {
 	public static final int PROFILE_IMAGE_HEIGHT = 150;
 
-	public static final int PROFILE_IMAGE_WIDTH = 213;
+	public static final int PROFILE_IMAGE_WIDTH = 290;
 
 	public  static final Logger LOGGER = LoggerFactory.getLogger(AdminProviderController.class);
 
@@ -118,7 +118,7 @@ public class AdminProviderController {
 	               profil.setFilename(file.getOriginalFilename());
 	               profil.setDescription(provider.getBusinessName());
 	               profil.setContent(ImagesUtils.resizeImage(file, PROFILE_IMAGE_WIDTH, PROFILE_IMAGE_HEIGHT));
-	               profil.setEnabled(false);
+	               profil.setEnabled(true);
 	               profil.setCreatedAt(new Date());
 	               profil.setLastUpdate(new Date());
 	               profil.setContentType(file.getContentType());

@@ -20,17 +20,8 @@
 <body>
 
 
-
-
-	<div id="breadcumbsContainer">
-		<ol class="breadcrumb container">
-			<li><a href="index.html">Home</a></li>
-			<li class="active"><a href="#">Photo Gallery</a></li>
-		</ol>
-	</div>
-
-	<div layout:fragment="pageContent">
-		<div id="content" class="col-md-10 container">
+	
+		<div layout:fragment="pageContent" id="content" class="col-md-10 container">
 			<div class="row">
 				<div class="col-md-12">
 					<div class="jumbotron">
@@ -80,11 +71,11 @@
 								<th:bloc th:each="photo : ${photos}">
 									<a
 										href="../../../../resources/images/application/wedding_4_content.jpg"
-										title="Wedding planner" data-gallery=""
+										title="Wedding planner" data-gallery="" th:title="${photo.description}"
 										th:href="@{'/image/'+${photo.id}}">
 										
-										<img height="150" width="210" alt="Wedding planner"
-										th:alt="${photo.filename}"
+										<img height="150" width="210" alt="Wedding planner" th:alt-title="${photo.description}"
+										
 										src="../../../../resources/images/application/wedding_4_content.jpg"
 										th:src="@{'/image/'+${photo.id}}" />
 									</a>
@@ -128,25 +119,25 @@
 				</div>
 
 			</div>
+			<div class="row">
+								<div class="col-md-12">
+								<div th:replace="util :: paginator ">
+									<ul class="pagination pagination-lg">
+										<li><a href="#">&laquo;</a></li>
+										<li><a href="#">1</a></li>
+										<li><a href="#">2</a></li>
+										<li><a href="#">3</a></li>
+										<li><a href="#">4</a></li>
+										<li><a href="#">5</a></li>
+										<li><a href="#">&raquo;</a></li>
+									</ul>
+								</div>
+									
+								</div>
+							</div>
 
 		</div>
 
-	</div>
-
-
-
-	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-	<script src="https://code.jquery.com/jquery.js"></script>
-	<!-- Include all compiled plugins (below), or include individual files as needed -->
-	<script src="../../../../resources/js/bootstrap.min.js"
-		th:src="@{/resources/js/bootstrap.min.js}"></script>
-	<script src="../../../../resources/js/holder.js"
-		th:src="@{/resources/js/holder.js}"></script>
-	<script
-		src="http://blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js"></script>
-	<script
-		src="../../../../resources/plugins/bs-image-gallery-3.1.0/js/bootstrap-image-gallery.min.js"
-		th:src="@{/resources/plugins/bs-image-gallery-3.1.0/js/bootstrap-image-gallery.min.js}"></script>
 	
 </body>
 </html>

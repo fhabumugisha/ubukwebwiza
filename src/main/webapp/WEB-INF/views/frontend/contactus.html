@@ -7,10 +7,11 @@
 </head>
 <body>
 
-	<div layout:fragment="pageContent">
+	
+		
+		<div layout:fragment="pageContent" id="content" class="col-md-10">
 		<div th:if="${message}" class="alert alert-success"
 			th:text="${message}">Cool</div>
-		<div id="content" class="col-md-10">
 			<div class="row">
 				<div class="col-md-12">
 					<div class="panel panel-default">
@@ -68,9 +69,6 @@
 
 		</div>
 
-
-
-	</div>
 	
 
 </body>

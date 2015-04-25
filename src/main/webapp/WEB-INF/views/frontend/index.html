@@ -5,9 +5,9 @@
 </head>
 <body>
 
-	<div layout:fragment="pageContent">
+	<!-- <div layout:fragment="pageContent"> -->
 
-		<div id="content" class="col-md-10">
+		<div layout:fragment="pageContent" id="content" class="col-md-10">
 			<div class="row">
 				<div class="col-md-12 .hidden-xs">
 					<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
@@ -203,17 +203,17 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-12" style="text-align:center">  						
-  						  <h2>Are you a wedding service provider ? </h2>  		  					 			
+				<div class="col-md-12 text-center" style="border-top: 1px solid rgba(128, 128, 128, 0.58); margin:5px; ">  						
+  						  <h2 style="font-family: 'GothamBook', Shift, Helvetica Neue;">Are you a wedding service provider ? </h2>  		  					 			
 				</div>				
 			</div>
 			<div class="row">
-				<div class="col-md-12 " style="text-align:center">  						
-  						  <a href="contactus.html" th:href="@{/contactus}" class="btn btn-primary btn-lg " role="button">Join us</a> 		  					 			
+				<div class="col-md-12 text-center">  						
+  						  <a  href="contactus.html" th:href="@{/contactus}" class="btn btn-primary btn-lg " role="button">Join us</a> 		  					 			
 				</div>				
 			</div>
-		</div>
-
+<!-- 		</div> -->
+		<!-- <div class="clearfix"></div> -->
 
 
 
@@ -313,21 +313,5 @@
 
 	</div>
 	
-	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-	<script src="https://code.jquery.com/jquery.js"></script>
-	<script th:remove="all" src="../../../resources/js/thymol/thymol.js" th:src="@{/resources/js/thymol/thymol.js}"
-		type="text/javascript"></script>
-	<!-- Include all compiled plugins (below), or include individual files as needed -->
-	<script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
-	<script src="../../../resources/js/holder.js" th:src="@{/resources/js/holder.js}"></script>
-	
-	<script type="text/javascript">
-	$('.carousel').carousel({
-		  interval: 2000
-		});
-		$(".modal").on('shown', function() {
-        $(this).find("#exampleInputEmail1").focus();
-    });
-	</script>
 </body>
 </html>

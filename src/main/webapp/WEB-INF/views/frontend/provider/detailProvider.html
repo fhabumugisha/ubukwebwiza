@@ -15,16 +15,9 @@
 
 	
 	
-		<div id="breadcumbsContainer">
-			<ol class="breadcrumb container">
-				<li><a href="index.html">Home</a></li>
-				<li><a href="listingProvider.html">Listing providers</a></li>
-				<li class="active"><a href="#"><span th:text="${provider.businessName}">Fabrice</span>  </a></li>
-			</ol>
-		</div>
-			<div layout:fragment="pageContent">
+			
 
-				<div id="content" class="col-md-10 container">
+				<div layout:fragment="pageContent" id="content" class="col-md-10 container">
 
 					<div class="row">
 						<div class="col-md-3 col-sm-5">
@@ -255,26 +248,7 @@
 
 				</div>
 				
-				
-
-</div>
-
 		
-	
-
-
-	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-	<script src="https://code.jquery.com/jquery.js"></script>
-	<!-- Include all compiled plugins (below), or include individual files as needed -->
-	<script src="../../../../resources/js/bootstrap.min.js"
-		th:src="@{/resources/js/bootstrap.min.js}"></script>
-	<script src="../../../../resources/js/holder.js"
-		th:src="@{/resources/js/holder.js}"></script>
-	<script
-		src="http://blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js"></script>
-	<script
-		src="../../../../resources/plugins/bs-image-gallery-3.1.0/js/bootstrap-image-gallery.min.js"
-		th:src="@{/resources/plugins/bs-image-gallery-3.1.0/js/bootstrap-image-gallery.min.js}"></script>
 	
 </body>
 </html>
