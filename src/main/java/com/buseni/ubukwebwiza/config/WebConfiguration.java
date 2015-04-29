@@ -31,6 +31,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.mvc.WebContentInterceptor;
+import org.springframework.web.servlet.resource.GzipResourceResolver;
 import org.springframework.web.servlet.resource.PathResourceResolver;
 
 import com.buseni.ubukwebwiza.breadcrumbs.interceptor.NavigationPathInterceptor;
@@ -54,6 +56,7 @@ public class WebConfiguration extends WebMvcConfigurerAdapter{
 					.addResourceLocations("file:"+env.getProperty("files.location"))
 					.setCachePeriod(3600)
 		            .resourceChain(true)
+		            .addResolver(new GzipResourceResolver())
 		       .addResolver(new PathResourceResolver());
 		}
 		
@@ -78,9 +81,19 @@ public class WebConfiguration extends WebMvcConfigurerAdapter{
 			
 			argumentResolvers.add(resolver);
 		}
+		@Bean
+		public WebContentInterceptor webContentInterceptor() {
+		    WebContentInterceptor interceptor = new WebContentInterceptor();
+		    interceptor.setCacheSeconds(2592000);
+		    interceptor.setUseExpiresHeader(true);;
+		    interceptor.setUseCacheControlHeader(true);
+		    interceptor.setUseCacheControlNoStore(true);
+		    return interceptor;
+		}
 		@Override
 		public void addInterceptors(InterceptorRegistry registry) {
 			registry.addInterceptor(new NavigationPathInterceptor());
+			registry.addInterceptor(webContentInterceptor());
 		}
 		
 	/*	@Bean(name="simpleMappingExceptionResolver")
