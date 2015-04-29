@@ -23,7 +23,7 @@
 							<th:block th:each="photo :${sliderPhotos}" >
 									<div class="item" th:classappend="${photoStat.first}? 'active'">
 								<img src="../../../resources/images/application/wedding_4_content.jpg" 
-								     alt="..." th:src="@{'/image/'+*{photo.id}} "/>
+								     alt="..." th:src="@{'/image/'+*{photo.id}} " width="950" height="300"/>
 								<div class="carousel-caption"><span th:text="${photo.description}"> Planning</span></div>
 							</div>
 							</th:block>
@@ -104,7 +104,7 @@
 								<div class="thumbnail">
 									
 									
-									<img id="profilPicturePreview"  style="height: 150px; width: 290px;" 
+									<img id="profilPicturePreview"   width="290" height="150"
 									     alt="profil pic"  th:if="*{provider.profilPicture}" 
 									     th:alt="${businessName}" th:src="@{'/image/'+*{provider.profilPicture.id}} "></img>
 									
