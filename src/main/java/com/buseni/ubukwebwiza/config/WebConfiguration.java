@@ -51,7 +51,7 @@ public class WebConfiguration extends WebMvcConfigurerAdapter{
 		@Override
 		public void addResourceHandlers(ResourceHandlerRegistry registry) {
 			registry.addResourceHandler("/resources/**").addResourceLocations("/resources/")
-			.setCachePeriod(3600)
+			.setCachePeriod(2592000)
             .resourceChain(true)
             .addResolver(new GzipResourceResolver())
             .addResolver(new PathResourceResolver());
