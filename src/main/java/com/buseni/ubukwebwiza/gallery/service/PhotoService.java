@@ -1,4 +1,4 @@
-package com.buseni.ubukwebwiza.provider.service;
+package com.buseni.ubukwebwiza.gallery.service;
 
 import java.util.List;
 
@@ -6,7 +6,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
-import com.buseni.ubukwebwiza.provider.domain.Photo;
+import com.buseni.ubukwebwiza.gallery.domain.Photo;
+import com.buseni.ubukwebwiza.gallery.domain.PhotoDetails;
 
 public interface PhotoService {
 	
@@ -54,6 +55,7 @@ public interface PhotoService {
 	 */
 	Page<Photo> findByEnabledAndCategory(boolean enabled, Integer category, Pageable pageable);
 	
+  Page<PhotoDetails>  findPhotoDetails(Pageable pageable);
 	
 	/**
 	 * 
@@ -73,6 +75,6 @@ public interface PhotoService {
 	 * Return the list of home page photos
 	 * @return
 	 */
-	List<Photo> homePagePhotos();
+	List<PhotoDetails> homePagePhotos();
 
 }

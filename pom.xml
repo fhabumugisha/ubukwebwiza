@@ -131,6 +131,20 @@
 			<artifactId>spring-security-config</artifactId>
 			<version>3.2.4.RELEASE</version>
 		</dependency>
+		
+		<!-- Spring caching framework inside this -->
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-context</artifactId>
+		<version>${spring-framework.version}</version>
+	</dependency>
+ 
+	<!-- Support for Ehcache and others -->
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-context-support</artifactId>
+		<version>${spring-framework.version}</version>
+	</dependency>
 
 		<!-- Thymeleaf -->
 		<dependency>
@@ -230,6 +244,12 @@
 			<artifactId>jackson-mapper-asl</artifactId>
 			<version>1.9.13</version>
 		</dependency>
+		
+		<dependency>
+		<groupId>net.sf.ehcache</groupId>
+		<artifactId>ehcache</artifactId>
+		<version>2.9.0</version>
+	</dependency>
 	</dependencies>
 
 	<!-- Build -->

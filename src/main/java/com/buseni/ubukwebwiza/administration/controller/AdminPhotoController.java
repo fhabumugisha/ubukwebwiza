@@ -20,10 +20,10 @@ import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
 import com.buseni.ubukwebwiza.exceptions.ErrorsHelper;
 import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
 import com.buseni.ubukwebwiza.gallery.beans.PhotoForm;
+import com.buseni.ubukwebwiza.gallery.domain.Photo;
+import com.buseni.ubukwebwiza.gallery.service.PhotoService;
 import com.buseni.ubukwebwiza.utils.ImagesUtils;
 import com.buseni.ubukwebwiza.utils.PageWrapper;
-import com.buseni.ubukwebwiza.provider.domain.Photo;
-import com.buseni.ubukwebwiza.provider.service.PhotoService;
 @Controller
 @Navigation(url="/admin/photos", name="Photos", parent= AdminHomeController.class)
 @RequestMapping(value="/admin")

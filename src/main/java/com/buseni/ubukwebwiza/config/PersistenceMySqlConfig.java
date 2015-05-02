@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 //@Profile( "mysql" )
 @Configuration
-@EnableJpaRepositories( basePackages={"com.buseni.ubukwebwiza.administrator.repository","com.buseni.ubukwebwiza.provider.repository","com.buseni.ubukwebwiza.contactus.repository"})
+@EnableJpaRepositories(basePackages={"com.buseni.ubukwebwiza.administrator.repository","com.buseni.ubukwebwiza.provider.repository","com.buseni.ubukwebwiza.contactus.repository","com.buseni.ubukwebwiza.gallery.repository"})
 @PropertySource( {  "classpath:hibernate.properties" } )
 @EnableTransactionManagement
 public class PersistenceMySqlConfig {
@@ -51,7 +51,7 @@ public class PersistenceMySqlConfig {
 		dataSource.setUrl( getRequired( DATASOURCE_URL ) );
 		dataSource.setUsername( getRequired( DATASOURCE_USERNAME ) );
 		dataSource.setPassword( getRequired( DATASOURCE_PASSWORD ) );
-		Properties connectionProperties = new Properties();
+		//Properties connectionProperties = new Properties();
 		//Parametrage d'un proxy http
 		/*connectionProperties.put("http.proxyHost", "172.27.231.250");
 		connectionProperties.put("http.proxyPort", "8080");
