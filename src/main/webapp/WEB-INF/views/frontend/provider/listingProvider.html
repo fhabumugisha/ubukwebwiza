@@ -87,7 +87,7 @@
 										
 										<img id="profilPicturePreview"   height="150" width="213" 
 									     alt="profil pic"  th:if="*{provider.profilPicture}" 
-									     th:alt="${businessName}" th:src="@{'/image/'+*{provider.profilPicture.id}} "></img>
+									     th:alt="${businessName}" th:src="@{'https://ubfiles.s3.amazonaws.com/'+*{provider.profilPicture.filename}} "></img>
 									
 									 <img id="profilPicturePreview" alt="profil pic" 
 									      th:unless="*{provider.profilPicture}" th:alt="${businessName}" 

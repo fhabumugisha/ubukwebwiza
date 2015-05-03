@@ -7,9 +7,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,9 +34,8 @@ public class PhotoServiceImpl implements PhotoService {
 
 	public  static final Logger LOGGER = LoggerFactory.getLogger(PhotoServiceImpl.class);
 	
-	@PersistenceContext
-	
-	    private EntityManager entityManager;
+	/*@PersistenceContext	
+	private EntityManager entityManager;*/
 
 	
 	private PhotoRepo photoRepo;
@@ -66,10 +62,11 @@ public class PhotoServiceImpl implements PhotoService {
 			photo.setCreatedAt(new Date());
 		} else {
 			Photo photoBdd = photoRepo.findOne(photo.getId());
-			photo.setFilename(photoBdd.getFilename());
+			
 			photo.setCreatedAt(photoBdd.getCreatedAt());
-			if (photo.getContent() == null) {
-				photo.setContent(photoBdd.getContent());
+			if (photo.getFilename() == null) {
+				photo.setFilename(photoBdd.getFilename());
+				//photo.setContent(photoBdd.getContent());
 			}
 		}
 		photo.setLastUpdate(new Date());
@@ -156,9 +153,9 @@ public class PhotoServiceImpl implements PhotoService {
 	}
 	
 	@Override
-	public List<PhotoDetails>  homePagePhotos(){
-		Page<PhotoDetails> photosPage  = photoRepo.findPhotoDetails(EnumPhotoCategory.HOME_PAGE.getId(), new PageRequest(0, 5, Sort.Direction.DESC, "lastUpdate"));
-	//	Page<Photo>  photosPage = photoRepo.findByEnabledAndCategory(Boolean.TRUE,EnumPhotoCategory.HOME_PAGE.getId(), new PageRequest(0, 5, Sort.Direction.DESC, "lastUpdate"));
+	public List<Photo>  homePagePhotos(){
+		//Page<PhotoDetails> photosPage  = photoRepo.findPhotoDetails(EnumPhotoCategory.HOME_PAGE.getId(), new PageRequest(0, 5, Sort.Direction.DESC, "lastUpdate"));
+		Page<Photo>  photosPage = photoRepo.findByEnabledAndCategory(Boolean.TRUE,EnumPhotoCategory.HOME_PAGE.getId(), new PageRequest(0, 5, Sort.Direction.DESC, "lastUpdate"));
 		if(photosPage != null){
 			return  photosPage.getContent();
 		}

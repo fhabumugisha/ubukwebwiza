@@ -250,6 +250,14 @@
 		<artifactId>ehcache</artifactId>
 		<version>2.9.0</version>
 	</dependency>
+	
+	<!-- Amazon sdk  -->
+	<dependency>
+	<groupId>com.amazonaws</groupId>
+	<artifactId>aws-java-sdk</artifactId>
+	<version>1.9.33</version>
+</dependency>
+	
 	</dependencies>
 
 	<!-- Build -->

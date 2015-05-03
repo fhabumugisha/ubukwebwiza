@@ -50,7 +50,7 @@
 												id="profilPicturePreview" width="944" height="300"
 												alt="pic" th:if="*{name}"
 												
-												th:src="@{'/admin/image/'+*{id}} "></img>
+												th:src="@{'https://ubfiles.s3.amazonaws.com/'+*{name}} "></img>
 
 										</div>
 										<div class="fileinput-preview fileinput-exists thumbnail"

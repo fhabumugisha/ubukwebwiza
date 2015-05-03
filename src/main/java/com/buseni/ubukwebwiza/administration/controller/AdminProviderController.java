@@ -1,5 +1,6 @@
 package com.buseni.ubukwebwiza.administration.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -11,7 +12,6 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -33,8 +33,6 @@ import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
 import com.buseni.ubukwebwiza.gallery.beans.PhotoForm;
 import com.buseni.ubukwebwiza.gallery.domain.Photo;
 import com.buseni.ubukwebwiza.gallery.service.PhotoService;
-import com.buseni.ubukwebwiza.utils.ImagesUtils;
-import com.buseni.ubukwebwiza.utils.PageWrapper;
 import com.buseni.ubukwebwiza.provider.beans.ServiceForm;
 import com.buseni.ubukwebwiza.provider.domain.District;
 import com.buseni.ubukwebwiza.provider.domain.Provider;
@@ -44,14 +42,16 @@ import com.buseni.ubukwebwiza.provider.service.DistrictService;
 import com.buseni.ubukwebwiza.provider.service.ProviderService;
 import com.buseni.ubukwebwiza.provider.service.ProviderWeddingServiceManager;
 import com.buseni.ubukwebwiza.provider.service.WeddingServiceManager;
+import com.buseni.ubukwebwiza.utils.AmazonS3Util;
+import com.buseni.ubukwebwiza.utils.ImagesUtils;
+import com.buseni.ubukwebwiza.utils.PageWrapper;
+import com.buseni.ubukwebwiza.utils.UbUtils;
 
 @Controller
 @RequestMapping(value="/admin")
 @Navigation(url="/admin/providers", name="Providers", parent= AdminHomeController.class)
 public class AdminProviderController {
-	public static final int PROFILE_IMAGE_HEIGHT = 150;
-
-	public static final int PROFILE_IMAGE_WIDTH = 290;
+	
 
 	public  static final Logger LOGGER = LoggerFactory.getLogger(AdminProviderController.class);
 
@@ -71,14 +71,13 @@ public class AdminProviderController {
 	private PhotoService photoService;
 	
 	@Autowired
-	private Environment env;
+	private AmazonS3Util amazonS3Util;
 	
 	@RequestMapping(value="/providers",method=RequestMethod.GET)
 	public String providers(Model model, Pageable page){				
 		Page<Provider> providerPage  =  providerService.findAll(page);		
 		PageWrapper<Provider> pageWrapper = new PageWrapper<Provider>(providerPage, "/admin/providers");
 		model.addAttribute("page", pageWrapper);
-		//model.addAttribute("currentMenu", "providers");
 		model.addAttribute("providers", providerPage.getContent());		
 		if(!model.containsAttribute("provider")){
 			model.addAttribute("provider", new Provider());
@@ -97,27 +96,14 @@ public class AdminProviderController {
 			return "adminpanel/provider/editProvider";
 
 		}else{
-
+			
 			if (!file.isEmpty()) {
-	            try {
-	               
-	            	//String workingDir = System.getProperty("user.dir");
-	               /* String saveDirectory =  env.getProperty("files.location");
-	                file.transferTo(new File(saveDirectory+"/profil/" + file.getOriginalFilename()));*/
-	               /*
-	                 byte[] bytes = file.getBytes();
-	                   BufferedOutputStream stream =
-	                        new BufferedOutputStream(new FileOutputStream(new File(file.getOriginalFilename() + "-uploaded")));
-	                stream.write(bytes);
-	                stream.close(); */
-	                /*LOGGER.info("You successfully uploaded " + file.getOriginalFilename() + " into " + file.getOriginalFilename() + "-uploaded !");
-	              
-	                resizeImagScal(new File(saveDirectory+"/profil/" + file.getOriginalFilename()), new File(saveDirectory+"/profil/" + "thumbnail" + file.getOriginalFilename()));*/
-	              
+	            try {	               
+	            		            	
 	               Photo profil = new Photo();
-	               profil.setFilename(file.getOriginalFilename());
+	               profil.setFilename(UbUtils.normalizeName(file.getOriginalFilename()));
 	               profil.setDescription(provider.getBusinessName());
-	               profil.setContent(ImagesUtils.resizeImage(file, PROFILE_IMAGE_WIDTH, PROFILE_IMAGE_HEIGHT));
+	              // profil.setContent(resizeImage(file, PROFILE_IMAGE_WIDTH, PROFILE_IMAGE_HEIGHT));
 	               profil.setEnabled(true);
 	               profil.setCreatedAt(new Date());
 	               profil.setLastUpdate(new Date());
@@ -125,9 +111,6 @@ public class AdminProviderController {
 	               profil.setCategory(EnumPhotoCategory.PROFILE.getId());
 	               provider.setProfilPicture(profil);
 	               
-	                
-	                /*provider.setProfilPicture(file.getOriginalFilename());
-	                provider.setThumbnail("thumbnail"+file.getOriginalFilename());*/
 	            } catch (Exception e) {
 	            	LOGGER.info("You failed to upload " + file.getName() + " => " + e.getMessage());
 	            	result.reject(e.getMessage());
@@ -148,10 +131,15 @@ public class AdminProviderController {
 			
 			try {
 				providerService.add(provider);
+				
+				//Save profil pricture to amazon S3
+				File fileToUpload =  ImagesUtils.prepareUploading(file, EnumPhotoCategory.PROFILE.getId());
+				amazonS3Util.uploadFile(fileToUpload, UbUtils.normalizeName(file.getOriginalFilename()));
+				
 				//Business errors	
 			} catch (final ServiceLayerException e) {
 				ErrorsHelper.rejectErrors(result, e.getErrors());
-				LOGGER.info("Provider-edit error: " + result.toString());
+				LOGGER.error("Provider-edit error: " + result.toString());
 				attributes.addFlashAttribute("org.springframework.validation.BindingResult.provider", result);
 				attributes.addFlashAttribute("provider", provider);
 				return "adminpanel/provider/editProvider";
@@ -182,20 +170,6 @@ public class AdminProviderController {
 		Provider provider =  providerService.findOne(id);
 		model.addAttribute("provider", provider);
 		
-		
-		//String workingDir = System.getProperty("user.dir");
-       /* String saveDirectory =  env.getProperty("files.location");
-        File filePhoto = new File(saveDirectory+"/profil/" + provider.getProfilPicture());
-        DiskFileItem diskFile =  new DiskFileItem("file", "multipart/form-data", false, filePhoto.getName(), (int)filePhoto.length(), filePhoto.getParentFile());
-        try {
-			diskFile.getOutputStream();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        MultipartFile file =  new CommonsMultipartFile(diskFile);
-        
-		model.addAttribute(file);*/
 		return "adminpanel/provider/editProvider";
 	}
 	
@@ -230,16 +204,7 @@ public class AdminProviderController {
 			Photo photo = new Photo();
 			if (file != null && !file.isEmpty()) {
 	            try {
-	               
-	            	//String workingDir = System.getProperty("user.dir");
-	    /*            String saveDirectory =  env.getProperty("files.location");
-	                file.transferTo(new File(saveDirectory+"/" + file.getOriginalFilename()));
-	             
-	                LOGGER.info("You successfully uploaded " + file.getOriginalFilename() + " into " + file.getOriginalFilename() + "-uploaded !");
-	               
-	                resizeImagScal(new File(saveDirectory+"/" + file.getOriginalFilename()), new File(saveDirectory+"/" + "thumbnail" + file.getOriginalFilename()));*/
-	                
-	                photo.setFilename(file.getOriginalFilename());
+	                photo.setFilename(UbUtils.normalizeName(file.getOriginalFilename()));
 	                photo.setContent(file.getBytes());
 	                photo.setContentType(file.getContentType());
 	                photo.setCategory(EnumPhotoCategory.PROVIDER.getId());
@@ -268,12 +233,17 @@ public class AdminProviderController {
 				Provider provider = providerService.findOne(idProvider);
 				provider.getPhotos().add(photo);
 				providerService.update(provider);
+				
+				//Save profil pricture to amazon S3
+				File fileToUpload =  ImagesUtils.prepareUploading(file, EnumPhotoCategory.PROVIDER.getId());
+				amazonS3Util.uploadFile(fileToUpload, UbUtils.normalizeName(file.getOriginalFilename()));				
+				
 				String message = "Photo " + photo.getId() + " was successfully added";
 				model.addAttribute("message", message);
 				model.addAttribute("provider", provider);
 				 photoForm = new PhotoForm();
-				//photoForm.setIdProvider(provider.getId());
-				model.addAttribute("photoForm", photoForm);
+				//photoForm.setIdProvider(provider.getId());				 
+				model.addAttribute("photoForm", photoForm);				
 				return "adminpanel/provider/photos::listPhotos";					
 			
 				//Business errors
@@ -282,7 +252,7 @@ public class AdminProviderController {
 				//LOGGER.info("Photo save error: " + result.toString());
 								
 				return "adminpanel/provider/photos::error";
-			}
+			} 
 	}
 	
 
@@ -309,19 +279,7 @@ public class AdminProviderController {
 		photoForm.setName(photo.getFilename());
 		//photoForm.setIdProvider(idProvider);
 		photoForm.setEnabled(photo.isEnabled());
-		/*String workingDir = System.getProperty("user.dir");
-        String saveDirectory =  env.getProperty("files.location");
-        File filePhoto = new File(workingDir+saveDirectory+"/" + photo.getName());
-        DiskFileItem diskFile =  new DiskFileItem("file", "multipart/form-data", false, filePhoto.getName(), (int)filePhoto.length(), filePhoto.getParentFile());
-        try {
-			diskFile.getOutputStream();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        MultipartFile file =  new CommonsMultipartFile(diskFile);
-        
-		photoForm.setFile(file);*/
+		
 		model.addAttribute("photoForm", photoForm);	
 		Provider provider = providerService.findOne(idProvider);
 		if(!CollectionUtils.isEmpty(provider.getPhotos()) ){
@@ -357,9 +315,7 @@ public class AdminProviderController {
 				vws.setProvider(provider);
 				WeddingService  ws = weddingServiceManager.findOne(serviceForm.getIdcService());
 				vws.setWeddingService(ws);
-				/*if(provider.getPhotos().contains(photo)){
-					provider.getPhotos().remove(photo);
-				}*/
+				
 				providerWeddingServiceManager.create(vws);
 				
 				String message = "Service " + vws.getId() + " was successfully added";

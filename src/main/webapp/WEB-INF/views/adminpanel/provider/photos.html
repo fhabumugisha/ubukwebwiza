@@ -42,7 +42,7 @@
 							
 							<td>
 							
-								<img class="img-thumbnail"  width="100" height="50" alt="Photo" th:if="${!#strings.isEmpty(photo.filename)}" th:alt="${photo.filename}" th:src="@{'/admin/image/'+${photo.id}}"></img>
+								<img class="img-thumbnail"  width="100" height="50" alt="Photo" th:if="${!#strings.isEmpty(photo.filename)}" th:alt="${photo.filename}" th:src="@{'https://ubfiles.s3.amazonaws.com/'+${photo.filename}}"></img>
 								<img class="img-thumbnail"  width="100" height="50" alt="Photo" th:if="${#strings.isEmpty(photo.filename)}"  th:src="@{/resources/images/application/no_person.jpg} "></img>
 							
 							</td>
@@ -167,7 +167,7 @@
 												id="profilPicturePreview" width="200" height="150"
 												alt="pic" th:if="*{name}"
 												
-												th:src="@{'/admin/image/'+*{id}} "></img>
+												th:src="@{'https://ubfiles.s3.amazonaws.com/'+*{name}} "></img>
 
 										</div>
 										<div class="fileinput-preview fileinput-exists thumbnail"

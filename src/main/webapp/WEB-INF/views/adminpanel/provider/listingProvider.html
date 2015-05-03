@@ -46,7 +46,7 @@
 							<td th:text="${provider.email}">Email</td>
 							<td th:text="${provider.businessName}">Ok</td>
 							<td >
-								<img class="img-thumbnail"  width="100" height="50" alt="profil pic" th:if="*{provider.profilPicture}" th:alt="${provider.businessName}" th:src="@{'/admin/image/'+${provider.profilPicture.id}} "></img>
+								<img class="img-thumbnail"  width="100" height="50" alt="profil pic" th:if="*{provider.profilPicture}" th:alt="${provider.businessName}" th:src="@{'https://ubfiles.s3.amazonaws.com/'+${provider.profilPicture.filename}} "></img>
 								<img class="img-thumbnail"  width="100" height="50" alt="profil pic" th:unless="*{provider.profilPicture}" th:alt="${provider.businessName}" th:src="@{/resources/images/application/no_person.jpg} "></img>
 							</td>
 							<td><span th:if="${provider.district}" th:text="${provider.district.libelle}"></span> </td>

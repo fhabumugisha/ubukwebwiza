@@ -1,5 +1,7 @@
 package com.buseni.ubukwebwiza.administration.controller;
 
+import java.io.File;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,21 +24,24 @@ import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
 import com.buseni.ubukwebwiza.gallery.beans.PhotoForm;
 import com.buseni.ubukwebwiza.gallery.domain.Photo;
 import com.buseni.ubukwebwiza.gallery.service.PhotoService;
+import com.buseni.ubukwebwiza.utils.AmazonS3Util;
 import com.buseni.ubukwebwiza.utils.ImagesUtils;
 import com.buseni.ubukwebwiza.utils.PageWrapper;
+import com.buseni.ubukwebwiza.utils.UbUtils;
 @Controller
 @Navigation(url="/admin/photos", name="Photos", parent= AdminHomeController.class)
 @RequestMapping(value="/admin")
 public class AdminPhotoController {
 	
-	public static final int HP_IMAGE_HEIGHT = 300;
-
-	public static final int HP_IMAGE_WIDTH = 944;
+	
 
 	public  static final Logger LOGGER = LoggerFactory.getLogger(AdminProviderController.class);
 	
 	@Autowired
 	private PhotoService photoService;
+	
+	@Autowired
+	private AmazonS3Util amazonS3Util;
 	
 	@RequestMapping(value="/photos", method=RequestMethod.GET)
 	public String photos(Model model, Pageable page){
@@ -60,18 +65,10 @@ public class AdminPhotoController {
 			MultipartFile file  = photoForm.getFile();
 			Photo photo = new Photo();
 			if (file != null && !file.isEmpty()) {
-	            try {
-	               
-	            	//String workingDir = System.getProperty("user.dir");
-	    /*            String saveDirectory =  env.getProperty("files.location");
-	                file.transferTo(new File(saveDirectory+"/" + file.getOriginalFilename()));
-	             
-	                LOGGER.info("You successfully uploaded " + file.getOriginalFilename() + " into " + file.getOriginalFilename() + "-uploaded !");
-	               
-	                resizeImagScal(new File(saveDirectory+"/" + file.getOriginalFilename()), new File(saveDirectory+"/" + "thumbnail" + file.getOriginalFilename()));*/
+	            try {            
 	                
-	                photo.setFilename(file.getOriginalFilename());
-	                photo.setContent(ImagesUtils.resizeImage(file, HP_IMAGE_WIDTH, HP_IMAGE_HEIGHT));
+	                photo.setFilename(UbUtils.normalizeName(file.getOriginalFilename()));
+	               // photo.setContent(ImagesUtils.resizeImage(file, HP_IMAGE_WIDTH, HP_IMAGE_HEIGHT));
 	                photo.setContentType(file.getContentType());
 	                
 	            } catch (Exception e) {
@@ -100,6 +97,12 @@ public class AdminPhotoController {
 			
 			try {								
 				photoService.create(photo);				
+				
+				//Save profil pricture to amazon S3
+				File fileToUpload =  ImagesUtils.prepareUploading(file, EnumPhotoCategory.HOME_PAGE.getId());
+				amazonS3Util.uploadFile(fileToUpload, UbUtils.normalizeName(file.getOriginalFilename()));
+				
+				
 				String message = "Photo " + photo.getId() + " was successfully added";				
 				attributes.addFlashAttribute("message", message);				
 				return "redirect:/admin/photos";				

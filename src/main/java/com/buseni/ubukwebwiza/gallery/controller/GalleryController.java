@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.buseni.ubukwebwiza.administrator.enums.EnumPhotoCategory;
 import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
 import com.buseni.ubukwebwiza.gallery.domain.Photo;
-import com.buseni.ubukwebwiza.gallery.domain.PhotoDetails;
 import com.buseni.ubukwebwiza.gallery.service.PhotoService;
 import com.buseni.ubukwebwiza.home.HomeController;
 import com.buseni.ubukwebwiza.utils.PageWrapper;
@@ -38,11 +38,11 @@ public class GalleryController {
 
 	@RequestMapping(value="/gallery", method=RequestMethod.GET)
 	public String photos(Model model, Pageable page){
-		//Page<Photo>  photosPage = photoService.findByEnabledAndCategory(Boolean.TRUE, EnumPhotoCategory.PROVIDER.getId(), page);
+		Page<Photo>  photosPage = photoService.findByEnabledAndCategory(Boolean.TRUE, EnumPhotoCategory.PROVIDER.getId(), page);
 		
-		Page<PhotoDetails>  photosPage = photoService.findPhotoDetails(page);
+	//	Page<PhotoDetails>  photosPage = photoService.findPhotoDetails(page);
 		model.addAttribute("photos", photosPage.getContent());
-		PageWrapper<PhotoDetails> pageWrapper = new PageWrapper<PhotoDetails>(photosPage, "/gallery");
+		PageWrapper<Photo> pageWrapper = new PageWrapper<Photo>(photosPage, "/gallery");
 		model.addAttribute("page", pageWrapper);
 		return "frontend/gallery/photoGallery";
 	}

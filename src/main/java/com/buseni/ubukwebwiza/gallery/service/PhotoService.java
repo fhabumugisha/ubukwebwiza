@@ -75,6 +75,6 @@ public interface PhotoService {
 	 * Return the list of home page photos
 	 * @return
 	 */
-	List<PhotoDetails> homePagePhotos();
+	List<Photo> homePagePhotos();
 
 }

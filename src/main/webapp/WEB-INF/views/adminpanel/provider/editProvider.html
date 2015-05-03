@@ -174,7 +174,7 @@
 												id="profilPicturePreview" width="200" height="150"
 												alt="profile pic" th:if="*{profilPicture}"
 												th:alt="${businessName}"
-												th:src="@{'/admin/image/'+*{profilPicture.id}} "></img>
+												th:src="@{'https://ubfiles.s3.amazonaws.com/'+*{profilPicture.filename}} "></img>
 
 										</div>
 										

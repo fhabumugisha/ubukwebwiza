@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
-import com.buseni.ubukwebwiza.gallery.domain.PhotoDetails;
+import com.buseni.ubukwebwiza.gallery.domain.Photo;
 import com.buseni.ubukwebwiza.gallery.service.PhotoService;
 import com.buseni.ubukwebwiza.provider.beans.ProviderSearch;
 import com.buseni.ubukwebwiza.provider.domain.District;
@@ -66,7 +66,7 @@ public class HomeController {
 	}
 	
 	@ModelAttribute("sliderPhotos")
-	public List<PhotoDetails> sliderPhotos(){
+	public List<Photo> sliderPhotos(){
 		return photoService.homePagePhotos();
 	
 	}

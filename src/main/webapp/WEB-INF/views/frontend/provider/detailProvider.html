@@ -17,7 +17,7 @@
 								
 								<img id="profilPicturePreview"   width="213" height="150"
 									     alt="profil pic"  th:if="*{provider.profilPicture}" 
-									     th:alt="${businessName}" th:src="@{'/image/'+*{provider.profilPicture.id}} "></img>
+									     th:alt="${businessName}" th:src="@{'https://ubfiles.s3.amazonaws.com/'+*{provider.profilPicture.filename}} "></img>
 									
 									 <img id="profilPicturePreview" alt="profil pic" 
 									      th:unless="*{provider.profilPicture}" th:alt="${businessName}" 
@@ -194,11 +194,11 @@
 												href="../../../../resources/images/application/wedding_4_content.jpg"
 												title="Wedding planner" th:title="${photo.description}"
 												data-gallery=""
-												th:href="@{'/image/'+${photo.id}}">
+												th:href="@{'https://ubfiles.s3.amazonaws.com/'+${photo.filename}}">
 												<img height="150" width="210"
 												src="../../../../resources/images/application/wedding_4_content.jpg"
 												alt="Wedding planner" th:alt="${photo.filename}"
-												th:src="@{'/image/'+${photo.id}}" />
+												th:src="@{'https://ubfiles.s3.amazonaws.com/'+${photo.filename}}" />
 											</a>
 										</th:bloc>
 
