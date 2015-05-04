@@ -113,15 +113,10 @@ public class ImagesUtils {
 		}
 
 		BufferedImage thumbnailImage = Scalr.resize(originalImage,
-				Scalr.Method.QUALITY, Scalr.Mode.FIT_TO_WIDTH
-				, imageWidth, imageHeight,
-				Scalr.OP_ANTIALIAS, Scalr.OP_BRIGHTER);
-
-		
+				Scalr.Method.QUALITY, Scalr.Mode.FIT_TO_WIDTH, imageWidth, imageHeight,	Scalr.OP_ANTIALIAS, Scalr.OP_BRIGHTER);	
 		
 		try {
-			ImageIO.write(thumbnailImage, imgExt, tempFile);
-			
+			ImageIO.write(thumbnailImage, imgExt, tempFile);			
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

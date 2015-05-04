@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
+import com.buseni.ubukwebwiza.gallery.domain.Photo;
 import com.buseni.ubukwebwiza.provider.beans.ProviderSearch;
 import com.buseni.ubukwebwiza.provider.domain.Provider;
 
@@ -66,6 +67,14 @@ public interface ProviderService {
 	 * @return
 	 */
 	List<Provider> getFeaturedProviders();
+	
+	/**
+	 * 
+	 * @param idProvider
+	 * @param idPhoto
+	 * @return 
+	 */
+	Provider deletePhoto(Integer idProvider, Integer  idPhoto);
 
 
 }

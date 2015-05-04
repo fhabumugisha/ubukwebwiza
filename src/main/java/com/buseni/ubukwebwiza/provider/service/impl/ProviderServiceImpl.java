@@ -13,8 +13,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import com.buseni.ubukwebwiza.exceptions.ResourceNotFoundException;
+import com.buseni.ubukwebwiza.gallery.domain.Photo;
+import com.buseni.ubukwebwiza.gallery.repository.PhotoRepo;
 import com.buseni.ubukwebwiza.provider.beans.ProviderSearch;
 import com.buseni.ubukwebwiza.provider.domain.Provider;
 import com.buseni.ubukwebwiza.provider.domain.ProviderWeddingService;
@@ -36,12 +39,13 @@ public class ProviderServiceImpl implements ProviderService {
 	private ProviderRepo providerRepo;
 	private WeddingServiceRepo weddingServiceRepo;
 	private ProviderWeddingServiceRepo providerWeddingServiceRepo;
+	private PhotoRepo photoRepo;
 	@Autowired
-	public ProviderServiceImpl(ProviderRepo providerRepo, WeddingServiceRepo weddingServiceRepo, ProviderWeddingServiceRepo providerWeddingServiceRepo){
+	public ProviderServiceImpl(ProviderRepo providerRepo, WeddingServiceRepo weddingServiceRepo, ProviderWeddingServiceRepo providerWeddingServiceRepo, PhotoRepo photoRepo){
 		this.providerRepo = providerRepo;
 		this.weddingServiceRepo = weddingServiceRepo;
 		this.providerWeddingServiceRepo = providerWeddingServiceRepo;
-		
+		this.photoRepo = photoRepo;
 	}
 
 	/* (non-Javadoc)
@@ -163,19 +167,27 @@ public class ProviderServiceImpl implements ProviderService {
 	}
 
 	@Override
-	@Transactional
 	public Provider findOne(Integer id) {
 		if(null == id){
 			throw new NullPointerException();
-		}
-		
+		}		
 		Provider provider  = providerRepo.findOne(id);
 		if(provider ==  null){
 			throw new ResourceNotFoundException();
+		}			
+		return provider;
+	}
+
+	@Transactional
+	@Override
+	public Provider deletePhoto(Integer idProvider, Integer  idPhoto) {
+		Provider provider = findOne(idProvider);
+		Photo photo =  photoRepo.findOne(idPhoto);
+		if(photo != null && !CollectionUtils.isEmpty(provider.getPhotos())){
+			provider.getPhotos().remove(photo);
+			providerRepo.save(provider);
+			photoRepo.delete(photo);
 		}
-		
-			
-		
 		return provider;
 	}
 

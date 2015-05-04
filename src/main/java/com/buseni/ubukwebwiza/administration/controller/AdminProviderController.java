@@ -96,14 +96,13 @@ public class AdminProviderController {
 			return "adminpanel/provider/editProvider";
 
 		}else{
-			
+			String filename = "no_person.jpg";
 			if (!file.isEmpty()) {
 	            try {	               
-	            		            	
+	            	filename = UbUtils.normalizeFileName(file.getOriginalFilename());
 	               Photo profil = new Photo();
-	               profil.setFilename(UbUtils.normalizeName(file.getOriginalFilename()));
+	               profil.setFilename(filename);
 	               profil.setDescription(provider.getBusinessName());
-	              // profil.setContent(resizeImage(file, PROFILE_IMAGE_WIDTH, PROFILE_IMAGE_HEIGHT));
 	               profil.setEnabled(true);
 	               profil.setCreatedAt(new Date());
 	               profil.setLastUpdate(new Date());
@@ -125,16 +124,13 @@ public class AdminProviderController {
 	            	attributes.addFlashAttribute("org.springframework.validation.BindingResult.provider", result);
 	    			attributes.addFlashAttribute("provider", provider);
 	    			return "adminpanel/provider/editProvider";
-	        	}
-	        	
+	        	}	
 	        }
-			
 			try {
-				providerService.add(provider);
-				
+				providerService.add(provider);				
 				//Save profil pricture to amazon S3
 				File fileToUpload =  ImagesUtils.prepareUploading(file, EnumPhotoCategory.PROFILE.getId());
-				amazonS3Util.uploadFile(fileToUpload, UbUtils.normalizeName(file.getOriginalFilename()));
+				amazonS3Util.uploadFile(fileToUpload, filename);
 				
 				//Business errors	
 			} catch (final ServiceLayerException e) {
@@ -202,16 +198,16 @@ public class AdminProviderController {
 	
 			MultipartFile file  = photoForm.getFile();
 			Photo photo = new Photo();
+			String filename = "no_person.jpg";
 			if (file != null && !file.isEmpty()) {
 	            try {
-	                photo.setFilename(UbUtils.normalizeName(file.getOriginalFilename()));
-	                photo.setContent(file.getBytes());
+	            	filename = UbUtils.normalizeFileName(file.getOriginalFilename());
+	                photo.setFilename(filename);
 	                photo.setContentType(file.getContentType());
 	                photo.setCategory(EnumPhotoCategory.PROVIDER.getId());
 	            } catch (Exception e) {
 	            	LOGGER.info("You failed to upload " + file.getName() + " => " + e.getMessage());
-	            	//result.reject(e.getMessage());
-	            	
+	            	//result.reject(e.getMessage());       	
 	    			
 	    			return "adminpanel/provider/photos::error";
 	            }
@@ -235,8 +231,10 @@ public class AdminProviderController {
 				providerService.update(provider);
 				
 				//Save profil pricture to amazon S3
-				File fileToUpload =  ImagesUtils.prepareUploading(file, EnumPhotoCategory.PROVIDER.getId());
-				amazonS3Util.uploadFile(fileToUpload, UbUtils.normalizeName(file.getOriginalFilename()));				
+					File fileToUpload =  ImagesUtils.prepareUploading(file, EnumPhotoCategory.PROVIDER.getId());
+					amazonS3Util.uploadFile(fileToUpload, filename);	
+				
+							
 				
 				String message = "Photo " + photo.getId() + " was successfully added";
 				model.addAttribute("message", message);
@@ -259,12 +257,12 @@ public class AdminProviderController {
 	@RequestMapping(value="/providers/{idProvider:[\\d]+}/photos/deletePhoto", method=RequestMethod.GET)
 	public String deletePhoto(@PathVariable Integer idProvider, @RequestParam(value="id", required=true) Integer id, Model model) {
 		LOGGER.info("IN: providers/deletePhoto-GETT");
-		photoService.delete(id);
+		Provider provider = providerService.deletePhoto(idProvider, id);	
 		String message = "Photo " + id + " was successfully deleted";
 		model.addAttribute("message", message);		
-		model.addAttribute("provider", providerService.findOne(idProvider));
+		model.addAttribute("provider", provider);
 		PhotoForm photoForm = new PhotoForm();
-		//	photoForm.setIdProvider(idProvider);
+		
 		model.addAttribute("photoForm", photoForm);	
 		return "adminpanel/provider/photos::listPhotos";
 	}
@@ -382,7 +380,7 @@ public class AdminProviderController {
         return new ResponseEntity<byte[]>(IOUtils.toByteArray(in), headers, HttpStatus.OK);
     }*/
     
-	@RequestMapping(value = "/image/{imageId}", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/image/{imageId}", method = RequestMethod.GET)
 	public void showImage(@PathVariable("imageId") Integer imageId,
 			HttpServletResponse response, HttpServletRequest request)
 			throws IOException {
@@ -391,7 +389,7 @@ public class AdminProviderController {
 		response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
 		response.getOutputStream().write(imageContent);
 		response.getOutputStream().close();
-	}
+	}*/
 	
 	@ModelAttribute("currentMenu")
 	public String module(){

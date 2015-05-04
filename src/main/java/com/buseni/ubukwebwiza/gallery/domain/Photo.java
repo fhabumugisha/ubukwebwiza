@@ -34,8 +34,6 @@ public class Photo implements Serializable{
 	@Column(name="filename")
 	private String filename;
 	
-	@Column(name="content")
-	private byte[] content;
 	
 	@Column(name="contentType")
 	private String contentType;
@@ -127,13 +125,7 @@ public class Photo implements Serializable{
 		this.filename = filename;
 	}
 
-	public byte[] getContent() {
-		return content;
-	}
-
-	public void setContent(byte[] content) {
-		this.content = content;
-	}
+	
 
 	@Override
 	public int hashCode() {

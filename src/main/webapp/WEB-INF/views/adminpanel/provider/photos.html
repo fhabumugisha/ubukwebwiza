@@ -240,11 +240,11 @@
 							
 							<a href="#" th:href="@{/admin/providers/}">
 								<button type="button" class="btn  btn-default">
-									<span th:text="#{cancel.button.label}">Cancel</span>
+									<span th:text="*{id} ? #{cancel.button.label} : #{return.button.label}">Cancel</span>
 								</button>
 							</a>
 							<button type="submit"
-								th:text="${provider.id} ? #{update.button.label} : #{add.button.label}"
+								th:text="*{id} ? #{update.button.label} : #{add.button.label}"
 								class="btn btn-primary">Action</button>
 
 							

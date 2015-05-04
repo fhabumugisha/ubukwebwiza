@@ -40,7 +40,7 @@ public class ApplicationInitializer implements WebApplicationInitializer {
 				servletContext.addServlet("dispatcher", dispatcherServlet);
 		dispatcher.setLoadOnStartup(1); 
 		dispatcher.addMapping("/");
-		 MultipartConfigElement mce = new MultipartConfigElement("", 1024*1024*5, 1024*1024*5*5, 1024*1024);
+		 MultipartConfigElement mce = new MultipartConfigElement("", 1024*1024*1, 1024*1024*5*5, 1024*1024);
 		dispatcher.setMultipartConfig(mce);
 		Dynamic filter = servletContext.addFilter("characterEncodingFilter", CharacterEncodingFilter.class);
 		filter.addMappingForUrlPatterns(null, false, "/*");

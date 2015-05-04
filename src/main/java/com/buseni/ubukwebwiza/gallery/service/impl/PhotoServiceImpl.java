@@ -19,8 +19,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.buseni.ubukwebwiza.administrator.enums.EnumPhotoCategory;
+import com.buseni.ubukwebwiza.exceptions.ResourceNotFoundException;
 import com.buseni.ubukwebwiza.gallery.domain.Photo;
 import com.buseni.ubukwebwiza.gallery.domain.PhotoDetails;
+import com.buseni.ubukwebwiza.gallery.repository.GalleryPredicates;
 import com.buseni.ubukwebwiza.gallery.repository.PhotoRepo;
 import com.buseni.ubukwebwiza.gallery.service.PhotoService;
 
@@ -95,8 +97,11 @@ public class PhotoServiceImpl implements PhotoService {
 		if(null == id){
 			throw new NullPointerException();
 		}
-		
-		return photoRepo.findOne(id);
+		Photo photo  = photoRepo.findOne(id);
+		if(photo == null){
+			throw new ResourceNotFoundException();
+		}
+		return photo;
 	}
 
 	
@@ -141,21 +146,18 @@ public class PhotoServiceImpl implements PhotoService {
 	}
 
 	@Override
-	public Page<Photo> findByEnabledAndCategory(boolean enabled,
-			Integer category, Pageable pageable) {
-		if(category == null || pageable == null){
+	public Page<Photo> findPhotoGallery( Pageable pageable) {
+		if( pageable == null){
 			throw new NullPointerException();
 		}
-		//GalleryPredicates.gelleryPhotos()
 		PageRequest pr = new PageRequest(pageable.getPageNumber()-1, pageable.getPageSize());
-		return photoRepo.findByEnabledAndCategory(enabled, category, pr);
+		return photoRepo.findAll(GalleryPredicates.gelleryPhotos(EnumPhotoCategory.PROVIDER.getId()), pr);
 	
 	}
 	
 	@Override
-	public List<Photo>  homePagePhotos(){
-		//Page<PhotoDetails> photosPage  = photoRepo.findPhotoDetails(EnumPhotoCategory.HOME_PAGE.getId(), new PageRequest(0, 5, Sort.Direction.DESC, "lastUpdate"));
-		Page<Photo>  photosPage = photoRepo.findByEnabledAndCategory(Boolean.TRUE,EnumPhotoCategory.HOME_PAGE.getId(), new PageRequest(0, 5, Sort.Direction.DESC, "lastUpdate"));
+	public List<Photo>  homePagePhotos(){		
+		Page<Photo>  photosPage = photoRepo.findAll(GalleryPredicates.gelleryPhotos(EnumPhotoCategory.HOME_PAGE.getId()), new PageRequest(0, 5, Sort.Direction.DESC, "lastUpdate"));
 		if(photosPage != null){
 			return  photosPage.getContent();
 		}
@@ -176,5 +178,23 @@ public class PhotoServiceImpl implements PhotoService {
 		PageRequest pr = new PageRequest(pageable.getPageNumber()-1, pageable.getPageSize());
 		return photoRepo.findPhotoDetails(EnumPhotoCategory.PROVIDER.getId(), pr);
 	}
+
+	@Transactional
+	@Override
+	public void delete(Photo photo) {
+		if(photo != null){
+			photoRepo.delete(photo);
+		}
+		
+	}
+
+	@Override
+	public Page<Photo> findByEnabledAndCategory(boolean enabled,
+			Integer category, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
 
 }

@@ -55,6 +55,14 @@ public interface PhotoService {
 	 */
 	Page<Photo> findByEnabledAndCategory(boolean enabled, Integer category, Pageable pageable);
 	
+	/**
+	 * 
+	 * @param activeFlag
+	 * @param pageable
+	 * @return
+	 */
+	Page<Photo> findPhotoGallery(Pageable pageable);
+	
   Page<PhotoDetails>  findPhotoDetails(Pageable pageable);
 	
 	/**
@@ -70,11 +78,19 @@ public interface PhotoService {
 	 * @param id
 	 */
 	void delete(Integer id);
+	
+	
 
 	/**
 	 * Return the list of home page photos
 	 * @return
 	 */
 	List<Photo> homePagePhotos();
+
+	/**
+	 * 
+	 * @param photo
+	 */
+	void delete(Photo photo);
 
 }

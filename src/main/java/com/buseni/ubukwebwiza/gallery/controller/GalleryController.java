@@ -38,16 +38,14 @@ public class GalleryController {
 
 	@RequestMapping(value="/gallery", method=RequestMethod.GET)
 	public String photos(Model model, Pageable page){
-		Page<Photo>  photosPage = photoService.findByEnabledAndCategory(Boolean.TRUE, EnumPhotoCategory.PROVIDER.getId(), page);
-		
-	//	Page<PhotoDetails>  photosPage = photoService.findPhotoDetails(page);
+		Page<Photo>  photosPage = photoService.findPhotoGallery(page);
 		model.addAttribute("photos", photosPage.getContent());
 		PageWrapper<Photo> pageWrapper = new PageWrapper<Photo>(photosPage, "/gallery");
 		model.addAttribute("page", pageWrapper);
 		return "frontend/gallery/photoGallery";
 	}
 	
-	@RequestMapping(value = "/image/{imageId:[\\d]+}", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/image/{imageId:[\\d]+}", method = RequestMethod.GET)
 	public void showImage(@PathVariable("imageId") Integer imageId,
 			HttpServletResponse response, HttpServletRequest request)
 			throws IOException {
@@ -60,7 +58,7 @@ public class GalleryController {
 		response.getOutputStream().write(imageContent);
 		response.getOutputStream().flush();
 		response.getOutputStream().close();
-	}
+	}*/
 	@ModelAttribute("currentMenu")
 	public String module(){
 		return "gallery";
