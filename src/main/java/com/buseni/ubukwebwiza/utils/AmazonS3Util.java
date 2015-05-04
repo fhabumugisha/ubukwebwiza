@@ -3,6 +3,7 @@ package com.buseni.ubukwebwiza.utils;
 import java.io.File;
 import java.io.InputStream;
 
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +31,7 @@ public class AmazonS3Util {
 	
 	public  static final Logger LOGGER = LoggerFactory.getLogger(AmazonS3Util.class);
 
-	
-	@Autowired
-	private Environment env;
-	
+		
 	@Value("${aws.bucketName}")
 	private String bucketName;
 	
@@ -42,12 +40,7 @@ public class AmazonS3Util {
 	
 	@Value("${aws.secretKey}")
 	private String secretKey;
-	
-	
-	
-
-	
-	
+		
 	/**
 	 * Uplaod a file to amazon S3
 	 * @param file : the file to upload
@@ -59,7 +52,12 @@ public class AmazonS3Util {
 			TransferManager tx = new TransferManager(myCredentials);
 
 			try {
-				Upload myUpload = tx.upload(new PutObjectRequest(bucketName, filename, file).withCannedAcl(CannedAccessControlList.PublicRead));
+				DateTime now  =  new DateTime();
+				 ObjectMetadata objectMetadata = new ObjectMetadata();
+				 objectMetadata.setCacheControl("2592000");
+				 objectMetadata.setExpirationTime(now.plusMonths(2).toDate());
+				 objectMetadata.setHttpExpiresDate(now.plusMonths(2).toDate());
+				Upload myUpload = tx.upload(new PutObjectRequest(bucketName, filename, file).withMetadata(objectMetadata).withCannedAcl(CannedAccessControlList.PublicRead));
 
 				// While the transfer is processing, you can work with the transfer object
 				while (myUpload.isDone() == false) {
