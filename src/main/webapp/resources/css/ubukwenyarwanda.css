@@ -172,13 +172,26 @@ body {
 	border: 1px solid #ccc; 
 }
 
-#links a img { 
-  
-} 
-#links a img:hover { 
-  outline: 2px solid #f1f1f1; 
-} 
 
+ #links a img:hover { 
+  outline: 2px solid #f1f1f1; 
+}  
+
+
+.chosen-container {  
+  text-align: left;
+    margin-bottom: 10px;
+  }
+ 
+ .chosen-container-single .chosen-single {
+  padding: 3px 0 0 8px;
+height: 34px;
+
+  }
+
+/* .chosen-container .chosen-container-single {  
+  width: 95%
+  } */
 @media screen and (min-width: 768px) {
 	.modal-login {
 		width: 350px;

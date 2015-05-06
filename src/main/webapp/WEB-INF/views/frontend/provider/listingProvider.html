@@ -19,14 +19,47 @@
 					<div class="panel  panel-primary">
 						<div class="panel-body">
 							<div class="row">
-								<div class="col-md-8  col-md-offset-2 col-xs-offset-0">
+								<div class="col-md-12">
 									<form action="listingProvider.html" role="form" 	class="form-inline " th:action="@{/search}" th:object="${providerSearch}" method="get">
-										<div class="form-group">
+									<div class="row">
+										<div
+											class="col-md-3 col-sm-3  col-md-offset-2 col-sm-offset-1">
+
+											<select th:field="*{service}" id="idWeddingService"
+												data-placeholder="--Select a service--"
+												class="form-control my_select_box">
+												<option value=""></option>
+												<option th:each="weddingService : ${allWeddingServices}"
+													th:value="${weddingService.id}"
+													th:text="${weddingService.libelle}">Wedding
+													planner</option>
+											</select>
+										</div>
+
+										<div class="col-md-3  col-sm-3  ">
+											<select th:field="*{district}" id="idDistrict"
+												data-placeholder="--Select a lacation--"
+												class="form-control my_select_box">
+												<option value=""></option>
+												<option th:each="district : ${allDistricts}"
+													th:value="${district.id}" th:text="${district.libelle}">Kigali</option>
+											</select>
+
+										</div>
+										<div class="col-md-2 col-sm-3   ">
+											<button type="submit" class="btn btn-primary btn-block">
+												Find <span class="glyphicon glyphicon-search"></span>
+											</button>
+										</div>
+									</div>
+
+
+									<!-- <div class="form-group">
 											<label  for="idWeddingService">Service: </label> 
 												
-												<select th:field="*{service}" id="idWeddingService"
-											class="form-control">
-											<option value="" th:text="#{common.select.prompt}"></option>
+												<select th:field="*{service}" id="idWeddingService" data-placeholder="Select a service" 
+											class="form-control my_select_box">
+											<option value="" ></option>
 											<option th:each="weddingService : ${allWeddingServices}"
 												th:value="${weddingService.id}"
 												th:text="${weddingService.libelle}">Wedding planner</option>
@@ -35,9 +68,9 @@
 										</div>
 										<div class="form-group">
 											<label  for="idDistrict">District: </label>
-											<select th:field="*{district}" id="idDistrict"
-											class="form-control">
-											<option value="" th:text="#{common.select.prompt}"></option>
+											<select th:field="*{district}" id="idDistrict" data-placeholder="Select a lacation" 
+											class="form-control my_select_box">
+											<option value="" ></option>
 											<option th:each="district : ${allDistricts}"
 												th:value="${district.id}" th:text="${district.libelle}">Kigali</option>
 										</select>
@@ -45,7 +78,7 @@
 										</div>
 										<button type="submit" class="btn btn-primary ">
 											Find <span class="glyphicon glyphicon-search"></span>
-										</button>
+										</button> -->
 									</form>
 								</div>
 							</div>
@@ -85,11 +118,11 @@
 									<div class="col-md-5 col-sm-3">
 										
 										
-										<img id="profilPicturePreview"   height="150" width="213" 
+										<img id="profilPicturePreview"   height="150" width="213" class="img-thumbnail"
 									     alt="profil pic"  th:if="*{provider.profilPicture}" 
 									     th:alt="${businessName}" th:src="@{'https://ubfiles.s3.amazonaws.com/'+*{provider.profilPicture.filename}} "></img>
 									
-									 <img id="profilPicturePreview" alt="profil pic" 
+									 <img id="profilPicturePreview" alt="profil pic" class="img-thumbnail"
 									      th:unless="*{provider.profilPicture}" th:alt="${businessName}" 
 									      data-src="holder.js/100%x150"></img>
 									

@@ -15,11 +15,11 @@
 							<div class="thumbnail">
 							
 								
-								<img id="profilPicturePreview"   width="213" height="150"
+								<img id="profilPicturePreview"   width="213" height="150" class="img-thumbnail"
 									     alt="profil pic"  th:if="*{provider.profilPicture}" 
 									     th:alt="${businessName}" th:src="@{'https://ubfiles.s3.amazonaws.com/'+*{provider.profilPicture.filename}} "></img>
 									
-									 <img id="profilPicturePreview" alt="profil pic" 
+									 <img id="profilPicturePreview" alt="profil pic" class="img-thumbnail"
 									      th:unless="*{provider.profilPicture}" th:alt="${businessName}" 
 									      data-src="holder.js/100%x150"></img>
 									      

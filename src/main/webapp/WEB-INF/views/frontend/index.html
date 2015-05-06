@@ -62,14 +62,14 @@
 									 <div class="row">
 										<div class="col-md-3 col-sm-3  col-md-offset-2 col-sm-offset-1">
 
-											<select th:field="*{service}" id="idWeddingService" class="form-control">
+											<select th:field="*{service}" id="idWeddingService" class="form-control  my_select_box">
 												<option th:each="weddingService : ${allWeddingServices}" th:value="${weddingService.id}"
 													th:text="${weddingService.libelle}">Wedding planner</option>
 											</select>
 										</div>
 
 										<div class="col-md-3  col-sm-3  ">
-											<select th:field="*{district}" id="idDistrict" class="form-control">
+											<select th:field="*{district}" id="idDistrict" class="form-control  my_select_box">
 												<option th:each="district : ${allDistricts}" th:value="${district.id}" th:text="${district.libelle}">Kigali</option>
 											</select>
 
