@@ -11,7 +11,7 @@
 
 			<div th:if="${message}" class="alert alert-success" th:text="${message}">Cool</div>
 			
-			<h3 class="sub-header" th:text="${photoForm.id} ? #{photo.edit.title} : #{photo.create.title}">Edit home page photo</h3>
+			<h4 class="sub-header" th:text="${photoForm.id} ? #{photo.edit.title} : #{photo.create.title}">Edit home page photo</h4>
 			
 				<div class="panel panel-default">
 			<div class="panel-body">
@@ -28,18 +28,9 @@
 
 
 					<input type="text" hidden="hidden" th:field="*{id}" class="hidden" />
-					
-						<div class="row">
-
-						
-							<div class="col-sm-12">
-
-							<div class="form-group"
+					<div class="form-group"
 								th:classappend="${#fields.hasErrors('name')}? has-error">
-								
-									<div class="col-sm-1">
-									</div>
-									
+																	
 									<div class="col-sm-7">
 										<div class="fileinput fileinput-new" data-provides="fileinput">
 										<div class="fileinput-new thumbnail"
@@ -75,39 +66,25 @@
 
 							</div>
 							
-													
-
-						</div>
-						
-
-
-					</div>
-					
-
-					<div class="row">
-
-						<div class="col-sm-6">
-
-							
-							
 							<div class="form-group"
 								th:classappend="${#fields.hasErrors('description')}? has-error">
-								<label for="description" class="col-sm-3 control-label"
+								<div class="col-sm-7">
+								<label for="description" class="control-label"
 									th:text="#{photo.list.description}">description</label>
-								<div class="col-sm-8">
+								
 									<textarea id="description" rows="3" cols="5" class="form-control"
 										th:field="*{description}"></textarea>
 
 									<span class="text-danger"
 										th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Required
 										field</span>
+								
 								</div>
-
 							</div>
 							<div class="form-group"
 								th:classappend="${#fields.hasErrors('enabled')}? has-error">
-
-								<div class="col-sm-offset-2 col-sm-3">
+								<div class="col-sm-7">
+								
 									<div class="checkbox">
 										<label> <input type="checkbox" th:field="*{enabled}" />
 											<span th:text="#{provider.list.enabled}">Enabled</span> <br />
@@ -116,21 +93,17 @@
 											th:errors="*{enabled}">check field</span>
 										</label>
 									</div>
+								
 								</div>
 
-
 							</div>
-													
-
-						</div>
-
-
-					</div>
+							
+				
 
 
 					<div class="form-group">
-						<div class="col-sm-offset-2 col-sm-10">
-							
+						
+							<div class="col-sm-7">
 							<a href="#" th:href="@{/admin/photos/}">
 								<button type="button" class="btn  btn-default">
 									<span th:text="#{cancel.button.label}">Cancel</span>
@@ -140,9 +113,6 @@
 								th:text="${photoForm.id} ? #{update.button.label} : #{add.button.label}"
 								class="btn btn-primary">Action</button>
 
-							
-
-							
 						</div>
 					</div>
 

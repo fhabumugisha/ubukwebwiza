@@ -13,6 +13,9 @@ import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
+import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
+import com.github.dandelion.thymeleaf.dialect.DandelionDialect;
+
 @Configuration 
 public class ViewConfiguration {
 	
@@ -38,6 +41,8 @@ public class ViewConfiguration {
 		engine.setTemplateResolver(templateResolver());
 		engine.addDialect(new LayoutDialect());
 		engine.addDialect(new SpringSecurityDialect());
+		engine.addDialect(new DandelionDialect());
+		engine.addDialect(new DataTablesDialect());
 		return engine;
 	}
 	

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:dt="http://github.com/dandelion/datatables"
 	layout:decorator="adminpanel/fragments/mainAdminLayout">
 
 <head>
@@ -9,7 +9,7 @@
 	<div layout:fragment="pageContent">
 
 			
-			<h2 class="sub-header" th:text="#{provider.photos.list.title(${provider.businessName})}">Listing provider's photos</h2>
+			<h4 class="sub-header" th:text="#{provider.photos.list.title(${provider.businessName})}">Listing provider's photos</h4>
 					
 			
 				<!-- <a href="#" th:href="@{/admin/providerweddingservices/new}">  			
@@ -22,16 +22,16 @@
 			<div id="listPhotos-bloc" th:fragment="listPhotos">
 			<div th:if="${message}" class="alert alert-success" th:text="${message}">Cool</div>
 			<div class="table-responsive">
-				<table class="table table-striped table-bordered table-hover">
+				<table id="listProvidersPhoto" class="table table-striped table-bordered table-hover" dt:table="true"  dt:pageable="false">
 					<thead>
 						<tr>
 							<th class="col-sm-1" >#</th>
-							<th class="col-sm-2" th:text="#{photo.list.name}">Name</th>
+							<th class="col-sm-2" th:text="#{photo.list.name}" dt:searchable="false"  dt:filterable="false" dt:sortable="false">Name</th>
 							<th class="col-sm-3" th:text="#{photo.list.description}">Description</th>							
-							<th class="col-sm-1" th:text="#{list.lastupdate}">Last update</th>							
-							<th class="col-sm-1" th:text="#{list.createdat}">Created at</th>
-							<th class="col-sm-1" th:text="#{list.enabled}">Enabled</th>
-							<th class="col-sm-1"  th:text="#{list.actions}">Actions</th>
+							<th class="col-sm-1" th:text="#{list.lastupdate}" dt:searchable="false">Last update</th>							
+							<th class="col-sm-1" th:text="#{list.createdat}" dt:searchable="false">Created at</th>
+							<th class="col-sm-1" th:text="#{list.enabled}" dt:searchable="false">Enabled</th>
+							<th class="col-sm-1"  th:text="#{list.actions}" dt:searchable="false" dt:filterable="false" dt:sortable="false">Actions</th>
 							
 
 						</tr>
@@ -104,8 +104,9 @@
 					<li><a href="#">&raquo;</a></li>
 				</ul>
 			</div> -->
-			
+			<div class="clearfix"></div>
 			<div class="panel panel-default">
+			<div class="panel-heading"><span th:text="${photoForm.id} ? #{provider.photos.editTitle} : #{provider.photos.addTitle}"></span> </div>
 			<div class="panel-body">
 				<form class="form-horizontal" role="form" action="#" enctype="multipart/form-data"
 					th:action="@{'/admin/providers/' + ${provider.id} +'/photos/addPhoto'}" th:object="${photoForm}"
@@ -121,57 +122,28 @@
 
 					<input type="text" hidden="hidden" th:field="*{id}" class="hidden" />
 <!-- 					<input type="text" hidden="hidden" th:field="*{idProvider}" class="hidden" /> -->
+					
 					<div class="row">
-
-						
-							<div class="col-sm-6">
-
+						<div class="col-sm-6">
 							<div class="form-group"
 								th:classappend="${#fields.hasErrors('name')}? has-error">
-								<label for="name" class="col-sm-4 control-label"
-									th:text="#{photo.list.name}">name</label>
-								<div class="col-sm-4">
-
-									<!-- <div class="thumbnail">
-																	
-										
-											
-									<img id="picturePreview"   width="100" height="150" 
-									     alt="profil pic"  th:if="*{name}" 
-									     th:alt="${name}" th:src="@{'/images/'+*{name}} "></img>
-									
-									 <img id="picturePreview"  width="100" height="150" alt="profil pic" 
-									      th:unless="*{name}"  
-									      th:src="@{/resources/images/application/no_person.jpg} "></img>
-										
-										<div class="caption">
-
-											<input id="picture" type="file" class="filestyle"
-												name="file"  th:unless="*{name}"
-												data-classButton="btn btn-default btn-sm btn-block"
-												data-input="false"
-												data-classIcon="glyphicon glyphicon-folder-open" />
-												
-
-										</div>
-										
-									</div>
-									<a href="#" id="remove" style="display: none;" class="btn btn-default fileupload-exists"  data-dismiss="fileupload">Remove</a> -->
+								
+								<div class="col-sm-12">									
 
 									<div class="fileinput fileinput-new" data-provides="fileinput">
 										<div class="fileinput-new thumbnail"
-											style="width: 200px; height: 150px;">
+											style="width: 570px; height: 200px;">
 											<img data-src="holder.js/100%x100%" alt="Select profile pic"
 												th:unless="*{name}"></img> 
 												<img
-												id="profilPicturePreview" width="200" height="150"
+												id="profilPicturePreview" width="570" height="200"
 												alt="pic" th:if="*{name}"
 												
 												th:src="@{'https://ubfiles.s3.amazonaws.com/'+*{name}} "></img>
 
 										</div>
 										<div class="fileinput-preview fileinput-exists thumbnail"
-											style="max-width: 200px; max-height: 150px;"></div>
+											style="max-width: 570px; max-height: 200px;"></div>
 										<div>
 											<span class="btn btn-default btn-file"><span
 												class="fileinput-new">Select image</span><span
@@ -189,20 +161,18 @@
 								</div>
 
 							</div>
-							
-													
-
+						
 						</div>
-						<div class="col-sm-6">
-
-							
-							
+							<div class="col-sm-1">
+							</div>
+						<div class="col-sm-4">
 							<div class="form-group"
 								th:classappend="${#fields.hasErrors('description')}? has-error">
-								<label for="description" class="col-sm-3 control-label"
+								<div class="col-sm-12">
+								<label for="description" class="control-label"
 									th:text="#{photo.list.description}">description</label>
-								<div class="col-sm-8">
-									<textarea id="description" rows="3" cols="5" class="form-control"
+								
+									<textarea id="description" rows="6" cols="5" class="form-control"
 										th:field="*{description}"></textarea>
 
 									<span class="text-danger"
@@ -214,7 +184,7 @@
 							<div class="form-group"
 								th:classappend="${#fields.hasErrors('enabled')}? has-error">
 
-								<div class="col-sm-offset-2 col-sm-3">
+								<div class="col-sm-12">
 									<div class="checkbox">
 										<label> <input type="checkbox" th:field="*{enabled}" />
 											<span th:text="#{provider.list.enabled}">Enabled</span> <br />
@@ -227,31 +197,37 @@
 
 
 							</div>
-													
-
-						</div>
-
-
-					</div>
+									
 
 
 					<div class="form-group">
-						<div class="col-sm-offset-2 col-sm-10">
-							
-							<a href="#" th:href="@{/admin/providers/}">
+						<div class="col-sm-12">							
+							<a href="#" th:if="*{id}" th:href="@{'/admin/providers/'+${provider.id} +'/photos'}">
 								<button type="button" class="btn  btn-default">
-									<span th:text="*{id} ? #{cancel.button.label} : #{return.button.label}">Cancel</span>
+									<span th:text="#{cancel.button.label}">Cancel</span>
 								</button>
 							</a>
+							<a href="#" th:unless="*{id}" th:href="@{/admin/providers/}">
+								<button type="button" class="btn  btn-default">
+									<span th:text="#{return.button.label}">Return</span>
+								</button>
+							</a>
+							
+							
+							 
 							<button type="submit"
 								th:text="*{id} ? #{update.button.label} : #{add.button.label}"
-								class="btn btn-primary">Action</button>
-
-							
+								class="btn btn-primary">Action</button>						
 
 							
 						</div>
 					</div>
+						</div>
+					</div>
+					
+					
+							
+							
 
 
 				</form>

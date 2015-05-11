@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:dt="http://github.com/dandelion/datatables"
 	layout:decorator="adminpanel/fragments/mainAdminLayout">
 
 <head>
@@ -10,7 +10,7 @@
 
 			<div th:if="${message}" class="alert alert-success" th:text="${message}">Cool</div>
 			<h2 class="sub-header" th:text="#{district.list.title}">Listing districts</h2>
-					
+				<div class="well well-sm">	
 			
 				<a href="#" th:href="@{/admin/districts/new}">  			
   				<button type="button" class="btn  btn-primary btn-xs">
@@ -18,17 +18,17 @@
          			<span th:text="#{list.add}">Add</span>
        			</button>
 				</a> 
-		
+		</div>
 			
 			<div class="table-responsive">
-				<table class="table table-striped table-bordered table-hover">
+				<table id="listDistrict" class="table table-striped table-bordered table-hover"  dt:table="true"  dt:pageable="false">
 					<thead>
 						<tr>
 							<th class="col-sm-1" >#</th>
 							<th class="col-sm-3" th:text="#{district.list.libelle}">Libelle</th>
-							<th class="col-sm-2" th:text="#{district.list.enabled}">Enabled</th>
+							<th class="col-sm-2" th:text="#{district.list.enabled}" dt:searchable="false" >Enabled</th>
 							<th class="col-sm-3" th:text="#{district.list.province}">Province</th>
-							<th class="col-sm-1"  th:text="#{list.actions}">Actions</th>
+							<th class="col-sm-1"  th:text="#{list.actions}" dt:searchable="false" dt:filterable="false" dt:sortable="false">Actions</th>
 
 						</tr>
 					</thead>

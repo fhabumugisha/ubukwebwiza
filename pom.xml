@@ -257,7 +257,12 @@
 	<artifactId>aws-java-sdk</artifactId>
 	<version>1.9.33</version>
 </dependency>
-	
+	<!-- Dandelion datatables -->
+	<dependency>
+    <groupId>com.github.dandelion</groupId>
+    <artifactId>datatables-thymeleaf</artifactId>
+    <version>0.10.1</version>
+</dependency>
 	</dependencies>
 
 	<!-- Build -->

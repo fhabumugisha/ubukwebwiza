@@ -9,9 +9,6 @@
 </head>
 <body>
 
-
-
-
 		<div layout:fragment="pageContent" id="content" class="col-md-10 container">
 
 			<div class="row">
@@ -26,7 +23,7 @@
 											class="col-md-3 col-sm-3  col-md-offset-2 col-sm-offset-1">
 
 											<select th:field="*{service}" id="idWeddingService"
-												data-placeholder="--Select a service--"
+												data-placeholder="Select a service"
 												class="form-control my_select_box">
 												<option value=""></option>
 												<option th:each="weddingService : ${allWeddingServices}"
@@ -38,7 +35,7 @@
 
 										<div class="col-md-3  col-sm-3  ">
 											<select th:field="*{district}" id="idDistrict"
-												data-placeholder="--Select a lacation--"
+												data-placeholder="Select a lacation"
 												class="form-control my_select_box">
 												<option value=""></option>
 												<option th:each="district : ${allDistricts}"

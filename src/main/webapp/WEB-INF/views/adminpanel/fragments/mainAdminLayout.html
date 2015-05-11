@@ -33,6 +33,15 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+      <style type="text/css">
+      /* overides bootstrap class*/  
+.dropdown-menu {
+  right: 0;
+  top: auto;
+  left: auto;
+}
+      
+      </style>
 </head>
 
 <body>
@@ -142,14 +151,17 @@
 						</div>
 					</div>
 				</div>
+				
 			</div>
 
 		</div>
+		
 		
 		<div id="dialog-confirm" title="Concfirm delete" style="display: none;" th:title="#{dialog.confirm.delete.title}">
   <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;" th:text="#{dialog.confirm.delete}"></span>These items will be permanently deleted and cannot be recovered. Are you sure?</p>
 </div>
 	</div>
+	
 
 	<!-- Bootstrap core JavaScript
     ================================================== -->
