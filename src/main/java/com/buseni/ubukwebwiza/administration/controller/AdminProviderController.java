@@ -2,8 +2,12 @@ package com.buseni.ubukwebwiza.administration.controller;
 
 import java.io.File;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -20,7 +24,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.HandlerExceptionResolver;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.buseni.ubukwebwiza.administrator.enums.EnumPhotoCategory;
@@ -47,7 +54,7 @@ import com.buseni.ubukwebwiza.utils.UbUtils;
 @Controller
 @RequestMapping(value="/admin")
 @Navigation(url="/admin/providers", name="Providers", parent= AdminHomeController.class)
-public class AdminProviderController {
+public class AdminProviderController implements HandlerExceptionResolver{
 	
 
 	public  static final Logger LOGGER = LoggerFactory.getLogger(AdminProviderController.class);
@@ -400,6 +407,25 @@ public class AdminProviderController {
 	@ModelAttribute("districts")
 	public List<District> populateDistricts(){
 		return districtService.findByEnabled(Boolean.TRUE);
+	}
+
+	@Override
+	public ModelAndView resolveException(HttpServletRequest request,
+			HttpServletResponse response, Object handler, Exception exception) {
+		Map<Object, Object> model = new HashMap<Object, Object>();
+		LOGGER.error(exception.getMessage());
+		System.out.println(exception.getMessage());
+		if (exception instanceof MaxUploadSizeExceededException) {
+			model.put("errors", "File size should be less then " + ((MaxUploadSizeExceededException) exception).getMaxUploadSize()+ " byte.");
+
+		} else {
+			model.put("errors", "Unexpected error: " + exception.getMessage());
+		}
+
+		model.put("photoForm", new PhotoForm());
+
+		return new ModelAndView("adminpanel/provider/photos", (Map) model);
+
 	}
 	
 	

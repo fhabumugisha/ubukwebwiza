@@ -1,5 +1,7 @@
 package com.buseni.ubukwebwiza.breadcrumbs.navigation;
 
+import java.io.Serializable;
+
 /**
  * Created with IntelliJ IDEA.
  * User: yfliu
@@ -7,8 +9,12 @@ package com.buseni.ubukwebwiza.breadcrumbs.navigation;
  * Time: 8:55 PM
  * To change this template use File | Settings | File Templates.
  */
-public class NavigationEntry {
-    private String url;
+public class NavigationEntry implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -244861090443980077L;
+	private String url;
     private String name;
     private Class<? extends Object> navigationClass;
 

@@ -4,7 +4,6 @@
 package com.buseni.ubukwebwiza.config;
 
 import javax.servlet.FilterRegistration.Dynamic;
-import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
@@ -54,8 +53,8 @@ public class ApplicationInitializer implements WebApplicationInitializer {
 		dandelionServlet.addMapping("/dandelion-assets/*");
 		
 		// File upload config
-		MultipartConfigElement mce = new MultipartConfigElement("", 1024*1024*1, 1024*1024*5*5, 1024*1024);
-		dispatcher.setMultipartConfig(mce);
+		/*MultipartConfigElement mce = new MultipartConfigElement("", 1024*1024*1, 1024*1024*5*5, 1024*1024);
+		dispatcher.setMultipartConfig(mce);*/
 		
 		Dynamic filter = servletContext.addFilter("characterEncodingFilter", CharacterEncodingFilter.class);
 		filter.addMappingForUrlPatterns(null, false, "/*");

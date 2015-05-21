@@ -105,7 +105,11 @@ $(document).on("submit","#uploadPhotoForm",function(event){
 		success: function(data){
 			console.log(data);
 			$('#listPhotos-bloc').html(data);
-		}
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			  console.log(textStatus, errorThrown);
+			  $('#errors').html(textStatus  + " " + errorThrown);
+			}
 	});
 	form.reset();
 	$('#picture').val('');

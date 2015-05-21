@@ -30,6 +30,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter;
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -50,6 +51,7 @@ import com.buseni.ubukwebwiza.breadcrumbs.interceptor.NavigationPathInterceptor;
 @Import({PersistenceMySqlConfig.class,  ViewConfiguration.class, SecurityConfig.class})
 public class WebConfiguration extends WebMvcConfigurerAdapter{
 	
+	public  static final long MAXSIZE = 1048576;
 	@Autowired
 	private Environment env;
 	// Maps resources path to webapp/resources
@@ -143,6 +145,13 @@ public class WebConfiguration extends WebMvcConfigurerAdapter{
 				mediaType("json", MediaType.APPLICATION_JSON).
 				mediaType("png", MediaType.IMAGE_PNG).mediaType("jpeg", MediaType.IMAGE_JPEG)
 				.mediaType("jpg", MediaType.IMAGE_JPEG);;
+		}
+		
+		@Bean(name="filterMultipartResolver")
+		public  CommonsMultipartResolver filterMultipartResolver() {
+		    CommonsMultipartResolver filterMultipartResolver = new CommonsMultipartResolver();
+		    filterMultipartResolver.setMaxUploadSize(MAXSIZE);
+		    return filterMultipartResolver;
 		}
 		
 		@Bean
