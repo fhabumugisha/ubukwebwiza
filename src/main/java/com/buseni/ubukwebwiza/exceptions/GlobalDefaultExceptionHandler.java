@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.web.util.UrlUtils;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -42,38 +43,44 @@ public class GlobalDefaultExceptionHandler {
             mav.setViewName(NOT_FOUND_ERROR_VIEW);
             return mav;
     }
-    @ExceptionHandler({MaxUploadSizeExceededException.class, FileSizeLimitExceededException.class})
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
     @ResponseStatus(value = HttpStatus.PRECONDITION_FAILED)
-    @ResponseBody
-	protected CustomError handleMaxUploadSizeExceededException(
+   // @ResponseBody
+	public ModelAndView handleMaxUploadSizeExceededException(
 			final HttpServletRequest request,
-			final HttpServletResponse response, final Exception e)
-			throws IOException {
+			final HttpServletResponse response, final Exception e)	 {
+	   ModelAndView mav = new ModelAndView();
 		LOGGER.error(e.getMessage());
+		LOGGER.debug(e.getMessage());
 		System.out.println(e.getMessage());
-		System.out.println(org.springframework.security.web.util.UrlUtils.buildFullRequestUrl(request));
-		LOGGER.debug(org.springframework.security.web.util.UrlUtils.buildFullRequestUrl(request));
+		System.out.println(UrlUtils.buildFullRequestUrl(request));
+		LOGGER.debug(UrlUtils.buildFullRequestUrl(request));
 		CustomError c = new CustomError("error.file.maxsizeexceeded");
 		c.setErrorArgs(new String[] { ((MaxUploadSizeExceededException) e)
 				.getMaxUploadSize() + " byte." });
-		return c;
+		 mav.setViewName("adminpanel/provider/editPhoto");
+		 mav.addObject("errors", "File size should be less then " + ((MaxUploadSizeExceededException) e).getMaxUploadSize()+ " byte.");
+		return mav;
 	}
     
-    @ExceptionHandler(MultipartException.class)
+/*    @ExceptionHandler(MultipartException.class)
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-    @ResponseBody
-	protected CustomError handleGenericMultipartException(
+   // @ResponseBody
+	protected ModelAndView handleGenericMultipartException(
 			final HttpServletRequest request,
 			final HttpServletResponse response, final Exception e)
-			throws IOException {
+			 {
 		LOGGER.error(e.getMessage());
 		CustomError c = new CustomError("error.internaluploadexception");
-		return c;
-	}
+		 ModelAndView mav = new ModelAndView();
+		 mav.addObject("errors", "File upload error");
+		return mav;
+	}*/
     
     @ExceptionHandler(value = Exception.class)
     public ModelAndView defaultErrorHandler(HttpServletRequest req, Exception e) throws Exception {
-        // If the exception is annotated with @ResponseStatus rethrow it and let
+       LOGGER.error(e.getMessage());
+    	// If the exception is annotated with @ResponseStatus rethrow it and let
         // the framework handle it - like the OrderNotFoundException example
         // at the start of this post.
         // AnnotationUtils is a Spring Framework utility class.
@@ -86,6 +93,10 @@ public class GlobalDefaultExceptionHandler {
         mav.setViewName(DEFAULT_ERROR_VIEW);
         HttpSession currentSession = req.getSession();
         currentSession.setAttribute(NAVIGATION_PATH, new ArrayList<NavigationEntry>());
+        /*if (e instanceof MaxUploadSizeExceededException) {
+        	LOGGER.error("errors : File size should be less then " + ((MaxUploadSizeExceededException) e).getMaxUploadSize()+ " byte.");
+
+		}*/
         return mav;
     }
 }

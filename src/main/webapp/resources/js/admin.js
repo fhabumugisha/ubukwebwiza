@@ -89,7 +89,7 @@ $('#removePicture').click(function(){
 
 
 
-$(document).on("submit","#uploadPhotoForm",function(event){
+/*$(document).on("submit","#uploadPhotoForm",function(event){
 	event.preventDefault(); // prevent this form from being submited
 	var form = document.getElementById("uploadPhotoForm");
 	var oMyForm = new FormData(form);
@@ -114,7 +114,7 @@ $(document).on("submit","#uploadPhotoForm",function(event){
 	form.reset();
 	$('#picture').val('');
 });
-
+*/
 
 $(document).on("click",".deletePhoto",function(event){
 	event.preventDefault(); 
@@ -154,7 +154,7 @@ $(document).on("click",".deletePhoto",function(event){
 	
 });
 
-$(document).on("click",".editPhoto",function(event){
+/*$(document).on("click",".editPhoto",function(event){
 	event.preventDefault(); 
 	var url = $(this).attr('href');
 	console.log(url);
@@ -171,14 +171,14 @@ $(document).on("click",".editPhoto",function(event){
 		}
 	});
 
-});
+});*/
 
 
 
 /**
  * SERVICES
  */
-$(document).on("submit","#addServiceForm",function(event){
+/*$(document).on("submit","#addServiceForm",function(event){
 	event.preventDefault(); // prevent this form from being submited
 	var form = document.getElementById("addServiceForm");
 	var oMyForm = new FormData(form);
@@ -197,10 +197,10 @@ $(document).on("submit","#addServiceForm",function(event){
 		}
 	});
 	form.reset();
-});
+});*/
 
 
-$(document).on("click",".editService",function(event){
+/*$(document).on("click",".editService",function(event){
 	event.preventDefault(); 
 	var url = $(this).attr('href');
 	console.log(url);
@@ -216,7 +216,7 @@ $(document).on("click",".editService",function(event){
 			console.log('Deconnexion du serveur');
 		}
 	});
-});
+});*/
 
 $(document).on("click",".deleteService",function(event){
 	event.preventDefault(); 
