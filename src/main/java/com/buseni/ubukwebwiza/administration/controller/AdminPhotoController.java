@@ -35,7 +35,7 @@ public class AdminPhotoController {
 	
 	
 
-	public  static final Logger LOGGER = LoggerFactory.getLogger(AdminProviderController.class);
+	public  static final Logger LOGGER = LoggerFactory.getLogger(AdminPhotoController.class);
 	
 	@Autowired
 	private PhotoService photoService;
@@ -65,29 +65,23 @@ public class AdminPhotoController {
 			MultipartFile file  = photoForm.getFile();
 			Photo photo = new Photo();
 			if (file != null && !file.isEmpty()) {
-	            try {            
-	                
-	                photo.setFilename(UbUtils.normalizeName(file.getOriginalFilename()));
-	               // photo.setContent(ImagesUtils.resizeImage(file, HP_IMAGE_WIDTH, HP_IMAGE_HEIGHT));
-	                photo.setContentType(file.getContentType());
-	                
-	            } catch (Exception e) {
-	            	LOGGER.info("You failed to upload " + file.getName() + " => " + e.getMessage());
-	            	result.reject(e.getMessage());
-	            	attributes.addFlashAttribute("org.springframework.validation.BindingResult.photoForm", result);
-	    			attributes.addFlashAttribute("photoForm", photoForm);
-	    			return "adminpanel/photo/editPhoto";
-	            	
-	            }
-	        } else {
-	        	if(photoForm.getId() == null){
+				if(file.getSize() > ImagesUtils.MAXSIZE){
+					LOGGER.error("File size should be less than " + ImagesUtils.MAXSIZE+ " byte.");
+					result.reject(ImagesUtils.MAX_SIZE_EXCEEDED_ERROR);
+					attributes.addAttribute("org.springframework.validation.BindingResult.photoForm",result);
+					attributes.addAttribute("photoForm", photoForm);     
+					
+					return "adminpanel/photo/editPhoto";
+				}
+
+				photo.setFilename(UbUtils.normalizeName(file.getOriginalFilename()));
+				photo.setContentType(file.getContentType());
+			} else if(photoForm.getId() == null){
 	        		LOGGER.info("You failed to upload  because the file was empty.");
 	        		result.reject("error.file.empty");
 	            	attributes.addFlashAttribute("org.springframework.validation.BindingResult.photoForm", result);
 	    			attributes.addFlashAttribute("photoForm", photoForm);
-	        		return "adminpanel/photo/editPhoto";
-	        	}
-	        	
+	        		return "adminpanel/photo/editPhoto";   	
 	        }
 			
 			photo.setCategory(EnumPhotoCategory.HOME_PAGE.getId());
@@ -96,12 +90,11 @@ public class AdminPhotoController {
 			photo.setEnabled(photoForm.isEnabled());
 			
 			try {								
-				photoService.create(photo);				
+				photoService.create(photo);			
 				
 				//Save profil pricture to amazon S3
 				File fileToUpload =  ImagesUtils.prepareUploading(file, EnumPhotoCategory.HOME_PAGE.getId());
-				amazonS3Util.uploadFile(fileToUpload, UbUtils.normalizeName(file.getOriginalFilename()));
-				
+				amazonS3Util.uploadFile(fileToUpload, UbUtils.normalizeName(file.getOriginalFilename()));				
 				
 				String message = "Photo " + photo.getId() + " was successfully added";				
 				attributes.addFlashAttribute("message", message);				

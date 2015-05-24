@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.buseni.ubukwebwiza.administrator.enums.EnumPhotoCategory;
 import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
+import com.buseni.ubukwebwiza.exceptions.ErrorsHelper;
 import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
 import com.buseni.ubukwebwiza.gallery.beans.PhotoForm;
 import com.buseni.ubukwebwiza.gallery.domain.Photo;
@@ -30,10 +31,10 @@ import com.buseni.ubukwebwiza.utils.ImagesUtils;
 import com.buseni.ubukwebwiza.utils.UbUtils;
 
 @Controller
-@Navigation(url="/admin/providers/{idProvider:[\\d]+}/photos", name="Provider's photos", parent= {AdminProviderController.class,AdminHomeController.class})
+@Navigation(url="/admin/providers/{idProvider:[\\d]+}/photos", name="Provider's photos", parent= {AdminProviderController.class, AdminHomeController.class})
 public class AdminProviderPhotosController{
 	
-
+	
 	public  static final Logger LOGGER = LoggerFactory.getLogger(AdminProviderPhotosController.class);
 
 	@Autowired
@@ -66,40 +67,41 @@ public class AdminProviderPhotosController{
 	}
 	
 	@RequestMapping(value="/admin/providers/{idProvider:[\\d]+}/photos/addPhoto", method=RequestMethod.POST)
-	public String savePhoto(@PathVariable Integer idProvider, @ModelAttribute PhotoForm photoForm, BindingResult result, RedirectAttributes attributes) throws ServiceLayerException{		
+	public String savePhoto(@PathVariable Integer idProvider, @ModelAttribute PhotoForm photoForm,
+			BindingResult result, RedirectAttributes attributes) throws ServiceLayerException{		
 		LOGGER.info("IN: providers/addPhoto-POST");
 		Provider provider = providerService.findOne(idProvider);
 		LOGGER.info("IN: providers/addPhoto to provider : " + provider);
-			MultipartFile file  = photoForm.getFile();
-			Photo photo = new Photo();
-			String filename = "no_person.jpg";
-		if (file != null && !file.isEmpty()) {
-			try {
-				filename = UbUtils
-						.normalizeFileName(file.getOriginalFilename());
-				photo.setFilename(filename);
-				photo.setContentType(file.getContentType());
-				photo.setCategory(EnumPhotoCategory.PROVIDER.getId());
-			} catch (Exception e) {
-				LOGGER.info("You failed to upload " + file.getName() + " => "
-						+ e.getMessage());
-				// result.reject(e.getMessage());
 
-				return "adminpanel/provider/editPhoto";
-			}
-		} else {
-			if (photoForm.getId() == null) {
-				LOGGER.debug("You failed to upload  because the file was empty.");
-				// result.reject("error.file.empty");
-				result.reject("error.file.empty");
+		MultipartFile file  = photoForm.getFile();
+		Photo photo = new Photo();
+		String filename = "no_person.jpg";
+		if (file != null && !file.isEmpty()) {
+			if(file.getSize() > ImagesUtils.MAXSIZE){
+				LOGGER.error("File size should be less than " + ImagesUtils.MAXSIZE+ " byte.");
+				result.reject(ImagesUtils.MAX_SIZE_EXCEEDED_ERROR);
 				attributes.addAttribute("org.springframework.validation.BindingResult.photoForm",result);
 				attributes.addAttribute("photoForm", photoForm);
-				attributes.addAttribute("provider", provider);
+				attributes.addAttribute("provider", provider);	     
+				
 				return "adminpanel/provider/editPhoto";
 			}
 
+			filename = UbUtils.normalizeFileName(file.getOriginalFilename());
+			photo.setFilename(filename);
+			photo.setContentType(file.getContentType());
+			photo.setCategory(EnumPhotoCategory.PROVIDER.getId());
+
+		} else if (photoForm.getId() == null) {
+			LOGGER.error("You failed to upload  because the file was empty.");
+			result.reject("error.file.empty");
+			attributes.addAttribute("org.springframework.validation.BindingResult.photoForm",result);
+			attributes.addAttribute("photoForm", photoForm);
+			attributes.addAttribute("provider", provider);
+			return "adminpanel/provider/editPhoto";
+
 		}
-			
+
 		try {
 			photo.setDescription(photoForm.getDescription());
 			photo.setId(photoForm.getId());
@@ -123,11 +125,12 @@ public class AdminProviderPhotosController{
 
 			// Business errors
 		} catch (final ServiceLayerException e) {
-				//ErrorsHelper.rejectErrors(result, e.getErrors());
-				//LOGGER.info("Photo save error: " + result.toString());
-				LOGGER.error("Save error" + e.getMessage());
-				return "adminpanel/provider/editPhoto";
-			} 
+			ErrorsHelper.rejectErrors(result, e.getErrors());
+			LOGGER.error("Photo-save error: " + result.toString());
+			attributes.addFlashAttribute("org.springframework.validation.BindingResult.photoForm", result);
+			attributes.addFlashAttribute("provider", provider);
+			return "adminpanel/provider/editPhoto";
+		} 
 	}
 	
 	

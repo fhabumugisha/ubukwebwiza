@@ -17,6 +17,10 @@ import com.buseni.ubukwebwiza.administrator.enums.EnumPhotoCategory;
 
 public class ImagesUtils {
 	
+	public  static final long MAXSIZE = 1048576;
+
+	public static final String MAX_SIZE_EXCEEDED_ERROR  = "error.file.maxsizeexceeded";
+	
 	public static final int PROFILE_IMAGE_HEIGHT = 150;
 
 	public static final int PROFILE_IMAGE_WIDTH = 290;

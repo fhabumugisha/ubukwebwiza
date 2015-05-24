@@ -51,7 +51,7 @@ import com.buseni.ubukwebwiza.breadcrumbs.interceptor.NavigationPathInterceptor;
 @Import({PersistenceMySqlConfig.class,  ViewConfiguration.class, SecurityConfig.class})
 public class WebConfiguration extends WebMvcConfigurerAdapter{
 	
-	public  static final long MAXSIZE = 1048576;
+	
 	@Autowired
 	private Environment env;
 	// Maps resources path to webapp/resources
@@ -149,10 +149,17 @@ public class WebConfiguration extends WebMvcConfigurerAdapter{
 		
 		@Bean(name="filterMultipartResolver")
 		public  CommonsMultipartResolver filterMultipartResolver() {
-		    CommonsMultipartResolver filterMultipartResolver = new CommonsMultipartResolver();
-		    filterMultipartResolver.setMaxUploadSize(MAXSIZE);
+			CommonsMultipartResolver filterMultipartResolver = new CommonsMultipartResolver();
+		    //filterMultipartResolver.setMaxUploadSize(MAXSIZE);
 		    return filterMultipartResolver;
 		}
+		
+		/*@Bean(name="multipartResolver")
+		public  MultipartResolver multipartResolver() {
+			MultipartResolver filterMultipartResolver = new StandardServletMultipartResolver();
+		    return filterMultipartResolver;
+		}*/
+		
 		
 		@Bean
 		public CacheManager cacheManager() {

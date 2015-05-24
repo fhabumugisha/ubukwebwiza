@@ -17,7 +17,6 @@ import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.multipart.support.MultipartFilter;
 import org.springframework.web.servlet.DispatcherServlet;
 
-import com.buseni.ubukwebwiza.exceptions.MultipartExceptionHandler;
 import com.github.dandelion.core.web.DandelionFilter;
 import com.github.dandelion.core.web.DandelionServlet;
 
@@ -62,7 +61,7 @@ public class ApplicationInitializer implements WebApplicationInitializer {
 		filter.setInitParameter("encoding", "UTF-8");
 		filter.setInitParameter("forceEncoding", "true");
 		
-		// Register the multipartFilter
+		// Register the multipartExceptionHandler
 		//servletContext.addFilter("multipartExceptionHandler", MultipartExceptionHandler.class).addMappingForUrlPatterns(null, false, "/*");
 				
 		// Register the multipartFilter
