@@ -10,6 +10,7 @@
 	
 
 			<div th:if="${message}" class="alert alert-success" th:text="${message}">Cool</div>
+			<div th:if="${errors}" id="errors" class="alert alert-danger" th:text="${errors}">Bad</div>
 			
 			<h4 class="sub-header" th:text="${photoForm.id} ? #{photo.edit.title} : #{photo.create.title}">Edit home page photo</h4>
 			

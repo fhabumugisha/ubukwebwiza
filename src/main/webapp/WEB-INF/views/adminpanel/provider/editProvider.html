@@ -14,6 +14,7 @@
 
 		<div th:if="${message}" class="alert alert-success"
 			th:text="${message}">Cool</div>
+			<div th:if="${errors}" id="errors" class="alert alert-danger" th:text="${errors}">Bad</div>
 
 		<h4 class="sub-header"
 			th:text="${provider.id} ? #{provider.edit.title} : #{provider.create.title}">Edit

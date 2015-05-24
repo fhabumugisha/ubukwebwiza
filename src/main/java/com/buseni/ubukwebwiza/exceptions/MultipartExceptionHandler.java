@@ -3,7 +3,6 @@ package com.buseni.ubukwebwiza.exceptions;
 import java.io.IOException;
 
 import javax.servlet.FilterChain;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

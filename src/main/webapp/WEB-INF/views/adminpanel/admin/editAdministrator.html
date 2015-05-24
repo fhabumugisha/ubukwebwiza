@@ -15,9 +15,9 @@
 		<div th:if="${message}" class="alert alert-success"
 			th:text="${message}">Cool</div>
 
-		<h2 class="sub-header"
+		<h4 class="sub-header"
 			th:text="${administrator.id} ? #{administrator.edit.title} : #{administrator.create.title}">Edit
-			administrator</h2>
+			administrator</h4>
 
 		<div class="panel panel-default">
 			<div class="panel-body">

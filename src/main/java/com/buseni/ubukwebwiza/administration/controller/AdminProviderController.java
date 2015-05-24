@@ -93,8 +93,9 @@ public class AdminProviderController {
 				if(file.getSize() > ImagesUtils.MAXSIZE){
 					LOGGER.error("File size should be less than " + ImagesUtils.MAXSIZE+ " byte.");
 					result.reject(ImagesUtils.MAX_SIZE_EXCEEDED_ERROR);
-					attributes.addAttribute("org.springframework.validation.BindingResult.provider",result);
-					attributes.addAttribute("provider", provider);	     
+					//attributes.addAttribute("org.springframework.validation.BindingResult.provider",result);
+					attributes.addFlashAttribute("provider", provider);	  
+					attributes.addFlashAttribute("errors", "File size should be less than " + ImagesUtils.MAXSIZE+ " byte.");
 					
 					return "adminpanel/provider/editProvider";
 				}
@@ -112,10 +113,11 @@ public class AdminProviderController {
 	               
 	           
 	        } else     	if(provider.getId() == null){
-	        		LOGGER.info("You failed to upload  because the file was empty.");
+	        		LOGGER.error("You failed to upload  because the file was empty.");
 		        	result.reject("error.file.empty");
-	            	attributes.addFlashAttribute("org.springframework.validation.BindingResult.provider", result);
+	            	//attributes.addFlashAttribute("org.springframework.validation.BindingResult.provider", result);
 	    			attributes.addFlashAttribute("provider", provider);
+	    			attributes.addFlashAttribute("errors", "You failed to upload  because the file was empty.");
 	    			return "adminpanel/provider/editProvider";
 	        	
 	        }
