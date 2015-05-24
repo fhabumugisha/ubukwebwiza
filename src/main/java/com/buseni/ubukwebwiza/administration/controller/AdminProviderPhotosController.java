@@ -78,8 +78,8 @@ public class AdminProviderPhotosController{
 		String filename = "no_person.jpg";
 		if (file != null && !file.isEmpty()) {
 			if(file.getSize() > ImagesUtils.MAXSIZE){
-				LOGGER.error("File size should be less than " + ImagesUtils.MAXSIZE+ " byte.");
-				result.reject(ImagesUtils.MAX_SIZE_EXCEEDED_ERROR);
+				LOGGER.error("File size should be less than " + ImagesUtils.MAXSIZE+ " byte.");				
+				result.reject(ImagesUtils.MAX_SIZE_EXCEEDED_ERROR, new String[] {String.valueOf(ImagesUtils.MAXSIZE)}, "File size should be less than " + ImagesUtils.MAXSIZE+ " byte.");
 				//attributes.addAttribute("org.springframework.validation.BindingResult.photoForm",result);
 				attributes.addFlashAttribute("errors", "File size should be less than " + ImagesUtils.MAXSIZE+ " byte.");
 				attributes.addFlashAttribute("photoForm", photoForm);

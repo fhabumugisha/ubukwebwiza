@@ -92,7 +92,7 @@ public class AdminProviderController {
 			if (!file.isEmpty()) {
 				if(file.getSize() > ImagesUtils.MAXSIZE){
 					LOGGER.error("File size should be less than " + ImagesUtils.MAXSIZE+ " byte.");
-					result.reject(ImagesUtils.MAX_SIZE_EXCEEDED_ERROR);
+					result.reject(ImagesUtils.MAX_SIZE_EXCEEDED_ERROR, new String[] {String.valueOf(ImagesUtils.MAXSIZE)}, "File size should be less than " + ImagesUtils.MAXSIZE+ " byte.");
 					//attributes.addAttribute("org.springframework.validation.BindingResult.provider",result);
 					attributes.addFlashAttribute("provider", provider);	  
 					attributes.addFlashAttribute("errors", "File size should be less than " + ImagesUtils.MAXSIZE+ " byte.");

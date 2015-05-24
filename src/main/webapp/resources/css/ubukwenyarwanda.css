@@ -242,9 +242,9 @@ height: 34px;
 #homeSearchFormContainer {
 	text-align: center;
 	color: #ffffff;
-	padding: 3px;
+	/* padding: 3px;
   background: rgba(0,0,0,0.5);
-  box-shadow: 0 0 10px rgba(0,0,0,.1);
+  box-shadow: 0 0 10px rgba(0,0,0,.1); */
 	
 }
 
