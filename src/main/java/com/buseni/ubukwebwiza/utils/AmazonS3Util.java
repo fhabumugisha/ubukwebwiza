@@ -13,6 +13,8 @@ import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
@@ -57,10 +59,10 @@ public class AmazonS3Util {
 				 objectMetadata.setHttpExpiresDate(now.plusMonths(2).toDate());
 				Upload myUpload = tx.upload(new PutObjectRequest(bucketName, filename, file).withMetadata(objectMetadata).withCannedAcl(CannedAccessControlList.PublicRead));
 
-				// While the transfer is processing, you can work with the transfer object
+				/*// While the transfer is processing, you can work with the transfer object
 				while (myUpload.isDone() == false) {
 					LOGGER.info(myUpload.getProgress().getPercentTransferred() + "%");
-				}
+				}*/
 			} catch (AmazonServiceException ase) {
 				LOGGER.error("Caught an AmazonServiceException, which means your request made it "
 						+ "to Amazon S3, but was rejected with an error response for some reason.");
@@ -87,9 +89,54 @@ public class AmazonS3Util {
 			 Upload myUpload = tx.upload(new PutObjectRequest(bucketName, filename, inpustream, objectMetadata).withCannedAcl(CannedAccessControlList.PublicRead));
 			 
 			 // While the transfer is processing, you can work with the transfer object
-			 while (myUpload.isDone() == false) {
+			/* while (myUpload.isDone() == false) {
 			     LOGGER.info(myUpload.getProgress().getPercentTransferred() + "%");
-			 }
+			 }*/
+		} catch (AmazonServiceException ase) {
+	        LOGGER.error("Caught an AmazonServiceException, which means your request made it "
+                    + "to Amazon S3, but was rejected with an error response for some reason.");
+            LOGGER.error("Error Message:    " + ase.getMessage());
+            LOGGER.error("HTTP Status Code: " + ase.getStatusCode());
+            LOGGER.error("AWS Error Code:   " + ase.getErrorCode());
+            LOGGER.error("Error Type:       " + ase.getErrorType());
+            LOGGER.error("Request ID:       " + ase.getRequestId());
+        } catch (AmazonClientException ace) {
+            LOGGER.error("Caught an AmazonClientException, which means the client encountered "
+                    + "a serious internal problem while trying to communicate with S3, "
+                    + "such as not being able to access the network.");
+            LOGGER.error("Error Message: " + ace.getMessage());
+		}
+		
+	}
+	
+	public   void deleteFile(String filename) {
+		AWSCredentials myCredentials = new BasicAWSCredentials(accessKey, secretKey);
+		AmazonS3 s3client = new AmazonS3Client(myCredentials);
+		try {
+			s3client.deleteObject(bucketName, filename);
+			
+		} catch (AmazonServiceException ase) {
+	        LOGGER.error("Caught an AmazonServiceException, which means your request made it "
+                    + "to Amazon S3, but was rejected with an error response for some reason.");
+            LOGGER.error("Error Message:    " + ase.getMessage());
+            LOGGER.error("HTTP Status Code: " + ase.getStatusCode());
+            LOGGER.error("AWS Error Code:   " + ase.getErrorCode());
+            LOGGER.error("Error Type:       " + ase.getErrorType());
+            LOGGER.error("Request ID:       " + ase.getRequestId());
+        } catch (AmazonClientException ace) {
+            LOGGER.error("Caught an AmazonClientException, which means the client encountered "
+                    + "a serious internal problem while trying to communicate with S3, "
+                    + "such as not being able to access the network.");
+            LOGGER.error("Error Message: " + ace.getMessage());
+		}
+		
+	}
+	public   void deleteBucket(String bucketToDelete) {
+		AWSCredentials myCredentials = new BasicAWSCredentials(accessKey, secretKey);
+		AmazonS3 s3client = new AmazonS3Client(myCredentials);
+		try {
+			s3client.deleteBucket(bucketToDelete);
+			
 		} catch (AmazonServiceException ase) {
 	        LOGGER.error("Caught an AmazonServiceException, which means your request made it "
                     + "to Amazon S3, but was rejected with an error response for some reason.");

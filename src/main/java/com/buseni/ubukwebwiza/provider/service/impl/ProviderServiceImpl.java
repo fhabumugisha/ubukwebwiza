@@ -191,6 +191,18 @@ public class ProviderServiceImpl implements ProviderService {
 		return provider;
 	}
 
+	@Transactional
+	@Override
+	public Provider deletePhoto(Integer idProvider, Photo photo) {
+		Provider provider = findOne(idProvider);
+		if(photo != null && !CollectionUtils.isEmpty(provider.getPhotos())){
+			provider.getPhotos().remove(photo);
+			providerRepo.save(provider);
+			photoRepo.delete(photo);
+		}
+		return provider;
+	}
+
 
 
 }

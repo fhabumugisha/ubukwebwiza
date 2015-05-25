@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 
@@ -50,9 +51,9 @@ public class ImagesUtils {
 				tempFile = File.createTempFile("tempuploadedfile" + System.currentTimeMillis(),	"." + imgExt);
 				tempFile.deleteOnExit();
 				if (EnumPhotoCategory.PROFILE.getId().equals(imgCateg)) {
-					resizeImageScal(multipartFile, tempFile, PROFILE_IMAGE_WIDTH,PROFILE_IMAGE_HEIGHT, imgExt);
+					resizeImageScal(multipartFile.getInputStream(), tempFile, PROFILE_IMAGE_WIDTH,PROFILE_IMAGE_HEIGHT, imgExt);
 				} else if (EnumPhotoCategory.HOME_PAGE.getId().equals(imgCateg)) {
-					resizeImageScal(multipartFile, tempFile, HP_IMAGE_WIDTH,HP_IMAGE_HEIGHT, imgExt);
+					resizeImageScal(multipartFile.getInputStream(), tempFile, HP_IMAGE_WIDTH,HP_IMAGE_HEIGHT, imgExt);
 				} else {					
 					multipartFile.transferTo(tempFile);
 				}
@@ -69,10 +70,10 @@ public class ImagesUtils {
 	
 	
 	
-	public static byte[] resizeImage(MultipartFile profileImage, int imageWidth, int imageHeight)  {
+	public static byte[] resizeImage(InputStream profileImage, int imageWidth, int imageHeight, String imgExt)  {
 		BufferedImage originalImage = null;
 		try {
-			originalImage = ImageIO.read(profileImage.getInputStream());
+			originalImage = ImageIO.read(profileImage);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -84,13 +85,7 @@ public class ImagesUtils {
 				Scalr.OP_ANTIALIAS, Scalr.OP_BRIGHTER);
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		String contentType = profileImage.getContentType();
-		String imgExt = "png";
-		if(MediaType.IMAGE_GIF_VALUE.equals(contentType)){
-			imgExt = "gif";
-		}else if(MediaType.IMAGE_JPEG_VALUE.equals(contentType)){
-			imgExt = "jpg";
-		}
+		
 		try {
 			ImageIO.write(thumbnailImage, imgExt, baos);
 			baos.flush();
@@ -108,10 +103,10 @@ public class ImagesUtils {
 	}
 	
 	
-	public static File resizeImageScal(MultipartFile multipartFile, File tempFile,  int imageWidth, int imageHeight, String imgExt)  {
+	public static File resizeImageScal(InputStream multipartFile, File tempFile,  int imageWidth, int imageHeight, String imgExt)  {
 		BufferedImage originalImage = null;    	
 		try {
-			originalImage = ImageIO.read(multipartFile.getInputStream());
+			originalImage = ImageIO.read(multipartFile);
 		} catch (IOException e) {
 			LOGGER.error("Error resizeImageScal Message:    " 	+ e.getMessage());
 		}

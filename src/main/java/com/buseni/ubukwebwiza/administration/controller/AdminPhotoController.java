@@ -130,7 +130,9 @@ public class AdminPhotoController {
 	@RequestMapping(value="/photos/delete", method=RequestMethod.GET)
 	public String deletePhoto(@RequestParam(value="id", required=true) Integer id, RedirectAttributes attributes) {
 		LOGGER.info("IN: photos/delete-GET");
-		photoService.delete(id);
+		Photo photo = photoService.findById(id);
+		photoService.delete(photo);
+		amazonS3Util.deleteFile(photo.getFilename());
 		String message = "Photo " + id + " was successfully deleted";
 		attributes.addFlashAttribute("message", message);		
 		return "redirect:/admin/photos";

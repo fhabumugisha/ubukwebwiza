@@ -141,7 +141,9 @@ public class AdminProviderPhotosController{
 	@RequestMapping(value="/admin/providers/{idProvider:[\\d]+}/photos/deletePhoto", method=RequestMethod.GET)
 	public String deletePhoto(@PathVariable Integer idProvider, @RequestParam(value="id", required=true) Integer id, Model model) {
 		LOGGER.info("IN: providers/deletePhoto-GETT");
-		Provider provider = providerService.deletePhoto(idProvider, id);	
+		Photo photo = photoService.findById(id);
+		Provider provider = providerService.deletePhoto(idProvider, photo);			
+		amazonS3Util.deleteFile(photo.getFilename());
 		String message = "Photo " + id + " was successfully deleted";
 		model.addAttribute("message", message);		
 		model.addAttribute("provider", provider);
@@ -192,31 +194,6 @@ public class AdminProviderPhotosController{
 	}
 	
 
-	/*@Override
-	public ModelAndView resolveException(HttpServletRequest request,
-			HttpServletResponse response, Object handler, Exception exception) {
-		//Map<Object, Object> model = new HashMap<Object, Object>();
-		 ModelAndView mav = new ModelAndView();
-		LOGGER.error(exception.getMessage());
-		System.out.println(exception.getMessage());
-		if (exception instanceof MaxUploadSizeExceededException) {
-			mav.addObject("errors", "File size should be less then " + ((MaxUploadSizeExceededException) exception).getMaxUploadSize()+ " byte.");
-
-		} else {
-			mav.addObject("errors", "Unexpected error: " + exception.getMessage());
-		}
-
-		//model.put("photoForm", new PhotoForm());
-
-		
-	       // mav.addObject("exception", e);
-	      //  mav.addObject("url", req.getRequestURL());
-	     //   mav.setViewName(DEFAULT_ERROR_VIEW);
-	        mav.setViewName("adminpanel/provider/editPhoto");
-	        
-		return mav;
-
-	}*/
 	
 	
 	

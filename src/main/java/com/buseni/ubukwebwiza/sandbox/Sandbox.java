@@ -20,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.auth.ClasspathPropertiesFileCredentialsProvider;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
@@ -54,11 +55,14 @@ public class Sandbox {
 		// uploadLargeFile();
 		// getImagesUrl();
 		// writeBOS();
-		 String test =  "_dte ser.gif ";
+		/* String test =  "_dte ser.gif ";
 		 System.out.println(test);
 		 System.out.println(UbUtils.normalizeName(test));
 		 System.out.println(UbUtils.normalizeFileName(test));
-			System.out.println("done...");
+			System.out.println("done...");*/
+		 AWSCredentials myCredentials = new BasicAWSCredentials("AKIAJJDKPQYTEKXUQQTA", "BJLerZr6tsUGmv5BEn+Pin0F7dUIszeDSBBjrsyg");
+			AmazonS3 s3client = new AmazonS3Client(myCredentials);
+			s3client.deleteBucket("elasticbeanstalk-us-west-2-122458780597");
 	}
 
 	private static void getImagesUrl(){

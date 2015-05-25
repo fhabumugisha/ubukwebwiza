@@ -75,6 +75,14 @@ public interface ProviderService {
 	 * @return 
 	 */
 	Provider deletePhoto(Integer idProvider, Integer  idPhoto);
+	
+	/**
+	 * 
+	 * @param idProvider
+	 * @param idPhoto
+	 * @return 
+	 */
+	Provider deletePhoto(Integer idProvider, Photo  photo);
 
 
 }

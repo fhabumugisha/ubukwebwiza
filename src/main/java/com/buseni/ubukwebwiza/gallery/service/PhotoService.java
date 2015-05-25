@@ -80,6 +80,7 @@ public interface PhotoService {
 	void delete(Integer id);
 	
 	
+	
 
 	/**
 	 * Return the list of home page photos
