@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import com.buseni.ubukwebwiza.administrator.service.AdministratorService;
 
@@ -33,9 +34,9 @@ public class SecurityConfig extends  WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
  
 	  http.authorizeRequests()
-		.antMatchers("/admin/**").access("hasRole('ADMIN')")
+		.antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
 		.and().formLogin().loginPage("/adminlogin").usernameParameter("username")
-		.passwordParameter("password")
+		.passwordParameter("password").successHandler(mySimpleUrlAuthenticationSuccessHandler())
         .and()
         .logout().logoutSuccessUrl("/admin").and().exceptionHandling().accessDeniedPage("/admin403");
         
@@ -47,6 +48,11 @@ public class SecurityConfig extends  WebSecurityConfigurerAdapter {
 		web.ignoring().antMatchers("/resources/**");
 	}
 	
+	@Bean 
+	public AuthenticationSuccessHandler  mySimpleUrlAuthenticationSuccessHandler(){
+		AuthenticationSuccessHandler mySimpleUrlAuthenticationSuccessHandler =  new MySimpleUrlAuthenticationSuccessHandler();
+		return mySimpleUrlAuthenticationSuccessHandler;
+	}
 	@Bean
 	public PasswordEncoder passwordEncoder(){
 		PasswordEncoder encoder = new BCryptPasswordEncoder();

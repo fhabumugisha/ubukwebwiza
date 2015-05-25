@@ -2,19 +2,26 @@ package com.buseni.ubukwebwiza.administrator.enums;
 
 public enum EnumRole {
 		
-	ADMIN( 1 ) {
+	ROLE_ADMIN( 1 ) {
 		@Override
 		public String toString() {
-			return "ADMIN";
+			return "ROLE_ADMIN";
 		}
 	},
-	SUPER_ADMIN( 2 ) {
+	ROLE_SUPER_ADMIN( 2 ) {
 		@Override
 		public String toString() {
-			return "SUPER_ADMIN";
+			return "ROLE_SUPER_ADMIN";
+		}
+	},
+	ROLE_USER( 3 ) {
+		@Override
+		public String toString() {
+			return "ROLE_USER";
 		}
 	};
 
+	
 	private Integer id;
 
 	private EnumRole( Integer id ) {
