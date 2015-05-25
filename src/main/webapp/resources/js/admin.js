@@ -2,7 +2,7 @@
  *  Admin panel Js
  */
 
-$(".deleteProvince").click(function(event){
+$(".deleteProvince, .deletedistrict").click(function(event){
 	event.preventDefault(); 
 	var url = $(this).attr('href');
 	console.log(url);
