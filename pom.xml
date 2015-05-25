@@ -255,12 +255,13 @@
 		<version>2.9.0</version>
 	</dependency>
 	
-	<!-- Amazon sdk  -->
+	<!-- Amazon S3 sdk  -->
 	<dependency>
 	<groupId>com.amazonaws</groupId>
-	<artifactId>aws-java-sdk</artifactId>
-	<version>1.9.33</version>
+	<artifactId>aws-java-sdk-s3</artifactId>
+	<version>1.9.37</version>
 </dependency>
+
 	<!-- Dandelion datatables -->
 	<dependency>
     <groupId>com.github.dandelion</groupId>
