@@ -67,6 +67,7 @@ public class AdministratorServiceImpl implements AdministratorService
 			CustomError  ce = ceb.field("listRoles").buid();
 			throw new ServiceLayerException(ce);
 		}
+		//TODO edit roles
 		if (administrator.getId() == null) {
 			administrator.setCreatedAt(new Date());
 			administrator.setLastUpdate(new Date());

@@ -1,6 +1,8 @@
 package com.buseni.ubukwebwiza.config;
 
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,7 +13,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 import com.buseni.ubukwebwiza.administrator.service.AdministratorService;
 
@@ -22,6 +26,9 @@ public class SecurityConfig extends  WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	private AdministratorService administratorService;
+	
+	@Autowired
+	private DataSource dataSource;
 	
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -35,10 +42,15 @@ public class SecurityConfig extends  WebSecurityConfigurerAdapter {
  
 	  http.authorizeRequests()
 		.antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
-		.and().formLogin().loginPage("/adminlogin").usernameParameter("username")
-		.passwordParameter("password").successHandler(mySimpleUrlAuthenticationSuccessHandler())
+		.and()
+			.formLogin().failureUrl("/adminlogin?error").loginPage("/adminlogin").usernameParameter("username")
+				.passwordParameter("password").successHandler(savedRequestAwareAuthenticationSuccessHandler())
         .and()
-        .logout().logoutSuccessUrl("/admin").and().exceptionHandling().accessDeniedPage("/admin403");
+        	.logout().logoutSuccessUrl("/adminlogin?logout").deleteCookies("JSESSIONID")
+        .and()
+        	.exceptionHandling().accessDeniedPage("/admin403")
+        .and()
+        	.rememberMe().tokenRepository(persistentTokenRepository()).tokenValiditySeconds(604800);
         
  
 	}
@@ -48,10 +60,25 @@ public class SecurityConfig extends  WebSecurityConfigurerAdapter {
 		web.ignoring().antMatchers("/resources/**");
 	}
 	
-	@Bean 
+	@Bean
+	public PersistentTokenRepository persistentTokenRepository() {
+		JdbcTokenRepositoryImpl db = new JdbcTokenRepositoryImpl();
+		db.setDataSource(dataSource);
+		return db;
+	}
+/*	@Bean 
 	public AuthenticationSuccessHandler  mySimpleUrlAuthenticationSuccessHandler(){
 		AuthenticationSuccessHandler mySimpleUrlAuthenticationSuccessHandler =  new MySimpleUrlAuthenticationSuccessHandler();
 		return mySimpleUrlAuthenticationSuccessHandler;
+	}*/
+	
+	@Bean
+	public SavedRequestAwareAuthenticationSuccessHandler savedRequestAwareAuthenticationSuccessHandler() { 
+               SavedRequestAwareAuthenticationSuccessHandler auth = new SavedRequestAwareAuthenticationSuccessHandler();
+		auth.setTargetUrlParameter("targetUrl");
+		auth.setDefaultTargetUrl("/admin");
+		auth.setUseReferer(true);
+		return auth;
 	}
 	@Bean
 	public PasswordEncoder passwordEncoder(){

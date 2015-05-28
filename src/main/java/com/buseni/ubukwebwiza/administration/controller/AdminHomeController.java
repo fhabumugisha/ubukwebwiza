@@ -4,6 +4,10 @@ package com.buseni.ubukwebwiza.administration.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +21,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.buseni.ubukwebwiza.administrator.service.AdministratorService;
 import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
@@ -47,8 +52,27 @@ public class AdminHomeController {
 	}
 	
 	@RequestMapping(value="/adminlogin", method=RequestMethod.GET)
-	public String login(Model model){
+	public String login(@RequestParam(value = "error", required = false) String error,
+			  @RequestParam(value = "logout", required = false) String logout, 
+	          HttpServletRequest request,Model model){
 		//model.addAttribute("currentMenu", "dashbord");
+		if (error != null) {
+/*			model.addAttribute("error", "Invalid username and password!");
+*/ 
+			//login form for update page
+                        //if login error, get the targetUrl from session again.
+			String targetUrl = getRememberMeTargetUrlFromSession(request);
+			LOGGER.info(targetUrl);
+			if(StringUtils.isNotEmpty(targetUrl)){
+				model.addAttribute("targetUrl", targetUrl);
+				model.addAttribute("loginUpdate", true);
+			}
+ 
+		}
+ 
+		/*if (logout != null) {
+			model.addAttribute("msg", "You've been logged out successfully.");
+		}*/
 		return "adminpanel/signin";
 	}
 
@@ -72,6 +96,19 @@ public class AdminHomeController {
 				
 			}
 			return 0;
+		}
+		
+		/**
+		 * get targetURL from session
+		 */
+		private String getRememberMeTargetUrlFromSession(HttpServletRequest request){
+			String targetUrl = "";
+			HttpSession session = request.getSession(false);
+			if(session!=null){
+				targetUrl = session.getAttribute("targetUrl")==null?""
+	                             :session.getAttribute("targetUrl").toString();
+			}
+			return targetUrl;
 		}
 
 }

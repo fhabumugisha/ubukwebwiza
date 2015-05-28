@@ -42,7 +42,7 @@
 						<form class="form-signin" role="form" th:action="@{/adminlogin}"
 							method="post">
 
-							<div th:if="${param.error}" class="alert alert-error">
+							<div th:if="${param.error}" class="alert alert-danger">
 								Invalid username and password.</div>
 							<div th:if="${param.logout}" class="alert alert-success">
 								You have been logged out.</div>
@@ -53,8 +53,8 @@
 								class="sr-only">Password</label> <input type="password"
 								id="password" name="password" class="form-control"
 								placeholder="Password" required="required" />
-							<div class="checkbox">
-								<label> <input type="checkbox" value="remember-me" />
+							<div class="checkbox" th:unless="${#bools.isTrue(loginUpdate)}">
+								<label> <input  type="checkbox" name="remember-me" />
 									Remember me
 								</label>
 							</div>
