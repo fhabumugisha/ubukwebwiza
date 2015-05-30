@@ -70,9 +70,14 @@ public class Administrator implements Serializable {
 	private Date createdAt;
 	
 	private boolean enabled;
+	
+	@Column(name ="token_expired")
+	private boolean tokenExpired;
 
 	@OneToMany(mappedBy="admin", cascade =CascadeType.ALL)
 	private Set<AdminRole> roles =  new HashSet<AdminRole>(); 
+	
+	
 	@Transient
 	private List<String> listRoles = new ArrayList<String>();
 
@@ -288,6 +293,14 @@ public class Administrator implements Serializable {
 
 	public void setListRoles(List<String> listRoles) {
 		this.listRoles = listRoles;
+	}
+
+	public boolean isTokenExpired() {
+		return tokenExpired;
+	}
+
+	public void setTokenExpired(boolean tokenExpired) {
+		this.tokenExpired = tokenExpired;
 	}
 
 

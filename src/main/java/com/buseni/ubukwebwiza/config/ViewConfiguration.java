@@ -1,11 +1,17 @@
 package com.buseni.ubukwebwiza.config;
 
+import java.util.Properties;
+
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.core.env.Environment;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
@@ -17,11 +23,16 @@ import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.thymeleaf.dialect.DandelionDialect;
 
 @Configuration 
+@PropertySource("classpath:email.properties")
 public class ViewConfiguration {
 	
 	 private static final String MESSAGE_SOURCE = "/WEB-INF/i18n/messages";
 	 private static final String VIEWS = "/WEB-INF/views/";
-	@Bean 
+
+	 @Autowired
+	private Environment env;
+	 
+	 @Bean 
 	public ServletContextTemplateResolver templateResolver() {
 		ServletContextTemplateResolver resolver = new ServletContextTemplateResolver();
 		resolver.setPrefix(VIEWS);
@@ -59,6 +70,8 @@ public class ViewConfiguration {
 	        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
 	        messageSource.setBasename(MESSAGE_SOURCE);
 	        messageSource.setCacheSeconds(5);
+	        messageSource.setUseCodeAsDefaultMessage(true);
+	        messageSource.setDefaultEncoding("UTF-8");
 	        return messageSource;
 	    }
 	 
@@ -68,4 +81,19 @@ public class ViewConfiguration {
 	     resolver.setDefaultEncoding("utf-8");*/
 	     return new StandardServletMultipartResolver();
 	 }
+	 
+	 @Bean
+	    public JavaMailSenderImpl javaMailSenderImpl() {
+	        JavaMailSenderImpl mailSenderImpl = new JavaMailSenderImpl();
+	        mailSenderImpl.setHost(env.getProperty("mail.server.smtp.host"));
+	        mailSenderImpl.setPort(env.getProperty("mail.server.smtp.port", Integer.class));
+	        mailSenderImpl.setProtocol(env.getProperty("mail.server.smtp.protocol"));
+	        mailSenderImpl.setUsername(env.getProperty("mail.server.username"));
+	        mailSenderImpl.setPassword(env.getProperty("mail.server.password"));
+	        Properties javaMailProps = new Properties();
+	        javaMailProps.put("mail.smtp.auth", true);
+	        javaMailProps.put("mail.smtp.starttls.enable", true);
+	        mailSenderImpl.setJavaMailProperties(javaMailProps);
+	        return mailSenderImpl;
+	    }
 }

@@ -15,7 +15,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,8 +22,10 @@ import org.springframework.util.CollectionUtils;
 
 import com.buseni.ubukwebwiza.administrator.domain.AdminRole;
 import com.buseni.ubukwebwiza.administrator.domain.Administrator;
+import com.buseni.ubukwebwiza.administrator.domain.PasswordResetToken;
 import com.buseni.ubukwebwiza.administrator.repository.AdminRoleRepo;
 import com.buseni.ubukwebwiza.administrator.repository.AdministratorRepo;
+import com.buseni.ubukwebwiza.administrator.repository.PasswordResetTokenRepo;
 import com.buseni.ubukwebwiza.administrator.service.AdministratorService;
 import com.buseni.ubukwebwiza.exceptions.CustomError;
 import com.buseni.ubukwebwiza.exceptions.CustomErrorBuilder;
@@ -37,11 +38,17 @@ public class AdministratorServiceImpl implements AdministratorService
 
 	private AdministratorRepo administratorRepo;
 	private AdminRoleRepo adminRoleRepo;
+	
+	private PasswordResetTokenRepo passwordTokenRepo;
+	
+	@Autowired
+    private PasswordEncoder passwordEncoder;
 
 	@Autowired
-	public AdministratorServiceImpl(AdministratorRepo administratorRepo, AdminRoleRepo adminRoleRepo) {
+	public AdministratorServiceImpl(AdministratorRepo administratorRepo, AdminRoleRepo adminRoleRepo, PasswordResetTokenRepo passwordTokenRepository) {
 		this.administratorRepo = administratorRepo;
 		this.adminRoleRepo = adminRoleRepo;
+		this.passwordTokenRepo = passwordTokenRepository;
 	}
 
 	public AdministratorServiceImpl() {
@@ -80,9 +87,7 @@ public class AdministratorServiceImpl implements AdministratorService
 
 			}
 
-			PasswordEncoder encoder = new BCryptPasswordEncoder();
-			administrator.setPassword(encoder.encode(administrator
-					.getPassword()));
+			administrator.setPassword(passwordEncoder.encode(administrator.getPassword()));
 
 			administratorRepo.save(administrator);
 
@@ -238,5 +243,43 @@ public class AdministratorServiceImpl implements AdministratorService
 		return new User(admin.getEmail(), admin.getPassword(),
 				admin.isEnabled(), true, true, true, authorities);
 	}
+
+	@Override
+	public Administrator findByEmail(String email) {
+		if(email == null){
+			throw new NullPointerException("Null email");
+		}
+		return  administratorRepo.findByEmail(email);
+	}
+	
+	
+	@Override
+	@Transactional
+    public void createPasswordResetTokenForAdministrator(final Administrator administrator, final String token) {
+        final PasswordResetToken myToken = new PasswordResetToken(token, administrator);
+        passwordTokenRepo.save(myToken);
+    }
+
+   
+
+    @Override
+    public PasswordResetToken getPasswordResetToken(final String token) {
+        return passwordTokenRepo.findByToken(token);
+    }
+
+    @Override
+    public Administrator getAdministratorByPasswordResetToken(final String token) {
+        return passwordTokenRepo.findByToken(token).getAdministrator();
+    }
+    
+    @Override
+    @Transactional
+    public void changeAdministratorPassword(final Administrator admin, final String password) {
+    	if(password== null || admin == null){
+    		throw new NullPointerException("Null password");
+    	}
+        admin.setPassword(passwordEncoder.encode(password));
+        administratorRepo.save(admin);
+    }
 
 }

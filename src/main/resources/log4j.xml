@@ -31,13 +31,18 @@
 	<logger name="org.springframework.web">
 		<level value="warn" />
 	</logger>
-	<logger name="org.hibernate.hql">
+	<logger name="org.springframework.security">
 		<level value="warn" />
 	</logger>
+	
 	<logger name="com.github.dandelion">
 		<level value="warn" />
 	</logger>
 	<logger name="net.sf.ehcache">
+		<level value="warn" />
+	</logger>
+	<!-- 
+	<logger name="org.hibernate.hql">
 		<level value="warn" />
 	</logger>
 	<logger name="org.hibernate.loader">
@@ -46,6 +51,21 @@
 	<logger name="org.hibernate.cfg">
 		<level value="warn" />
 	</logger>
+	<logger name="org.hibernate.tool">
+		<level value="warn" />
+	</logger>
+	<logger name="org.hibernate.validator">
+		<level value="warn" />
+	</logger>
+	
+	<logger name="org.hibernate.id">
+		<level value="warn" />
+	</logger> -->
+	
+	<logger name="org.hibernate">
+		<level value="warn" />
+	</logger>
+	
 	
 
 	<!-- Root Logger -->
