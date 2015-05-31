@@ -20,7 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.buseni.ubukwebwiza.administrator.enums.EnumPhotoCategory;
 import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
 import com.buseni.ubukwebwiza.exceptions.ErrorsHelper;
-import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
+import com.buseni.ubukwebwiza.exceptions.BusinessException;
 import com.buseni.ubukwebwiza.gallery.beans.PhotoForm;
 import com.buseni.ubukwebwiza.gallery.domain.Photo;
 import com.buseni.ubukwebwiza.gallery.service.PhotoService;
@@ -59,7 +59,7 @@ public class AdminPhotoController {
 	}
 	
 	@RequestMapping(value="/photos/addPhoto",method=RequestMethod.POST)
-	public String savePhoto( @ModelAttribute PhotoForm photoForm, BindingResult result, RedirectAttributes attributes) throws ServiceLayerException{		
+	public String savePhoto( @ModelAttribute PhotoForm photoForm, BindingResult result, RedirectAttributes attributes) throws BusinessException{		
 		LOGGER.info("IN: photos/save-POST");
 	
 			MultipartFile file  = photoForm.getFile();
@@ -102,7 +102,7 @@ public class AdminPhotoController {
 				return "redirect:/admin/photos";				
 			
 				//Business errors
-			} catch (final ServiceLayerException e) {
+			} catch (final BusinessException e) {
 				ErrorsHelper.rejectErrors(result, e.getErrors());
 				LOGGER.info("Photo-edit error: " + result.toString());
 				attributes.addFlashAttribute("org.springframework.validation.BindingResult.photoForm", result);

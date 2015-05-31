@@ -20,7 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
 import com.buseni.ubukwebwiza.exceptions.ErrorsHelper;
-import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
+import com.buseni.ubukwebwiza.exceptions.BusinessException;
 import com.buseni.ubukwebwiza.utils.PageWrapper;
 import com.buseni.ubukwebwiza.provider.domain.District;
 import com.buseni.ubukwebwiza.provider.domain.Province;
@@ -56,7 +56,7 @@ public class AdminDistrictController {
 	}
 
 	@RequestMapping(value="/districts/save",method=RequestMethod.POST)
-	public String save(@Valid @ModelAttribute District district , BindingResult result, RedirectAttributes attributes) throws ServiceLayerException{		
+	public String save(@Valid @ModelAttribute District district , BindingResult result, RedirectAttributes attributes) throws BusinessException{		
 		//Validation erros	
 		if (result.hasErrors()) {
 			LOGGER.info("Strategy-edit error: " + result.toString());
@@ -69,7 +69,7 @@ public class AdminDistrictController {
 		try {
 			districtService.add(district);
 			//Business errors	
-		} catch (final ServiceLayerException e) {
+		} catch (final BusinessException e) {
 			ErrorsHelper.rejectErrors(result, e.getErrors());
 			LOGGER.info("District-edit error: " + result.toString());
 			attributes.addFlashAttribute("org.springframework.validation.BindingResult.district", result);

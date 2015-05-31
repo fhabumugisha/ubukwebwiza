@@ -23,7 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
 import com.buseni.ubukwebwiza.exceptions.ErrorsHelper;
-import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
+import com.buseni.ubukwebwiza.exceptions.BusinessException;
 import com.buseni.ubukwebwiza.provider.domain.Province;
 import com.buseni.ubukwebwiza.provider.service.ProvinceService;
 import com.buseni.ubukwebwiza.utils.PageWrapper;
@@ -53,7 +53,7 @@ public class AdminProvinceController {
 	}
 
 	@RequestMapping(value="/provinces/save",method=RequestMethod.POST)
-	public String save(@Valid @ModelAttribute Province province , BindingResult result, RedirectAttributes attributes) throws ServiceLayerException{		
+	public String save(@Valid @ModelAttribute Province province , BindingResult result, RedirectAttributes attributes) throws BusinessException{		
 		LOGGER.info("IN: Provinces/save-POSST");
 		//Validation erros	
 		if (result.hasErrors()) {
@@ -67,7 +67,7 @@ public class AdminProvinceController {
 			try {
 				provinceService.add(province);
 				//Business errors	
-			} catch (final ServiceLayerException e) {
+			} catch (final BusinessException e) {
 				ErrorsHelper.rejectErrors(result, e.getErrors());
 				LOGGER.info("Province-edit error: " + result.toString());
 				attributes.addFlashAttribute("org.springframework.validation.BindingResult.province", result);

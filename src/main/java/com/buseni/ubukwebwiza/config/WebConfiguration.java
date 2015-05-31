@@ -117,7 +117,7 @@ public class WebConfiguration extends WebMvcConfigurerAdapter{
 	              new SimpleMappingExceptionResolver();
 
 	        Properties mappings = new Properties();
-	        mappings.setProperty("BusinessException", "businessException");
+	        mappings.setProperty("OldBusinessException", "businessException");
 	        mappings.setProperty("DatabaseException", "databaseError");
 	        mappings.setProperty("InvalidCreditCardException", "creditCardError");
 

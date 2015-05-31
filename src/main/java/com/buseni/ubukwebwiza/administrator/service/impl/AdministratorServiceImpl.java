@@ -15,6 +15,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,9 +28,9 @@ import com.buseni.ubukwebwiza.administrator.repository.AdminRoleRepo;
 import com.buseni.ubukwebwiza.administrator.repository.AdministratorRepo;
 import com.buseni.ubukwebwiza.administrator.repository.PasswordResetTokenRepo;
 import com.buseni.ubukwebwiza.administrator.service.AdministratorService;
+import com.buseni.ubukwebwiza.exceptions.BusinessException;
 import com.buseni.ubukwebwiza.exceptions.CustomError;
 import com.buseni.ubukwebwiza.exceptions.CustomErrorBuilder;
-import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
 
 @Service
 @Transactional(readOnly = true)
@@ -41,14 +42,16 @@ public class AdministratorServiceImpl implements AdministratorService
 	
 	private PasswordResetTokenRepo passwordTokenRepo;
 	
-	@Autowired
-    private PasswordEncoder passwordEncoder;
+	
 
 	@Autowired
-	public AdministratorServiceImpl(AdministratorRepo administratorRepo, AdminRoleRepo adminRoleRepo, PasswordResetTokenRepo passwordTokenRepository) {
+	public AdministratorServiceImpl(AdministratorRepo administratorRepo, AdminRoleRepo adminRoleRepo,
+			PasswordResetTokenRepo passwordTokenRepository) {
 		this.administratorRepo = administratorRepo;
 		this.adminRoleRepo = adminRoleRepo;
 		this.passwordTokenRepo = passwordTokenRepository;
+	
+		
 	}
 
 	public AdministratorServiceImpl() {
@@ -64,7 +67,7 @@ public class AdministratorServiceImpl implements AdministratorService
 	 */
 	@Override
 	@Transactional
-	public void create(Administrator administrator) throws ServiceLayerException {
+	public void create(Administrator administrator) throws BusinessException {
 		// Control before saving
 		if(administrator == null){
 			throw new NullPointerException();
@@ -72,7 +75,7 @@ public class AdministratorServiceImpl implements AdministratorService
 		if(CollectionUtils.isEmpty(administrator.getListRoles())){
 			CustomErrorBuilder ceb =  new CustomErrorBuilder("error.administrator.missingroles");			
 			CustomError  ce = ceb.field("listRoles").buid();
-			throw new ServiceLayerException(ce);
+			throw new BusinessException(ce);
 		}
 		//TODO edit roles
 		if (administrator.getId() == null) {
@@ -86,8 +89,8 @@ public class AdministratorServiceImpl implements AdministratorService
 				administrator.getRoles().add(role);
 
 			}
-
-			administrator.setPassword(passwordEncoder.encode(administrator.getPassword()));
+			PasswordEncoder encoder = new BCryptPasswordEncoder();
+			administrator.setPassword(encoder.encode(administrator.getPassword()));
 
 			administratorRepo.save(administrator);
 
@@ -217,6 +220,9 @@ public class AdministratorServiceImpl implements AdministratorService
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException {
 		Administrator admin = administratorRepo.findByEmail(username);
+		if (admin == null) {
+            throw new UsernameNotFoundException("No user found with username: "+ username);
+        }
 		List<GrantedAuthority> authorities = buildAdminAuthority(admin.getRoles());
 
 		return buildAdminForAuthentication(admin, authorities);
@@ -278,7 +284,8 @@ public class AdministratorServiceImpl implements AdministratorService
     	if(password== null || admin == null){
     		throw new NullPointerException("Null password");
     	}
-        admin.setPassword(passwordEncoder.encode(password));
+    	PasswordEncoder encoder = new BCryptPasswordEncoder();
+        admin.setPassword(encoder.encode(password));
         administratorRepo.save(admin);
     }
 

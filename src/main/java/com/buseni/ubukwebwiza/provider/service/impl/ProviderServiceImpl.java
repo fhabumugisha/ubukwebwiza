@@ -11,18 +11,26 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import com.buseni.ubukwebwiza.account.beans.SignupForm;
+import com.buseni.ubukwebwiza.exceptions.BusinessException;
+import com.buseni.ubukwebwiza.exceptions.CustomError;
+import com.buseni.ubukwebwiza.exceptions.CustomErrorBuilder;
 import com.buseni.ubukwebwiza.exceptions.ResourceNotFoundException;
 import com.buseni.ubukwebwiza.gallery.domain.Photo;
 import com.buseni.ubukwebwiza.gallery.repository.PhotoRepo;
 import com.buseni.ubukwebwiza.provider.beans.ProviderSearch;
+import com.buseni.ubukwebwiza.provider.domain.District;
 import com.buseni.ubukwebwiza.provider.domain.Provider;
 import com.buseni.ubukwebwiza.provider.domain.ProviderWeddingService;
 import com.buseni.ubukwebwiza.provider.domain.WeddingService;
 import com.buseni.ubukwebwiza.provider.predicates.ProviderPredicates;
+import com.buseni.ubukwebwiza.provider.repository.DistrictRepo;
 import com.buseni.ubukwebwiza.provider.repository.ProviderRepo;
 import com.buseni.ubukwebwiza.provider.repository.ProviderWeddingServiceRepo;
 import com.buseni.ubukwebwiza.provider.repository.WeddingServiceRepo;
@@ -40,12 +48,17 @@ public class ProviderServiceImpl implements ProviderService {
 	private WeddingServiceRepo weddingServiceRepo;
 	private ProviderWeddingServiceRepo providerWeddingServiceRepo;
 	private PhotoRepo photoRepo;
+   	
+	private DistrictRepo districtRepo;
 	@Autowired
-	public ProviderServiceImpl(ProviderRepo providerRepo, WeddingServiceRepo weddingServiceRepo, ProviderWeddingServiceRepo providerWeddingServiceRepo, PhotoRepo photoRepo){
+	public ProviderServiceImpl(ProviderRepo providerRepo, WeddingServiceRepo weddingServiceRepo, ProviderWeddingServiceRepo providerWeddingServiceRepo,
+			PhotoRepo photoRepo,  DistrictRepo districtRepo){
 		this.providerRepo = providerRepo;
 		this.weddingServiceRepo = weddingServiceRepo;
 		this.providerWeddingServiceRepo = providerWeddingServiceRepo;
 		this.photoRepo = photoRepo;
+		this.districtRepo = districtRepo;
+		
 	}
 
 	/* (non-Javadoc)
@@ -53,13 +66,19 @@ public class ProviderServiceImpl implements ProviderService {
 	 */
 	@Override
 	@Transactional
-	public void add(Provider provider) {
+	public void add(Provider provider) throws BusinessException {
 		// TODO control before save
 		if(null == provider){
 			throw new NullPointerException();
 		}
 		//Creation
-		if(provider.getId() == null){
+		if(provider.getId() == null){			
+			if (emailExist(provider.getEmail())) {  
+				CustomErrorBuilder ceb =  new CustomErrorBuilder("error.provider.emailexists");			
+				CustomError  ce = ceb.field("email").errorArgs(new String[]{provider.getEmail()}).buid();
+				throw new BusinessException(ce);
+	           
+	        }
 			provider.setCreatedAt(new Date());			
 			if(provider.getIdcService() != null){
 				WeddingService weddingService = weddingServiceRepo.findOne(provider.getIdcService());
@@ -203,6 +222,49 @@ public class ProviderServiceImpl implements ProviderService {
 		return provider;
 	}
 
+	 private boolean emailExist(String email) {
+	        Provider user = providerRepo.findByEmail(email);
+	        if (user != null) {
+	            return true;
+	        }
+	        return false;
+	    }
 
+	@Override
+	@Transactional
+	public Provider createAccount(SignupForm signupForm) throws BusinessException {
+		if(null == signupForm){
+			throw new NullPointerException();
+		}	
+
+		if (emailExist(signupForm.getEmail())) {  
+			CustomErrorBuilder ceb =  new CustomErrorBuilder("error.provider.emailexists");			
+			CustomError  ce = ceb.field("email").errorArgs(new String[]{signupForm.getEmail()}).buid();
+			throw new BusinessException(ce);
+
+		}
+		Provider provider = new Provider();
+		provider.setBusinessName(signupForm.getBusinessName());
+		provider.setEmail(signupForm.getEmail());
+		PasswordEncoder encoder = new BCryptPasswordEncoder();
+		provider.setPassword(encoder.encode(signupForm.getPassword()));
+		provider.setCreatedAt(new Date());			
+		provider.setLastUpdate(new Date());
+		provider.setEnabled(true);
+		District district  = districtRepo.findOne(signupForm.getIdDistrict());
+		provider.setDistrict(district);
+		WeddingService weddingService = weddingServiceRepo.findOne(signupForm.getIdService());
+		ProviderWeddingService vws = new ProviderWeddingService();
+		vws.setWeddingService(weddingService);
+		vws.setProvider(provider);
+		vws.setCreatedAt(new Date());
+		vws.setLastUpdate(new Date());
+		vws.setEnabled(true);
+		providerWeddingServiceRepo.save(vws);
+		provider.getProviderWeddingServices().add(vws);		
+		providerRepo.save(provider);
+
+		return provider;
+	}
 
 }

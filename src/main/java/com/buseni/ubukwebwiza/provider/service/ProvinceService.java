@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
+import com.buseni.ubukwebwiza.exceptions.BusinessException;
 import com.buseni.ubukwebwiza.provider.domain.Province;
 
 public interface ProvinceService {
@@ -24,9 +24,9 @@ public interface ProvinceService {
 	/**
 	 * 
 	 * @param province
-	 * @throws ServiceLayerException 
+	 * @throws BusinessException 
 	 */
-	void add(Province province) throws ServiceLayerException ;
+	void add(Province province) throws BusinessException ;
 	/**
 	 * 
 	 * @param id

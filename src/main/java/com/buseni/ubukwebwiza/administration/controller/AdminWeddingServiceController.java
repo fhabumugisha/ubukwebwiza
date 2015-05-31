@@ -18,7 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
 import com.buseni.ubukwebwiza.exceptions.ErrorsHelper;
-import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
+import com.buseni.ubukwebwiza.exceptions.BusinessException;
 import com.buseni.ubukwebwiza.utils.PageWrapper;
 import com.buseni.ubukwebwiza.provider.domain.WeddingService;
 import com.buseni.ubukwebwiza.provider.service.WeddingServiceManager;
@@ -50,7 +50,7 @@ public class AdminWeddingServiceController {
 	}
 
 	@RequestMapping(value="/weddingservices/save",method=RequestMethod.POST)
-	public String save(@Valid @ModelAttribute WeddingService weddingService , BindingResult result, RedirectAttributes attributes) throws ServiceLayerException{		
+	public String save(@Valid @ModelAttribute WeddingService weddingService , BindingResult result, RedirectAttributes attributes) throws BusinessException{		
 		//Validation erros	
 		if (result.hasErrors()) {
 			LOGGER.info("Strategy-edit error: " + result.toString());
@@ -63,7 +63,7 @@ public class AdminWeddingServiceController {
 			try {
 				weddingServiceManager.add(weddingService);
 				//Business errors	
-			} catch (final ServiceLayerException e) {
+			} catch (final BusinessException e) {
 				ErrorsHelper.rejectErrors(result, e.getErrors());
 				LOGGER.info("WeddingService-edit error: " + result.toString());
 				attributes.addFlashAttribute("org.springframework.validation.BindingResult.weddingService", result);

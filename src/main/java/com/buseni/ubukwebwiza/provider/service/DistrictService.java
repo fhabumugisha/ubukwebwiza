@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
+import com.buseni.ubukwebwiza.exceptions.BusinessException;
 import com.buseni.ubukwebwiza.provider.domain.District;
 
 public interface DistrictService {
@@ -25,7 +25,7 @@ public interface DistrictService {
 	 * 
 	 * @param district
 	 */
-	void add(District district) throws ServiceLayerException;
+	void add(District district) throws BusinessException;
 	/**
 	 * 
 	 * @param id

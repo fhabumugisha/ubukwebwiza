@@ -274,6 +274,12 @@
 	<artifactId>mail</artifactId>
 	<version>1.4.7</version>
 </dependency>
+<!-- Password validator -->
+<dependency>
+	<groupId>org.passay</groupId>
+	<artifactId>passay</artifactId>
+	<version>1.0</version>
+</dependency>
 
 	</dependencies>
 

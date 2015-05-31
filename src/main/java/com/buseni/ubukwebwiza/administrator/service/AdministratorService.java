@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.buseni.ubukwebwiza.administrator.domain.Administrator;
 import com.buseni.ubukwebwiza.administrator.domain.PasswordResetToken;
-import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
+import com.buseni.ubukwebwiza.exceptions.BusinessException;
 
 public interface AdministratorService extends UserDetailsService {
 
@@ -16,7 +16,7 @@ public interface AdministratorService extends UserDetailsService {
 	 * 
 	 * @param weddingService
 	 */
-	void create(Administrator administrator) throws ServiceLayerException;
+	void create(Administrator administrator) throws BusinessException;
 
 	/**
 	 * 

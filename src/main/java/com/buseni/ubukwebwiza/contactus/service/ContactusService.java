@@ -6,14 +6,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.buseni.ubukwebwiza.contactus.domain.ContactusForm;
-import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
+import com.buseni.ubukwebwiza.exceptions.BusinessException;
 
 public interface ContactusService {
 	/**
 	 * add a new message
 	 * @param contactusForm
 	 */
-	void add(ContactusForm contactusForm) throws ServiceLayerException;
+	void add(ContactusForm contactusForm) throws BusinessException;
 	
 	/**
 	 * List all message
@@ -44,7 +44,7 @@ public interface ContactusService {
 	 * Update the message
 	 * @param contactForm
 	 */
-	void update(ContactusForm contactForm) throws ServiceLayerException;
+	void update(ContactusForm contactForm) throws BusinessException;
 	
 	/**
 	 * Return a message

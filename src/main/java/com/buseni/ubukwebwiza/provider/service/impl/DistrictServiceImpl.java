@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.buseni.ubukwebwiza.exceptions.CustomError;
 import com.buseni.ubukwebwiza.exceptions.CustomErrorBuilder;
-import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
+import com.buseni.ubukwebwiza.exceptions.BusinessException;
 import com.buseni.ubukwebwiza.provider.domain.District;
 import com.buseni.ubukwebwiza.provider.repository.DistrictRepo;
 import com.buseni.ubukwebwiza.provider.service.DistrictService;
@@ -42,7 +42,7 @@ public class DistrictServiceImpl implements DistrictService {
 
 	@Override
 	@Transactional
-	public void add(District district) throws ServiceLayerException {
+	public void add(District district) throws BusinessException {
 		//business control 
 		if(district == null){
 			throw new NullPointerException();
@@ -50,7 +50,7 @@ public class DistrictServiceImpl implements DistrictService {
 		if(district.getProvince() == null || district.getProvince().getId() == null){
 			CustomErrorBuilder ceb =  new CustomErrorBuilder("error.district.province.null");			
 			CustomError  ce = ceb.field("province").buid();
-			throw new ServiceLayerException(ce);
+			throw new BusinessException(ce);
 		}
 		districtRepo.save(district);
 		

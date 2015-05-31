@@ -24,7 +24,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.buseni.ubukwebwiza.administrator.enums.EnumPhotoCategory;
 import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
 import com.buseni.ubukwebwiza.exceptions.ErrorsHelper;
-import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
+import com.buseni.ubukwebwiza.exceptions.BusinessException;
 import com.buseni.ubukwebwiza.gallery.domain.Photo;
 import com.buseni.ubukwebwiza.gallery.service.PhotoService;
 import com.buseni.ubukwebwiza.provider.domain.District;
@@ -78,7 +78,7 @@ public class AdminProviderController {
 	}
 	
 	@RequestMapping(value="/providers/save",method=RequestMethod.POST)
-	public String save(@Valid @ModelAttribute Provider provider , BindingResult result, RedirectAttributes attributes,  @RequestParam("file") MultipartFile file) throws ServiceLayerException{		
+	public String save(@Valid @ModelAttribute Provider provider , BindingResult result, RedirectAttributes attributes,  @RequestParam("file") MultipartFile file) throws BusinessException{		
 		LOGGER.info("IN: providers/save-POSST");
 		//Validation erros	
 		if (result.hasErrors()) {
@@ -128,7 +128,7 @@ public class AdminProviderController {
 				amazonS3Util.uploadFile(fileToUpload, filename);
 				
 				//Business errors	
-			} catch (final ServiceLayerException e) {
+			} catch (final BusinessException e) {
 				ErrorsHelper.rejectErrors(result, e.getErrors());
 				LOGGER.error("Provider-save error: " + result.toString());
 				attributes.addFlashAttribute("org.springframework.validation.BindingResult.provider", result);

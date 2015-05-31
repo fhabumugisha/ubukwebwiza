@@ -13,5 +13,7 @@ public interface ProviderRepo extends JpaRepository<Provider, Integer> , QueryDs
 	
 	Page<Provider> findByEnabled(boolean enabled, Pageable pageable);
 
+	Provider findByEmail(String email);
+
 
 }

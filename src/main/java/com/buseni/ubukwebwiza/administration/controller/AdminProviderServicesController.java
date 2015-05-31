@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
-import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
+import com.buseni.ubukwebwiza.exceptions.BusinessException;
 import com.buseni.ubukwebwiza.provider.beans.ServiceForm;
 import com.buseni.ubukwebwiza.provider.domain.District;
 import com.buseni.ubukwebwiza.provider.domain.Provider;
@@ -75,7 +75,7 @@ public class AdminProviderServicesController {
 	}
 	
 	@RequestMapping(value="/admin/providers/{idProvider:[\\d]+}/services/addService",method=RequestMethod.POST)
-	public String addService( @PathVariable Integer idProvider, @ModelAttribute ServiceForm serviceForm, Model model) throws ServiceLayerException{		
+	public String addService( @PathVariable Integer idProvider, @ModelAttribute ServiceForm serviceForm, Model model) throws BusinessException{		
 		LOGGER.info("IN: providers/addService-POST");
 			ProviderWeddingService vws  = new ProviderWeddingService();	
 			
@@ -98,7 +98,7 @@ public class AdminProviderServicesController {
 					
 			
 				//Business errors
-			} catch (final ServiceLayerException e) {
+			} catch (final BusinessException e) {
 				//ErrorsHelper.rejectErrors(result, e.getErrors());
 				//LOGGER.info("Photo save error: " + result.toString());
 								

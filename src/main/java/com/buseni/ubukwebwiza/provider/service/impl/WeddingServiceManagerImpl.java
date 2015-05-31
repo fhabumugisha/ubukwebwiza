@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
+import com.buseni.ubukwebwiza.exceptions.BusinessException;
 import com.buseni.ubukwebwiza.provider.domain.WeddingService;
 import com.buseni.ubukwebwiza.provider.repository.WeddingServiceRepo;
 import com.buseni.ubukwebwiza.provider.service.WeddingServiceManager;
@@ -43,7 +43,7 @@ public class WeddingServiceManagerImpl implements WeddingServiceManager {
 	}
 	@Override
 	@Transactional
-	public void add(WeddingService weddingService) throws ServiceLayerException {
+	public void add(WeddingService weddingService) throws BusinessException {
 		//business control
 		if(null == weddingService){
 			throw new NullPointerException();

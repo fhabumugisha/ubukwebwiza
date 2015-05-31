@@ -26,7 +26,7 @@ import com.buseni.ubukwebwiza.administrator.enums.EnumRole;
 import com.buseni.ubukwebwiza.administrator.service.AdministratorService;
 import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
 import com.buseni.ubukwebwiza.exceptions.ErrorsHelper;
-import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
+import com.buseni.ubukwebwiza.exceptions.BusinessException;
 import com.buseni.ubukwebwiza.utils.PageWrapper;
 @Controller
 //@SessionAttributes({"allDistricts", "allWeddingServices"})
@@ -76,7 +76,7 @@ public class AdminAdministratorController {
 
 	
 	@RequestMapping(value="/administrators/save",method=RequestMethod.POST)
-	public String save(@Valid @ModelAttribute Administrator administrator , BindingResult result, RedirectAttributes attributes) throws ServiceLayerException{		
+	public String save(@Valid @ModelAttribute Administrator administrator , BindingResult result, RedirectAttributes attributes) throws BusinessException{		
 		//Validation erros	
 		if (result.hasErrors()) {
 			LOGGER.info("Administrator-save error: " + result.toString());
@@ -89,7 +89,7 @@ public class AdminAdministratorController {
 			try {
 				administratorService.create(administrator);
 				//Business errors	
-			} catch (final ServiceLayerException e) {
+			} catch (final BusinessException e) {
 				ErrorsHelper.rejectErrors(result, e.getErrors());
 				LOGGER.info("Administrator-save error: " + result.toString());
 				attributes.addFlashAttribute("org.springframework.validation.BindingResult.admnistrator", result);

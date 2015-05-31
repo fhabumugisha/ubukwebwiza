@@ -1,34 +1,28 @@
 package com.buseni.ubukwebwiza.exceptions;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class BusinessException extends RuntimeException {
-
+public class BusinessException extends Exception{
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
-	
-	private List<ExceptionMessage> exceptionMessages;
-	
-	public BusinessException() {
-		super();
-		exceptionMessages = new ArrayList<ExceptionMessage>();
-	}
-	
-	public BusinessException(String key, String message){
-		super(message);
-		exceptionMessages = new ArrayList<ExceptionMessage>();
-		exceptionMessages.add(new ExceptionMessage(key, message));
+	private List<CustomError> errors = new ArrayList<>();
+
+	public List<CustomError> getErrors() {
+		return errors;
 	}
 
-
+	public void setErrors(List<CustomError> errors) {
+		this.errors = errors;
+	}
 	
-	public void add(ExceptionMessage validationMessage) {
-		exceptionMessages.add(validationMessage);
+	public BusinessException(CustomError error){
+		errors.add(error);
 	}
-
-	public List<ExceptionMessage> getExceptionMessages() {
-		return exceptionMessages;
+	
+	public void addError(CustomError error){
+		errors.add(error);
 	}
-
 }

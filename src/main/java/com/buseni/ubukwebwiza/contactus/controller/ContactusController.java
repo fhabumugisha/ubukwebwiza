@@ -19,7 +19,7 @@ import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
 import com.buseni.ubukwebwiza.contactus.domain.ContactusForm;
 import com.buseni.ubukwebwiza.contactus.service.ContactusService;
 import com.buseni.ubukwebwiza.exceptions.ErrorsHelper;
-import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
+import com.buseni.ubukwebwiza.exceptions.BusinessException;
 import com.buseni.ubukwebwiza.home.HomeController;
 
 @Controller
@@ -42,14 +42,14 @@ public class ContactusController {
 		//Validation erros	
 		if (result.hasErrors()) {
 			LOGGER.info("Contactus error: " + result.toString());
-			attributes.addFlashAttribute("org.springframework.validation.BindingResult.district", result);
+			attributes.addFlashAttribute("org.springframework.validation.BindingResult.contactusForm", result);
 			attributes.addFlashAttribute("contactusForm", contactusForm);
 			return "frontend/contactus";
 
 		}
 		try {
 			contactusService.add(contactusForm);
-		} catch (ServiceLayerException e) {
+		} catch (BusinessException e) {
 			ErrorsHelper.rejectErrors(result, e.getErrors());
 			LOGGER.info("Contactus-edit error: " + result.toString());
 			attributes.addFlashAttribute("org.springframework.validation.BindingResult.contactusForm", result);

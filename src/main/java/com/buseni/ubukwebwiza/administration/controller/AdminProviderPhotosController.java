@@ -20,7 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.buseni.ubukwebwiza.administrator.enums.EnumPhotoCategory;
 import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
 import com.buseni.ubukwebwiza.exceptions.ErrorsHelper;
-import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
+import com.buseni.ubukwebwiza.exceptions.BusinessException;
 import com.buseni.ubukwebwiza.gallery.beans.PhotoForm;
 import com.buseni.ubukwebwiza.gallery.domain.Photo;
 import com.buseni.ubukwebwiza.gallery.service.PhotoService;
@@ -68,7 +68,7 @@ public class AdminProviderPhotosController{
 	
 	@RequestMapping(value="/admin/providers/{idProvider:[\\d]+}/photos/addPhoto", method=RequestMethod.POST)
 	public String savePhoto(@PathVariable Integer idProvider, @ModelAttribute PhotoForm photoForm,
-			BindingResult result, RedirectAttributes attributes) throws ServiceLayerException{		
+			BindingResult result, RedirectAttributes attributes) throws BusinessException{		
 		LOGGER.info("IN: providers/addPhoto-POST");
 		Provider provider = providerService.findOne(idProvider);
 		LOGGER.info("IN: providers/addPhoto to provider : " + provider);
@@ -126,7 +126,7 @@ public class AdminProviderPhotosController{
 			return "redirect:/admin/providers/" + provider.getId() + "/photos";
 
 			// Business errors
-		} catch (final ServiceLayerException e) {
+		} catch (final BusinessException e) {
 			ErrorsHelper.rejectErrors(result, e.getErrors());
 			LOGGER.error("Photo-save error: " + result.toString());
 			attributes.addFlashAttribute("org.springframework.validation.BindingResult.photoForm", result);

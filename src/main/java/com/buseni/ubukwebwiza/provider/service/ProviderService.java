@@ -5,7 +5,8 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
+import com.buseni.ubukwebwiza.account.beans.SignupForm;
+import com.buseni.ubukwebwiza.exceptions.BusinessException;
 import com.buseni.ubukwebwiza.gallery.domain.Photo;
 import com.buseni.ubukwebwiza.provider.beans.ProviderSearch;
 import com.buseni.ubukwebwiza.provider.domain.Provider;
@@ -16,7 +17,7 @@ public interface ProviderService {
 	 * 
 	 * @param weddingService
 	 */
-	void add(Provider provider) throws ServiceLayerException;
+	void add(Provider provider) throws BusinessException;
 	
 	/**
 	 * 
@@ -83,6 +84,14 @@ public interface ProviderService {
 	 * @return 
 	 */
 	Provider deletePhoto(Integer idProvider, Photo  photo);
+	
+	/**
+	 * Create an provider account
+	 * @param signupForm
+	 * @return
+	 * @throws BusinessException 
+	 */
+	Provider createAccount(SignupForm signupForm) throws BusinessException;
 
 
 }

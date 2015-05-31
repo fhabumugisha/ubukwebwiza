@@ -23,7 +23,7 @@ import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
 import com.buseni.ubukwebwiza.contactus.domain.ContactusForm;
 import com.buseni.ubukwebwiza.contactus.service.ContactusService;
 import com.buseni.ubukwebwiza.exceptions.ErrorsHelper;
-import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
+import com.buseni.ubukwebwiza.exceptions.BusinessException;
 import com.buseni.ubukwebwiza.utils.PageWrapper;
 
 @Controller
@@ -55,7 +55,7 @@ public class AdminContactusController {
 	
 
 	@RequestMapping(value="/contactus/save",method=RequestMethod.POST)
-	public String save(@Valid @ModelAttribute ContactusForm contactusForm , BindingResult result, RedirectAttributes attributes) throws ServiceLayerException{		
+	public String save(@Valid @ModelAttribute ContactusForm contactusForm , BindingResult result, RedirectAttributes attributes) throws BusinessException{		
 		//Validation erros	
 		if (result.hasErrors()) {
 			LOGGER.info("contactusForm-edit error: " + result.toString());
@@ -68,7 +68,7 @@ public class AdminContactusController {
 		try {
 			contactusService.update(contactusForm);
 			//Business errors	
-		} catch (final ServiceLayerException e) {
+		} catch (final BusinessException e) {
 			ErrorsHelper.rejectErrors(result, e.getErrors());
 			LOGGER.info("Contactus-edit error: " + result.toString());
 			attributes.addFlashAttribute("org.springframework.validation.BindingResult.contactusForm", result);

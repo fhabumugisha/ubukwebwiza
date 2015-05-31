@@ -13,7 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
+import com.buseni.ubukwebwiza.exceptions.BusinessException;
 import com.buseni.ubukwebwiza.provider.domain.ProviderWeddingService;
 import com.buseni.ubukwebwiza.provider.repository.ProviderWeddingServiceRepo;
 import com.buseni.ubukwebwiza.provider.service.ProviderWeddingServiceManager;
@@ -37,7 +37,7 @@ public class ProviderWeddingServiceManagerImpl implements ProviderWeddingService
 	 */
 	@Override
 	@Transactional
-	public void create(ProviderWeddingService providerWeddingService) throws ServiceLayerException{
+	public void create(ProviderWeddingService providerWeddingService) throws BusinessException{
 		// TODO control before save
 		
 		if(providerWeddingService.getId() == null){

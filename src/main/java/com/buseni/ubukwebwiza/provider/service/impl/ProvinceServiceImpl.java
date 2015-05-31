@@ -9,9 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.buseni.ubukwebwiza.exceptions.CustomError;
-import com.buseni.ubukwebwiza.exceptions.CustomErrorBuilder;
-import com.buseni.ubukwebwiza.exceptions.ServiceLayerException;
+import com.buseni.ubukwebwiza.exceptions.BusinessException;
 import com.buseni.ubukwebwiza.provider.domain.Province;
 import com.buseni.ubukwebwiza.provider.repository.ProvinceRepo;
 import com.buseni.ubukwebwiza.provider.service.ProvinceService;
@@ -42,11 +40,11 @@ public class ProvinceServiceImpl implements ProvinceService{
 	@Override
 	//@Valid
 	@Transactional
-	public void add(Province province) throws ServiceLayerException {
+	public void add(Province province) throws BusinessException {
 		/*if(!province.isEnabled() ){
 			CustomErrorBuilder ceb =  new CustomErrorBuilder("error.province.enabled.notchecked");			
 			CustomError  ce = ceb.field("enabled").buid();
-			throw new ServiceLayerException(ce);
+			throw new BusinessException(ce);
 		}*/
 		provinceRepo.save(province);
 		
