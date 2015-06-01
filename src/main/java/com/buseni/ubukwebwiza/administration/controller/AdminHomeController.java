@@ -132,13 +132,13 @@ public class AdminHomeController {
 	
 	
 	@RequestMapping(value="/adminChangePassword", method=RequestMethod.GET)
-	public String changePassword(Model model){
+	public String adminChangePassword(Model model){
 		return "adminpanel/changePassword";
 	}
 	@RequestMapping(value = "/adminChangePassword", method = RequestMethod.POST)
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	//@ResponseBody
-	public String savePassword(HttpServletRequest request, @RequestParam("password" ) String password, @RequestParam("passwordConfirm") String passwordConfirm, RedirectAttributes attributes) {
+	public String adminSavePassword(HttpServletRequest request, @RequestParam("password" ) String password, @RequestParam("passwordConfirm") String passwordConfirm, RedirectAttributes attributes) {
 	  if(!password.equals(passwordConfirm)){
 		  String error = messages.getMessage("PasswordMatches.user", null, request.getLocale());		
 	    	LOGGER.error(error);
@@ -154,7 +154,7 @@ public class AdminHomeController {
 	
 	@RequestMapping(value = "/adminForgotPassword", method = RequestMethod.POST)
 	//@ResponseBody
-	public String resetPassword(HttpServletRequest request, @RequestParam("email") String userEmail, RedirectAttributes attributes) {
+	public String adminForgotPassword(HttpServletRequest request, @RequestParam("email") String userEmail, RedirectAttributes attributes) {
 	     
 	    Administrator admin = administratorService.findByEmail(userEmail);
 	    if (admin == null) {	    	
@@ -227,7 +227,7 @@ public class AdminHomeController {
 		SimpleMailMessage email = new SimpleMailMessage();
 		email.setTo(administrator.getEmail());
 		email.setSubject("Reset Password");
-		email.setText(message + "\n" + url);
+		email.setText(message + "\r\n" + url);
 		email.setFrom(supportEmail);
 		return email;
 	}

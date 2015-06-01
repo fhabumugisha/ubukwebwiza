@@ -25,7 +25,9 @@
 								is incorrect</li>
 						</ul>
 					</div>
-								<input type="hidden" name="enterHere" class="hidden" />
+								<label for="enterHere" class="sr-only">Dont fill this
+										field</label> <input id="enterHere" type="hidden" name="enterHere"
+										class="hidden" />
 								<div class="form-group" th:classappend="${#fields.hasErrors('name')}? has-error">
 									
 									<div class="input-group col-md-4">

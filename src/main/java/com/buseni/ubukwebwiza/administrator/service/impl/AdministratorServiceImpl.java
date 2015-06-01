@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -42,7 +44,11 @@ public class AdministratorServiceImpl implements AdministratorService
 	
 	private PasswordResetTokenRepo passwordTokenRepo;
 	
-	
+	@Autowired
+    private LoginAttemptService loginAttemptService;
+ 
+    @Autowired
+    private HttpServletRequest request;
 
 	@Autowired
 	public AdministratorServiceImpl(AdministratorRepo administratorRepo, AdminRoleRepo adminRoleRepo,
@@ -219,6 +225,10 @@ public class AdministratorServiceImpl implements AdministratorService
 	@Override
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException {
+		String ip = request.getRemoteAddr();
+        if (loginAttemptService.isBlocked(ip)) {
+            throw new RuntimeException("blocked");
+        }
 		Administrator admin = administratorRepo.findByEmail(username);
 		if (admin == null) {
             throw new UsernameNotFoundException("No user found with username: "+ username);

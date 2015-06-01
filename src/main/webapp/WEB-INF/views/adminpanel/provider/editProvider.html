@@ -229,7 +229,7 @@
 								<label for="password" class="col-sm-3 control-label"
 									th:text="#{provider.list.password}">password</label>
 								<div class="col-sm-8">
-									<input id="password" type="text" class="form-control"
+									<input id="password" type="password" class="form-control"
 										th:field="*{password}" placeholder="Enter password"
 										required="required" /> <span class="text-danger"
 										th:if="${#fields.hasErrors('password')}"
@@ -275,7 +275,7 @@
 										th:field="*{twitterUsername}" placeholder="Enter website" />
 									<span class="text-danger"
 										th:if="${#fields.hasErrors('twitterUsername')}"
-										th:errors="*{ftwitterUsername}">Required field</span>
+										th:errors="*{twitterUsername}">Required field</span>
 								</div>
 
 							</div>

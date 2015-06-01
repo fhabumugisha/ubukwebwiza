@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	layout:decorator="frontend/fragments/mainLayout">
+<head>
+<title th:text="#{signupError.title}">Ubukwebwiza - Sign up error</title>
+</head>
+<body>
+
+	<div layout:fragment="pageContent" id="content" class="col-md-10">
+		<div th:if="${param.error}" class="alert alert-danger" th:text="#{auth.message.invalidToken}">Error</div>
+		
+		<div class="row" th:if="${param.expired}" >
+		<div class="col-md-4 alert alert-danger">
+				<span  th:text="#{auth.message.expired}"></span>	
+			
+		</div>
+		<div class="col-md-4">
+			 <a  href="signup.html" th:href="@{/resendRegistrationToken(token=${param.token})}" class="btn btn-primary btn-sm " role="button">Resend registration token</a> 
+		</div>
+		</div>
+		
+	</div>
+
+
+</body>
+</html>

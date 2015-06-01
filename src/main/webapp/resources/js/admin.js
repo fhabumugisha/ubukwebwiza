@@ -2,7 +2,7 @@
  *  Admin panel Js
  */
 
-$(".deleteProvince, .deletedistrict").click(function(event){
+$(".deleteProvince, .deletedistrict, .deleteProvider, .deleteHomePagePhoto").click(function(event){
 	event.preventDefault(); 
 	var url = $(this).attr('href');
 	console.log(url);
@@ -29,32 +29,6 @@ $(".deleteProvince, .deletedistrict").click(function(event){
 
 }); 
 
-$(".deleteHomePagePhoto").click(function(event){
-	event.preventDefault(); 
-	var url = $(this).attr('href');
-	console.log(url);
-	$("#dialog-confirm").dialog({
-		resizable: false,
-		height:200,
-		modal: true,
-		buttons: {
-			Delete: function() {
-
-				$( this ).dialog( "close" );
-				location.href = url;
-
-			},
-			Cancel: function() {
-				$( this ).dialog( "close" );
-			}
-		},
-		open: function() {
-			$('.ui-dialog-buttonpane').find('button:contains("Cancel")').addClass('btn-primary');
-			$('.ui-dialog-buttonpane').find('button:contains("Delete")').addClass('btn-default');
-		}
-	});
-
-}); 
 
 function previewImage(idImg, idPreviewDiv) {
 	var oFReader = new FileReader();

@@ -4,6 +4,7 @@ package com.buseni.ubukwebwiza.contactus.controller;
 
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
@@ -38,7 +40,11 @@ public class ContactusController {
 	}
 
 	@RequestMapping(value="/contactus", method=RequestMethod.POST)
-	public String contactus(@Valid @ModelAttribute ContactusForm contactusForm,  BindingResult result, RedirectAttributes attributes){
+	public String contactus(@RequestParam(value="enterHere", required=false) String enterHere, @Valid @ModelAttribute ContactusForm contactusForm,  BindingResult result, RedirectAttributes attributes){
+		//If enterHere is filled it is a spam
+		if(StringUtils.isNotEmpty(enterHere)){
+					return "redirect:/";
+		}
 		//Validation erros	
 		if (result.hasErrors()) {
 			LOGGER.info("Contactus error: " + result.toString());

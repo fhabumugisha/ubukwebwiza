@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	layout:decorator="frontend/fragments/mainLayout">
+<head>
+<title th:text="#{signupSuccess.title}">Ubukwebwiza - Sign up success</title>
+</head>
+<body>
+
+	<div layout:fragment="pageContent" id="content" class="col-md-10">
+		<div th:if="${message}" class="alert alert-success" th:text="${message}">Message</div>
+		<div class="row">
+		<div class="col-md-4">
+		
+		
+			 <a  href="login.html" th:href="@{/login}" class="btn btn-primary btn-sm " role="button">Login</a> 
+		</div>
+		</div>
+		
+	</div>
+
+
+
+</body>
+</html>

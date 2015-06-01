@@ -3,7 +3,7 @@
 	xmlns:th="http://www.thymeleaf.org"
 	layout:decorator="frontend/fragments/mainLayout">
 <head>
-<title th:text="#{signus.title}">Ubukwebwiza - Sign up</title>
+<title th:text="#{signup.title}">Ubukwebwiza - Sign up</title>
 </head>
 <body>
 
@@ -15,11 +15,13 @@
 				<div class="row">
 
 					<div class="col-md-7 container">
+						
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<h3 class="panel-title">Sign up for a provider account</h3>
 							</div>
 							<div class="panel-body">
+								
 								<form role="form" action="editProfil.html"
 									th:action="@{/signup}" th:object="${signupForm}" method="post">
 									<div th:if="${#fields.hasGlobalErrors()}"
@@ -137,7 +139,7 @@
 
 		<script type="text/javascript">
 	
-	 $(document).ready(function() {
+// 	 $(document).ready(function() {
 		   	    
 		    var options = {};
 		    options.common = {minChar:8};
@@ -164,7 +166,7 @@
 		            
 		        };
 		        $('#password').pwstrength(options);
-		  });
+		 /*  }); */
 	</script>
 	</div>
 

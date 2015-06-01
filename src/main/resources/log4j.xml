@@ -19,7 +19,10 @@
 	<logger name="org.springframework.core">
 		<level value="warn" />
 	</logger>
-	
+	<logger name="org.springframework.aop">
+		<level value="warn" />
+	</logger>
+	 
 	<logger name="org.springframework.beans">
 		<level value="warn" />
 	</logger>
