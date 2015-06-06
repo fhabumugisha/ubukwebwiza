@@ -18,7 +18,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 //@Profile( "mysql" )
 @Configuration
-@EnableJpaRepositories(basePackages={"com.buseni.ubukwebwiza.administrator.repository","com.buseni.ubukwebwiza.provider.repository","com.buseni.ubukwebwiza.contactus.repository","com.buseni.ubukwebwiza.gallery.repository"})
+@EnableJpaRepositories(basePackages={"com.buseni.ubukwebwiza.administrator.repository","com.buseni.ubukwebwiza.provider.repository",
+		"com.buseni.ubukwebwiza.contactus.repository","com.buseni.ubukwebwiza.gallery.repository", "com.buseni.ubukwebwiza.account.repository"})
 @PropertySource( {  "classpath:hibernate.properties" } )
 @EnableTransactionManagement
 public class PersistenceMySqlConfig {

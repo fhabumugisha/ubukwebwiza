@@ -27,7 +27,7 @@ public class Photo implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="id_photo")
+	@Column(name="id")
 	private Integer id;
 	
 	@NotEmpty(message="{error.photo.requiredfield.filename}")

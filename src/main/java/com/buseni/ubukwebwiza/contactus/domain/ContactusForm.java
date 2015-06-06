@@ -21,7 +21,7 @@ public class ContactusForm implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="id_administrator")
+	@Column(name="id")
 	private Integer id;
 	
 	@NotEmpty

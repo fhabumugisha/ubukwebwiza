@@ -21,8 +21,8 @@
 
 		<div class="panel panel-default">
 			<div class="panel-body">
-				<form class="form-horizontal" role="form" action="#" enctype="multipart/form-data"
-					th:action="@{/admin/administrators/save}" th:object="${administrator}"
+				<form class="form-horizontal" role="form" action="#" 
+					th:action="@{/admin/administrators/new}" th:object="${administrator}"
 					method="post">
 					<div th:if="${#fields.hasGlobalErrors()}"
 						class="alert alert-danger">
@@ -34,7 +34,7 @@
 
 
 					<input type="text" hidden="hidden" th:field="*{id}" class="hidden" />
-					<span th:if="*{id}"> <input type="text" hidden="hidden" th:field="*{password}" class="hidden" /></span>
+					
 					
 					<div class="row">
 
@@ -48,9 +48,9 @@
 									th:text="#{administrator.list.email}">email</label>
 								
 								<div class="col-sm-7">
-									<input id="email" type="email" class="form-control"
+									<input id="email" type="email" class="form-control" required="required"
 										th:field="*{email}" placeholder="Enter email"
-										required="required" />
+										 />
 										 <span class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Required 	field</span>
 								</div>
 
@@ -61,20 +61,14 @@
 								<label for="firstname" class="col-sm-4 control-label"
 									th:text="#{administrator.list.firstname}">firstname</label>
 								<div class="col-sm-7">
-									<input id="firstname" type="text" class="form-control"
+									<input id="firstname" type="text" class="form-control" required="required"
 										th:field="*{firstName}" placeholder="Enter firstname"
-										required="required" /> <span class="text-danger"
+										 /> <span class="text-danger"
 										th:if="${#fields.hasErrors('firstName')}"
 										th:errors="*{firstName}">Required field</span>
 								</div>
 
 							</div>
-							
-							
-							
-							
-							
-							
 							
 													
 							<div class="form-group"
@@ -100,14 +94,14 @@
 
 						<div class="col-sm-6">
 						
-							<div class="form-group" th:unless="*{password}"
+							<div class="form-group" th:unless="*{id}"
 								th:classappend="${#fields.hasErrors('password')}? has-error">
 								<label for="password" class="col-sm-3 control-label"
 									th:text="#{administrator.list.password}">password</label>
 								<div class="col-sm-8">
-									<input id="password" type="text" class="form-control"  
+									<input id="password" type="password" class="form-control"  required="required"
 										th:field="*{password}" placeholder="Enter password"
-										required="required" /> <span class="text-danger"
+										 /> <span class="text-danger"
 										th:if="${#fields.hasErrors('password')}"
 										th:errors="*{password}">Required field</span>
 								</div>
@@ -119,9 +113,9 @@
 									th:text="#{administrator.list.lastname}">lastName</label>
 								<div class="col-sm-8">
 									
-									<input id="lastname" type="text" class="form-control"
+									<input id="lastname" type="text" class="form-control" required="required"
 										th:field="*{lastName}" placeholder="Enter lastName"
-										required="required" /> <span class="text-danger"
+										 /> <span class="text-danger"
 										th:if="${#fields.hasErrors('lastName')}"
 										th:errors="*{lastName}">Required field</span>
 										

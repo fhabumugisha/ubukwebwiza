@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.buseni.ubukwebwiza.account.beans.SignupForm;
-import com.buseni.ubukwebwiza.account.beans.VerificationToken;
+import com.buseni.ubukwebwiza.account.domain.UserAccount;
 import com.buseni.ubukwebwiza.exceptions.BusinessException;
 import com.buseni.ubukwebwiza.gallery.domain.Photo;
 import com.buseni.ubukwebwiza.provider.beans.ProviderSearch;
@@ -92,16 +92,9 @@ public interface ProviderService {
 	 * @return
 	 * @throws BusinessException 
 	 */
-	Provider createAccount(SignupForm signupForm) throws BusinessException;
+	UserAccount createAccount(SignupForm signupForm) throws BusinessException;
 
-	void createVerificationTokenForProvider(Provider user, String token);
-
-	VerificationToken generateNewVerificationToken(
-			String existingVerificationToken);
-
-	VerificationToken getVerificationToken(String VerificationToken);
-
-	Provider getProviderByVerificationToken(String verificationToken);
+	
 
 
 }

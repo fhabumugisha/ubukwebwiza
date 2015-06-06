@@ -52,7 +52,7 @@ public class ProviderWeddingService implements Serializable{
 	private WeddingService weddingService;
 	
 	@ManyToOne
-	@JoinColumn(name="id_provider")
+	@JoinColumn(name="id_provider", referencedColumnName="id")
 	private Provider provider;
 	
 	public Provider getProvider() {

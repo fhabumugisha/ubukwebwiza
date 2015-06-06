@@ -1,8 +1,6 @@
 package com.buseni.ubukwebwiza.account.controller;
 
-import java.util.Calendar;
 import java.util.Locale;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,9 +12,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -25,11 +20,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.buseni.ubukwebwiza.administrator.domain.Administrator;
-import com.buseni.ubukwebwiza.administrator.domain.PasswordResetToken;
+import com.buseni.ubukwebwiza.account.domain.UserAccount;
 import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
 import com.buseni.ubukwebwiza.home.HomeController;
-import com.buseni.ubukwebwiza.provider.service.ProviderService;
 
 @Controller
 @Navigation(url="/login", name="Login" , parent = HomeController.class)
@@ -38,8 +31,8 @@ public class LoginController {
 	
 	public  static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
 	
-	@Autowired
-	private ProviderService  providerService;
+	/*@Autowired
+	private ProviderService  providerService;*/
 	
 	 @Autowired
 	 private MessageSource messages;
@@ -94,7 +87,7 @@ public class LoginController {
 		return "frontend/account/changePassword";
 	}
 	@RequestMapping(value = "/changePassword", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('ROLE_USER')")
+	//@PreAuthorize("hasRole('ROLE_USER')")
 	//@ResponseBody
 	public String savePassword(HttpServletRequest request, @RequestParam("password" ) String password, @RequestParam("passwordConfirm") String passwordConfirm, RedirectAttributes attributes) {
 	  if(!password.equals(passwordConfirm)){
@@ -137,11 +130,11 @@ public class LoginController {
 	}
 	
 	private SimpleMailMessage constructResetTokenEmail(String contextPath,
-			Locale locale, String token, Administrator administrator) {
-		String url = contextPath + "/adminResetPassword?id="+ administrator.getId() + "&token=" + token;
+			Locale locale, String token, UserAccount user) {
+		String url = contextPath + "/adminResetPassword?id="+ user.getId() + "&token=" + token;
 		String message = messages.getMessage("message.resetPassword", null,	locale);
 		SimpleMailMessage email = new SimpleMailMessage();
-		email.setTo(administrator.getEmail());
+		email.setTo(user.getEmail());
 		email.setSubject("Reset Password");
 		email.setText(message + "\r\n" + url);
 		email.setFrom(supportEmail);

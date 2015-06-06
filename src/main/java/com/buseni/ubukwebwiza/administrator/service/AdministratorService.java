@@ -2,21 +2,25 @@ package com.buseni.ubukwebwiza.administrator.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.buseni.ubukwebwiza.administrator.domain.Administrator;
-import com.buseni.ubukwebwiza.administrator.domain.PasswordResetToken;
+import com.buseni.ubukwebwiza.administrator.domain.AdministratorDTO;
 import com.buseni.ubukwebwiza.exceptions.BusinessException;
 
-public interface AdministratorService extends UserDetailsService {
+public interface AdministratorService {
 
 	/**
 	 * 
 	 * @param weddingService
 	 */
 	void create(Administrator administrator) throws BusinessException;
+	/**
+	 * 
+	 * @param administratorDTO
+	 * @return 
+	 * @throws BusinessException
+	 */
+	Administrator create(AdministratorDTO administratorDTO) throws BusinessException;
 
 	/**
 	 * 
@@ -30,8 +34,6 @@ public interface AdministratorService extends UserDetailsService {
 	 * @return
 	 */
 	Administrator findById(Integer id);
-
-
 	/**
 	 * 
 	 * @param pageable
@@ -43,15 +45,6 @@ public interface AdministratorService extends UserDetailsService {
 
 	Administrator findByEmail(String email);
 
-	void createPasswordResetTokenForAdministrator(Administrator uadministrator, String token);
-
-
-	PasswordResetToken getPasswordResetToken(String token);
-
-	Administrator getAdministratorByPasswordResetToken(String token);
-
-	void changeAdministratorPassword(Administrator admin, String password);
 	
-	UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
 
 }

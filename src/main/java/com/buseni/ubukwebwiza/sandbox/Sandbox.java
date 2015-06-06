@@ -7,9 +7,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.Normalizer;
 
 import javax.imageio.ImageIO;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 
 import net.coobird.thumbnailator.Thumbnails;
 
@@ -37,11 +38,16 @@ import com.amazonaws.services.s3.transfer.TransferManager;
 import com.amazonaws.services.s3.transfer.Upload;
 import com.amazonaws.util.IOUtils;
 import com.amazonaws.util.StringUtils;
-import com.buseni.ubukwebwiza.utils.UbUtils;
+
 
 public class Sandbox {
-
+	
+	@PersistenceContext
+	static 	 EntityManagerFactory emfactory;
+	
 	public static void main(String[] args) throws IOException {
+		
+	
 		// TODO Auto-generated method stub
 		//PasswordEncoder encoder = new BCryptPasswordEncoder();
 		//System.out.println("123456 encode is " + encoder.encode("123456"));

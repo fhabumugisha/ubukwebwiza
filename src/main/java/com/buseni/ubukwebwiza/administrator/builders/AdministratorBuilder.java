@@ -16,14 +16,14 @@ public class AdministratorBuilder  {
 		administrator.setId(id);
 		return this;
 	}
-	public AdministratorBuilder username(String username){
+	/*public AdministratorBuilder username(String username){
 		administrator.setEmail(username);
 		return this;
 	}
 	public AdministratorBuilder password(String password){
 		administrator.setPassword(password);
 		return this;
-	}
+	}*/
 	public AdministratorBuilder firstName(String firstName){
 		administrator.setFirstName(firstName);
 		return this;

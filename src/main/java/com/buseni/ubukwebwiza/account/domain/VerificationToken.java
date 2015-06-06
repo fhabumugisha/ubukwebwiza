@@ -1,4 +1,4 @@
-package com.buseni.ubukwebwiza.account.beans;
+package com.buseni.ubukwebwiza.account.domain;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -28,8 +28,8 @@ public class VerificationToken {
     private String token;
 
     @OneToOne(targetEntity = Provider.class, fetch = FetchType.EAGER)
-    @JoinColumn(nullable = false, name = "id_provider")
-    private Provider provider;
+    @JoinColumn(nullable = false, name = "id_account",  referencedColumnName="id")
+    private UserAccount account;
 
     @Column(name="expiry_date")
     private Date expiryDate;
@@ -45,11 +45,11 @@ public class VerificationToken {
         this.expiryDate = calculateExpiryDate(EXPIRATION);
     }
 
-    public VerificationToken(String token, Provider provider) {
+    public VerificationToken(String token, UserAccount account) {
         super();
 
         this.token = token;
-        this.provider = provider;
+        this.account = account;
         this.expiryDate = calculateExpiryDate(EXPIRATION);
     }
 
@@ -84,42 +84,7 @@ public class VerificationToken {
 
     //
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((expiryDate == null) ? 0 : expiryDate.hashCode());
-        result = prime * result + ((token == null) ? 0 : token.hashCode());
-        result = prime * result + ((provider == null) ? 0 : provider.hashCode());
-        return result;
-    }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        VerificationToken other = (VerificationToken) obj;
-        if (expiryDate == null) {
-            if (other.expiryDate != null)
-                return false;
-        } else if (!expiryDate.equals(other.expiryDate))
-            return false;
-        if (token == null) {
-            if (other.token != null)
-                return false;
-        } else if (!token.equals(other.token))
-            return false;
-        if (provider == null) {
-            if (other.provider != null)
-                return false;
-        } else if (!provider.equals(other.provider))
-            return false;
-        return true;
-    }
 
     @Override
     public String toString() {
@@ -136,11 +101,57 @@ public class VerificationToken {
 		this.id = id;
 	}
 
-	public Provider getProvider() {
-		return provider;
+	public UserAccount getAccount() {
+		return account;
 	}
 
-	public void setProvider(Provider provider) {
-		this.provider = provider;
+	public void setAccount(UserAccount account) {
+		this.account = account;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((account == null) ? 0 : account.hashCode());
+		result = prime * result
+				+ ((expiryDate == null) ? 0 : expiryDate.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((token == null) ? 0 : token.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		VerificationToken other = (VerificationToken) obj;
+		if (account == null) {
+			if (other.account != null)
+				return false;
+		} else if (!account.equals(other.account))
+			return false;
+		if (expiryDate == null) {
+			if (other.expiryDate != null)
+				return false;
+		} else if (!expiryDate.equals(other.expiryDate))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (token == null) {
+			if (other.token != null)
+				return false;
+		} else if (!token.equals(other.token))
+			return false;
+		return true;
+	}
+
+	
 }

@@ -33,8 +33,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.buseni.ubukwebwiza.administrator.domain.Administrator;
-import com.buseni.ubukwebwiza.administrator.domain.PasswordResetToken;
+import com.buseni.ubukwebwiza.account.domain.PasswordResetToken;
+import com.buseni.ubukwebwiza.account.domain.UserAccount;
+import com.buseni.ubukwebwiza.account.service.UserAccountService;
 import com.buseni.ubukwebwiza.administrator.service.AdministratorService;
 import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
 import com.buseni.ubukwebwiza.contactus.domain.ContactusForm;
@@ -46,6 +47,9 @@ public class AdminHomeController {
 	public  static final Logger LOGGER = LoggerFactory.getLogger(AdminHomeController.class);
 	@Autowired
 	private AdministratorService administratorService;
+	
+	@Autowired
+	private UserAccountService userAccountService;
 	
 	@Autowired
 	private ContactusService contactusService;
@@ -107,9 +111,9 @@ public class AdminHomeController {
 	
 	@RequestMapping(value="/adminResetPassword", method=RequestMethod.GET)
 	public String adminResetPassword(HttpServletRequest request,Locale locale, @RequestParam("id") Integer id,  @RequestParam("token") String token, RedirectAttributes model){
-		PasswordResetToken passToken = administratorService.getPasswordResetToken(token);
+		PasswordResetToken passToken = userAccountService.getPasswordResetToken(token);
 	   // Administrator user = passToken.getAdministrator();
-	    if (passToken == null || passToken.getAdministrator().getId() != id) {
+	    if (passToken == null || passToken.getAccount().getId() != id) {
 	        String error = messages.getMessage("auth.message.invalidToken", null, locale);
 	        LOGGER.error(error);
 	        model.addFlashAttribute("error", error);
@@ -123,8 +127,8 @@ public class AdminHomeController {
 	        model.addFlashAttribute("error", error);
 	        return "redirect:/adminlogin";
 	    }
-	    Administrator user = passToken.getAdministrator();
-	    Authentication auth = new UsernamePasswordAuthenticationToken(user, null, administratorService.loadUserByUsername(user.getEmail()).getAuthorities());
+	    UserAccount user = passToken.getAccount();
+	    Authentication auth = new UsernamePasswordAuthenticationToken(user, null, userAccountService.loadUserByUsername(user.getEmail()).getAuthorities());
 	    SecurityContextHolder.getContext().setAuthentication(auth);
 		
 		return "redirect:/adminChangePassword";
@@ -145,8 +149,8 @@ public class AdminHomeController {
 			attributes.addFlashAttribute("error", error);			
 			return "redirect:/adminChangePassword";
 	  }		
-		Administrator admin = (Administrator) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-	    administratorService.changeAdministratorPassword(admin, password);
+		UserAccount admin = (UserAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		userAccountService.changeUserPassword(admin, password);
 	    String message = messages.getMessage("message.resetPasswordSuc", null, request.getLocale());			
 		attributes.addFlashAttribute("message", message);		
 	    return "redirect:/adminlogin";
@@ -156,7 +160,7 @@ public class AdminHomeController {
 	//@ResponseBody
 	public String adminForgotPassword(HttpServletRequest request, @RequestParam("email") String userEmail, RedirectAttributes attributes) {
 	     
-	    Administrator admin = administratorService.findByEmail(userEmail);
+	    UserAccount admin = userAccountService.findByEmail(userEmail);
 	    if (admin == null) {	    	
 	    	String error = messages.getMessage("message.resetPasswordInvalidEmail", null, request.getLocale());		
 	    	LOGGER.error(error);
@@ -166,7 +170,7 @@ public class AdminHomeController {
 	    }
 	 
 	    String token = UUID.randomUUID().toString();
-	    administratorService.createPasswordResetTokenForAdministrator(admin, token);
+	    userAccountService.createPasswordResetTokenForUser(admin, token);
 	    String appUrl = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
 	    SimpleMailMessage email = constructResetTokenEmail(appUrl, request.getLocale(), token, admin);
 	   
@@ -221,7 +225,7 @@ public class AdminHomeController {
 		}
 		
 	private SimpleMailMessage constructResetTokenEmail(String contextPath,
-			Locale locale, String token, Administrator administrator) {
+			Locale locale, String token, UserAccount administrator) {
 		String url = contextPath + "/adminResetPassword?id="+ administrator.getId() + "&token=" + token;
 		String message = messages.getMessage("message.resetPassword", null,	locale);
 		SimpleMailMessage email = new SimpleMailMessage();

@@ -20,7 +20,7 @@ import com.buseni.ubukwebwiza.breadcrumbs.navigation.NavigationInfoProvider;
 
 /**
  * Created with IntelliJ IDEA.
- * User: yfliu
+ * UserAccount: yfliu
  * Date: 12/18/12
  * Time: 9:41 PM
  * To change this template use File | Settings | File Templates.

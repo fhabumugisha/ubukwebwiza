@@ -18,7 +18,7 @@ import org.springframework.security.web.authentication.SavedRequestAwareAuthenti
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
-import com.buseni.ubukwebwiza.administrator.service.AdministratorService;
+import com.buseni.ubukwebwiza.account.service.UserAccountService;
 
 @Configuration
 @EnableWebSecurity
@@ -27,7 +27,7 @@ public class SecurityConfig extends  WebSecurityConfigurerAdapter {
 
 	
 	@Autowired
-	private AdministratorService administratorService;
+	private UserAccountService userAccountService;
 	
 	@Autowired
 	private DataSource dataSource;
@@ -36,7 +36,7 @@ public class SecurityConfig extends  WebSecurityConfigurerAdapter {
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 	  /*auth.inMemoryAuthentication().withUser("superadmin@ubukwebwiza.com").password("123456").roles("ADMIN","VENDOR","SETTINGS","USER");
 	  auth.inMemoryAuthentication().withUser("admin@ubukwebwiza.com").password("123456").roles("ADMIN","VENDOR");*/
-		auth.userDetailsService(administratorService).passwordEncoder(passwordEncoder());
+		auth.userDetailsService(userAccountService).passwordEncoder(passwordEncoder());
 	}
 	
 	@Override

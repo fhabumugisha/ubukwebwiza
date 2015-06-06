@@ -5,7 +5,6 @@ package com.buseni.ubukwebwiza.provider.service.impl;
 
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import com.buseni.ubukwebwiza.account.beans.SignupForm;
-import com.buseni.ubukwebwiza.account.beans.VerificationToken;
+import com.buseni.ubukwebwiza.account.domain.UserAccount;
 import com.buseni.ubukwebwiza.exceptions.BusinessException;
 import com.buseni.ubukwebwiza.exceptions.CustomError;
 import com.buseni.ubukwebwiza.exceptions.CustomErrorBuilder;
@@ -35,7 +34,6 @@ import com.buseni.ubukwebwiza.provider.predicates.ProviderPredicates;
 import com.buseni.ubukwebwiza.provider.repository.DistrictRepo;
 import com.buseni.ubukwebwiza.provider.repository.ProviderRepo;
 import com.buseni.ubukwebwiza.provider.repository.ProviderWeddingServiceRepo;
-import com.buseni.ubukwebwiza.provider.repository.VerificationTokenRepo;
 import com.buseni.ubukwebwiza.provider.repository.WeddingServiceRepo;
 import com.buseni.ubukwebwiza.provider.service.ProviderService;
 
@@ -52,16 +50,16 @@ public class ProviderServiceImpl implements ProviderService {
 	private ProviderWeddingServiceRepo providerWeddingServiceRepo;
 	private PhotoRepo photoRepo;   	
 	private DistrictRepo districtRepo;
-	private VerificationTokenRepo verificationTokenRepo;
+	
 	@Autowired
 	public ProviderServiceImpl(ProviderRepo providerRepo, WeddingServiceRepo weddingServiceRepo, ProviderWeddingServiceRepo providerWeddingServiceRepo,
-			PhotoRepo photoRepo,  DistrictRepo districtRepo, VerificationTokenRepo verificationTokenRepo){
+			PhotoRepo photoRepo,  DistrictRepo districtRepo){
 		this.providerRepo = providerRepo;
 		this.weddingServiceRepo = weddingServiceRepo;
 		this.providerWeddingServiceRepo = providerWeddingServiceRepo;
 		this.photoRepo = photoRepo;
 		this.districtRepo = districtRepo;
-		this.verificationTokenRepo =  verificationTokenRepo;
+		
 		
 	}
 
@@ -173,12 +171,7 @@ public class ProviderServiceImpl implements ProviderService {
 	public void delete(Integer id) {
 		if(null != id){
 			Provider provider = providerRepo.findOne(id);
-			if(provider != null){
-				VerificationToken verificationToken = verificationTokenRepo.findByProvider(provider);
-				if(verificationToken != null){
-					verificationTokenRepo.delete(verificationToken);
-				}
-				
+			if(provider != null){			
 				providerRepo.delete(provider);
 			}
 			
@@ -245,7 +238,7 @@ public class ProviderServiceImpl implements ProviderService {
 
 	@Override
 	@Transactional
-	public Provider createAccount(SignupForm signupForm) throws BusinessException {
+	public UserAccount createAccount(SignupForm signupForm) throws BusinessException {
 		if(null == signupForm){
 			throw new NullPointerException();
 		}	
@@ -277,50 +270,11 @@ public class ProviderServiceImpl implements ProviderService {
 		//TODO add roles
 		providerRepo.save(provider);
 
-		return provider;
+		//TODO use user account
+		return new UserAccount();
 	}
 
 
 	
-	 @Override
-	    public Provider getProviderByVerificationToken(final String verificationToken) {
-		 if(null == verificationToken){
-				throw new NullPointerException("verification token is null");
-			}	
-	        final Provider user = verificationTokenRepo.findByToken(verificationToken).getProvider();
-	        return user;
-	    }
-
-	    @Override
-	    public VerificationToken getVerificationToken(final String VerificationToken) {
-	    	if(null == VerificationToken){
-				throw new NullPointerException("verificationtoken is null");
-			}	
-	        return verificationTokenRepo.findByToken(VerificationToken);
-	    }
-
-	 
-	  
-
-	    @Override
-	    @Transactional
-	    public void createVerificationTokenForProvider(final Provider user, final String token) {
-	    	if(null == user || token == null){
-				throw new NullPointerException("User or toke are null");
-			}	
-	        final VerificationToken myToken = new VerificationToken(token, user);
-	        verificationTokenRepo.save(myToken);
-	    }
-
-	    @Override
-	    @Transactional
-	    public VerificationToken generateNewVerificationToken(final String existingVerificationToken) {
-	    	if(null == existingVerificationToken){
-				throw new NullPointerException("existingverificationtoken is null");
-			}	
-	        VerificationToken vToken = verificationTokenRepo.findByToken(existingVerificationToken);
-	        vToken.updateToken(UUID.randomUUID().toString());
-	        vToken = verificationTokenRepo.save(vToken);
-	        return vToken;
-	    }
+	
 }

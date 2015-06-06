@@ -2,7 +2,6 @@ package com.buseni.ubukwebwiza.administration.controller;
 
 
 
-import java.util.Arrays;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -21,12 +20,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.buseni.ubukwebwiza.account.domain.Role;
+import com.buseni.ubukwebwiza.account.service.RoleService;
 import com.buseni.ubukwebwiza.administrator.domain.Administrator;
-import com.buseni.ubukwebwiza.administrator.enums.EnumRole;
+import com.buseni.ubukwebwiza.administrator.domain.AdministratorDTO;
 import com.buseni.ubukwebwiza.administrator.service.AdministratorService;
 import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
-import com.buseni.ubukwebwiza.exceptions.ErrorsHelper;
 import com.buseni.ubukwebwiza.exceptions.BusinessException;
+import com.buseni.ubukwebwiza.exceptions.ErrorsHelper;
 import com.buseni.ubukwebwiza.utils.PageWrapper;
 @Controller
 //@SessionAttributes({"allDistricts", "allWeddingServices"})
@@ -38,14 +39,15 @@ public class AdminAdministratorController {
 	@Autowired
 	private AdministratorService administratorService;
 	
-	private String roles;
+	@Autowired
+	private RoleService roleService;
+	
 		  
 	@RequestMapping(value="/administrators",method=RequestMethod.GET)
 	public String admins(Model model, Pageable page){
 		Page<Administrator> adminPage  =  administratorService.findAll(page);	
 		PageWrapper<Administrator> pageWrapper = new PageWrapper<Administrator>(adminPage, "/admin/administrators");
 		model.addAttribute("page", pageWrapper);
-		model.addAttribute("currentMenu", "administrators");
 		model.addAttribute("administrators", adminPage.getContent());		
 		return "adminpanel/admin/listingAdministrator";
 	}
@@ -63,65 +65,83 @@ public class AdminAdministratorController {
 	public String edit(@RequestParam(value="id", required=true) Integer id, Model model) {
 		LOGGER.info("IN: administrators/edit-GET");
 		Administrator administrator =  administratorService.findById(id);
-		model.addAttribute("administrator", administrator);
+		model.addAttribute("administrator", createDTO( administrator));
 		return "adminpanel/admin/editAdministrator";
 	}
+
+
 
 	@RequestMapping(value="/administrators/new", method=RequestMethod.GET)
 	public String newAdmin( Model model) {		
 		LOGGER.info("IN: administrators/new-GET");
-		model.addAttribute("administrator", new Administrator());
+		if(!model.containsAttribute("administrator")){
+			model.addAttribute("administrator", new AdministratorDTO());
+		}
 		return "adminpanel/admin/editAdministrator";
 	}
 
 	
-	@RequestMapping(value="/administrators/save",method=RequestMethod.POST)
-	public String save(@Valid @ModelAttribute Administrator administrator , BindingResult result, RedirectAttributes attributes) throws BusinessException{		
-		//Validation erros	
+	@RequestMapping(value="/administrators/new",method=RequestMethod.POST)
+	public String save(@Valid @ModelAttribute AdministratorDTO administrator , 
+ BindingResult result, RedirectAttributes attributes) throws BusinessException {
+		LOGGER.info("IN: administrators/new-POST");
+		// Validation erros
 		if (result.hasErrors()) {
-			LOGGER.info("Administrator-save error: " + result.toString());
-			attributes.addFlashAttribute("org.springframework.validation.BindingResult.admnistrator", result);
+			LOGGER.info("IN: administrators/new-POST error: " + result.toString());
+			attributes.addFlashAttribute("org.springframework.validation.BindingResult.administrator", result);
 			attributes.addFlashAttribute("administrator", administrator);
-			return "adminpanel/admin/editAdministrator";
-
-		}else{
-
-			try {
-				administratorService.create(administrator);
-				//Business errors	
-			} catch (final BusinessException e) {
-				ErrorsHelper.rejectErrors(result, e.getErrors());
-				LOGGER.info("Administrator-save error: " + result.toString());
-				attributes.addFlashAttribute("org.springframework.validation.BindingResult.admnistrator", result);
-				attributes.addFlashAttribute("administrator", administrator);
-				return "adminpanel/admin/editAdministrator";
-			}
-
-
-			LOGGER.info("IN: Administrators/save-POSST");
-			String message = "Administrator " + administrator.getId() + " was successfully added";
-			attributes.addFlashAttribute("message", message);
-			return "redirect:/admin/administrators";
+			return "redirect:/admin/administrators/new";
 		}
 
+		try {
+			Administrator admin = administratorService.create(administrator);
+			String message = "Administrator " + admin.getId() + " was successfully added";
+			attributes.addFlashAttribute("message", message);
+			return "redirect:/admin/administrators";
+			// Business errors
+		} catch (final BusinessException e) {
+			ErrorsHelper.rejectErrors(result, e.getErrors());
+			LOGGER.info("IN: administrators/new-POST error: " + result.toString());
+			attributes.addFlashAttribute("org.springframework.validation.BindingResult.administrator", result);
+			attributes.addFlashAttribute("administrator", administrator);
+			return "redirect:/admin/administrators/new";
+		}
 
 	}
 
+	
+	/*
+	 * Create adminitrator dto
+	 */
+	private AdministratorDTO createDTO(Administrator administrator) {
+		AdministratorDTO dto = new AdministratorDTO();
+		if(administrator.getAccount() != null){
+			dto.setEmail(administrator.getAccount().getEmail());
+			dto.setPassword(administrator.getAccount().getPassword());
+			dto.setEnabled(administrator.getAccount().isEnabled());
+			for(Role role : administrator.getAccount().getRoles()){
+				dto.getListRoles().add(role.getName());
+			}
+		}
+		dto.setId(administrator.getId());
+		dto.setFirstName(administrator.getFirstName());
+		dto.setLastName(administrator.getLastName());
+		return dto;
+	}
+	
 	/**
 	 * Retourne la liste des roles
 	 * @return
 	 */
 	@ModelAttribute("allRoles")
-	public List<EnumRole> getAllRoles(){		
-		return  Arrays.asList( EnumRole.values() );
+	public List<Role> getAllRoles(){		
+		return  roleService.findAll();
 		
 	}
 
-	public String getRoles() {
-		return roles;
-	}
 
-	public void setRoles(String roles) {
-		this.roles = roles;
+	@ModelAttribute("currentMenu")
+	public String module(){
+		return "administrators";
 	}
 }

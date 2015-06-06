@@ -4,16 +4,16 @@ import java.util.Locale;
 
 import org.springframework.context.ApplicationEvent;
 
-import com.buseni.ubukwebwiza.provider.domain.Provider;
+import com.buseni.ubukwebwiza.account.domain.UserAccount;
 
 @SuppressWarnings("serial")
 public class OnRegistrationCompleteEvent extends ApplicationEvent {
 
     private final String appUrl;
     private final Locale locale;
-    private final Provider user;
+    private final UserAccount user;
 
-    public OnRegistrationCompleteEvent(Provider user, Locale locale, String appUrl) {
+    public OnRegistrationCompleteEvent(UserAccount user, Locale locale, String appUrl) {
         super(user);
         this.user = user;
         this.locale = locale;
@@ -28,7 +28,7 @@ public class OnRegistrationCompleteEvent extends ApplicationEvent {
         return locale;
     }
 
-    public Provider getUser() {
+    public UserAccount getUser() {
         return user;
     }
 }

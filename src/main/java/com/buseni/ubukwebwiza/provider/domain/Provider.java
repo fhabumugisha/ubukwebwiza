@@ -48,7 +48,7 @@ public class Provider implements Serializable {
 	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="id_provider")
+	@Column(name="id")
 	private Integer id;
 
 	@Column(unique = true)
@@ -83,11 +83,11 @@ public class Provider implements Serializable {
 	
 	
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "id_profil_picture", referencedColumnName="id_photo")
+	@JoinColumn(name = "id_profil_picture", referencedColumnName="id")
 	private Photo profilPicture;
 	
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "id_cover_picture" , referencedColumnName="id_photo")
+	@JoinColumn(name = "id_cover_picture" , referencedColumnName="id")
 	private Photo coverPicture;
 	
 	@Lob
@@ -125,8 +125,8 @@ public class Provider implements Serializable {
 	 @JoinTable
 	  (
 	      name="provider_photo",
-	      joinColumns={ @JoinColumn(name="id_provider", referencedColumnName="id_provider") },
-	      inverseJoinColumns={ @JoinColumn(name="id_photo", referencedColumnName="id_photo", unique=true) }
+	      joinColumns={ @JoinColumn(name="id_provider", referencedColumnName="id") },
+	      inverseJoinColumns={ @JoinColumn(name="id_photo", referencedColumnName="id", unique=true) }
 	  )
 	private Set<Photo> photos = new HashSet<Photo>();
 	

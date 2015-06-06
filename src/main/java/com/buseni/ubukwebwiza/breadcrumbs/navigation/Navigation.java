@@ -5,7 +5,7 @@ import java.lang.annotation.RetentionPolicy;
 
 /**
  * Created with IntelliJ IDEA.
- * User: yfliu
+ * UserAccount: yfliu
  * Date: 12/18/12
  * Time: 9:23 PM
  * To change this template use File | Settings | File Templates.

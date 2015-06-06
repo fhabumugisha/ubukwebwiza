@@ -7,5 +7,5 @@ import com.buseni.ubukwebwiza.administrator.domain.Administrator;
 public interface AdministratorRepo extends JpaRepository<Administrator, Integer>{
 
 	
-	Administrator findByEmail(String email);
+	Administrator findByAccount_Email(String email);
 }

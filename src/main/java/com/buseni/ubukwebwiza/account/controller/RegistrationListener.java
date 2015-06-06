@@ -6,18 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.MessageSource;
-import org.springframework.core.env.Environment;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
-import com.buseni.ubukwebwiza.provider.domain.Provider;
-import com.buseni.ubukwebwiza.provider.service.ProviderService;
+import com.buseni.ubukwebwiza.account.domain.UserAccount;
+import com.buseni.ubukwebwiza.account.service.UserAccountService;
 
 @Component
 public class RegistrationListener implements ApplicationListener<OnRegistrationCompleteEvent> {
     @Autowired
-    private ProviderService service;
+    private UserAccountService userAccountService;
 
     @Autowired
     private MessageSource messages;
@@ -36,9 +35,9 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
     }
 
     private void confirmRegistration(OnRegistrationCompleteEvent event) {
-        Provider user = event.getUser();
+    	UserAccount user = event.getUser();
         String token = UUID.randomUUID().toString();
-        service.createVerificationTokenForProvider(user, token);
+        userAccountService.createVerificationTokenForUser(user, token);
 
         final SimpleMailMessage email = constructEmailMessage(event, user, token);
         mailSender.send(email);
@@ -46,7 +45,7 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
 
     //
 
-    private final SimpleMailMessage constructEmailMessage(final OnRegistrationCompleteEvent event, final Provider user, final String token) {
+    private final SimpleMailMessage constructEmailMessage(final OnRegistrationCompleteEvent event, final UserAccount user, final String token) {
         final String recipientAddress = user.getEmail();
         final String subject = "Registration Confirmation";
         final String confirmationUrl = event.getAppUrl() + "/regitrationConfirm?token=" + token;

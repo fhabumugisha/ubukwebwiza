@@ -29,8 +29,9 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.buseni.ubukwebwiza.account.beans.SignupForm;
-import com.buseni.ubukwebwiza.account.beans.VerificationToken;
-import com.buseni.ubukwebwiza.administration.controller.GenericResponse;
+import com.buseni.ubukwebwiza.account.domain.UserAccount;
+import com.buseni.ubukwebwiza.account.domain.VerificationToken;
+import com.buseni.ubukwebwiza.account.service.UserAccountService;
 import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
 import com.buseni.ubukwebwiza.exceptions.BusinessException;
 import com.buseni.ubukwebwiza.exceptions.ErrorsHelper;
@@ -50,6 +51,9 @@ public class SignupController {
 	
 	@Autowired
 	private ProviderService  providerService;
+	
+	@Autowired
+	private UserAccountService userAccountService;
 	@Autowired
 	private WeddingServiceManager weddingServiceManager;
 	
@@ -107,7 +111,7 @@ public class SignupController {
 
 		}
 		try {
-			Provider provider = providerService.createAccount(signupForm);
+			UserAccount provider = providerService.createAccount(signupForm);
 			String appUrl = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
 		        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(provider, request.getLocale(), appUrl));
 		} catch (BusinessException e) {
@@ -135,14 +139,14 @@ public class SignupController {
 	public String confirmRegistration (WebRequest request, @RequestParam("token") String token) {
 	    Locale locale = request.getLocale();
 	     
-	    VerificationToken verificationToken = providerService.getVerificationToken(token);
+	    VerificationToken verificationToken = userAccountService.getVerificationToken(token);
 	    if (verificationToken == null) {
 	        String error = messages.getMessage("auth.message.invalidToken", null, locale);
 	        LOGGER.error(error);
 	        return "redirect:/signupError?error";
 	    }
 	     
-	    Provider user = verificationToken.getProvider();
+	    UserAccount user = verificationToken.getAccount();
 	    Calendar cal = Calendar.getInstance();
 	    if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
 	    	String error = messages.getMessage("auth.message.expired", null, locale);
@@ -151,7 +155,7 @@ public class SignupController {
 	    } 
 	     
 	    user.setEnabled(true); 
-	    providerService.update(user);
+	    userAccountService.update(user);
 	   // String message = messages.getMessage("message.accountVerified", null, locale);
 	    return "redirect:/login?verified"; 
 	}
@@ -159,9 +163,9 @@ public class SignupController {
 	@RequestMapping(value = "/resendRegistrationToken", method = RequestMethod.GET)
 	public String resendRegistrationToken(
 	  HttpServletRequest request, @RequestParam("token") String existingToken, RedirectAttributes redirectAttributes) {
-	    VerificationToken newToken = providerService.generateNewVerificationToken(existingToken);
+	    VerificationToken newToken = userAccountService.generateNewVerificationToken(existingToken);
 	     
-	    Provider user = providerService.getProviderByVerificationToken(newToken.getToken());
+	    UserAccount user = userAccountService.getUserByVerificationToken(newToken.getToken());
 	    String appUrl =  "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
 	    SimpleMailMessage email =   constructResendVerificationTokenEmail(appUrl, request.getLocale(), newToken, user);
 	    mailSender.send(email);
@@ -172,7 +176,7 @@ public class SignupController {
 	}
 	
 	
-	private SimpleMailMessage constructResendVerificationTokenEmail (String appUrl, Locale locale, VerificationToken newToken, Provider user) {
+	private SimpleMailMessage constructResendVerificationTokenEmail (String appUrl, Locale locale, VerificationToken newToken, UserAccount user) {
 	    String confirmationUrl =       appUrl + "/regitrationConfirm?token=" + newToken.getToken();
 	    String message = messages.getMessage("message.regSuccEmail", null, locale);
 	    SimpleMailMessage email = new SimpleMailMessage();
