@@ -131,20 +131,20 @@
 			<artifactId>spring-security-config</artifactId>
 			<version>4.0.1.RELEASE</version>
 		</dependency>
-		
+
 		<!-- Spring caching framework inside this -->
-	<dependency>
-		<groupId>org.springframework</groupId>
-		<artifactId>spring-context</artifactId>
-		<version>${spring-framework.version}</version>
-	</dependency>
- 
-	<!-- Support for Ehcache and others -->
-	<dependency>
-		<groupId>org.springframework</groupId>
-		<artifactId>spring-context-support</artifactId>
-		<version>${spring-framework.version}</version>
-	</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring-framework.version}</version>
+		</dependency>
+
+		<!-- Support for Ehcache and others -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${spring-framework.version}</version>
+		</dependency>
 
 		<!-- Thymeleaf -->
 		<dependency>
@@ -193,16 +193,21 @@
 			<version>1.7.7</version>
 		</dependency>
 		<dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-log4j12</artifactId>
-        <version>1.7.7</version>
-    </dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.7.7</version>
+		</dependency>
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<version>1.4.180</version>
 		</dependency>
-
+		<!-- Junit -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+		</dependency>
 		<!-- Query dsl -->
 
 		<!-- <dependency> -->
@@ -248,43 +253,43 @@
 			<artifactId>jackson-mapper-asl</artifactId>
 			<version>1.9.13</version>
 		</dependency>
-		
-		<dependency>
-		<groupId>net.sf.ehcache</groupId>
-		<artifactId>ehcache</artifactId>
-		<version>2.9.0</version>
-	</dependency>
-	
-	<!-- Amazon S3 sdk  -->
-	<dependency>
-	<groupId>com.amazonaws</groupId>
-	<artifactId>aws-java-sdk-s3</artifactId>
-	<version>1.9.37</version>
-</dependency>
 
-	<!-- Dandelion datatables -->
-	<dependency>
-    <groupId>com.github.dandelion</groupId>
-    <artifactId>datatables-thymeleaf</artifactId>
-    <version>0.10.1</version>
-</dependency>
-<!-- javaMail -->
-<dependency>
-	<groupId>javax.mail</groupId>
-	<artifactId>mail</artifactId>
-	<version>1.4.7</version>
-</dependency>
-<!-- Password validator -->
-<dependency>
-	<groupId>org.passay</groupId>
-	<artifactId>passay</artifactId>
-	<version>1.0</version>
-</dependency>
-<dependency>
-	<groupId>org.aspectj</groupId>
-	<artifactId>aspectjweaver</artifactId>
-	<version>1.8.5</version>
-</dependency>
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache</artifactId>
+			<version>2.9.0</version>
+		</dependency>
+
+		<!-- Amazon S3 sdk -->
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-s3</artifactId>
+			<version>1.9.37</version>
+		</dependency>
+
+		<!-- Dandelion datatables -->
+		<dependency>
+			<groupId>com.github.dandelion</groupId>
+			<artifactId>datatables-thymeleaf</artifactId>
+			<version>0.10.1</version>
+		</dependency>
+		<!-- javaMail -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.7</version>
+		</dependency>
+		<!-- Password validator -->
+		<dependency>
+			<groupId>org.passay</groupId>
+			<artifactId>passay</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>1.8.5</version>
+		</dependency>
 
 	</dependencies>
 
@@ -329,7 +334,7 @@
 				<version>2.6.1</version> <configuration> <filesets> <fileset> <directory>${basedir}/src/main/webapp/WEB-INF/classes</directory> 
 				<directory>${basedir}/src/main/webapp/WEB-INF/lib</directory> <followSymlinks>false</followSymlinks> 
 				</fileset> </filesets> </configuration> </plugin> -->
-			
+
 
 
 			<plugin>
