@@ -94,9 +94,17 @@ public class AdminAdministratorController {
 		}
 
 		try {
-			Administrator admin = administratorService.create(administrator);
-			String message = "Administrator " + admin.getId() + " was successfully added";
-			attributes.addFlashAttribute("message", message);
+			if(administrator.getId() == null){
+				Administrator admin = administratorService.create(administrator);
+				String message = "Administrator " + admin.getId() + " was successfully added";
+				attributes.addFlashAttribute("message", message);
+			}else{
+				Administrator admin = administratorService.update(administrator);
+				String message = "Administrator " + admin.getId() + " was successfully updated";
+				attributes.addFlashAttribute("message", message);
+			}
+			
+			
 			return "redirect:/admin/administrators";
 			// Business errors
 		} catch (final BusinessException e) {

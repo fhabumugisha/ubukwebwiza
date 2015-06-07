@@ -37,7 +37,6 @@ import com.buseni.ubukwebwiza.exceptions.BusinessException;
 import com.buseni.ubukwebwiza.exceptions.ErrorsHelper;
 import com.buseni.ubukwebwiza.home.HomeController;
 import com.buseni.ubukwebwiza.provider.domain.District;
-import com.buseni.ubukwebwiza.provider.domain.Provider;
 import com.buseni.ubukwebwiza.provider.domain.WeddingService;
 import com.buseni.ubukwebwiza.provider.service.DistrictService;
 import com.buseni.ubukwebwiza.provider.service.ProviderService;
@@ -146,7 +145,7 @@ public class SignupController {
 	        return "redirect:/signupError?error";
 	    }
 	     
-	    UserAccount user = verificationToken.getAccount();
+	    UserAccount user = verificationToken.getUserAccount();
 	    Calendar cal = Calendar.getInstance();
 	    if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
 	    	String error = messages.getMessage("auth.message.expired", null, locale);

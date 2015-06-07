@@ -1,4 +1,4 @@
-package com.buseni.ubukwebwiza.administrator.service.impl;
+package com.buseni.ubukwebwiza.account.service;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;

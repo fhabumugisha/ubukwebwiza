@@ -1,21 +1,21 @@
-package com.buseni.ubukwebwiza.administrator.service.impl;
+package com.buseni.ubukwebwiza.account.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
-import org.springframework.security.authentication.event.AuthenticationFailureBadCredentialsEvent;
+import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AuthenticationFailureListener implements ApplicationListener<AuthenticationFailureBadCredentialsEvent> {
+public class AuthenticationSuccessEventListener implements ApplicationListener<AuthenticationSuccessEvent> {
 
     @Autowired
     private LoginAttemptService loginAttemptService;
 
-    public void onApplicationEvent(AuthenticationFailureBadCredentialsEvent e) {
+    public void onApplicationEvent(AuthenticationSuccessEvent e) {
         WebAuthenticationDetails auth = (WebAuthenticationDetails) e.getAuthentication().getDetails();
         if (auth != null) {
-            loginAttemptService.loginFailed(auth.getRemoteAddress());
+            loginAttemptService.loginSucceeded(auth.getRemoteAddress());
         }
     }
 }

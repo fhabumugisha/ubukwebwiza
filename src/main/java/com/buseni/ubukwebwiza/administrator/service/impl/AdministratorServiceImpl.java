@@ -1,8 +1,11 @@
 package com.buseni.ubukwebwiza.administrator.service.impl;
 
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -58,79 +61,18 @@ public class AdministratorServiceImpl implements AdministratorService		{
 		if(administrator == null){
 			throw new NullPointerException();
 		}
-		/*if(CollectionUtils.isEmpty(administrator.getListRoles())){
-			CustomErrorBuilder ceb =  new CustomErrorBuilder("error.administrator.missingroles");			
-			CustomError  ce = ceb.field("listRoles").buid();
-			throw new BusinessException(ce);
-		}*/
-		//TODO edit roles
+
 		if (administrator.getId() == null) {
-			//administrator.setCreatedAt(new Date());
-			//administrator.setLastUpdate(new Date());
-			/*for (String roleName : administrator.getListRoles()) {
-				AdminRole role = new AdminRole();
-				role.setAdmin(administrator);
-				role.setRole(roleName);
-				// role.setId(idRole);
-				administrator.getRoles().add(role);
-
-			}*/
-			//PasswordEncoder encoder = new BCryptPasswordEncoder();
-			//administrator.setPassword(encoder.encode(administrator.getPassword()));
-
 			administratorRepo.save(administrator);
-
 		} else {
-			Administrator adminDb = administratorRepo.findOne(administrator
-					.getId());
-			/*adminDb.setLastUpdate(new Date());
-			adminDb.setEmail(administrator.getEmail());
-			adminDb.setEnabled(administrator.isEnabled());*/
+			Administrator adminDb = administratorRepo.findOne(administrator.getId());			
 			adminDb.setLastName(administrator.getLastName());
-			adminDb.setFirstName(administrator.getFirstName());
-			//Changes in roles
-		/*	if (adminDb.getRoles().size() != administrator.getListRoles()
-					.size()) {
-				//Add new roles
-				if(administrator.getListRoles().size() > adminDb.getRoles().size()){
-					for (String roleName : administrator.getListRoles()) {
-						AdminRole role = new AdminRole();
-						role.setAdmin(administrator);
-						role.setRole(roleName);
-						// add new role
-						AdminRole adminRole = containsRole(adminDb, roleName);
-						if (adminRole == null) {
-							adminDb.getRoles().add(role);
-						}
-
-					}
-				//remove of roles
-				}else if(administrator.getListRoles().size() < adminDb.getRoles().size()){
-					for (AdminRole adminRole : adminDb.getRoles()) {
-						for (String roleName : administrator.getListRoles()) {
-							if(!adminRole.getRole().equals(roleName)){
-								adminDb.getRoles().remove(adminRole);
-								adminRoleRepo.delete(adminRole);
-							}
-						}
-						
-					}
-				}
-				
-			}*/
+			adminDb.setFirstName(administrator.getFirstName());		
 			administratorRepo.save(adminDb);
 		}
 
 	}
-/*	
-	private AdminRole containsRole(Administrator admin, String role){
-		for(AdminRole adminRole : admin.getRoles()){
-			if(adminRole.getRole().equals(role)){
-				return adminRole;
-			}
-		}
-		return null;
-	}*/
+
 
 	/*
 	 * (non-Javadoc)
@@ -142,7 +84,9 @@ public class AdministratorServiceImpl implements AdministratorService		{
 	@Override
 	@Transactional
 	public Administrator update(Administrator administrator) {
-		// TODO Control
+		if(administrator  == null){
+			throw new NullPointerException();
+		}
 		return administratorRepo.save(administrator);
 	}
 
@@ -162,12 +106,6 @@ public class AdministratorServiceImpl implements AdministratorService		{
 		if(admin  == null){
 			throw new NullPointerException();
 		}
-		/*List<String> listRoles =  new ArrayList<String>();
-		for(AdminRole role : admin.getRoles()){
-			listRoles.add(role.getRole());
-		}
-		
-		admin.setListRoles(listRoles);*/
 		return admin;
 	}
 
@@ -218,6 +156,11 @@ public class AdministratorServiceImpl implements AdministratorService		{
 		if(administratorDTO == null){
 			throw new NullPointerException();
 		}
+		if(StringUtils.isEmpty(administratorDTO.getPassword())){
+			CustomErrorBuilder ceb =  new CustomErrorBuilder("error.user.requiredfield.password");			
+			CustomError  ce = ceb.field("password").buid();
+			throw new BusinessException(ce);			
+		}
 		if (emailExist(administratorDTO.getEmail())) {  
 			CustomErrorBuilder ceb =  new CustomErrorBuilder("error.account.emailexists");			
 			CustomError  ce = ceb.field("email").errorArgs(new String[]{administratorDTO.getEmail()}).buid();
@@ -243,17 +186,79 @@ public class AdministratorServiceImpl implements AdministratorService		{
 			}
 		}
 		Administrator administrator = new Administrator(administratorDTO.getFirstName(), administratorDTO.getLastName(), account);
-	return	administratorRepo.save(administrator);
+		return	administratorRepo.save(administrator);
 
 	}
-	
-	 private boolean emailExist(String email) {
-	        UserAccount user = userAccountRepository.findByEmail(email);
-	        if (user != null) {
-	            return true;
-	        }
-	        return false;
-	    }
-	
 
+	private boolean emailExist(String email) {
+		UserAccount user = userAccountRepository.findByEmail(email);
+		if (user != null) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	@Transactional
+	public Administrator update(AdministratorDTO administratorDTO) throws BusinessException {
+		if(administratorDTO == null){
+			throw new NullPointerException();
+		}
+		if(CollectionUtils.isEmpty(administratorDTO.getListRoles())){
+			CustomErrorBuilder ceb =  new CustomErrorBuilder("error.administrator.missingroles");			
+			CustomError  ce = ceb.field("listRoles").buid();
+			throw new BusinessException(ce);
+		}
+		Administrator adminDb = administratorRepo.findOne(administratorDTO.getId());
+		//The email is changed
+		if(!adminDb.getAccount().getEmail().equals(administratorDTO.getEmail())){
+			if (emailExist(administratorDTO.getEmail())) {  
+				CustomErrorBuilder ceb =  new CustomErrorBuilder("error.account.emailexists");			
+				CustomError  ce = ceb.field("email").errorArgs(new String[]{administratorDTO.getEmail()}).buid();
+				throw new BusinessException(ce);
+			}
+			adminDb.getAccount().setEmail(administratorDTO.getEmail());
+		}
+		adminDb.getAccount().setLastUpdate(new Date());
+		adminDb.getAccount().setEnabled(administratorDTO.getEnabled());
+		adminDb.setLastName(administratorDTO.getLastName());
+		adminDb.setFirstName(administratorDTO.getFirstName());
+		//Changes in roles
+		List<Role> adminRoles = adminDb.getAccount().getRoles();
+		if (adminRoles.size() != administratorDTO.getListRoles().size()) {
+			//Add new roles
+			if(administratorDTO.getListRoles().size() > adminRoles.size()){
+				for (String roleName : administratorDTO.getListRoles()) {					
+					if (!containsRole(adminRoles, roleName)) {
+						Role role = roleRepository.findByName(roleName);
+						adminDb.getAccount().getRoles().add(role);
+					}
+				}
+				//remove of roles
+			}else if(administratorDTO.getListRoles().size() < adminRoles.size()){
+				List<Role> rolesToRemove = new ArrayList<Role>();
+				for (Role adminRole : adminRoles) {
+					for (String roleName : administratorDTO.getListRoles()) {
+						if(!adminRole.getName().equals(roleName)){
+							rolesToRemove.add(adminRole);							
+						}
+					}
+				}
+				adminDb.getAccount().getRoles().removeAll(rolesToRemove);
+			}
+		}
+		return administratorRepo.save(adminDb);
+	}
+
+	/*
+	 * 
+	 */
+	private boolean containsRole(List<Role> roles, String roleName){
+		for(Role role : roles){
+			if(role.getName().equals(roleName)){
+				return true;
+			}
+		}
+		return false;
+	}
 }

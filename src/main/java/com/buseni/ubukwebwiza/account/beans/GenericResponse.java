@@ -1,4 +1,4 @@
-package com.buseni.ubukwebwiza.administration.controller;
+package com.buseni.ubukwebwiza.account.beans;
 
 public class GenericResponse {
     private String message;

@@ -44,6 +44,13 @@ public interface AdministratorService {
 	void delete(Integer id);
 
 	Administrator findByEmail(String email);
+	/**
+	 * Update the administrator
+	 * @param administrator
+	 * @return
+	 * @throws BusinessException 
+	 */
+	Administrator update(AdministratorDTO administrator) throws BusinessException;
 
 	
 

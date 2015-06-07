@@ -9,6 +9,6 @@ public interface VerificationTokenRepo extends JpaRepository<VerificationToken, 
 
 	VerificationToken findByToken(String verificationToken);
 
-	VerificationToken findByAccount(UserAccount account);
+	VerificationToken findByUserAccount(UserAccount userAccount);
 
 }

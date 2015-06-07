@@ -33,7 +33,6 @@ public class AdministratorDTO implements Serializable{
 	@Email
 	private String email;
 	
-	@NotEmpty(message = "{error.user.requiredfield.password}")
 	private String password;
 	
 	private boolean enabled;

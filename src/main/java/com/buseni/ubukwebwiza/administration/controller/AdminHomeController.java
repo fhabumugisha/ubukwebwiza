@@ -113,7 +113,7 @@ public class AdminHomeController {
 	public String adminResetPassword(HttpServletRequest request,Locale locale, @RequestParam("id") Integer id,  @RequestParam("token") String token, RedirectAttributes model){
 		PasswordResetToken passToken = userAccountService.getPasswordResetToken(token);
 	   // Administrator user = passToken.getAdministrator();
-	    if (passToken == null || passToken.getAccount().getId() != id) {
+	    if (passToken == null || passToken.getUserAccount().getId() != id) {
 	        String error = messages.getMessage("auth.message.invalidToken", null, locale);
 	        LOGGER.error(error);
 	        model.addFlashAttribute("error", error);
@@ -127,7 +127,7 @@ public class AdminHomeController {
 	        model.addFlashAttribute("error", error);
 	        return "redirect:/adminlogin";
 	    }
-	    UserAccount user = passToken.getAccount();
+	    UserAccount user = passToken.getUserAccount();
 	    Authentication auth = new UsernamePasswordAuthenticationToken(user, null, userAccountService.loadUserByUsername(user.getEmail()).getAuthorities());
 	    SecurityContextHolder.getContext().setAuthentication(auth);
 		

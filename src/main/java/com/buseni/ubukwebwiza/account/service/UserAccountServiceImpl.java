@@ -27,7 +27,6 @@ import com.buseni.ubukwebwiza.account.domain.VerificationToken;
 import com.buseni.ubukwebwiza.account.repository.PasswordResetTokenRepo;
 import com.buseni.ubukwebwiza.account.repository.UserAccountRepository;
 import com.buseni.ubukwebwiza.account.repository.VerificationTokenRepo;
-import com.buseni.ubukwebwiza.administrator.service.impl.LoginAttemptService;
 import com.buseni.ubukwebwiza.exceptions.BusinessException;
 import com.buseni.ubukwebwiza.exceptions.CustomError;
 import com.buseni.ubukwebwiza.exceptions.CustomErrorBuilder;
@@ -165,7 +164,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 
 	@Override
 	public UserAccount getUserByPasswordResetToken(final String token) {
-		return passwordTokenRepo.findByToken(token).getAccount();
+		return passwordTokenRepo.findByToken(token).getUserAccount();
 	}
 
 	@Override
@@ -191,7 +190,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 			throw new NullPointerException("verification token is null");
 		}
 		return verificationTokenRepo.findByToken(verificationToken)
-				.getAccount();
+				.getUserAccount();
 
 	}
 

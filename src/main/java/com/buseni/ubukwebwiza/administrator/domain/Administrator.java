@@ -44,9 +44,8 @@ public class Administrator implements Serializable{
 	private String lastName;
 	
 	
-	
-	@OneToOne(cascade={CascadeType.PERSIST, CascadeType.REMOVE})
-	 @JoinColumn(nullable = false, name = "id_account", referencedColumnName="id")
+	@OneToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+	@JoinColumn(nullable = false, name = "id_account", referencedColumnName="id")
 	private UserAccount account;
 	
 	
