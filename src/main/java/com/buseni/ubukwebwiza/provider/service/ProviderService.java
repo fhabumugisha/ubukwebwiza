@@ -18,7 +18,7 @@ public interface ProviderService {
 	 * 
 	 * @param weddingService
 	 */
-	void add(Provider provider) throws BusinessException;
+	void addOrUpdate(Provider provider) throws BusinessException;
 	
 	/**
 	 * 

@@ -47,7 +47,7 @@
 					<tbody>
 						<tr th:each="provider : ${providers}" th:classappend="${providerStat.odd}? 'odd'">
 							<!-- <td th:text="${provider.id}">1</td> -->
-							<td th:text="${provider.email}">Email</td>
+							<td th:text="${provider.account.email}">Email</td>
 							<td th:text="${provider.businessName}">Ok</td>
 							<td >
 								<img class="img-thumbnail"  width="100" height="50" alt="profil pic" th:if="*{provider.profilPicture}" th:alt="${provider.businessName}" th:src="@{'https://ubfiles.s3.amazonaws.com/'+${provider.profilPicture.filename}} "></img>
@@ -62,9 +62,9 @@
 <!-- 								</ul> -->
 <!-- 							</td> -->
 							<td th:text="${provider.nbViews}">Ok</td>
-							<td th:text="${#dates.format(provider.lastUpdate, 'dd/MM/yyyy')}">Ok</td>
-							<td th:text="${#dates.format(provider.createdAt, 'dd/MM/yyyy')}">Ok</td>
-							<td th:text="${provider.enabled}">Ok</td>
+							<td th:text="${#dates.format(provider.account.lastUpdate, 'dd/MM/yyyy')}">Ok</td>
+							<td th:text="${#dates.format(provider.account.createdAt, 'dd/MM/yyyy')}">Ok</td>
+							<td th:text="${provider.account.enabled}">Ok</td>
 							<td class="dropdown">
 							<a id="dLabel" data-toggle="dropdown" href="#"> <span th:text="#{list.actions}">Actions</span>
 									<span class="caret"></span></a>

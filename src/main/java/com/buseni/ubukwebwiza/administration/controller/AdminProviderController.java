@@ -87,7 +87,7 @@ public class AdminProviderController {
 			attributes.addFlashAttribute("provider", provider);
 			return "adminpanel/provider/editProvider";
 
-		}else{
+		}
 			String filename = "no_person.jpg";
 			if (!file.isEmpty()) {
 				if(file.getSize() > ImagesUtils.MAXSIZE){
@@ -112,7 +112,7 @@ public class AdminProviderController {
 	               provider.setProfilPicture(profil);
 	               
 	           
-	        } else     	if(provider.getId() == null){
+	        } else  if(provider.getId() == null){
 	        		LOGGER.error("You failed to upload  because the file was empty.");
 		        	result.reject("error.file.empty");
 	            	//attributes.addFlashAttribute("org.springframework.validation.BindingResult.provider", result);
@@ -122,7 +122,7 @@ public class AdminProviderController {
 	        	
 	        }
 			try {
-				providerService.add(provider);				
+				providerService.addOrUpdate(provider);				
 				//Save profil pricture to amazon S3
 				File fileToUpload =  ImagesUtils.prepareUploading(file, EnumPhotoCategory.PROFILE.getId());
 				amazonS3Util.uploadFile(fileToUpload, filename);
@@ -139,7 +139,7 @@ public class AdminProviderController {
 			String message = "Provider " + provider.getId() + " was successfully added";
 			attributes.addFlashAttribute("message", message);
 			return "redirect:/admin/providers";
-		}
+		
 
 
 	}

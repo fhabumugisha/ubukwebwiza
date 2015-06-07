@@ -6,19 +6,22 @@ package com.buseni.ubukwebwiza.provider.service.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.collections4.IteratorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import com.buseni.ubukwebwiza.account.beans.SignupForm;
+import com.buseni.ubukwebwiza.account.domain.Role;
 import com.buseni.ubukwebwiza.account.domain.UserAccount;
+import com.buseni.ubukwebwiza.account.repository.RoleRepository;
+import com.buseni.ubukwebwiza.account.repository.UserAccountRepository;
 import com.buseni.ubukwebwiza.exceptions.BusinessException;
 import com.buseni.ubukwebwiza.exceptions.CustomError;
 import com.buseni.ubukwebwiza.exceptions.CustomErrorBuilder;
@@ -36,6 +39,7 @@ import com.buseni.ubukwebwiza.provider.repository.ProviderRepo;
 import com.buseni.ubukwebwiza.provider.repository.ProviderWeddingServiceRepo;
 import com.buseni.ubukwebwiza.provider.repository.WeddingServiceRepo;
 import com.buseni.ubukwebwiza.provider.service.ProviderService;
+import com.mysema.query.types.Predicate;
 
 /**
  * @author habumugisha
@@ -45,20 +49,24 @@ import com.buseni.ubukwebwiza.provider.service.ProviderService;
 @Transactional(readOnly=true)
 public class ProviderServiceImpl implements ProviderService {
 	
+	private static final String ROLE_PROVIDER = "ROLE_PROVIDER";
 	private ProviderRepo providerRepo;
 	private WeddingServiceRepo weddingServiceRepo;
 	private ProviderWeddingServiceRepo providerWeddingServiceRepo;
 	private PhotoRepo photoRepo;   	
 	private DistrictRepo districtRepo;
-	
+	private RoleRepository roleRepository;
+	private UserAccountRepository userAccountRepository;
 	@Autowired
 	public ProviderServiceImpl(ProviderRepo providerRepo, WeddingServiceRepo weddingServiceRepo, ProviderWeddingServiceRepo providerWeddingServiceRepo,
-			PhotoRepo photoRepo,  DistrictRepo districtRepo){
+			PhotoRepo photoRepo,  DistrictRepo districtRepo, RoleRepository roleRepository, UserAccountRepository userAccountRepository){
 		this.providerRepo = providerRepo;
 		this.weddingServiceRepo = weddingServiceRepo;
 		this.providerWeddingServiceRepo = providerWeddingServiceRepo;
 		this.photoRepo = photoRepo;
 		this.districtRepo = districtRepo;
+		this.roleRepository = roleRepository;
+		this.userAccountRepository =  userAccountRepository;
 		
 		
 	}
@@ -68,20 +76,24 @@ public class ProviderServiceImpl implements ProviderService {
 	 */
 	@Override
 	@Transactional
-	public void add(Provider provider) throws BusinessException {
+	public void addOrUpdate(Provider provider) throws BusinessException {
 		// TODO control before save
 		if(null == provider){
-			throw new NullPointerException();
+			throw new NullPointerException("Provider shouldn't be null");
 		}
 		//Creation
 		if(provider.getId() == null){			
-			if (emailExist(provider.getEmail())) {  
-				CustomErrorBuilder ceb =  new CustomErrorBuilder("error.provider.emailexists");			
-				CustomError  ce = ceb.field("email").errorArgs(new String[]{provider.getEmail()}).buid();
+			if (emailExist(provider.getAccount().getEmail())) {  
+				CustomErrorBuilder ceb =  new CustomErrorBuilder("error.user.emailexists");			
+				CustomError  ce = ceb.field("email").errorArgs(new String[]{provider.getAccount().getEmail()}).buid();
 				throw new BusinessException(ce);
 	           
 	        }
-			provider.setCreatedAt(new Date());			
+			provider.getAccount().setCreatedAt(new Date());	
+			Role roleProvider =  roleRepository.findByName(ROLE_PROVIDER);
+			provider.getAccount().getRoles().add(roleProvider);
+			provider.getAccount().setLastUpdate(new Date());
+			providerRepo.save(provider);
 			if(provider.getIdcService() != null){
 				WeddingService weddingService = weddingServiceRepo.findOne(provider.getIdcService());
 				ProviderWeddingService vws = new ProviderWeddingService();
@@ -94,18 +106,35 @@ public class ProviderServiceImpl implements ProviderService {
 				provider.getProviderWeddingServices().add(vws);
 				
 			}
+		
 		//Update
 		}else{
 			Provider bdd =  providerRepo.findOne(provider.getId());
-			if(provider.getProfilPicture() == null){				
-				provider.setProfilPicture(bdd.getProfilPicture());
+			if(!bdd.getAccount().getEmail().equals(provider.getAccount().getEmail())){
+				if (emailExist(provider.getAccount().getEmail())) {  
+					CustomErrorBuilder ceb =  new CustomErrorBuilder("error.user.emailexists");			
+					CustomError  ce = ceb.field("email").errorArgs(new String[]{provider.getAccount().getEmail()}).buid();
+					throw new BusinessException(ce);
+		           
+		        }
+				bdd.getAccount().setEmail(provider.getAccount().getEmail());
 			}
-			provider.setCreatedAt(bdd.getCreatedAt());
-			provider.setNbViews(bdd.getNbViews());
+			if(provider.getProfilPicture() != null){	
+				bdd.setProfilPicture(provider.getProfilPicture());
+			}
+			bdd.setBusinessName(provider.getBusinessName());
+			bdd.setAboutme(provider.getAboutme());
+			bdd.setAddress(provider.getAddress());
+			bdd.setPhoneNumber(provider.getPhoneNumber());
+			bdd.setDistrict(provider.getDistrict());
+			bdd.setWebsite(provider.getWebsite());
+			bdd.setFbUsername(provider.getFbUsername());
+			bdd.setTwitterUsername(provider.getTwitterUsername());
+			bdd.getAccount().setLastUpdate(new Date());
+						
+			providerRepo.save(bdd);
 		}
 	
-		provider.setLastUpdate(new Date());
-		providerRepo.save(provider);
 
 	}
 
@@ -116,7 +145,7 @@ public class ProviderServiceImpl implements ProviderService {
 	@Transactional
 	public Provider update(Provider provider) {
 		// TODO COntrol before save
-		provider.setLastUpdate(new Date());
+		//TODO provider.setLastUpdate(new Date());
 		return providerRepo.save(provider);
 	}
 
@@ -134,7 +163,7 @@ public class ProviderServiceImpl implements ProviderService {
 			throw new ResourceNotFoundException();
 		}
 		provider.setNbViews(provider.getNbViews() + 1);
-		provider.setLastUpdated(new Date());
+		//TODO provider.setLastUpdated(new Date());
 		providerRepo.save(provider);
 		return provider;
 	}
@@ -144,6 +173,9 @@ public class ProviderServiceImpl implements ProviderService {
 	 */
 	@Override
 	public Page<Provider> findAll(Pageable pageable) {
+		if(pageable == null){
+			return new PageImpl<>(providerRepo.findAll());
+		}
 		PageRequest pr = new PageRequest(pageable.getPageNumber()-1, pageable.getPageSize());
 		return providerRepo.findAll(pr);
 	}
@@ -152,14 +184,19 @@ public class ProviderServiceImpl implements ProviderService {
 	 * @see com.buseni.ubukwebwiza.administrator.service.ProviderService#findAll(com.buseni.ubukwebwiza.utils.ProviderSearch, org.springframework.data.domain.Pageable)
 	 */
 	@Override
-	public Page<Provider> search(ProviderSearch providerSearch,
-			Pageable pageable) {
-
-		if(null != providerSearch){
-			PageRequest pr = new PageRequest(pageable.getPageNumber()-1, pageable.getPageSize());
-			return	providerRepo.findAll(ProviderPredicates.search(providerSearch), pr);
+	public Page<Provider> search(ProviderSearch providerSearch,	Pageable pageable) {
+		if(null == providerSearch){
+			throw new NullPointerException("providerSearch should be null");
+		}	
+		if(pageable == null){
+			Predicate predicate = ProviderPredicates.search(providerSearch);
+			List<Provider> providers = IteratorUtils.toList(providerRepo.findAll(predicate).iterator());
+			return new PageImpl<>(providers);
 		}
-		return null;
+		PageRequest pr = new PageRequest(pageable.getPageNumber()-1, pageable.getPageSize());
+		return	providerRepo.findAll(ProviderPredicates.search(providerSearch), pr);
+
+
 	}
 
 	/*
@@ -181,20 +218,23 @@ public class ProviderServiceImpl implements ProviderService {
 
 	@Override
 	public List<Provider> getFeaturedProviders() {	
-		Page<Provider> page = providerRepo.findByEnabled(Boolean.TRUE, new PageRequest(0, 3, Sort.Direction.DESC, "nbViews"));
+		Page<Provider> page = providerRepo.findByAccount_Enabled(Boolean.TRUE, new PageRequest(0, 3, Sort.Direction.DESC, "nbViews"));
 		return page.getContent();
 	}
 
 	@Override
 	public Page<Provider> findByEnabled(boolean enabled, Pageable pageable) {
+		if(pageable == null){
+			return new PageImpl<>(providerRepo.findByAccount_Enabled(enabled));
+		}
 		PageRequest pr = new PageRequest(pageable.getPageNumber()-1, pageable.getPageSize());
-		return providerRepo.findByEnabled(enabled, pr);
+		return providerRepo.findByAccount_Enabled(enabled, pr);
 	}
 
 	@Override
 	public Provider findOne(Integer id) {
 		if(null == id){
-			throw new NullPointerException();
+			throw new NullPointerException("Id should be null");
 		}		
 		Provider provider  = providerRepo.findOne(id);
 		if(provider ==  null){
@@ -206,7 +246,11 @@ public class ProviderServiceImpl implements ProviderService {
 	@Transactional
 	@Override
 	public Provider deletePhoto(Integer idProvider, Integer  idPhoto) {
+		if(null == idProvider || idPhoto == null){
+			throw new NullPointerException("idProvider and idPhoto shouldn't be null");
+		}	
 		Provider provider = findOne(idProvider);
+		
 		Photo photo =  photoRepo.findOne(idPhoto);
 		if(photo != null && !CollectionUtils.isEmpty(provider.getPhotos())){
 			provider.getPhotos().remove(photo);
@@ -229,7 +273,7 @@ public class ProviderServiceImpl implements ProviderService {
 	}
 
 	 private boolean emailExist(String email) {
-	        Provider user = providerRepo.findByEmail(email);
+	        Provider user = providerRepo.findByAccount_Email(email);
 	        if (user != null) {
 	            return true;
 	        }
@@ -250,12 +294,12 @@ public class ProviderServiceImpl implements ProviderService {
 
 		}
 		Provider provider = new Provider();
-		provider.setBusinessName(signupForm.getBusinessName());
+		/*provider.setBusinessName(signupForm.getBusinessName());
 		provider.setEmail(signupForm.getEmail());
 		PasswordEncoder encoder = new BCryptPasswordEncoder();
 		provider.setPassword(encoder.encode(signupForm.getPassword()));
 		provider.setCreatedAt(new Date());			
-		provider.setLastUpdate(new Date());
+		provider.setLastUpdate(new Date());*/
 		District district  = districtRepo.findOne(signupForm.getIdDistrict());
 		provider.setDistrict(district);
 		WeddingService weddingService = weddingServiceRepo.findOne(signupForm.getIdService());

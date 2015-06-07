@@ -26,7 +26,7 @@ public class Province implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="id_province")
+	@Column(name="id")
 	private Integer id;	
 	
 	@NotEmpty(message="{error.province.requiredfield.libelle}")

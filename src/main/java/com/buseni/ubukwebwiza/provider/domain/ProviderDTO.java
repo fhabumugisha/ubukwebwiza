@@ -4,28 +4,13 @@
 package com.buseni.ubukwebwiza.provider.domain;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.buseni.ubukwebwiza.account.domain.UserAccount;
 import com.buseni.ubukwebwiza.gallery.domain.Photo;
 
 
@@ -33,111 +18,75 @@ import com.buseni.ubukwebwiza.gallery.domain.Photo;
  * @author habumugisha
  * 
  */
-@Entity
-@Table(name = "provider")
-public class Provider implements Serializable {
+
+public class ProviderDTO implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	/**
-	 * 
-	 */
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="id")
+	
 	private Integer id;
 	
-	@OneToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
-	@JoinColumn(nullable = false, name = "id_account", referencedColumnName="id")
-	private UserAccount account;
 	
-
-	
-	@Column(name="business_name")
 	@NotEmpty(message="{error.provider.requiredfield.businessname}")
 	@Length(min=1, max=50)
 	private String businessName;
 
-	@Column(name="phone_number")
-	@Length(min=0, max=50)
+	
+	@Length(min=1, max=50)
 	private String phoneNumber;
 
-	@Length(min=0, max=50)
+	@Length(min=1, max=50)
 	private String website;
 	
-	@Column(name="fb_username")
-	@Length(min=0, max=50)
+
+	@Length(min=1, max=50)
 	private String fbUsername;
 	
-	@Column(name="twitter_username")
-	@Length(min=0, max=50)
+	
+	@Length(min=1, max=50)
 	private String twitterUsername;
 	
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "id_profil_picture", referencedColumnName="id")
+	
 	private Photo profilPicture;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "id_cover_picture" , referencedColumnName="id")
+	
 	private Photo coverPicture;
 	
-	@Lob
-	@Column(length=500)
+	
+	@Length(min=0, max=500)
 	private String aboutme;
 	
-	@Length(min=0, max=100)
+	@Length(min=1, max=100)
 	private String address;		
 	
-	private String country;
-	
-	
-	
-	@Column(name="normalized_name")
-	private String normalizedName;
-	
 
 
-
-	@OneToMany(mappedBy="provider", cascade = CascadeType.REMOVE)
-	private Set<ProviderWeddingService> providerWeddingServices = new HashSet<ProviderWeddingService>();
+	@NotEmpty
+	@Email
+	private String email;
 	
+	@NotEmpty
+	//@ValidPassword
+	private String password;
 	
-	@OneToMany(cascade=CascadeType.ALL)
-	 @JoinTable
-	  (
-	      name="provider_photo",
-	      joinColumns={ @JoinColumn(name="id_provider", referencedColumnName="id") },
-	      inverseJoinColumns={ @JoinColumn(name="id_photo", referencedColumnName="id", unique=true) }
-	  )
-	private Set<Photo> photos = new HashSet<Photo>();
+	@NotNull
+	private Integer idDistrict;
 	
-	@Column(name="nb_views")
-	private int nbViews;
-	
-
-
-	@ManyToOne
-	@JoinColumn(name="id_district")
-	private District district;
-
-	
-
-	@Transient
 	private Integer idcService;
 
 	/**
 	 * 
 	 */
-	public Provider() {
+	public ProviderDTO() {
 
 	}
 
 	/**
 	 * 
 	 */
-	public Provider(Integer id) {
+	public ProviderDTO(Integer id) {
 		this.id = id;
 	}
 
@@ -200,15 +149,7 @@ public class Provider implements Serializable {
 
 	
 
-	public String getCountry() {
-		return country;
-	}
 
-
-
-	public void setCountry(String country) {
-		this.country = country;
-	}
 
 
 
@@ -228,18 +169,6 @@ public class Provider implements Serializable {
 
 
 
-	public int getNbViews() {
-		return nbViews;
-	}
-
-
-
-	public void setNbViews(int nbViews) {
-		this.nbViews = nbViews;
-	}
-
-
-
 	public String getAddress() {
 		return address;
 	}
@@ -247,9 +176,9 @@ public class Provider implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "Provider [id=" + id + ", account=" + account + ", businessName=" + businessName + ", phoneNumber=" + phoneNumber + ", website=" + website + ", fbUsername=" + fbUsername
-				+ ", twitterUsername=" + twitterUsername + ", profilPicture=" + profilPicture + ", coverPicture=" + coverPicture + ", aboutme=" + aboutme + ", address=" + address + ", country="
-				+ country + ", normalizedName=" + normalizedName + ", nbViews=" + nbViews + ", district=" + district + "]";
+		return "ProviderDTO [id=" + id + ", businessName=" + businessName + ", phoneNumber=" + phoneNumber + ", website=" + website + ", fbUsername=" + fbUsername + ", twitterUsername="
+				+ twitterUsername + ", profilPicture=" + profilPicture + ", coverPicture=" + coverPicture + ", aboutme=" + aboutme + ", address=" + address + ", email=" + email + ", password="
+				+ password + ", idDistrict=" + idDistrict + ", idcService=" + idcService + "]";
 	}
 
 
@@ -261,16 +190,15 @@ public class Provider implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((aboutme == null) ? 0 : aboutme.hashCode());
-		result = prime * result + ((account == null) ? 0 : account.hashCode());
 		result = prime * result + ((address == null) ? 0 : address.hashCode());
 		result = prime * result + ((businessName == null) ? 0 : businessName.hashCode());
-		result = prime * result + ((country == null) ? 0 : country.hashCode());
 		result = prime * result + ((coverPicture == null) ? 0 : coverPicture.hashCode());
-		result = prime * result + ((district == null) ? 0 : district.hashCode());
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((fbUsername == null) ? 0 : fbUsername.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + nbViews;
-		result = prime * result + ((normalizedName == null) ? 0 : normalizedName.hashCode());
+		result = prime * result + ((idDistrict == null) ? 0 : idDistrict.hashCode());
+		result = prime * result + ((idcService == null) ? 0 : idcService.hashCode());
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((phoneNumber == null) ? 0 : phoneNumber.hashCode());
 		result = prime * result + ((profilPicture == null) ? 0 : profilPicture.hashCode());
 		result = prime * result + ((twitterUsername == null) ? 0 : twitterUsername.hashCode());
@@ -288,16 +216,11 @@ public class Provider implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Provider other = (Provider) obj;
+		ProviderDTO other = (ProviderDTO) obj;
 		if (aboutme == null) {
 			if (other.aboutme != null)
 				return false;
 		} else if (!aboutme.equals(other.aboutme))
-			return false;
-		if (account == null) {
-			if (other.account != null)
-				return false;
-		} else if (!account.equals(other.account))
 			return false;
 		if (address == null) {
 			if (other.address != null)
@@ -309,20 +232,15 @@ public class Provider implements Serializable {
 				return false;
 		} else if (!businessName.equals(other.businessName))
 			return false;
-		if (country == null) {
-			if (other.country != null)
-				return false;
-		} else if (!country.equals(other.country))
-			return false;
 		if (coverPicture == null) {
 			if (other.coverPicture != null)
 				return false;
 		} else if (!coverPicture.equals(other.coverPicture))
 			return false;
-		if (district == null) {
-			if (other.district != null)
+		if (email == null) {
+			if (other.email != null)
 				return false;
-		} else if (!district.equals(other.district))
+		} else if (!email.equals(other.email))
 			return false;
 		if (fbUsername == null) {
 			if (other.fbUsername != null)
@@ -334,12 +252,20 @@ public class Provider implements Serializable {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (nbViews != other.nbViews)
-			return false;
-		if (normalizedName == null) {
-			if (other.normalizedName != null)
+		if (idDistrict == null) {
+			if (other.idDistrict != null)
 				return false;
-		} else if (!normalizedName.equals(other.normalizedName))
+		} else if (!idDistrict.equals(other.idDistrict))
+			return false;
+		if (idcService == null) {
+			if (other.idcService != null)
+				return false;
+		} else if (!idcService.equals(other.idcService))
+			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
 			return false;
 		if (phoneNumber == null) {
 			if (other.phoneNumber != null)
@@ -367,28 +293,7 @@ public class Provider implements Serializable {
 
 
 
-	public Set<ProviderWeddingService> getProviderWeddingServices() {
-		return providerWeddingServices;
-	}
-
-
-
-	public void setProviderWeddingServices(
-			Set<ProviderWeddingService> providerWeddingServices) {
-		this.providerWeddingServices = providerWeddingServices;
-	}
-
-
-
-	public Set<Photo> getPhotos() {
-		return photos;
-	}
-
-
-
-	public void setPhotos(Set<Photo> photos) {
-		this.photos = photos;
-	}
+	
 
 
 
@@ -454,56 +359,7 @@ public class Provider implements Serializable {
 
 
 
-	/**
-	 * @param normalizedName the normalizedName to set
-	 */
-	public void setNormalizedName(String normalizedName) {
-		this.normalizedName = normalizedName;
-	}
 
-
-
-	/**
-	 * @return the normalizedName
-	 */
-	public String getNormalizedName() {
-		return normalizedName;
-	}
-
-
-
-
-
-	public void setViews(int views) {
-		this.nbViews = views;
-	}
-
-
-
-	public int getViews() {
-		return nbViews;
-	}
-
-
-
-
-
-	public String getWeddingService() {		
-		if( null !=  providerWeddingServices  && !providerWeddingServices.isEmpty()){
-			ProviderWeddingService ws =  providerWeddingServices.iterator().next();
-			return ws.getWeddingService().getLibelle();
-			
-		}
-		return "";
-	}
-
-
-
-	public District getDistrict() {
-		return district;
-	}
-	
-	
 
 
 
@@ -534,17 +390,7 @@ public class Provider implements Serializable {
 		this.coverPicture = coverPicture;
 	}
 
-	public UserAccount getAccount() {
-		return account;
-	}
 
-	public void setAccount(UserAccount account) {
-		this.account = account;
-	}
-
-	public void setDistrict(District district) {
-		this.district = district;
-	}
 
 
 

@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -60,54 +59,6 @@ public class SetUpNavigationPathInterceptorOld extends HandlerInterceptorAdapter
         session.setAttribute(NAVIGATION_PATH, new ArrayList<NavigationEntry>());
     }
 
-    private List<NavigationEntry> buildBasePath(List<NavigationEntry> prevPath, Class<? extends Object> entryClass) {
-        Navigation navigation = entryClass.getAnnotation(Navigation.class);
-        Class<? extends Object>[] parentClassArray = navigation.parent();
-        List<NavigationEntry> basePath = new ArrayList<NavigationEntry>();
-        if (parentClassArray.length > 0) {
-        	
-        	
-            for (int i = 0; i < prevPath.size(); i++) {
-                NavigationEntry entry = prevPath.get(i);
-                if (arrayContains(parentClassArray, entry.getNavigationClass())) {
-                    basePath = prevPath.subList(0, i + 1);
-                }
-            }
-        }
-
-        return basePath;
-    }
-
-    private static boolean arrayContains(Object[] array, Object target) {
-        for (Object arrayElem : array) {
-            if (arrayElem.equals(target)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private NavigationEntry generateNavigationEntry(Class<? extends Object> entryClass, HttpSession session) throws IllegalAccessException, InstantiationException {
-        Navigation navigation = entryClass.getAnnotation(Navigation.class);
-
-        NavigationInfoProvider infoProvider;
-        if (navigation.infoProvider().length > 0) {
-            infoProvider = navigation.infoProvider()[0].newInstance();
-        } else if (navigation.name().length > 0 && navigation.url().length > 0) {
-            infoProvider = new DefaultNavigationInfoProvider(navigation.name()[0], navigation.url()[0]);
-        } else {
-            throw new RuntimeException("Wrong navigation controller!");
-        }
-
-        NavigationEntry navigationEntry = new NavigationEntry();
-        navigationEntry.setName(infoProvider.getName(session));
-        navigationEntry.setUrl(infoProvider.getUrl(session));
-        navigationEntry.setNavigationClass(entryClass);
-
-        return navigationEntry;
-    }
-    
     private List<NavigationEntry> generateNavigationEntry(Class<? extends Object> entryClass, HttpSession session, List<NavigationEntry>  navigationPath) throws IllegalAccessException, InstantiationException {
         Navigation navigation = entryClass.getAnnotation(Navigation.class);
 

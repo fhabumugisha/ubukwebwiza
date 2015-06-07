@@ -28,7 +28,7 @@ public class District implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="id_district")
+	@Column(name="id")
 	private Integer id;	
 	
 	@NotEmpty(message="{error.district.requiredfield.libelle}")
@@ -46,7 +46,7 @@ public class District implements Serializable {
 	private boolean enabled;
 	
 	@ManyToOne
-	@JoinColumn(name="id_province")
+	@JoinColumn(name="id_province", referencedColumnName="id")
 	private Province province;
 	
 	@Temporal(TemporalType.TIMESTAMP)

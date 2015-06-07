@@ -27,7 +27,7 @@ public class ProviderWeddingService implements Serializable{
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)	
-	@Column(name="id_provider_wedding_service")
+	@Column(name="id")
 	private Integer id;
 	
 	@Temporal(TemporalType.TIMESTAMP)
@@ -48,7 +48,7 @@ public class ProviderWeddingService implements Serializable{
 	private boolean enabled;
 	
 	@OneToOne
-	@JoinColumn(name="id_wedding_service")
+	@JoinColumn(name="id_wedding_service" , referencedColumnName="id")
 	private WeddingService weddingService;
 	
 	@ManyToOne

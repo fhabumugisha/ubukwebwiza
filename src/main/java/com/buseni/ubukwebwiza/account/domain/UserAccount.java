@@ -44,11 +44,11 @@ public  class UserAccount implements Serializable {
 	@NotEmpty(message = "{error.user.requiredfield.password}")
 	private String password;
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="last_update")
 	private Date lastUpdate;
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="created_at")
 	private Date createdAt;
 

@@ -16,14 +16,7 @@ public class ProviderBuilder {
 		this.provider.setId(id);
 		return this;
 	}
-	public ProviderBuilder email(String email){
-		this.provider.setEmail(email);
-		return this;
-	}
-	public ProviderBuilder password(String password){
-		this.provider.setPassword(password);
-		return this;
-	}
+	
 	
 	public ProviderBuilder district(District district){
 		this.provider.setDistrict(district);
@@ -42,11 +35,6 @@ public class ProviderBuilder {
 	}
 	
 	
-	
-	public ProviderBuilder enabled(boolean enabled){
-		this.provider.setEnabled(enabled);
-		return this;
-	}
 	public ProviderBuilder address(String address){
 		this.provider.setAddress(address);
 		return this;

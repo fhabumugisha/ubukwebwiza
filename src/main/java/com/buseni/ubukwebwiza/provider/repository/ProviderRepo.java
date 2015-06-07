@@ -1,5 +1,7 @@
 package com.buseni.ubukwebwiza.provider.repository;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,9 +13,11 @@ public interface ProviderRepo extends JpaRepository<Provider, Integer> , QueryDs
 	
 	Page<Provider> findByBusinessName(String businessName, Pageable pageable);
 	
-	Page<Provider> findByEnabled(boolean enabled, Pageable pageable);
+	Page<Provider> findByAccount_Enabled(boolean enabled, Pageable pageable);
+	
+	List<Provider> findByAccount_Enabled(boolean enabled);
 
-	Provider findByEmail(String email);
+	Provider findByAccount_Email(String email);
 
 
 }

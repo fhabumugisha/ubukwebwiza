@@ -23,7 +23,7 @@ public class WeddingService implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="id_wedding_service")
+	@Column(name="id")
 	private Integer id;	
 	
 	@NotEmpty(message="{error.weddingservice.requiredfield.libelle}")
