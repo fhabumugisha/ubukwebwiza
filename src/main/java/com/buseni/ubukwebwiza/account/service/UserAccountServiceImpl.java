@@ -232,7 +232,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 	 * @return
 	 */
 	@Override
-	public UserAccount findByEmail(String userEmail) {
+	public UserAccount findByUsername(String userEmail) {
 		if (userEmail == null) {
 			throw new NullPointerException("Null password");
 		}

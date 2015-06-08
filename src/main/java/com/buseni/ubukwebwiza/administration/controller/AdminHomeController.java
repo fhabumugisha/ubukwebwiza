@@ -160,7 +160,7 @@ public class AdminHomeController {
 	//@ResponseBody
 	public String adminForgotPassword(HttpServletRequest request, @RequestParam("email") String userEmail, RedirectAttributes attributes) {
 	     
-	    UserAccount admin = userAccountService.findByEmail(userEmail);
+	    UserAccount admin = userAccountService.findByUsername(userEmail);
 	    if (admin == null) {	    	
 	    	String error = messages.getMessage("message.resetPasswordInvalidEmail", null, request.getLocale());		
 	    	LOGGER.error(error);

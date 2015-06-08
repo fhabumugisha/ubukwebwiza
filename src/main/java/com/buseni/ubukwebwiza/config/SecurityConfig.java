@@ -48,7 +48,7 @@ public class SecurityConfig extends  WebSecurityConfigurerAdapter {
 			.formLogin().failureUrl("/adminlogin?error").loginPage("/adminlogin").usernameParameter("username")
 				.passwordParameter("password").successHandler(savedRequestAwareAuthenticationSuccessHandler())
         .and()
-        	.logout().logoutSuccessUrl("/adminlogin?logout").deleteCookies("JSESSIONID")
+        	.logout().logoutUrl("/adminlogout").logoutSuccessUrl("/adminlogin?logout").deleteCookies("JSESSIONID")
         .and()
         	.exceptionHandling().accessDeniedPage("/admin403")
         .and()

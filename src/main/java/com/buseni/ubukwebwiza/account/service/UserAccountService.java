@@ -39,5 +39,5 @@ public interface UserAccountService extends UserDetailsService {
 
 	VerificationToken generateNewVerificationToken(final String existingVerificationToken) ;
 
-	UserAccount findByEmail(String userEmail) ;
+	UserAccount findByUsername(String userEmail) ;
 }
