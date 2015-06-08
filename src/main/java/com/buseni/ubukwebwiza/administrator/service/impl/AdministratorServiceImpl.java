@@ -22,6 +22,7 @@ import com.buseni.ubukwebwiza.account.repository.RoleRepository;
 import com.buseni.ubukwebwiza.account.repository.UserAccountRepository;
 import com.buseni.ubukwebwiza.administrator.domain.Administrator;
 import com.buseni.ubukwebwiza.administrator.domain.AdministratorDTO;
+import com.buseni.ubukwebwiza.administrator.enums.EnumAccountType;
 import com.buseni.ubukwebwiza.administrator.repository.AdministratorRepo;
 import com.buseni.ubukwebwiza.administrator.service.AdministratorService;
 import com.buseni.ubukwebwiza.exceptions.BusinessException;
@@ -179,6 +180,7 @@ public class AdministratorServiceImpl implements AdministratorService		{
 		account.setEnabled(administratorDTO.getEnabled());		
 		account.setCreatedAt(new Date());
 		account.setLastUpdate(new Date());
+		account.setType(EnumAccountType.ADMIN.name());
 		for (String roleName : administratorDTO.getListRoles()) {
 			Role role  =  roleRepository.findByName(roleName);
 			if(role != null){

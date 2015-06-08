@@ -78,18 +78,18 @@ public class SignupController {
 		return "frontend/account/signup";
 	}
 	
-	@RequestMapping(value="/signupError", method=RequestMethod.GET)
+	@RequestMapping(value="/signup-error", method=RequestMethod.GET)
 	public String registrationError(Model model){
 		return "frontend/account/signupError";
 	}
 	
 
-	@RequestMapping(value="/signupSuccess", method=RequestMethod.GET)
+	@RequestMapping(value="/signup-success", method=RequestMethod.GET)
 	public String signupSuccess(Model model){
 		return "frontend/account/signupSuccess";
 	}
 	
-	@RequestMapping(value="/newTokenSent", method=RequestMethod.GET)
+	@RequestMapping(value="/new-token-sent", method=RequestMethod.GET)
 	public String newtokensent(Model model){
 		return "frontend/account/newTokenSent";
 	}
@@ -112,37 +112,31 @@ public class SignupController {
 		try {
 			UserAccount provider = providerService.createAccount(signupForm);
 			String appUrl = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
-		        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(provider, request.getLocale(), appUrl));
+		    eventPublisher.publishEvent(new OnRegistrationCompleteEvent(provider, request.getLocale(), appUrl));
 		} catch (BusinessException e) {
 			ErrorsHelper.rejectErrors(result, e.getErrors());
 			LOGGER.error("signup error: " + result.toString());
 			attributes.addFlashAttribute("org.springframework.validation.BindingResult.signupForm", result);
 			attributes.addFlashAttribute("signupForm", signupForm);
 			return "frontend/account/signup";
-		}catch (Exception me) {
-			LOGGER.error("signup error sending email: " + me.getMessage());
-			result.reject("error.sendingverificationEmail");
-			attributes.addFlashAttribute("org.springframework.validation.BindingResult.signupForm", result);
-			attributes.addFlashAttribute("signupForm", signupForm);
-			return "frontend/account/signup";
-	   
-	    }
+		}
 		
 		String message  =  messages.getMessage("message.regSucc", null, request.getLocale());		
 		attributes.addFlashAttribute("message", message);
-		return "redirect:/signupSuccess";
+		return "redirect:/signup-success";
 	}
 
 	
-	@RequestMapping(value = "/regitrationConfirm", method = RequestMethod.GET)
-	public String confirmRegistration (WebRequest request, @RequestParam("token") String token) {
+	@RequestMapping(value = "/regitration-confirm", method = RequestMethod.GET)
+	public String confirmRegistration (WebRequest request, @RequestParam("token") String token, RedirectAttributes model) {
 	    Locale locale = request.getLocale();
 	     
 	    VerificationToken verificationToken = userAccountService.getVerificationToken(token);
 	    if (verificationToken == null) {
 	        String error = messages.getMessage("auth.message.invalidToken", null, locale);
 	        LOGGER.error(error);
-	        return "redirect:/signupError?error";
+	        model.addFlashAttribute("invalidToken", true);
+	        return "redirect:/signup-error";
 	    }
 	     
 	    UserAccount user = verificationToken.getUserAccount();
@@ -150,7 +144,10 @@ public class SignupController {
 	    if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
 	    	String error = messages.getMessage("auth.message.expired", null, locale);
 	        LOGGER.error(error);
-	        return "redirect:/signupError?expired=true&token="+token;
+	       // model.addFlashAttribute("error", error);
+	        model.addFlashAttribute("expired", true);
+	        model.addFlashAttribute("token", token);
+	        return "redirect:/signup-error";
 	    } 
 	     
 	    user.setEnabled(true); 
@@ -159,7 +156,7 @@ public class SignupController {
 	    return "redirect:/login?verified"; 
 	}
 	
-	@RequestMapping(value = "/resendRegistrationToken", method = RequestMethod.GET)
+	@RequestMapping(value = "/resend-registration-token", method = RequestMethod.GET)
 	public String resendRegistrationToken(
 	  HttpServletRequest request, @RequestParam("token") String existingToken, RedirectAttributes redirectAttributes) {
 	    VerificationToken newToken = userAccountService.generateNewVerificationToken(existingToken);
@@ -176,7 +173,7 @@ public class SignupController {
 	
 	
 	private SimpleMailMessage constructResendVerificationTokenEmail (String appUrl, Locale locale, VerificationToken newToken, UserAccount user) {
-	    String confirmationUrl =       appUrl + "/regitrationConfirm?token=" + newToken.getToken();
+	    String confirmationUrl =       appUrl + "/regitration-confirm?token=" + newToken.getToken();
 	    String message = messages.getMessage("message.regSuccEmail", null, locale);
 	    SimpleMailMessage email = new SimpleMailMessage();
 	    email.setSubject("Resend Registration Token");

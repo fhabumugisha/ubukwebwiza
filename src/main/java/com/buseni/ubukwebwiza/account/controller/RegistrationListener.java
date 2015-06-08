@@ -2,6 +2,8 @@ package com.buseni.ubukwebwiza.account.controller;
 
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
@@ -15,6 +17,8 @@ import com.buseni.ubukwebwiza.account.service.UserAccountService;
 
 @Component
 public class RegistrationListener implements ApplicationListener<OnRegistrationCompleteEvent> {
+	
+	public  static final Logger LOGGER = LoggerFactory.getLogger(RegistrationListener.class);
     @Autowired
     private UserAccountService userAccountService;
 
@@ -36,11 +40,16 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
 
     private void confirmRegistration(OnRegistrationCompleteEvent event) {
     	UserAccount user = event.getUser();
-        String token = UUID.randomUUID().toString();
-        userAccountService.createVerificationTokenForUser(user, token);
+    	String token = UUID.randomUUID().toString();
+    	userAccountService.createVerificationTokenForUser(user, token);
 
-        final SimpleMailMessage email = constructEmailMessage(event, user, token);
-        mailSender.send(email);
+    	final SimpleMailMessage email = constructEmailMessage(event, user, token);
+    	try{
+    		mailSender.send(email);
+    	}catch(Exception me){
+    		LOGGER.error("signup error sending email: " + me.getMessage());
+    		throw me;
+    	}
     }
 
     //
@@ -48,7 +57,7 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
     private final SimpleMailMessage constructEmailMessage(final OnRegistrationCompleteEvent event, final UserAccount user, final String token) {
         final String recipientAddress = user.getEmail();
         final String subject = "Registration Confirmation";
-        final String confirmationUrl = event.getAppUrl() + "/regitrationConfirm?token=" + token;
+        final String confirmationUrl = event.getAppUrl() + "/regitration-confirm?token=" + token;
         final String message = messages.getMessage("message.regSuccEmail", null, event.getLocale());
         final SimpleMailMessage email = new SimpleMailMessage();
         email.setTo(recipientAddress);

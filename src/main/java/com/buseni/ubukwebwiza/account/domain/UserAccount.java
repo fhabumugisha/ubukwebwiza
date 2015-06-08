@@ -30,6 +30,8 @@ public  class UserAccount implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 840767790155118289L;
+	
+
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -56,6 +58,8 @@ public  class UserAccount implements Serializable {
 
 	@Column(name ="token_expired")
 	private boolean tokenExpired;
+	
+	private String type;
 
 	@ManyToMany
 	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
@@ -135,26 +139,22 @@ public  class UserAccount implements Serializable {
 
 	@Override
 	public String toString() {
-		return "UserAccount [id=" + id + ", email=" + email + ", password=" + password
-				+ ", lastUpdate=" + lastUpdate + ", createdAt=" + createdAt
-				+ ", enabled=" + enabled + ", tokenExpired=" + tokenExpired
-				+ "]";
+		return "UserAccount [id=" + id + ", email=" + email + ", password=" + password + ", lastUpdate=" + lastUpdate + ", createdAt=" + createdAt + ", enabled=" + enabled + ", tokenExpired="
+				+ tokenExpired + ", type=" + type + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((createdAt == null) ? 0 : createdAt.hashCode());
+		result = prime * result + ((createdAt == null) ? 0 : createdAt.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + (enabled ? 1231 : 1237);
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result
-				+ ((lastUpdate == null) ? 0 : lastUpdate.hashCode());
-		result = prime * result
-				+ ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((lastUpdate == null) ? 0 : lastUpdate.hashCode());
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + (tokenExpired ? 1231 : 1237);
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
 
@@ -196,6 +196,11 @@ public  class UserAccount implements Serializable {
 			return false;
 		if (tokenExpired != other.tokenExpired)
 			return false;
+		if (type == null) {
+			if (other.type != null)
+				return false;
+		} else if (!type.equals(other.type))
+			return false;
 		return true;
 	}
 	public List<Role> getRoles() {
@@ -203,6 +208,12 @@ public  class UserAccount implements Serializable {
 	}
 	public void setRoles(List<Role> roles) {
 		this.roles = roles;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
 	}
 
 

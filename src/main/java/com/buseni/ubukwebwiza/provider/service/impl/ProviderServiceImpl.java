@@ -13,6 +13,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -22,6 +24,7 @@ import com.buseni.ubukwebwiza.account.domain.Role;
 import com.buseni.ubukwebwiza.account.domain.UserAccount;
 import com.buseni.ubukwebwiza.account.repository.RoleRepository;
 import com.buseni.ubukwebwiza.account.repository.UserAccountRepository;
+import com.buseni.ubukwebwiza.administrator.enums.EnumAccountType;
 import com.buseni.ubukwebwiza.exceptions.BusinessException;
 import com.buseni.ubukwebwiza.exceptions.CustomError;
 import com.buseni.ubukwebwiza.exceptions.CustomErrorBuilder;
@@ -85,7 +88,7 @@ public class ProviderServiceImpl implements ProviderService {
 		if(provider.getId() == null){			
 			if (emailExist(provider.getAccount().getEmail())) {  
 				CustomErrorBuilder ceb =  new CustomErrorBuilder("error.user.emailexists");			
-				CustomError  ce = ceb.field("email").errorArgs(new String[]{provider.getAccount().getEmail()}).buid();
+				CustomError  ce = ceb.field("account.email").errorArgs(new String[]{provider.getAccount().getEmail()}).buid();
 				throw new BusinessException(ce);
 	           
 	        }
@@ -93,6 +96,7 @@ public class ProviderServiceImpl implements ProviderService {
 			Role roleProvider =  roleRepository.findByName(ROLE_PROVIDER);
 			provider.getAccount().getRoles().add(roleProvider);
 			provider.getAccount().setLastUpdate(new Date());
+			provider.getAccount().setType(EnumAccountType.PROVIDER.name());
 			providerRepo.save(provider);
 			if(provider.getIdcService() != null){
 				WeddingService weddingService = weddingServiceRepo.findOne(provider.getIdcService());
@@ -113,7 +117,7 @@ public class ProviderServiceImpl implements ProviderService {
 			if(!bdd.getAccount().getEmail().equals(provider.getAccount().getEmail())){
 				if (emailExist(provider.getAccount().getEmail())) {  
 					CustomErrorBuilder ceb =  new CustomErrorBuilder("error.user.emailexists");			
-					CustomError  ce = ceb.field("email").errorArgs(new String[]{provider.getAccount().getEmail()}).buid();
+					CustomError  ce = ceb.field("account.email").errorArgs(new String[]{provider.getAccount().getEmail()}).buid();
 					throw new BusinessException(ce);
 		           
 		        }
@@ -273,7 +277,7 @@ public class ProviderServiceImpl implements ProviderService {
 	}
 
 	 private boolean emailExist(String email) {
-	        Provider user = providerRepo.findByAccount_Email(email);
+		 	UserAccount user = userAccountRepository.findByEmail(email);
 	        if (user != null) {
 	            return true;
 	        }
@@ -288,18 +292,24 @@ public class ProviderServiceImpl implements ProviderService {
 		}	
 
 		if (emailExist(signupForm.getEmail())) {  
-			CustomErrorBuilder ceb =  new CustomErrorBuilder("error.provider.emailexists");			
+			CustomErrorBuilder ceb =  new CustomErrorBuilder("error.account.emailexists");			
 			CustomError  ce = ceb.field("email").errorArgs(new String[]{signupForm.getEmail()}).buid();
 			throw new BusinessException(ce);
 
 		}
 		Provider provider = new Provider();
-		/*provider.setBusinessName(signupForm.getBusinessName());
-		provider.setEmail(signupForm.getEmail());
+		provider.setBusinessName(signupForm.getBusinessName());
+		UserAccount  account  = new UserAccount();
+		
+		account.setEmail(signupForm.getEmail());
 		PasswordEncoder encoder = new BCryptPasswordEncoder();
-		provider.setPassword(encoder.encode(signupForm.getPassword()));
-		provider.setCreatedAt(new Date());			
-		provider.setLastUpdate(new Date());*/
+		account.setPassword(encoder.encode(signupForm.getPassword()));
+		account.setCreatedAt(new Date());			
+		account.setLastUpdate(new Date());
+		Role roleProvider =  roleRepository.findByName(ROLE_PROVIDER);
+		account.getRoles().add(roleProvider);
+		account.setType(EnumAccountType.PROVIDER.name());
+		provider.setAccount(account);
 		District district  = districtRepo.findOne(signupForm.getIdDistrict());
 		provider.setDistrict(district);
 		WeddingService weddingService = weddingServiceRepo.findOne(signupForm.getIdService());
@@ -314,8 +324,7 @@ public class ProviderServiceImpl implements ProviderService {
 		//TODO add roles
 		providerRepo.save(provider);
 
-		//TODO use user account
-		return new UserAccount();
+		return account;
 	}
 
 
