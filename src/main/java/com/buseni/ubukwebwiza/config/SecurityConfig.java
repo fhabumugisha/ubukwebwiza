@@ -20,13 +20,13 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 
 import com.buseni.ubukwebwiza.account.service.UserAccountService;
 
-@Configuration
+/*@Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled=true)
+@EnableGlobalMethodSecurity(prePostEnabled=true)*/
 public class SecurityConfig extends  WebSecurityConfigurerAdapter {
 
 	
-	@Autowired
+/*	@Autowired
 	private UserAccountService userAccountService;
 	
 	@Autowired
@@ -34,8 +34,8 @@ public class SecurityConfig extends  WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-	  /*auth.inMemoryAuthentication().withUser("superadmin@ubukwebwiza.com").password("123456").roles("ADMIN","VENDOR","SETTINGS","USER");
-	  auth.inMemoryAuthentication().withUser("admin@ubukwebwiza.com").password("123456").roles("ADMIN","VENDOR");*/
+	  auth.inMemoryAuthentication().withUser("superadmin@ubukwebwiza.com").password("123456").roles("ADMIN","VENDOR","SETTINGS","USER");
+	  auth.inMemoryAuthentication().withUser("admin@ubukwebwiza.com").password("123456").roles("ADMIN","VENDOR");
 		auth.userDetailsService(userAccountService).passwordEncoder(passwordEncoder());
 	}
 	
@@ -68,11 +68,11 @@ public class SecurityConfig extends  WebSecurityConfigurerAdapter {
 		db.setDataSource(dataSource);
 		return db;
 	}
-/*	@Bean 
+	@Bean 
 	public AuthenticationSuccessHandler  mySimpleUrlAuthenticationSuccessHandler(){
 		AuthenticationSuccessHandler mySimpleUrlAuthenticationSuccessHandler =  new MySimpleUrlAuthenticationSuccessHandler();
 		return mySimpleUrlAuthenticationSuccessHandler;
-	}*/
+	}
 	
 	@Bean
 	public SavedRequestAwareAuthenticationSuccessHandler savedRequestAwareAuthenticationSuccessHandler() { 
@@ -86,5 +86,5 @@ public class SecurityConfig extends  WebSecurityConfigurerAdapter {
 	public PasswordEncoder passwordEncoder(){
 		PasswordEncoder encoder = new BCryptPasswordEncoder();
 		return encoder;
-	}
+	}*/
 }

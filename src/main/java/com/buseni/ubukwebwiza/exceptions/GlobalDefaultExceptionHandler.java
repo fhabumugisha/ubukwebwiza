@@ -17,7 +17,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 
 import com.buseni.ubukwebwiza.breadcrumbs.navigation.NavigationEntry;
 
-@ControllerAdvice
+//@ControllerAdvice
 public class GlobalDefaultExceptionHandler {
     public static final String DEFAULT_ERROR_VIEW = "frontend/error";
     public static final String NOT_FOUND_ERROR_VIEW = "frontend/404notfound";
@@ -44,9 +44,7 @@ public class GlobalDefaultExceptionHandler {
     public ModelAndView defaultErrorHandler(HttpServletRequest req, Exception e) throws Exception {
        LOGGER.error(e.getMessage());
     	// If the exception is annotated with @ResponseStatus rethrow it and let
-        // the framework handle it - like the OrderNotFoundException example
-        // at the start of this post.
-        // AnnotationUtils is a Spring Framework utility class.
+        // the framework handle it 
         if (AnnotationUtils.findAnnotation(e.getClass(), ResponseStatus.class) != null)
             throw e;
         // Otherwise setup and send the user to a default error-view.

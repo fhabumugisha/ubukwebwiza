@@ -51,7 +51,7 @@ import com.buseni.ubukwebwiza.breadcrumbs.interceptor.NavigationPathInterceptor;
 @EnableWebMvc
 @EnableWebSecurity
 @EnableCaching
-@Import({PersistenceMySqlConfig.class,  ViewConfiguration.class, SecurityConfig.class})
+@Import({PersistenceMySqlConfig.class,  ViewConfiguration.class, MultiHttpSecurityConfig.class})
 public class WebConfiguration extends WebMvcConfigurerAdapter{
 	
 	

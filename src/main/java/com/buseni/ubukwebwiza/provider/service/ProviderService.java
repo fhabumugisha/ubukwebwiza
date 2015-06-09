@@ -94,6 +94,13 @@ public interface ProviderService {
 	 */
 	UserAccount createAccount(SignupForm signupForm) throws BusinessException;
 
+	/**
+	 * Return a provider by his username
+	 * @param name
+	 * @return
+	 */
+	Provider findByUsername(String name);
+
 	
 
 

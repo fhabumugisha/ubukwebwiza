@@ -327,6 +327,20 @@ public class ProviderServiceImpl implements ProviderService {
 		return account;
 	}
 
+	@Override
+	public Provider findByUsername(String username) {
+		if(null == username){
+			throw new NullPointerException();
+		}
+		
+		Provider provider  = providerRepo.findByAccount_Email(username);
+		if(provider ==  null){
+			throw new ResourceNotFoundException();
+		}
+		
+		return provider;
+	}
+
 
 	
 	

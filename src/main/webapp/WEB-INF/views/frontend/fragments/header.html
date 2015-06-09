@@ -32,40 +32,49 @@
 					</div>
 					 
 					   <!-- Account feature is coming -->
-						<div class="pull-right hidden-xs" style="padding-top: 8px;margin-right: 10px;"
-						     th:classappend="${#authorization.expression('!isAuthenticated()') ? 'dropdown' : ''}">							
-				
-						<div th:if="${#authorization.expression('!isAuthenticated()')}" class="row">
+					<div
+						th:switch="${#authentication}? ${#authorization.expression('isAuthenticated()')} : ${false}">
+						<span th:case="${false}">User is not logged in</span> <span
+							th:case="${true}">Logged in user</span> <span th:case="*">Should
+							never happen, but who knows...</span>
+					</div>
+					<div class="pull-right hidden-xs" style="padding-top: 8px; margin-right: 10px;"
+						th:classappend="${#authorization}  ? 'dropdown' : ''">
+
+						<div  sec:authorize="!isAuthenticated()" class="row">
 							<div class="col-md-6">
-								<a  href="account/signin.html" th:href="@{/login}" class="btn btn-default pull-right  navbar-btn">Sign in</a>
+								<a href="account/signin.html" th:href="@{/login}"
+									class="btn btn-default pull-right  navbar-btn">Sign in</a>
 							</div>
-							<div  class="col-md-6">
-								<a  href="account/signup.html" th:href="@{/signup}" class="btn btn-primary pull-right navbar-btn">Join us</a> 
+							<div class="col-md-6">
+								<a href="account/signup.html" th:href="@{/signup}"
+									class="btn btn-primary pull-right navbar-btn">Join us</a>
 							</div>
-							
+
 						</div>
-										
-							
-							<a th:if="${#authorization.expression('isAuthenticated()')}" id="dLabel" data-toggle="dropdown" href="#"
-								class="btn btn-default"> 
-								<span
-								class="glyphicon glyphicon-user"></span>&nbsp;<span sec:authentication="name">Hello Fabrice</span>   
-								<span class="caret"></span>
-								</a>
-								<ul th:if="${#authorization.expression('isAuthenticated()')}" class="dropdown-menu no-collapse" role="menu"
-								aria-labelledby="dLabel">
-								<li>
-								
-								<form class="navbar-form" data-th-action="@{/logout}" method="post" action="">
-									<label for="mySubmit" class="btn">
-									<span class="glyphicon glyphicon-log-out"></span> &nbsp;Log Out</label> <input id="mySubmit"
-										type="submit" value="Go" class="hidden" />
+
+
+						<a sec:authorize="isAuthenticated()"  id="dLabel" data-toggle="dropdown" href="#" class="btn btn-default"> 
+						<span class="glyphicon glyphicon-user"></span>&nbsp;
+						<span sec:authentication="name">Hello Fabrice</span> <span
+							class="caret"></span>
+						</a>
+						<ul sec:authorize="isAuthenticated()"  class="dropdown-menu no-collapse" role="menu" aria-labelledby="dLabel">
+							<li>
+
+								<form class="navbar-form" data-th-action="@{/logout}"
+									method="post" action="">
+									<label for="mySubmit" class="btn"> <span
+										class="glyphicon glyphicon-log-out"></span> &nbsp;Log Out
+									</label> <input id="mySubmit" type="submit" value="Go" class="hidden" />
 								</form>
-								
-								</li>
-							</ul>					
-						
-						</div>
+
+							</li>
+						</ul>
+
+					</div>
+					
+					
 					<div class="navbar-offcanvas navmenu-fixed-left offcanvas">
 						<a class="navmenu-brand" href="#" th:href="@{/}">Menu</a>
 						<ul class="nav navbar-nav">
@@ -76,20 +85,34 @@
 								href="photoGallery.html" th:href="@{/gallery}">Photo gallery</a></li>
 							<!-- <li><a href="forum/listingHelp.html">Need an advice </a></li> -->
 							<li>
-							<div class="container">
 							
 							
-							
-								<div th:if="${#authorization.expression('!isAuthenticated()')}" class="row visible-xs-block">
-							<div class="col-md-6">
-								<a  href="account/signin.html" th:href="@{/login}" class="btn btn-default  navbar-btn">Sign in</a>
-							</div>
-							<div  class="col-md-6">
-								<a  href="account/signup.html" th:href="@{/signup}" class="btn btn-primary  navbar-btn">Join us</a> 
-							</div>
-							
-						</div>
-						</div>
+							<div sec:authorize="!isAuthenticated()"
+									class="row visible-xs-block">
+									<div class="col-md-6">
+										<a href="account/signin.html" th:href="@{/login}"
+											class="btn btn-default  navbar-btn">Sign in</a>
+									</div>
+									<div class="col-md-6">
+										<a href="account/signup.html" th:href="@{/signup}"
+											class="btn btn-primary  navbar-btn">Join us</a>
+									</div>
+								</div>
+
+
+<!-- 								<div th:if="${#authorization.expression('!isAuthenticated()')}" -->
+<!-- 									class="row visible-xs-block"> -->
+<!-- 									<div class="col-md-6"> -->
+<!-- 										<a href="account/signin.html" th:href="@{/login}" -->
+<!-- 											class="btn btn-default  navbar-btn">Sign in</a> -->
+<!-- 									</div> -->
+<!-- 									<div class="col-md-6"> -->
+<!-- 										<a href="account/signup.html" th:href="@{/signup}" -->
+<!-- 											class="btn btn-primary  navbar-btn">Join us</a> -->
+<!-- 									</div> -->
+
+
+<!-- 								</div> -->
 							</li>
 							
 						</ul>
