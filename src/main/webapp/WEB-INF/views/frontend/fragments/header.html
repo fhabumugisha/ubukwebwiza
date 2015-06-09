@@ -32,7 +32,7 @@
 					</div>
 					 
 					   <!-- Account feature is coming -->
-					<div
+					<!-- <div
 						th:switch="${#authentication}? ${#authorization.expression('isAuthenticated()')} : ${false}">
 						<span th:case="${false}">User is not logged in</span> <span
 							th:case="${true}">Logged in user</span> <span th:case="*">Should
@@ -72,7 +72,7 @@
 							</li>
 						</ul>
 
-					</div>
+					</div> -->
 					
 					
 					<div class="navbar-offcanvas navmenu-fixed-left offcanvas">
@@ -87,7 +87,7 @@
 							<li>
 							
 							
-							<div sec:authorize="!isAuthenticated()"
+							<!-- <div sec:authorize="!isAuthenticated()"
 									class="row visible-xs-block">
 									<div class="col-md-6">
 										<a href="account/signin.html" th:href="@{/login}"
@@ -97,7 +97,7 @@
 										<a href="account/signup.html" th:href="@{/signup}"
 											class="btn btn-primary  navbar-btn">Join us</a>
 									</div>
-								</div>
+								</div> -->
 
 
 <!-- 								<div th:if="${#authorization.expression('!isAuthenticated()')}" -->
