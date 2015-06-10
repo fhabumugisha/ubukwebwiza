@@ -20,18 +20,18 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 
 import com.buseni.ubukwebwiza.account.service.UserAccountService;
 
-/*@Configuration
+@Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled=true)*/
-public class MultiHttpSecurityConfig {
+@EnableGlobalMethodSecurity(prePostEnabled=true)
+public class MyMultiHttpSecurityConfig {
 	
 	
-/*	@Autowired
+	@Autowired
 	private UserAccountService userAccountService;
 	
 	
 	@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception { 
+	protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception { 
 		auth.userDetailsService(userAccountService).passwordEncoder(passwordEncoder());
 	}
 
@@ -41,18 +41,17 @@ public class MultiHttpSecurityConfig {
 		@Autowired
 		private  DataSource dataSource;
 		protected void configure(HttpSecurity http) throws Exception {
-			http
-			.antMatcher("/admin/**")
-			.authorizeRequests().anyRequest().hasRole("ADMIN")			
-			.and()
-				.formLogin().loginPage("/adminlogin").failureUrl("/adminlogin?error").usernameParameter("email")
-					.passwordParameter("password").successHandler(savedRequestAwareAuthenticationSuccessHandler())
-	        .and()
-	        	.logout().logoutSuccessUrl("/adminlogin?logout").deleteCookies("JSESSIONID")
-	        .and()
-	        	.exceptionHandling().accessDeniedPage("/admin403")
-	        .and()
-	        	.rememberMe().tokenRepository(persistentTokenRepository()).tokenValiditySeconds(604800).and().csrf();
+			 http.antMatcher("/admin/**").authorizeRequests().anyRequest().hasRole("ADMIN")
+				.and()
+					.formLogin().failureUrl("/adminlogin?error").loginPage("/adminlogin").usernameParameter("email")
+						.passwordParameter("password").successHandler(savedRequestAwareAuthenticationSuccessHandler())
+		        .and()
+		        	.logout().logoutUrl("/adminlogout").logoutSuccessUrl("/adminlogin?logout").deleteCookies("JSESSIONID")
+		        .and()
+		        	.exceptionHandling().accessDeniedPage("/admin403")
+		        .and()
+		        	.rememberMe().tokenRepository(persistentTokenRepository()).tokenValiditySeconds(604800);
+		
 		}
 		@Override
 		public void configure(WebSecurity web) throws Exception {
@@ -77,23 +76,21 @@ public class MultiHttpSecurityConfig {
 	}
 
 	@Configuration                                                   
-	public static class FormLoginWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
+	public static class profileWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
 		@Autowired
 		private  DataSource dataSource;
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
-			http
-				.antMatcher("/profile/**")
-				.authorizeRequests().anyRequest().hasRole("PROVIDER")
+			 http.antMatcher("/profile/**").authorizeRequests().anyRequest().hasRole("PROVIDER")
 				.and()
-				.formLogin().loginPage("/login").usernameParameter("email")
-				.passwordParameter("password").failureUrl("/login?error").successHandler(savedRequestAwareAuthenticationSuccessHandler())
-				  	.and()
-	        	.logout().logoutSuccessUrl("/").deleteCookies("JSESSIONID")
-				.and()
-	        	.exceptionHandling().accessDeniedPage("/admin403")
-	        	.and()
-	        	.rememberMe().tokenRepository(persistentTokenRepository()).tokenValiditySeconds(604800).and().csrf();
+					.formLogin().failureUrl("/login?error").loginPage("/login").usernameParameter("email")
+						.passwordParameter("password").successHandler(savedRequestAwareAuthenticationSuccessHandler())
+		        .and()
+		        	.logout().logoutUrl("/logout").logoutSuccessUrl("/").deleteCookies("JSESSIONID")
+		        .and()
+		        	.exceptionHandling().accessDeniedPage("/admin403")
+		        .and()
+		        	.rememberMe().tokenRepository(persistentTokenRepository()).tokenValiditySeconds(604800);
 		        
 		}
 		@Override
@@ -117,12 +114,36 @@ public class MultiHttpSecurityConfig {
 		
 	}
 	
-	
+/*	@Configuration
+	@Order(1)                                                        
+	public static class ApiWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
+		protected void configure(HttpSecurity http) throws Exception {
+			http
+				.antMatcher("/admin/**")                               
+				.authorizeRequests()
+					.anyRequest().hasRole("ADMIN")
+					.and()
+				.httpBasic();
+		}
+	}
+
+	@Configuration                                                   
+	public static class FormLoginWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
+
+		@Override
+		protected void configure(HttpSecurity http) throws Exception {
+			http.antMatcher("/profile/**")
+				.authorizeRequests()
+					.anyRequest().authenticated()
+					.and()
+				.formLogin();
+		}
+	}*/
 	
 	
 	@Bean
 	public PasswordEncoder passwordEncoder(){
 		PasswordEncoder encoder = new BCryptPasswordEncoder();
 		return encoder;
-	}*/
+	}
 }

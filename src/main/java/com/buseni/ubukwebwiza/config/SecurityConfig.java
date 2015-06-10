@@ -6,6 +6,7 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,19 +15,20 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 import com.buseni.ubukwebwiza.account.service.UserAccountService;
-
-/*@Configuration
+/*
+@Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled=true)*/
 public class SecurityConfig extends  WebSecurityConfigurerAdapter {
 
 	
-/*	@Autowired
+	@Autowired
 	private UserAccountService userAccountService;
 	
 	@Autowired
@@ -42,10 +44,10 @@ public class SecurityConfig extends  WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
  
-	  http.authorizeRequests()
-		.antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
+	  http.antMatcher("/admin/**").authorizeRequests().anyRequest().hasRole("ADMIN")
+		
 		.and()
-			.formLogin().failureUrl("/adminlogin?error").loginPage("/adminlogin").usernameParameter("username")
+			.formLogin().failureUrl("/adminlogin?error").loginPage("/adminlogin").usernameParameter("email")
 				.passwordParameter("password").successHandler(savedRequestAwareAuthenticationSuccessHandler())
         .and()
         	.logout().logoutUrl("/adminlogout").logoutSuccessUrl("/adminlogin?logout").deleteCookies("JSESSIONID")
@@ -86,5 +88,5 @@ public class SecurityConfig extends  WebSecurityConfigurerAdapter {
 	public PasswordEncoder passwordEncoder(){
 		PasswordEncoder encoder = new BCryptPasswordEncoder();
 		return encoder;
-	}*/
+	}
 }

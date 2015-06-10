@@ -42,7 +42,7 @@
 					<div th:if="${error}" class="alert alert-danger" th:text="${error}">Password does not match!</div>
 					<div th:if="${message}" class="alert alert-success" th:text="${message}">	Password reset successfully</div>						
 
-						<form class="form-signin" role="form" th:action="@{/adminlogin}" method="post">
+						<form class="form-signin" role="form" th:action="@{/adminlogin}" method="POST">
 
 							<div th:if="${param.error}" class="alert alert-danger">
 								Invalid username and password.</div>

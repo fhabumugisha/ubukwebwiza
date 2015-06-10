@@ -71,11 +71,6 @@ public class AdminHomeController {
 		return "adminpanel/dashbord";
 	}
 
-	@RequestMapping(value="/signin", method=RequestMethod.GET)
-	public String sign(Model model){
-		model.addAttribute("currentMenu", "dashbord");
-		return "adminpanel/dashbord";
-	}
 	
 	@RequestMapping(value="/adminlogin", method=RequestMethod.GET)
 	public String login(@RequestParam(value = "error", required = false) String error,
@@ -102,10 +97,7 @@ public class AdminHomeController {
 		return "adminpanel/signin";
 	}
 	
-	@RequestMapping(value="/adminForgotPassword", method=RequestMethod.GET)
-	public String forgotPassword(Model model){
-		return "adminpanel/forgotPassword";
-	}
+
 	
 	
 	

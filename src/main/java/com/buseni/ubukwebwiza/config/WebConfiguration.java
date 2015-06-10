@@ -29,7 +29,6 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.LocaleResolver;
@@ -49,9 +48,9 @@ import com.buseni.ubukwebwiza.breadcrumbs.interceptor.NavigationPathInterceptor;
 @ComponentScan(basePackages = {"com.buseni.ubukwebwiza"})
 @PropertySource("classpath:application.properties")
 @EnableWebMvc
-@EnableWebSecurity
+//@EnableWebSecurity
 @EnableCaching
-@Import({PersistenceMySqlConfig.class,  ViewConfiguration.class, MultiHttpSecurityConfig.class})
+@Import({PersistenceMySqlConfig.class,  ViewConfiguration.class, MyMultiHttpSecurityConfig.class})
 public class WebConfiguration extends WebMvcConfigurerAdapter{
 	
 	
