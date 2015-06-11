@@ -31,7 +31,7 @@
 
 						</div>
 
-						<form role="form" th:action="@{/login}" method="POST">
+						<form role="form" th:action="@{/profile/login}" method="POST">
 							<div th:if="${param.error}" class="alert alert-danger" th:text="#{message.invalidCredentials}">
 								Invalid username and password.</div>
 							

@@ -21,6 +21,7 @@ import com.buseni.ubukwebwiza.account.repository.RoleRepository;
 public class RoleServiceImpl implements RoleService {
 	
 	private RoleRepository roleRepository;
+	private static final String ROLE_PROVIDER = "ROLE_PROVIDER";
 	
 	
 @Autowired
@@ -36,6 +37,15 @@ public class RoleServiceImpl implements RoleService {
 	@Override
 	public List<Role> findAll() {	
 		return roleRepository.findAll();
+	}
+
+
+
+	@Override
+	public List<Role> findAdminRoles() {
+		List<Role> roles =  roleRepository.findAll();
+		roles.remove(roleRepository.findByName(ROLE_PROVIDER));
+		return roles;
 	}
 
 }

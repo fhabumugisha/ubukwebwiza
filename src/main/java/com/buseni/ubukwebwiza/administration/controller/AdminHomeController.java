@@ -72,7 +72,7 @@ public class AdminHomeController {
 	}
 
 	
-	@RequestMapping(value="/adminlogin", method=RequestMethod.GET)
+	@RequestMapping(value="/admin/login", method=RequestMethod.GET)
 	public String login(@RequestParam(value = "error", required = false) String error,
 			  @RequestParam(value = "logout", required = false) String logout, 
 	          HttpServletRequest request,Model model){
@@ -109,7 +109,7 @@ public class AdminHomeController {
 	        String error = messages.getMessage("auth.message.invalidToken", null, locale);
 	        LOGGER.error(error);
 	        model.addFlashAttribute("error", error);
-	        return "redirect:/adminlogin";
+	        return "redirect:/admin/login";
 	    }
 	 
 	    Calendar cal = Calendar.getInstance();
@@ -117,7 +117,7 @@ public class AdminHomeController {
 	    	String error = messages.getMessage("auth.message.expired", null, locale);
 	    	LOGGER.error(error);
 	        model.addFlashAttribute("error", error);
-	        return "redirect:/adminlogin";
+	        return "redirect:/admin/login";
 	    }
 	    UserAccount user = passToken.getUserAccount();
 	    Authentication auth = new UsernamePasswordAuthenticationToken(user, null, userAccountService.loadUserByUsername(user.getEmail()).getAuthorities());
@@ -145,7 +145,7 @@ public class AdminHomeController {
 		userAccountService.changeUserPassword(admin, password);
 	    String message = messages.getMessage("message.resetPasswordSuc", null, request.getLocale());			
 		attributes.addFlashAttribute("message", message);		
-	    return "redirect:/adminlogin";
+	    return "redirect:/admin/login";
 	}
 	
 	@RequestMapping(value = "/adminForgotPassword", method = RequestMethod.POST)
@@ -173,7 +173,11 @@ public class AdminHomeController {
 		attributes.addFlashAttribute("message", message);				
 		return "redirect:/adminForgotPassword";	
 	}
-	
+	@RequestMapping(value = "/adminForgotPassword", method = RequestMethod.GET)
+	public String adminForgotPassword(Model model){
+		return "adminpanel/forgotPassword";
+	}
+			
 	
 
 	//for 403 access denied page

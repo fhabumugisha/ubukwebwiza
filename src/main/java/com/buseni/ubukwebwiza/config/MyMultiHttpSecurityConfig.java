@@ -25,8 +25,8 @@ import com.buseni.ubukwebwiza.account.service.UserAccountService;
 @EnableGlobalMethodSecurity(prePostEnabled=true)
 public class MyMultiHttpSecurityConfig {
 	
-	
-	@Autowired
+
+@Autowired
 	private UserAccountService userAccountService;
 	
 	
@@ -36,22 +36,21 @@ public class MyMultiHttpSecurityConfig {
 	}
 
 	@Configuration
-	@Order(1)                                                        
+	@Order                                                    
 	public static class adminWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
 		@Autowired
 		private  DataSource dataSource;
 		protected void configure(HttpSecurity http) throws Exception {
 			 http.antMatcher("/admin/**").authorizeRequests().anyRequest().hasRole("ADMIN")
-				.and()
-					.formLogin().failureUrl("/adminlogin?error").loginPage("/adminlogin").usernameParameter("email")
-						.passwordParameter("password").successHandler(savedRequestAwareAuthenticationSuccessHandler())
-		        .and()
-		        	.logout().logoutUrl("/adminlogout").logoutSuccessUrl("/adminlogin?logout").deleteCookies("JSESSIONID")
-		        .and()
-		        	.exceptionHandling().accessDeniedPage("/admin403")
-		        .and()
-		        	.rememberMe().tokenRepository(persistentTokenRepository()).tokenValiditySeconds(604800);
-		
+			.and()
+				.formLogin().loginPage("/admin/login").permitAll().failureUrl("/admin/login?error").usernameParameter("email")
+					.passwordParameter("password").successHandler(savedRequestAwareAuthenticationSuccessHandler())
+	        .and()
+	        	.logout().logoutUrl("/admin/logout").logoutSuccessUrl("/admin/login?logout").deleteCookies("JSESSIONID")
+	        .and()
+	        	.exceptionHandling().accessDeniedPage("/admin403")
+	        .and()
+	        	.rememberMe().tokenRepository(persistentTokenRepository()).tokenValiditySeconds(604800).and().csrf();
 		}
 		@Override
 		public void configure(WebSecurity web) throws Exception {
@@ -75,22 +74,25 @@ public class MyMultiHttpSecurityConfig {
 		}
 	}
 
-	@Configuration                                                   
+	@Configuration      
+	@Order(1) 
 	public static class profileWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
 		@Autowired
 		private  DataSource dataSource;
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
-			 http.antMatcher("/profile/**").authorizeRequests().anyRequest().hasRole("PROVIDER")
-				.and()
-					.formLogin().failureUrl("/login?error").loginPage("/login").usernameParameter("email")
-						.passwordParameter("password").successHandler(savedRequestAwareAuthenticationSuccessHandler())
-		        .and()
-		        	.logout().logoutUrl("/logout").logoutSuccessUrl("/").deleteCookies("JSESSIONID")
-		        .and()
-		        	.exceptionHandling().accessDeniedPage("/admin403")
-		        .and()
-		        	.rememberMe().tokenRepository(persistentTokenRepository()).tokenValiditySeconds(604800);
+			http.antMatcher("/profile/**").authorizeRequests().anyRequest().hasRole("PROVIDER")
+			.and()
+				.formLogin().loginPage("/profile/login").permitAll().failureUrl("/profile/login?error").usernameParameter("email")
+					.passwordParameter("password").successHandler(savedRequestAwareAuthenticationSuccessHandler())
+	        .and()
+	        	.logout().logoutUrl("/profile/logout").logoutSuccessUrl("/").deleteCookies("JSESSIONID")
+	        .and()
+	        	.exceptionHandling().accessDeniedPage("/admin403")
+	        .and()
+	        	.rememberMe().tokenRepository(persistentTokenRepository()).tokenValiditySeconds(604800)
+	        	.and().csrf();
+	        
 		        
 		}
 		@Override
@@ -107,38 +109,14 @@ public class MyMultiHttpSecurityConfig {
 		public  SavedRequestAwareAuthenticationSuccessHandler savedRequestAwareAuthenticationSuccessHandler() { 
 	               SavedRequestAwareAuthenticationSuccessHandler auth = new SavedRequestAwareAuthenticationSuccessHandler();
 			auth.setTargetUrlParameter("targetUrl");
-			auth.setDefaultTargetUrl("/");
+			auth.setDefaultTargetUrl("/profile");
 			auth.setUseReferer(true);
 			return auth;
 		}
 		
 	}
 	
-/*	@Configuration
-	@Order(1)                                                        
-	public static class ApiWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
-		protected void configure(HttpSecurity http) throws Exception {
-			http
-				.antMatcher("/admin/**")                               
-				.authorizeRequests()
-					.anyRequest().hasRole("ADMIN")
-					.and()
-				.httpBasic();
-		}
-	}
 
-	@Configuration                                                   
-	public static class FormLoginWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
-
-		@Override
-		protected void configure(HttpSecurity http) throws Exception {
-			http.antMatcher("/profile/**")
-				.authorizeRequests()
-					.anyRequest().authenticated()
-					.and()
-				.formLogin();
-		}
-	}*/
 	
 	
 	@Bean

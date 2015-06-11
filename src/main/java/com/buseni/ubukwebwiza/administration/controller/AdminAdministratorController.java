@@ -142,8 +142,8 @@ public class AdminAdministratorController {
 	 * @return
 	 */
 	@ModelAttribute("allRoles")
-	public List<Role> getAllRoles(){		
-		return  roleService.findAll();
+	public List<Role> getAllRoles(){	
+		return  roleService.findAdminRoles();
 		
 	}
 

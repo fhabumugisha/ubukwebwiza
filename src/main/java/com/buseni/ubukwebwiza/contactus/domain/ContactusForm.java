@@ -31,7 +31,7 @@ public class ContactusForm implements Serializable{
 	@NotEmpty
 	private String message;
 	
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="created_at")
 	private Date createdAt;
 	

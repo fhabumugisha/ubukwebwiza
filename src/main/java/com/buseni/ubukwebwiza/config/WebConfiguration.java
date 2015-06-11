@@ -48,7 +48,6 @@ import com.buseni.ubukwebwiza.breadcrumbs.interceptor.NavigationPathInterceptor;
 @ComponentScan(basePackages = {"com.buseni.ubukwebwiza"})
 @PropertySource("classpath:application.properties")
 @EnableWebMvc
-//@EnableWebSecurity
 @EnableCaching
 @Import({PersistenceMySqlConfig.class,  ViewConfiguration.class, MyMultiHttpSecurityConfig.class})
 public class WebConfiguration extends WebMvcConfigurerAdapter{

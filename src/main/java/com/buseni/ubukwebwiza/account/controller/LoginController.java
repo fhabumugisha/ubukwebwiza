@@ -55,7 +55,7 @@ public class LoginController {
 	private String supportEmail;
 	
 	
-	@RequestMapping(value="/login", method=RequestMethod.GET)
+	@RequestMapping(value="/profile/login", method=RequestMethod.GET)
 	public String login(@RequestParam(value = "error", required = false) String error, Model model){
 		return "frontend/account/login";
 	}
