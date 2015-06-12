@@ -35,6 +35,7 @@ import com.buseni.ubukwebwiza.account.service.UserAccountService;
 import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
 import com.buseni.ubukwebwiza.exceptions.BusinessException;
 import com.buseni.ubukwebwiza.exceptions.ErrorsHelper;
+import com.buseni.ubukwebwiza.gallery.service.PhotoService;
 import com.buseni.ubukwebwiza.home.HomeController;
 import com.buseni.ubukwebwiza.provider.domain.District;
 import com.buseni.ubukwebwiza.provider.domain.WeddingService;
@@ -59,6 +60,8 @@ public class SignupController {
 	@Autowired
 	private DistrictService districtService;
 	
+	@Autowired
+	private PhotoService photoService;	
 	 @Autowired
 	 private MessageSource messages;
 	 

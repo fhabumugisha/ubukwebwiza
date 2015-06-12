@@ -47,13 +47,7 @@ public interface PhotoService {
 	 */
 	Page<Photo> findByEnabled(boolean enabled, Pageable pageable);
 	
-	/**
-	 * 
-	 * @param activeFlag
-	 * @param pageable
-	 * @return
-	 */
-	Page<Photo> findByEnabledAndCategory(boolean enabled, Integer category, Pageable pageable);
+	
 	
 	/**
 	 * 
@@ -63,8 +57,7 @@ public interface PhotoService {
 	 */
 	Page<Photo> findPhotoGallery(Pageable pageable);
 	
-  Page<PhotoDetails>  findPhotoDetails(Pageable pageable);
-	
+ 	
 	/**
 	 * 
 	 * @param category

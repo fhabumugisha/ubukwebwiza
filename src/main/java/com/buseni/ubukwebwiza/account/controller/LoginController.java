@@ -158,4 +158,8 @@ public class LoginController {
 	public String module(){
 		return "login";
 	}
+	@ModelAttribute("showSidebar")
+	public boolean showSidebar(){
+		return true;
+	}
 }

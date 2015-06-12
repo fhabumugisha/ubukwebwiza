@@ -139,32 +139,7 @@
 									th:text="#{provider.list.profilpic}">profilPicture</label>
 								<div class="col-sm-4">
 
-									<!-- <div class="thumbnail">
-											
-										<img id="profilPicturePreview" data-src="holder.js/100%x150"
-											src="#" alt="your image" width="100" height="150" />
-											
-									<img id="profilPicturePreview"   width="100" height="150" 
-									     alt="profil pic"  th:if="*{profilPicture}" 
-									     th:alt="${businessName}" th:src="@{'/admin/image/'+*{profilPicture.id}} "></img>
 									
-									 <img id="profilPicturePreview"  width="100" height="150" alt="profil pic" 
-									      th:unless="*{profilPicture}" th:alt="${businessName}" 
-									      th:src="@{/resources/images/application/no_person.jpg} "></img>
-										
-										<div class="caption">
-
-											<input id="profilPicture" type="file" class="filestyle"
-												name="file"
-												data-classButton="btn btn-default btn-sm btn-block"
-												data-input="false"
-												data-classIcon="glyphicon glyphicon-folder-open" />
-												
-
-										</div>
-										
-									</div>
-									<a href="#" id="remove" style="display: none;" class="btn btn-default fileupload-exists"  data-dismiss="fileupload">Remove</a> -->
 
 									<div class="fileinput fileinput-new" data-provides="fileinput">
 										<div class="fileinput-new thumbnail"
@@ -260,7 +235,7 @@
 										th:field="*{address}"></textarea>
 
 									<span class="text-danger"
-										th:if="${#fields.hasErrors('address')}" th:errors="*{aboutme}">Required
+										th:if="${#fields.hasErrors('address')}" th:errors="*{address}">Required
 										field</span>
 								</div>
 

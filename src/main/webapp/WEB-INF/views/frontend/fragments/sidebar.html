@@ -7,9 +7,10 @@
 </head>
 
 <body>
-<div id="sidebar" class="col-md-2 hidden-xs" th:fragment="sidebar">
-	<a href="#" class="thumbnail"> <img data-src="holder.js/100%x200" alt="..." />
-					</a>
+<div id="sidebar" class="col-md-2 hidden-xs" th:fragment="sidebar" th:unless="${#bools.isFalse(showSidebar)}">
+	<a href="#" class="thumbnail"> <img data-src="holder.js/100%x200" alt="..." /> </a>
+	
+	<a href="#" class="thumbnail"> <img data-src="holder.js/100%x400" alt="..." /> </a>
 
 </div>
 </body>

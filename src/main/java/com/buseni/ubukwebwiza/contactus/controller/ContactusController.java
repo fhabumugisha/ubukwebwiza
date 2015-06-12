@@ -72,4 +72,9 @@ public class ContactusController {
 	public String module(){
 		return "contactus";
 	}
+	
+	@ModelAttribute("showSidebar")
+	public boolean showSidebar(){
+		return true;
+	}
 }

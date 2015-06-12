@@ -26,6 +26,7 @@
 	loadCSS( "//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" );
 	loadCSS( "//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css" );
 	loadCSS( "http://blueimp.github.io/Gallery/css/blueimp-gallery.min.css" );
+	loadCSS( "http://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css" );
 	
 	
 	var urlBootstrapImageGalleryCss = /*[[@{/resources/plugins/bs-image-gallery-3.1.0/css/bootstrap-image-gallery.min.css}]]*/ 'resources/plugins/bs-image-gallery-3.1.0/css/bootstrap-image-gallery.min.css';
@@ -105,37 +106,41 @@
 </head>
 
 <body>
-	<div id="wrap">
+	<!-- <div id="wrap"> -->
 		<!--/* Standard layout can be mixed with Layout Dialect */-->
-		<div th:replace="frontendHeader :: header">&nbsp;</div>
-		<div id="breadcumbsContainer" th:if="${currentMenu != 'home'}">
-			<div th:replace="util/navigation :: breadcrumbs">
-			<ol class="breadcrumb container">
-				<li class="active"><a href="index.html" th:href="@{/}">Home</a></li>
-			</ol>
-			</div>
-		</div>
-		<div id="mainContentContainer" class="container">
+	<div th:replace="frontendHeader :: header">&nbsp;</div>
+
+	<div th:replace="util/navigation :: breadcrumbs">
+		<ol class="breadcrumb container">
+			<li class="active"><a href="index.html" th:href="@{/}">Home</a></li>
+		</ol>
+	</div>
+
+	<div id="mainContentContainer">
+		<div class="container contentContainer">
 			<div class="row">
 
-				<div layout:fragment="pageContent">
+				<div layout:fragment="pageContent" class="container" th:classappend="${#bools.isTrue(showSidebar) ? 'col-md-10':'col-md-12'}">
 					<h1>Static content for prototyping purposes only</h1>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent scelerisque neque neque, ac elementum quam dignissim
-						interdum. Phasellus et placerat elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent scelerisque neque
-						neque, ac elementum quam dignissim interdum. Phasellus et placerat elit.</p>
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+						Praesent scelerisque neque neque, ac elementum quam dignissim
+						interdum. Phasellus et placerat elit. Lorem ipsum dolor sit amet,
+						consectetur adipiscing elit. Praesent scelerisque neque neque, ac
+						elementum quam dignissim interdum. Phasellus et placerat elit.</p>
 				</div>
 
 				<!-- sidebar to be included -->
-				<div th:replace="frontendSidebar :: sidebar">&nbsp;</div>
+				<div th:replace="frontendSidebar :: sidebar" >&nbsp;</div>
 				<!-- end of sidebar -->
 			</div>
 		</div>
+	</div>
 
-		<!-- footer to be included -->
+	<!-- footer to be included -->
 		<div th:replace="frontendFooter :: footer">&nbsp;</div>
 		<!-- end of footer -->
 
-	</div>
+<!-- 	</div> -->
 
 <!-- LoadJS.js to load js files in async mode -->
 <!-- <script src="../../../../resources/js/loadJS.js" th:src="@{/resources/js/loadJS.js}"></script>
@@ -163,6 +168,7 @@
 	
 	<script src="../../../../resources/plugins/chosen_v1.4.2/chosen.jquery.min.js" th:src="@{/resources/plugins/chosen_v1.4.2/chosen.jquery.min.js}"></script>
 	<script src="../../../../resources/js/pwstrength.js" th:src="@{/resources/js/pwstrength.js}"></script>
+	<script src="../../../../resources/js/editProfile.js" th:src="@{/resources/js/editProfile.js}"></script>
 	<script type="text/javascript">
 	$('.carousel').carousel({
 		  interval: 6000

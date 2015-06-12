@@ -9,7 +9,7 @@
 </head>
 <body>
 
-		<div layout:fragment="pageContent" id="content" class="col-md-10 container">
+		<div layout:fragment="pageContent" id="content" >
 
 			<div class="row">
 				<div class="col-md-12 container ">
@@ -107,15 +107,15 @@
 				<div class="col-md-12 container">
 
 					<div class="row">
-						<div class="col-md-8 container">
+						<div class="col-md-12 container">
 
 							<th:block th:each="provider :${providers}">
 
 								<div class="row">
-									<div class="col-md-5 col-sm-3">
+									<div class="col-md-4 col-sm-3">
 										
 										
-										<img id="profilPicturePreview"   height="150" width="213" class="img-thumbnail"
+										<img id="profilPicturePreview"   height="150" width="290" class="img-thumbnail"
 									     alt="profil pic"  th:if="*{provider.profilPicture}" 
 									     th:alt="${businessName}" th:src="@{'https://ubfiles.s3.amazonaws.com/'+*{provider.profilPicture.filename}} "></img>
 									
@@ -124,7 +124,7 @@
 									      data-src="holder.js/100%x150"></img>
 									
 									</div>
-									<div class="col-md-7 col-sm-9">
+									<div class="col-md-8 col-sm-9">
 										<h3>
 										
 										<a href="detailProvider.html"
@@ -209,7 +209,7 @@
 							
 							<hr th:remove="all" />
 						</div>
-						<div class="col-md-4"></div>
+						
 					</div>
 
 				</div>

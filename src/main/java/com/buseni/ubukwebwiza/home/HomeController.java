@@ -70,4 +70,10 @@ public class HomeController {
 		return photoService.homePagePhotos();
 	
 	}
+	
+	@ModelAttribute("showSidebar")
+	public boolean showSidebar(){
+		return true;
+	}
+	
 }

@@ -18,7 +18,7 @@ public interface PhotoRepo extends JpaRepository<Photo, Integer> , QueryDslPredi
 	
 	Page<Photo> findByEnabledAndCategory(boolean enabled, Integer category, Pageable pageable);
 	
-	@Query("select new com.buseni.ubukwebwiza.gallery.domain.PhotoDetails(p.id, p.description) from Photo p where p.enabled=true and p.category=:category")
-	Page<PhotoDetails>  findPhotoDetails(@Param("category")Integer category, Pageable pageable);
+	/*@Query("select new com.buseni.ubukwebwiza.gallery.domain.PhotoDetails(p.id, p.description) from Photo p where p.enabled=true and p.category=:category")
+	Page<PhotoDetails>  findPhotoDetails(@Param("category")Integer category, Pageable pageable);*/
 	
 }

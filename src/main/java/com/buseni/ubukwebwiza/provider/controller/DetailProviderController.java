@@ -23,11 +23,7 @@ public class DetailProviderController {
 
 	public static final Logger LOGGER = LoggerFactory.getLogger( DetailProviderController.class );
 
-	/*@Autowired
-	private WeddingServiceManager weddingServiceManager;
-
-	@Autowired
-	private DistrictService districtService;*/
+	
 
 	@Autowired
 	private ProviderService providerService;
@@ -42,17 +38,14 @@ public class DetailProviderController {
 	}
 
 	
-/*	@ModelAttribute("allWeddingServices")
-	public List<WeddingService> populateWeddingServices(){
-		return weddingServiceManager.findByEnabled(Boolean.TRUE);
-	}
 
-	@ModelAttribute("allDistricts")
-	public List<District> populateDistricts(){
-		return districtService.findByEnabled(Boolean.TRUE);
-	}*/
 	@ModelAttribute("currentMenu")
 	public String module(){
 		return "providers";
+	}
+	
+	@ModelAttribute("showSidebar")
+	public boolean showSidebar(){
+		return true;
 	}
 }

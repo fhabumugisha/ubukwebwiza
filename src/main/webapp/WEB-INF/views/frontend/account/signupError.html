@@ -7,7 +7,7 @@
 </head>
 <body>
 
-	<div layout:fragment="pageContent" id="content" class="col-md-10">
+	<div layout:fragment="pageContent" id="content" >
 		<div th:if="${invalidToken}" class="alert alert-danger" th:text="#{auth.message.invalidToken}">Error</div>
 
 		<div class="container" th:if="${expired}">

@@ -93,4 +93,8 @@ public class ListProviderController {
 	public String module(){
 		return "providers";
 	}
+	@ModelAttribute("showSidebar")
+	public boolean showSidebar(){
+		return true;
+	}
 }

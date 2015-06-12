@@ -173,11 +173,7 @@ public class PhotoServiceImpl implements PhotoService {
 		return photoRepo.findByCategory(category, pr);
 	}
 
-	@Override
-	public Page<PhotoDetails> findPhotoDetails(Pageable pageable) {
-		PageRequest pr = new PageRequest(pageable.getPageNumber()-1, pageable.getPageSize());
-		return photoRepo.findPhotoDetails(EnumPhotoCategory.PROVIDER.getId(), pr);
-	}
+	
 
 	@Transactional
 	@Override
@@ -188,12 +184,7 @@ public class PhotoServiceImpl implements PhotoService {
 		
 	}
 
-	@Override
-	public Page<Photo> findByEnabledAndCategory(boolean enabled,
-			Integer category, Pageable pageable) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 	
 

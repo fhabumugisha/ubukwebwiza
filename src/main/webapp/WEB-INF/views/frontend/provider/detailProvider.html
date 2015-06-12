@@ -8,14 +8,14 @@
 </head>
 <body>
 
-				<div layout:fragment="pageContent" id="content" class="col-md-10 container">
+				<div layout:fragment="pageContent" id="content" >
 
 					<div class="row">
-						<div class="col-md-3 col-sm-5">
+						<div class="col-md-4 col-sm-5">
 							<div class="thumbnail">
 							
 								
-								<img id="profilPicturePreview"   width="213" height="150" class="img-thumbnail"
+								<img id="profilPicturePreview"   width="290" height="150" class="img-thumbnail"
 									     alt="profil pic"  th:if="*{provider.profilPicture}" 
 									     th:alt="${businessName}" th:src="@{'https://ubfiles.s3.amazonaws.com/'+*{provider.profilPicture.filename}} "></img>
 									
@@ -64,7 +64,7 @@
 
 
 						</div>
-						<div class="col-md-4 col-sm-12">
+						<div class="col-md-3 col-sm-12">
 							<div class="panel  panel-default">
 								<div class="panel-heading">
 									<h3 class="panel-title">Contact</h3>
@@ -195,6 +195,7 @@
 												title="Wedding planner" th:title="${photo.description}"
 												data-gallery=""
 												th:href="@{'https://ubfiles.s3.amazonaws.com/'+${photo.filename}}">
+												
 												<img height="150" width="210"
 												src="../../../../resources/images/application/wedding_4_content.jpg"
 												alt="Wedding planner" th:alt="${photo.filename}"

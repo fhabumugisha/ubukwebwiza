@@ -62,16 +62,17 @@
 	</div>
 <!-- 	class="active" th:class="${item.current}? 'active' : ''" -->
 	<!-- Breadbrumbs -->
-	<div th:fragment="breadcrumbs">
-		<div id="breadcumbsContainer">
-		
-			<ol class="breadcrumb container" >
+	<div th:fragment="breadcrumbs" th:if="${currentMenu != 'home'}">		
+			<div id="breadcumbsContainer">
+				<ol class="breadcrumb container" >
 				<li th:each="item : ${session.navigationPath}">
 					<a href="index.html"  th:if="${not itemStat.last}" th:href="@{${item.url}}" th:text="${item.name}" >Home</a>
 					<span  th:if="${itemStat.last}"  th:text="${item.name}" >Home</span>
 				</li>
 			</ol>
-		</div>
+			
+			</div>
+		
 	</div>
 </body>
 </html>
