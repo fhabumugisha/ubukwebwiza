@@ -21,6 +21,13 @@ public interface ProviderService {
 	void addOrUpdate(Provider provider) throws BusinessException;
 	
 	/**
+	 * Update provider related info
+	 * @param provider
+	 * @throws BusinessException
+	 */
+	void updateInfos(Provider provider) throws BusinessException;
+	
+	/**
 	 * 
 	 * @param weddingService
 	 * @return

@@ -14,7 +14,6 @@ import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
-import org.springframework.web.multipart.support.MultipartFilter;
 import org.springframework.web.servlet.DispatcherServlet;
 
 import com.github.dandelion.core.web.DandelionFilter;
@@ -65,7 +64,7 @@ public class ApplicationInitializer implements WebApplicationInitializer {
 		//servletContext.addFilter("multipartExceptionHandler", MultipartExceptionHandler.class).addMappingForUrlPatterns(null, false, "/*");
 				
 		// Register the multipartFilter
-		servletContext.addFilter("multipartFilter", MultipartFilter.class).addMappingForUrlPatterns(null, false, "/*");
+		//servletContext.addFilter("multipartFilter", MultipartFilter.class).addMappingForUrlPatterns(null, false, "/*");
 	
 		// Register the corsFilter
 		servletContext.addFilter("corsFilter", CorsFilter.class).addMappingForUrlPatterns(null, false, "/*");
@@ -82,4 +81,5 @@ public class ApplicationInitializer implements WebApplicationInitializer {
 
 	}
 
+	
 }

@@ -42,6 +42,7 @@ import com.buseni.ubukwebwiza.provider.repository.ProviderRepo;
 import com.buseni.ubukwebwiza.provider.repository.ProviderWeddingServiceRepo;
 import com.buseni.ubukwebwiza.provider.repository.WeddingServiceRepo;
 import com.buseni.ubukwebwiza.provider.service.ProviderService;
+import com.buseni.ubukwebwiza.utils.AmazonS3Util;
 import com.mysema.query.types.Predicate;
 
 /**
@@ -60,6 +61,8 @@ public class ProviderServiceImpl implements ProviderService {
 	private DistrictRepo districtRepo;
 	private RoleRepository roleRepository;
 	private UserAccountRepository userAccountRepository;
+	@Autowired
+	private AmazonS3Util amazonS3Util;
 	@Autowired
 	public ProviderServiceImpl(ProviderRepo providerRepo, WeddingServiceRepo weddingServiceRepo, ProviderWeddingServiceRepo providerWeddingServiceRepo,
 			PhotoRepo photoRepo,  DistrictRepo districtRepo, RoleRepository roleRepository, UserAccountRepository userAccountRepository){
@@ -124,6 +127,11 @@ public class ProviderServiceImpl implements ProviderService {
 				bdd.getAccount().setEmail(provider.getAccount().getEmail());
 			}
 			if(provider.getProfilPicture() != null){	
+				//profile picture changed, delete the old one
+				if(bdd.getProfilPicture() != null){
+					photoRepo.delete(bdd.getProfilPicture());
+					amazonS3Util.deleteFile(bdd.getProfilPicture().getFilename());				
+				}
 				bdd.setProfilPicture(provider.getProfilPicture());
 			}
 			bdd.setBusinessName(provider.getBusinessName());
@@ -339,6 +347,37 @@ public class ProviderServiceImpl implements ProviderService {
 		}
 		
 		return provider;
+	}
+
+	@Override
+	@Transactional
+	public void updateInfos(Provider provider) throws BusinessException {
+		if(null == provider){
+			throw new NullPointerException("Provider shouldn't be null");
+		}
+		
+		Provider bdd =  providerRepo.findOne(provider.getId());
+		
+		if(provider.getProfilPicture() != null){
+			//profile picture changed, delete the old one
+			if(bdd.getProfilPicture() != null){
+				photoRepo.delete(bdd.getProfilPicture());
+				amazonS3Util.deleteFile(bdd.getProfilPicture().getFilename());				
+			}
+			bdd.setProfilPicture(provider.getProfilPicture());
+		}
+		bdd.setBusinessName(provider.getBusinessName());
+		bdd.setAboutme(provider.getAboutme());
+		bdd.setAddress(provider.getAddress());
+		bdd.setPhoneNumber(provider.getPhoneNumber());
+		bdd.setDistrict(provider.getDistrict());
+		bdd.setWebsite(provider.getWebsite());
+		bdd.setFbUsername(provider.getFbUsername());
+		bdd.setTwitterUsername(provider.getTwitterUsername());
+		bdd.getAccount().setLastUpdate(new Date());
+					
+		providerRepo.save(bdd);
+		
 	}
 
 

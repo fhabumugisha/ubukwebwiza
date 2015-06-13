@@ -12,6 +12,7 @@
 		<!-- Main Content -->
 		<div layout:fragment="pageContent" id="content" >
 		<div th:if="${error}" class="alert alert-danger" th:text="${error}">Error</div>
+		<div th:if="${message}" class="alert alert-success" th:text="${message}">Cool</div>
 			<div class="row">
 				<!-- Content -->
 				<div id="content" class="col-md-12">
@@ -19,7 +20,7 @@
 					<ul class="nav nav-tabs">
 						<li class="active"><a href="#personnalInfo" data-toggle="tab">Personnal
 								Info</a></li>
-						<li><a href="#accountInfo" data-toggle="tab">Account Info</a></li>
+						<li role="accountInfo"><a href="#accountInfo" aria-controls="accountInfo" role="tab" data-toggle="tab">Account Info</a></li>
 						<li><a href="#photos" data-toggle="tab">Photos</a></li>
 						<li><a href="#services" data-toggle="tab">Services</a></li>
 					</ul>
@@ -135,38 +136,38 @@
 														<span class="input-group-addon"><i
 															class="fa fa-link"></i></span> <input type="text"
 															class="form-control" id="website" th:field="*{website}"
-															placeholder="Enter your Website"/>
-															<span class="text-danger"
-										th:if="${#fields.hasErrors('website')}"
-										th:errors="*{website}">Required field</span>
+															placeholder="Enter your Website url " aria-describedby="wHelpBlock"/>
+															
+															<span class="text-danger" th:if="${#fields.hasErrors('website')}" th:errors="*{website}">Required field</span>
 													</div>
+													<span id="wHelpBlock" class="help-block">Your website url (www.yourdomain.com)</span>
 
 												</div>
 												<div class="form-group" th:classappend="${#fields.hasErrors('fbUsername')}? has-error">
 													<label for="fbUsername" th:text="#{provider.list.fbusername}">Facebook user name</label>
 													<div class="input-group">
-														<span class="input-group-addon"><i
-															class="fa fa-facebook"></i></span> <input type="text"
+														<span class="input-group-addon">
+																			<i class="fa fa-facebook"></i>									
+														</span> <input type="text"
 															class="form-control" id="fbUsername" th:field="*{fbUsername}" 
-															placeholder="Enter facebook username"/>
-															<span class="text-danger"
-										th:if="${#fields.hasErrors('fbUsername')}"
-										th:errors="*{fbUsername}">Required field</span>
+															placeholder="Enter your facebook page url " aria-describedby="fbHelpBlock"/>
+															
+															<span class="text-danger" th:if="${#fields.hasErrors('fbUsername')}" th:errors="*{fbUsername}">Required field</span>
 													</div>
+													<span id="fbHelpBlock" class="help-block">Your facebook page url (www.facebook.com/yourname)</span>
 
 												</div>
 												<div class="form-group" th:classappend="${#fields.hasErrors('twitterUsername')}? has-error">
 													<label for="twitterUsername" th:text="#{provider.list.twitterusername}">Twitter user name</label>
 													<div class="input-group">
-														<span class="input-group-addon"><i
-															class="fa fa-twitter"></i></span> <input type="text" th:field="*{twitterUsername}" 
+														<span class="input-group-addon">	<i class="fa fa-twitter"></i> 				
+														</span> <input type="text" th:field="*{twitterUsername}" 
 															class="form-control" id="twitterUsername"
-															placeholder="Enter twitter username"/>
-															<span class="text-danger"
-										th:if="${#fields.hasErrors('twitterUsername')}"
-										th:errors="*{twitterUsername}">Required field</span>
+															placeholder="Enter your twitter page url" aria-describedby="tHelpBlock"/>
+															
+															<span class="text-danger" th:if="${#fields.hasErrors('twitterUsername')}" th:errors="*{twitterUsername}">Required field</span>
 													</div>
-
+														<span id="tHelpBlock" class="help-block">Your twitter page url (www.twitter.com/yourname)</span>
 												</div>
 
 												<!-- <div class="form-group">
@@ -192,7 +193,7 @@
 							<div class="row">
 								<div class="col-md-12 ">
 									<div class="pull-right">
-										<button type="submit" class="btn btn-primary">Update</button>
+										<button type="submit" class="btn btn-primary"><span th:text="#{update.button.label}">Update</span></button>
 									</div>
 
 								</div>
@@ -201,11 +202,11 @@
 						</div>
 						<!-- Account info pane -->
 						<div class="tab-pane fade" id="accountInfo">
-							<form role="form"  th:action="@{/profile/updateAccount}" th:object="${provider}" 	method="post">
+							<form role="form"  th:action="@{/profile/updateAccount}" 	method="post">
 								<div class="form-group">
-									<label for="email">Email</label>
+									<label for="email" th:text="#{provider.list.email}">Email</label>
 									<div class="input-group">
-										<span class="input-group-addon">@</span> <input th:field="*{account.email}"
+										<span class="input-group-addon">@</span> <input th:field="${provider.account.email}"
 											id="email" type="email" disabled="disabled"
 											value="email@example.com"/>
 
@@ -216,34 +217,37 @@
 
 								</div>
 								<div class="form-group">
-									<label for="inputCp">Current password</label>
+									<label for="currentPassword" th:text="#{provider.list.currentPassword}">Current password</label>
 									<div class="input-group col-md-5">
 										<span class="input-group-addon"><i class="fa fa-lock"></i>
-										</span> <input type="password" class="form-control" id="inputCp"
-											placeholder="current password"/>
+										</span> <input type="password" class="form-control" id="currentPassword" required="required"
+											placeholder="current password" name="currentPassword"/>
 									</div>
 								</div>
-								<div class="form-group" id="pwd-container">
-									<label for="userPassword">New password</label>
+								<div id="pwd-container">
+								<div class="form-group" >
+									<label for="userPassword" th:text="#{provider.list.newPassword}">New password</label>
 									<div class="input-group col-md-5">
 										<span class="input-group-addon"><i class="fa fa-lock"></i>
-										</span> <input type="password" class="form-control " id="userPassword"
-											placeholder="new password"/>
+										</span> <input type="password" class="form-control " id="userPassword" required="required"
+											placeholder="new password" name="password"/>
 									</div>
 								</div>
-								
+								</div>
 								<div class="form-group">
-									<label for="inputNp">Confirm ne password</label>
+									<label for="inputNp" th:text="#{provider.list.retypeNewPassword}">Retype new password</label>
 									<div class="input-group col-md-5">
 										<span class="input-group-addon"><i class="fa fa-lock"></i>
 										</span> <input type="password" class="form-control " id="inputNp"
-											placeholder="confirm new password"/>
+											placeholder="Retype new password" name="passwordConfirm" required="required"/>
 									</div>
 								</div>
 
 								<div class="form-group">
-									<div class="input-group col-md-5" style="text-align: right;">
-										<button type="submit" class="btn btn-primary">Update</button>
+									<div class="input-group col-md-5" >
+										<button type="submit" class="btn btn-primary">
+										<span th:text="#{update.button.label}">Update</span>
+										</button>
 									</div>
 								</div>
 

@@ -136,7 +136,7 @@ public class AdminHomeController {
 	//@ResponseBody
 	public String adminSavePassword(HttpServletRequest request, @RequestParam("password" ) String password, @RequestParam("passwordConfirm") String passwordConfirm, RedirectAttributes attributes) {
 	  if(!password.equals(passwordConfirm)){
-		  String error = messages.getMessage("PasswordMatches.user", null, request.getLocale());		
+		  String error = messages.getMessage("error.passwordMatches", null, request.getLocale());		
 	    	LOGGER.error(error);
 			attributes.addFlashAttribute("error", error);			
 			return "redirect:/adminChangePassword";
