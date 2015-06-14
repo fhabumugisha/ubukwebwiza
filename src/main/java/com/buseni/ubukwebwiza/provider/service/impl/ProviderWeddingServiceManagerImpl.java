@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.buseni.ubukwebwiza.exceptions.BusinessException;
+import com.buseni.ubukwebwiza.exceptions.ResourceNotFoundException;
 import com.buseni.ubukwebwiza.provider.domain.ProviderWeddingService;
 import com.buseni.ubukwebwiza.provider.repository.ProviderWeddingServiceRepo;
 import com.buseni.ubukwebwiza.provider.service.ProviderWeddingServiceManager;
@@ -71,7 +72,11 @@ public class ProviderWeddingServiceManagerImpl implements ProviderWeddingService
 		if(null == id){
 			return null;
 		}
-		return providerWeddingServiceRepo.findOne(id);
+		ProviderWeddingService providerWeddingService = providerWeddingServiceRepo.findOne(id);
+		if(providerWeddingService == null){
+			throw new ResourceNotFoundException();
+		}
+		return providerWeddingService;
 	}
 
 	/* (non-Javadoc)

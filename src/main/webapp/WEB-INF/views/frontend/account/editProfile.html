@@ -11,9 +11,15 @@
 
 		<!-- Main Content -->
 		<div layout:fragment="pageContent" id="content" >
-		<div th:if="${error}" class="alert alert-danger" th:text="${error}">Error</div>
-		<div th:if="${message}" class="alert alert-success" th:text="${message}">Cool</div>
-			<div class="row">
+		<div th:if="${error}" class="alert alert-danger fade in">
+			<a href="#" class="close" data-dismiss="alert">&times;</a> <span
+				th:text="${error}"></span> Error
+		</div>
+		<div th:if="${message}" class="alert alert-success fade in">
+			<a href="#" class="close" data-dismiss="alert">&times;</a> <span
+				th:text="${message}">Success</span>
+		</div>
+		<div class="row">
 				<!-- Content -->
 				<div id="content" class="col-md-12">
 					<!-- Nav tabs -->
@@ -27,7 +33,7 @@
 					<!-- Tab panes -->
 					<div class="tab-content">
 						<!-- Personnal info pane -->
-						<div class="tab-pane fade in active" id="personnalInfo">
+						<div class="tab-pane fade in " th:classappend="${currentTab == 'personnalInfo' ? 'active' : ''}" id="personnalInfo">
 						<form role="form" th:action="@{/profile/update}" th:object="${provider}" 	method="post" enctype="multipart/form-data">
 						<input type="text" hidden="hidden" th:field="*{id}" class="hidden" />
 							
@@ -201,7 +207,7 @@
 							</form>
 						</div>
 						<!-- Account info pane -->
-						<div class="tab-pane fade" id="accountInfo">
+						<div class="tab-pane fade" th:classappend="${currentTab == 'accountInfo' ? 'active' : ''}" id="accountInfo">
 							<form role="form"  th:action="@{/profile/updateAccount}" 	method="post">
 								<div class="form-group">
 									<label for="email" th:text="#{provider.list.email}">Email</label>
@@ -256,7 +262,7 @@
 
 						</div>
 						<!-- Photos pane -->
-						<div class="tab-pane fade" id="photos">
+						<div class="tab-pane fade" th:classappend="${currentTab == 'photos' ? 'active' : ''}"  id="photos">
 							<div class="row">
 								<div class="col-md-12 container">
 									
@@ -380,10 +386,18 @@
 
 						</div>
 						<!-- Services pane -->
-						<div class="tab-pane fade" id="services">
-							<div class="row">
+						<div class="tab-pane fade" th:classappend="${currentTab == 'services' ? 'active' : ''}"  id="services" >
+							
+							<div class="row" th:fragment="services-bloc" >
 								<div class="col-md-12">
-								
+								<div th:if="${error}" class="alert alert-danger fade in" >
+									<a href="#" class="close" data-dismiss="alert">&times;</a>
+								<span th:text="${error}"></span> Error
+								</div>
+								<div th:if="${message}" class="alert alert-success fade in" >
+									<a href="#" class="close" data-dismiss="alert">&times;</a>
+									<span th:text="${message}">Success</span>
+								</div>
 								<a id="showAddServiceForm" href="#" class=" btn btn-primary btn-xs">
 										Add Service </a><br /><br />
 								
@@ -392,39 +406,56 @@
 									
 									<div class="panel panel-default">
 										<div class="panel-body">
-												<form role="form">
+												<form role="form" id="addServiceForm" th:action="@{/profile/addService}" th:object="${serviceForm}" method="POST">
+												<input type="text" hidden="hidden" th:field="*{id}" id="idService" th:id="idService" class="hidden" />
 												<div class="form-group">
-													<label for="exampleInputEmail1">Service</label>
+													<label for="idcService" th:text="#{providerWeddingService.list.service}">Service</label>
 													<div class="input-group col-md-4">
 														<span class="input-group-addon"><i
 															class="fa fa-tasks"></i></span> 
-																<select class="form-control" id="exampleInputEmail1">
-																	<option>Dj</option>
-																	<option>Dj</option>
-																	<option>Dj</option>
-																	<option>Dj</option>
+																<select th:field="*{idcService}" id="idcService" class="form-control" required="required">
+																<!-- <option value=""></option> -->
+																<option th:each="weddingService : ${allWeddingServices}" th:value="${weddingService.id}"
+																th:text="${weddingService.libelle}">Wedding planner</option>
 																</select>
+																
 															
 													</div>
 
 												</div>
 												<div class="form-group">
-													<label for="exampleInputEmail1">Description</label>
+													<label for="description" th:text="#{providerWeddingService.list.serviceDescription}">Description</label>
 													<div class="input-group col-md-4">
 														<span class="input-group-addon"><i
-															class="fa fa-info"></i></span> <textarea 
-															class="form-control" id="exampleInputEmail1"
+															class="fa fa-info"></i></span> <textarea th:field="*{description}"
+															class="form-control" id="description"
 															></textarea>
 													</div>
 
 												</div>
-												
+												<div class="form-group"
+													th:classappend="${#fields.hasErrors('enabled')}? has-error">
 
-												
+													<div class="col-sm-2">
+														<div class="checkbox">
+															<label> <input type="checkbox"
+																th:field="*{enabled}" /> <span
+																th:text="#{provider.list.enabled}">Enabled</span> <br />
+																<span class="text-danger"
+																th:if="${#fields.hasErrors('enabled')}"
+																th:errors="*{enabled}">check field</span>
+															</label>
+														</div>
+													</div>
+
+
+												</div>
+
+
 												<div class="form-group ">
 														<button type="button" id="hideAddServiceForm"
-															class="btn  btn-default btn-sm">Cancel</button>
-														<button type="submit" class="btn  btn-primary btn-sm">Save</button>
+															class="btn  btn-default btn-sm"><span th:text="#{cancel.button.label}">Cancel</span></button>
+														<button type="submit" class="btn  btn-primary btn-sm" th:text="#{add.button.label}">Add</button>
 													</div>
 
 
@@ -456,20 +487,22 @@
 												
 												<tr>
 														
-														<td><span
+														<td>
+														<h4>
+														<span
 														th:text="${providerWeddingService.weddingService.libelle}">Wedding
-														Planning</span><br /> 
-																	<span th:text="${providerWeddingService.description}"> I do
-														all the job from A to Z </span></td>
+														Planning</span> </h4>
+														
+																	<h5><span th:text="${providerWeddingService.description}"> I do
+														all the job from A to Z </span></h5></td>
 														<td></td>
 
 													</tr>
 													<tr>
-														<td colspan="2"><a
-															href="JavaScript:editPrestation();">
-																Edit </a> | <a class="deleteService"
-															href="#">
-																Delete </a></td>
+														<td colspan="2"><a th:href="@{/profile/editService(id=${providerWeddingService.id})}"
+															href="#" class="editProfileService"> 
+																 <span th:text="#{list.edit}">Edit</span> </a> | <a class="deleteProfileService" href="#"
+																th:href="@{/profile/deleteService(id=${providerWeddingService.id})}"> 	 <span th:text="#{list.delete}">delete</span> </a></td>
 																
 													</tr>
 													
@@ -531,6 +564,17 @@
 
 		</div>
 	</div>
+	
+	
+	<div id="dialog-confirm" title="Concfirm delete"
+			style="display: none;" th:title="#{dialog.confirm.delete.title}">
+			<p>
+				<span class="ui-icon ui-icon-alert"
+					style="float: left; margin: 0 7px 20px 0;"
+					th:text="#{dialog.confirm.delete}"></span>These items will be
+				permanently deleted and cannot be recovered. Are you sure?
+			</p>
+		</div>
 		</div>
 	
 	

@@ -32,11 +32,14 @@ import com.buseni.ubukwebwiza.exceptions.BusinessException;
 import com.buseni.ubukwebwiza.exceptions.ErrorsHelper;
 import com.buseni.ubukwebwiza.gallery.domain.Photo;
 import com.buseni.ubukwebwiza.home.HomeController;
+import com.buseni.ubukwebwiza.provider.beans.ServiceForm;
 import com.buseni.ubukwebwiza.provider.domain.District;
 import com.buseni.ubukwebwiza.provider.domain.Provider;
+import com.buseni.ubukwebwiza.provider.domain.ProviderWeddingService;
 import com.buseni.ubukwebwiza.provider.domain.WeddingService;
 import com.buseni.ubukwebwiza.provider.service.DistrictService;
 import com.buseni.ubukwebwiza.provider.service.ProviderService;
+import com.buseni.ubukwebwiza.provider.service.ProviderWeddingServiceManager;
 import com.buseni.ubukwebwiza.provider.service.WeddingServiceManager;
 import com.buseni.ubukwebwiza.utils.AmazonS3Util;
 import com.buseni.ubukwebwiza.utils.ImagesUtils;
@@ -58,6 +61,9 @@ public class EditProfileController {
 	private WeddingServiceManager weddingServiceManager;
 	
 	@Autowired
+	private ProviderWeddingServiceManager providerWeddingServiceManager;
+	
+	@Autowired
 	private DistrictService districtService;
 	
 	 @Autowired
@@ -70,8 +76,9 @@ public class EditProfileController {
 	
 	@RequestMapping(value="/profile", method=RequestMethod.GET)
 	public String myAccount(Principal principal, Model model){
-		Provider provider = providerService.findByUsername(principal.getName());
+		Provider provider = providerService.findProviderByUsername(principal.getName());
 		model.addAttribute("provider", provider);
+		model.addAttribute("currentTab", "personnalInfo");
 		return "frontend/account/editProfile";
 	}
 	
@@ -80,6 +87,7 @@ public class EditProfileController {
 	public String update(HttpServletRequest request, @Valid @ModelAttribute Provider provider , 
 			BindingResult result, RedirectAttributes attributes,  @RequestParam("file") MultipartFile file) throws BusinessException{		
 		LOGGER.info("IN: profile/update-POST");
+		attributes.addFlashAttribute("currentTab", "accountInfo");
 		//Validation erros	
 		if (result.hasErrors()) {
 			LOGGER.info("Profile-updater: " + result.toString());
@@ -134,7 +142,7 @@ public class EditProfileController {
 	@PreAuthorize("hasRole('ROLE_PROVIDER')")
 	public String updateAccount(HttpServletRequest request,Principal principal, @RequestParam("currentPassword" ) String currentPassword,  @RequestParam("password" ) String password, @RequestParam("passwordConfirm") String passwordConfirm, RedirectAttributes attributes) {
 		
-		Provider provider = providerService.findByUsername(principal.getName());		
+		Provider provider = providerService.findProviderByUsername(principal.getName());		
 		if(!password.equals(passwordConfirm)){
 		  String error = messages.getMessage("error.passwordMatches", null, request.getLocale());		
 	    	LOGGER.error(error);
@@ -157,6 +165,69 @@ public class EditProfileController {
 	    return "redirect:/profile";
 	}
 	
+	
+	
+	@RequestMapping(value="/profile/addService",method=RequestMethod.POST)
+	public String addService( HttpServletRequest request, Principal principal, @ModelAttribute ServiceForm serviceForm, Model model) throws BusinessException{		
+		LOGGER.info("IN: profile/addService-POST");
+		Provider provider = providerService.findProviderByUsername(principal.getName());
+			ProviderWeddingService vws  = new ProviderWeddingService();				
+			try {
+				vws.setDescription(serviceForm.getDescription());
+				vws.setId(serviceForm.getId());
+				vws.setEnabled(serviceForm.isEnabled());
+				vws.setProvider(provider);
+				WeddingService  ws = weddingServiceManager.findOne(serviceForm.getIdcService());
+				vws.setWeddingService(ws);		
+				String message  =  "";
+				if(vws.getId() == null){
+					 message = messages.getMessage("message.profileServiceAddSuccess", new String[]{ ws.getLibelle()}, request.getLocale());	
+				}else{
+					message = messages.getMessage("message.profileServiceUpdateSuccess", new String[]{ ws.getLibelle()}, request.getLocale());	
+				}
+				providerWeddingServiceManager.create(vws);				
+				model.addAttribute("message", message);
+				model.addAttribute("provider", provider);
+				model.addAttribute("currentTab", "services");
+				return "frontend/account/editProfile::services-bloc";
+				
+				//Business errors
+			} catch (final BusinessException e) {
+				//ErrorsHelper.rejectErrors(result, e.getErrors());
+				LOGGER.error("profile/addService-POST error adding service");
+				model.addAttribute("currentTab", "services");
+				return "frontend/account/editProfile::services-bloc";
+											}
+	}
+	
+	@RequestMapping(value="/profile/editService", method=RequestMethod.GET)
+	public String editService(HttpServletRequest request, Principal principal, @RequestParam(value="id", required=true) Integer id, Model model) {
+		LOGGER.info("IN: profile/editService-GET");
+		ProviderWeddingService vws =  providerWeddingServiceManager.findById(id);
+		ServiceForm serviceForm = new ServiceForm();
+		serviceForm.setDescription(vws.getDescription());
+		serviceForm.setId(vws.getId());
+		serviceForm.setIdcService(vws.getWeddingService().getId());
+		serviceForm.setEnabled(vws.isEnabled());		
+		model.addAttribute("serviceForm", serviceForm);	
+		Provider provider = providerService.findProviderByUsername(principal.getName());		
+		model.addAttribute("provider", provider );
+		model.addAttribute("currentPane", "services");
+		return "frontend/account/editProfile::services-bloc";
+	}
+	
+	@RequestMapping(value="/profile/deleteService", method=RequestMethod.GET)
+	public String deleteService( HttpServletRequest request, Principal principal, @RequestParam(value="id", required=true) Integer id, Model model) {
+		LOGGER.info("IN: profile/deleteService-GET");
+		ProviderWeddingService vws =  providerWeddingServiceManager.findById(id);
+		providerWeddingServiceManager.delete(id);
+		String message = messages.getMessage("message.profileServiceDeleteSuccess", new String[]{ vws.getWeddingService().getLibelle()}, request.getLocale());	
+		model.addAttribute("message", message);		
+		Provider provider = providerService.findProviderByUsername(principal.getName());
+		model.addAttribute("provider", provider);
+		return "frontend/account/editProfile::services-bloc";
+	}
+	
 	@ModelAttribute("currentMenu")
 	public String module(){
 		return "profile";
@@ -170,6 +241,11 @@ public class EditProfileController {
 	@ModelAttribute("allDistricts")
 	public List<District> populateDistricts(){
 		return districtService.findByEnabled(Boolean.TRUE);
+	}
+	
+	@ModelAttribute("serviceForm")
+	public ServiceForm serviceForm(){
+		return new ServiceForm();
 	}
 	
 	@ModelAttribute("showSidebar")

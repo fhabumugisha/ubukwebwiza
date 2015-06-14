@@ -45,7 +45,7 @@
 									th:text="#{providerWeddingService.list.service}">service</label>
 								<div class="col-sm-4">
 
-									<select th:field="*{idcService}" id="idWeddingService" class="form-control">
+									<select th:field="*{idcService}" id="idWeddingService" class="form-control" >
 												<option th:each="weddingService : ${allWeddingServices}" th:value="${weddingService.id}"
 													th:text="${weddingService.libelle}">Wedding planner</option>
 									</select>

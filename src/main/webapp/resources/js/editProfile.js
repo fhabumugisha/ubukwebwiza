@@ -96,11 +96,11 @@ $(document).on("click",".deletePhoto",function(event){
 /**
  * SERVICES
  */
-/*$(document).on("submit","#addServiceForm",function(event){
+$(document).on("submit","#addServiceForm",function(event){
 	event.preventDefault(); // prevent this form from being submited
 	var form = document.getElementById("addServiceForm");
 	var oMyForm = new FormData(form);
-	// oMyForm.append("file", file2.files[0]);
+	
 
 	$.ajax({
 		url: form.action,
@@ -111,14 +111,15 @@ $(document).on("click",".deletePhoto",function(event){
 		type: 'POST',
 		success: function(data){
 			console.log(data);
-			$('#listServices-bloc').html(data);
+			$('#services').html(data);
+			resetAddServiceForm() ;
 		}
 	});
-	form.reset();
-});*/
+	
+});
 
 
-/*$(document).on("click",".editService",function(event){
+$(document).on("click",".editProfileService",function(event){
 	event.preventDefault(); 
 	var url = $(this).attr('href');
 	console.log(url);
@@ -127,16 +128,19 @@ $(document).on("click",".deletePhoto",function(event){
 		dataType: 'html',					       
 		type: 'GET',
 		success: function(data){
-			console.log(data);
-			$('#listServices-bloc').html(data);
+			console.log("edit service data : " + data);
+			$('#services').html(data);
+			$("#editServiceBox").show("slow");
+			$("#showAddServiceForm").hide("slow");
+			
 		},
 		error : function() {
 			console.log('Deconnexion du serveur');
 		}
 	});
-});*/
+});
 
-/*$(document).on("click",".deleteService",function(event){
+$(document).on("click",".deleteProfileService",function(event){
 	event.preventDefault(); 
 	var url = $(this).attr('href');
 	console.log(url);
@@ -152,7 +156,7 @@ $(document).on("click",".deletePhoto",function(event){
 					type: 'GET',
 					success: function(data){
 						console.log(data);
-						$('#listServices-bloc').html(data);
+						$('#services').html(data);
 					},
 					error : function() {
 						console.log('Deconnexion du serveur');
@@ -172,29 +176,49 @@ $(document).on("click",".deletePhoto",function(event){
 		}
 	});
 	
-});*/
+});
 
-	$("#showAddForm").click(function() {
+$(document).on("click","#showAddForm",function(){
+	$("#editFashionBox").show("slow");
+	$(this).hide("slow");
+});
+
+	/*$("#showAddForm").click(function() {
 		$("#editFashionBox").show("slow");
 		$(this).hide("slow");
-		});
-	$("#hideAddForm").click(function() {
-		$("#editFashionBox").hide("slow");
-		$("#showAddForm").show("slow");
-		});
+		});*/
+	
+$(document).on("click","#hideAddForm",function(){
+	$("#editFashionBox").hide("slow");
+	$("#showAddForm").show("slow");
+});
+
+	
 	
 	$(".deletePhotoBox").click(function(){
 		$('#confirm').modal('show');
 		});
-	$("#showAddServiceForm").click(function() {
+	$(document).on("click","#showAddServiceForm",function(){
 		$("#editServiceBox").show("slow");
 		$(this).hide("slow");
-		});
-	$("#hideAddServiceForm").click(function() {
+	});
+	
+	
+	$(document).on("click","#hideAddServiceForm",function(){
+		resetAddServiceForm();
+		
+		
+		//$("#addServiceForm")[0].reset();
 		$("#editServiceBox").hide("slow");
 		$("#showAddServiceForm").show("slow");
-		});
+	});
+
+
+	function resetAddServiceForm() {
+		$('#idService').val('');
+		$('#addServiceForm input.idService').val('');
+		$('#addServiceForm select[name="idcService"]').find('option:selected').removeAttr("selected");
+		$('#addServiceForm textarea[name="description"]').val('');
+		$('#addServiceForm input:checkbox').removeAttr('checked');
+		}
 	
-	$(".deleteServiceBox").click(function(){
-		$('#confirm').modal('show');
-		});

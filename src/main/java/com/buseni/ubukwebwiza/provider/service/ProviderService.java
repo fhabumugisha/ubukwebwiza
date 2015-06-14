@@ -106,7 +106,7 @@ public interface ProviderService {
 	 * @param name
 	 * @return
 	 */
-	Provider findByUsername(String name);
+	Provider findProviderByUsername(String name);
 
 	
 

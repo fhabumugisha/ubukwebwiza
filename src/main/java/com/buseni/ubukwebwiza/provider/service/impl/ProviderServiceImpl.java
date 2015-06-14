@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.apache.commons.collections4.IteratorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -336,7 +337,8 @@ public class ProviderServiceImpl implements ProviderService {
 	}
 
 	@Override
-	public Provider findByUsername(String username) {
+	//@Cacheable(value="findProviderByUsername")
+	public Provider findProviderByUsername(String username) {
 		if(null == username){
 			throw new NullPointerException();
 		}
