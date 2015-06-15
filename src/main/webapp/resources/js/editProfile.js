@@ -138,6 +138,7 @@ $(document).on("click",".editProfileService",function(event){
 			console.log('Deconnexion du serveur');
 		}
 	});
+	return false;
 });
 
 $(document).on("click",".deleteProfileService",function(event){
@@ -175,7 +176,7 @@ $(document).on("click",".deleteProfileService",function(event){
 			$('.ui-dialog-buttonpane').find('button:contains("Delete")').addClass('btn-default');
 		}
 	});
-	
+	return false;
 });
 
 $(document).on("click","#showAddForm",function(){
