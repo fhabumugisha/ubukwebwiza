@@ -90,8 +90,8 @@ public class AdminPhotoController {
 			photo.setId(photoForm.getId());
 			photo.setEnabled(photoForm.isEnabled());
 			
-			try {								
-				photoService.create(photo);			
+		//	try {								
+				photoService.addOrUpdate(photo);			
 				
 				//Save profil pricture to amazon S3
 				File fileToUpload =  ImagesUtils.prepareUploading(file, EnumPhotoCategory.HOME_PAGE.getId());
@@ -102,14 +102,14 @@ public class AdminPhotoController {
 				return "redirect:/admin/photos";				
 			
 				//Business errors
-			} catch (final BusinessException e) {
+			/*} catch (final BusinessException e) {
 				ErrorsHelper.rejectErrors(result, e.getErrors());
 				LOGGER.info("Photo-edit error: " + result.toString());
 				attributes.addFlashAttribute("org.springframework.validation.BindingResult.photoForm", result);
 				attributes.addFlashAttribute("photoForm", photoForm);
 								
 				return "adminpanel/photo/editPhoto";
-			}
+			}*/
 	}
 	
 	

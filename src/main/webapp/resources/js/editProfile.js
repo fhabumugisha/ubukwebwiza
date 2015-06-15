@@ -7,9 +7,9 @@
 
 
 
-/*$(document).on("submit","#uploadPhotoForm",function(event){
+$(document).on("submit","#addPhotoForm",function(event){
 	event.preventDefault(); // prevent this form from being submited
-	var form = document.getElementById("uploadPhotoForm");
+	var form = document.getElementById("addPhotoForm");
 	var oMyForm = new FormData(form);
 	// oMyForm.append("file", file2.files[0]);
 
@@ -22,7 +22,7 @@
 		type: 'POST',
 		success: function(data){
 			console.log(data);
-			$('#listPhotos-bloc').html(data);
+			$('#photos').html(data);
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
 			  console.log(textStatus, errorThrown);
@@ -31,10 +31,11 @@
 	});
 	form.reset();
 	$('#picture').val('');
+	return false;
 });
-*/
-/*
-$(document).on("click",".deletePhoto",function(event){
+
+
+$(document).on("click",".deleteProfilePhoto",function(event){
 	event.preventDefault(); 
 	var url = $(this).attr('href');
 	console.log(url);
@@ -50,7 +51,7 @@ $(document).on("click",".deletePhoto",function(event){
 					type: 'GET',
 					success: function(data){
 						console.log(data);
-						$('#listPhotos-bloc').html(data);
+						$('#photos').html(data);
 					},
 					error : function() {
 						console.log('Deconnexion du serveur');
@@ -69,10 +70,11 @@ $(document).on("click",".deletePhoto",function(event){
 			$('.ui-dialog-buttonpane').find('button:contains("Delete")').addClass('btn-default');
 		}
 	});
-	
-});*/
+	event.stopPropagation();
+	return false;
+});
 
-/*$(document).on("click",".editPhoto",function(event){
+$(document).on("click",".editProfilePhoto",function(event){
 	event.preventDefault(); 
 	var url = $(this).attr('href');
 	console.log(url);
@@ -82,14 +84,17 @@ $(document).on("click",".deletePhoto",function(event){
 		type: 'GET',
 		success: function(data){
 			console.log(data);
-			$('#listPhotos-bloc').html(data);
+			$('#photos').html(data);
+			$("#editPhotoBox").show("slow");
+			$("#showAddPhotoForm").hide("slow");
 		},
 		error : function() {
 			console.log('Deconnexion du serveur');
 		}
 	});
-
-});*/
+	event.stopPropagation();
+	return false;
+});
 
 
 
@@ -115,7 +120,7 @@ $(document).on("submit","#addServiceForm",function(event){
 			resetAddServiceForm() ;
 		}
 	});
-	
+	return false;
 });
 
 
@@ -138,11 +143,13 @@ $(document).on("click",".editProfileService",function(event){
 			console.log('Deconnexion du serveur');
 		}
 	});
+	event.stopPropagation();
 	return false;
 });
 
 $(document).on("click",".deleteProfileService",function(event){
 	event.preventDefault(); 
+	
 	var url = $(this).attr('href');
 	console.log(url);
 	$("#dialog-confirm").dialog({
@@ -176,22 +183,20 @@ $(document).on("click",".deleteProfileService",function(event){
 			$('.ui-dialog-buttonpane').find('button:contains("Delete")').addClass('btn-default');
 		}
 	});
+	event.stopPropagation();
 	return false;
 });
 
-$(document).on("click","#showAddForm",function(){
-	$("#editFashionBox").show("slow");
-	$(this).hide("slow");
+$(document).on("click","#showAddPhotoForm",function(){
+	$("#editPhotoBox").show("slow");
+	$("#showAddPhotoForm").hide("slow");
 });
 
-	/*$("#showAddForm").click(function() {
-		$("#editFashionBox").show("slow");
-		$(this).hide("slow");
-		});*/
 	
-$(document).on("click","#hideAddForm",function(){
-	$("#editFashionBox").hide("slow");
-	$("#showAddForm").show("slow");
+	
+$(document).on("click","#hideAddPhotoForm",function(){
+	$("#editPhotoBox").hide("slow");
+	$("#showAddPhotoForm").show("slow");
 });
 
 	

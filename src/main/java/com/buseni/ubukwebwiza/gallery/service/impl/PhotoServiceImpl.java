@@ -10,7 +10,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,10 +20,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.buseni.ubukwebwiza.administrator.enums.EnumPhotoCategory;
 import com.buseni.ubukwebwiza.exceptions.ResourceNotFoundException;
 import com.buseni.ubukwebwiza.gallery.domain.Photo;
-import com.buseni.ubukwebwiza.gallery.domain.PhotoDetails;
 import com.buseni.ubukwebwiza.gallery.repository.GalleryPredicates;
 import com.buseni.ubukwebwiza.gallery.repository.PhotoRepo;
 import com.buseni.ubukwebwiza.gallery.service.PhotoService;
+import com.buseni.ubukwebwiza.utils.AmazonS3Util;
 
 /**
  * @author habumugisha
@@ -41,7 +40,8 @@ public class PhotoServiceImpl implements PhotoService {
 
 	
 	private PhotoRepo photoRepo;
-	
+	@Autowired
+	private AmazonS3Util amazonS3Util;
 	public PhotoServiceImpl() {
 		
 	}
@@ -55,25 +55,32 @@ public class PhotoServiceImpl implements PhotoService {
 	 */
 	@Override
 	@Transactional
-	public void create(Photo photo) {
+	public void addOrUpdate(Photo photo) {
 		// control before save
 		if (photo == null) {
 			throw new NullPointerException();
 		}
 		if (photo.getId() == null) {
 			photo.setCreatedAt(new Date());
+			photo.setLastUpdate(new Date());
+			photoRepo.save(photo);
 		} else {
 			Photo photoBdd = photoRepo.findOne(photo.getId());
-			
-			photo.setCreatedAt(photoBdd.getCreatedAt());
-			if (photo.getFilename() == null) {
-				photo.setFilename(photoBdd.getFilename());
-				//photo.setContent(photoBdd.getContent());
-			}
+			photoBdd.setLastUpdate( new Date());
+			photoBdd.setEnabled(photo.isEnabled());
+			photoBdd.setDescription(photo.getDescription());
+			if (photo.getFilename() != null) {
+				// picture changed, delete the old one
+				if(photoBdd.getFilename()!= null){
+					amazonS3Util.deleteFile(photoBdd.getFilename());				
+				}
+				photoBdd.setFilename(photo.getFilename());
+			}	
+			photoRepo.save(photoBdd);
 		}
-		photo.setLastUpdate(new Date());
+	
 
-		photoRepo.save(photo);
+		
 
 	}
 
@@ -92,7 +99,6 @@ public class PhotoServiceImpl implements PhotoService {
 	 * @see com.buseni.ubukwebwiza.administrator.service.PhotoService#findById(java.lang.Integer)
 	 */
 	@Override
-	@Cacheable(value="photoFindCache")
 	public Photo findById(Integer id) {
 		if(null == id){
 			throw new NullPointerException();

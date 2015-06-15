@@ -30,7 +30,9 @@ import com.buseni.ubukwebwiza.administrator.enums.EnumPhotoCategory;
 import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
 import com.buseni.ubukwebwiza.exceptions.BusinessException;
 import com.buseni.ubukwebwiza.exceptions.ErrorsHelper;
+import com.buseni.ubukwebwiza.gallery.beans.PhotoForm;
 import com.buseni.ubukwebwiza.gallery.domain.Photo;
+import com.buseni.ubukwebwiza.gallery.service.PhotoService;
 import com.buseni.ubukwebwiza.home.HomeController;
 import com.buseni.ubukwebwiza.provider.beans.ServiceForm;
 import com.buseni.ubukwebwiza.provider.domain.District;
@@ -66,8 +68,12 @@ public class EditProfileController {
 	@Autowired
 	private DistrictService districtService;
 	
+	@Autowired
+	private PhotoService photoService;
+	
 	 @Autowired
 	 private MessageSource messages;
+	 
 	@Autowired
 	private AmazonS3Util amazonS3Util;
 	
@@ -87,7 +93,7 @@ public class EditProfileController {
 	public String update(HttpServletRequest request, @Valid @ModelAttribute Provider provider , 
 			BindingResult result, RedirectAttributes attributes,  @RequestParam("file") MultipartFile file) throws BusinessException{		
 		LOGGER.info("IN: profile/update-POST");
-		attributes.addFlashAttribute("currentTab", "accountInfo");
+		attributes.addFlashAttribute("currentTab", "personnalInfo");
 		//Validation erros	
 		if (result.hasErrors()) {
 			LOGGER.info("Profile-updater: " + result.toString());
@@ -103,7 +109,8 @@ public class EditProfileController {
 				result.reject(ImagesUtils.MAX_SIZE_EXCEEDED_ERROR, new String[] {String.valueOf(ImagesUtils.MAXSIZE)}, "File size should be less than " + ImagesUtils.MAXSIZE+ " byte.");
 				//attributes.addAttribute("org.springframework.validation.BindingResult.provider",result);
 				attributes.addFlashAttribute("provider", provider);	  
-				attributes.addFlashAttribute("errors", "File size should be less than " + ImagesUtils.MAXSIZE+ " byte.");
+				String  error = messages.getMessage("error.file.maxsizeexceeded", new String[]{ImagesUtils.MAXSIZE+ " byte."}, request.getLocale());	
+				attributes.addFlashAttribute("error", error);
 				return "frontend/account/editProfile";
 			}
 
@@ -228,6 +235,121 @@ public class EditProfileController {
 		return "frontend/account/editProfile::services-bloc";
 	}
 	
+	@RequestMapping(value="/profile/addPhoto", method=RequestMethod.POST)
+	public String savePhoto(HttpServletRequest request, Principal principal,@ModelAttribute PhotoForm photoForm,  Model model) throws BusinessException{		
+		LOGGER.info("IN: profile/addPhoto-POST");
+		Provider provider = providerService.findProviderByUsername(principal.getName());		
+		model.addAttribute("currentTab", "photos");
+		MultipartFile file  = photoForm.getFile();
+		Photo photo = new Photo();
+		String filename = "no_person.jpg";
+		if (file != null && !file.isEmpty()) {
+			if(file.getSize() > ImagesUtils.MAXSIZE){
+				LOGGER.error("File size should be less than " + ImagesUtils.MAXSIZE+ " byte.");				
+				//result.reject(ImagesUtils.MAX_SIZE_EXCEEDED_ERROR, new String[] {String.valueOf(ImagesUtils.MAXSIZE)}, "File size should be less than " + ImagesUtils.MAXSIZE+ " byte.");
+				//attributes.addAttribute("org.springframework.validation.BindingResult.photoForm",result);
+				String  error = messages.getMessage("error.file.maxsizeexceeded", new String[]{ImagesUtils.MAXSIZE+ " byte."}, request.getLocale());	
+				model.addAttribute("error", error);
+				model.addAttribute("photoForm", photoForm);
+				model.addAttribute("provider", provider);	     
+				
+				return "frontend/account/editProfile::photos-bloc";
+			}
+
+			filename = UbUtils.normalizeFileName(file.getOriginalFilename());
+			photo.setFilename(filename);
+			photo.setContentType(file.getContentType());
+			photo.setCategory(EnumPhotoCategory.PROVIDER.getId());
+
+		} else if (photoForm.getId() == null) {
+			LOGGER.error("You failed to upload  because the file was empty.");
+			//result.reject("error.file.empty");
+			//attributes.addAttribute("org.springframework.validation.BindingResult.photoForm",result);
+			//model.addAttribute("errors", "You failed to upload  because the file was empty.");
+			String  error = messages.getMessage("error.file.empty", null, request.getLocale());
+			model.addAttribute("error", error);
+			model.addAttribute("photoForm", photoForm);
+			model.addAttribute("provider", provider);
+			return "frontend/account/editProfile::photos-bloc";
+
+		}
+
+	//	try {
+			photo.setDescription(photoForm.getDescription());
+			photo.setId(photoForm.getId());
+			photo.setEnabled(photoForm.isEnabled());
+			if(photo.getId() == null){
+				provider.getPhotos().add(photo);
+			}
+			photoService.addOrUpdate(photo);
+
+			
+			//providerService.update(provider);
+
+			// Save profil pricture to amazon S3
+			File fileToUpload = ImagesUtils.prepareUploading(file,	EnumPhotoCategory.PROVIDER.getId());
+			amazonS3Util.uploadFile(fileToUpload, filename);
+
+			String message  =  "";
+			if(photo.getId() == null){
+				 message = messages.getMessage("message.editprofile.photoAddSuccess", null, request.getLocale());	
+			}else{
+				message = messages.getMessage("message.editprofile.photoUpdateSuccess", null, request.getLocale());	
+			}
+			model.addAttribute("message", message);
+			model.addAttribute("provider", provider);			
+			model.addAttribute("photoForm", new PhotoForm());
+			return "frontend/account/editProfile::photos-bloc";
+
+			// Business errors
+		/*} catch (final BusinessException e) {
+			ErrorsHelper.rejectErrors(result, e.getErrors());
+			LOGGER.error("Photo-save error: " + result.toString());
+			model.addAttribute("org.springframework.validation.BindingResult.photoForm", result);
+			model.addAttribute("provider", provider);
+			return "frontend/account/editProfile::photos-bloc";
+		} */
+	}
+	
+	
+	
+
+	@RequestMapping(value="/profile/deletePhoto", method=RequestMethod.GET)
+	public String deletePhoto(HttpServletRequest request, Principal principal, @RequestParam(value="id", required=true) Integer id, Model model) {
+		LOGGER.info("IN: providers/deletePhoto-GETT");
+		Provider provider = providerService.findProviderByUsername(principal.getName());
+		Photo photo = photoService.findById(id);
+		providerService.deletePhoto(provider.getId(), photo);			
+		amazonS3Util.deleteFile(photo.getFilename());
+		String message = messages.getMessage("message.editprofile.photoDeleteSuccess", null, request.getLocale());	
+		model.addAttribute("message", message);		
+		model.addAttribute("provider", provider);
+		PhotoForm photoForm = new PhotoForm();
+		model.addAttribute("currentTab", "photos");
+		model.addAttribute("photoForm", photoForm);	
+		return "frontend/account/editProfile::photos-bloc";
+	}
+	
+	@RequestMapping(value="/profile/editPhoto", method=RequestMethod.GET)
+	public String editPhoto(HttpServletRequest request, Principal principal, @RequestParam(value="id", required=true) Integer id, Model model) {
+		LOGGER.info("IN: profile/editPhoto-GET");
+		Provider provider = providerService.findProviderByUsername(principal.getName());
+		Photo photo = photoService.findById(id);
+		PhotoForm photoForm = new PhotoForm();
+		photoForm.setDescription(photo.getDescription());
+		photoForm.setId(id);
+		photoForm.setName(photo.getFilename());
+		photoForm.setEnabled(photo.isEnabled());
+		
+		model.addAttribute("photoForm", photoForm);	
+		model.addAttribute("currentTab", "photos");
+		
+		model.addAttribute("provider", provider );
+		return "frontend/account/editProfile::photos-bloc";
+	}
+	
+	
+	
 	@ModelAttribute("currentMenu")
 	public String module(){
 		return "profile";
@@ -246,6 +368,11 @@ public class EditProfileController {
 	@ModelAttribute("serviceForm")
 	public ServiceForm serviceForm(){
 		return new ServiceForm();
+	}
+	
+	@ModelAttribute("photoForm")
+	public PhotoForm photoForm(){
+		return new PhotoForm();
 	}
 	
 	@ModelAttribute("showSidebar")

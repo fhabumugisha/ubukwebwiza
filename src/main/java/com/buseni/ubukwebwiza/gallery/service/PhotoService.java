@@ -5,9 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.buseni.ubukwebwiza.exceptions.BusinessException;
 import com.buseni.ubukwebwiza.gallery.domain.Photo;
-import com.buseni.ubukwebwiza.gallery.domain.PhotoDetails;
 
 public interface PhotoService {
 	
@@ -16,7 +14,7 @@ public interface PhotoService {
 	 * @param weddingService
 	 * @return 
 	 */
-	void create(Photo photo) throws BusinessException;
+	void addOrUpdate(Photo photo) ;
 	
 	/**
 	 * 

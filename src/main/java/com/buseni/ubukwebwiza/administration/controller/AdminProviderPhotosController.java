@@ -104,14 +104,17 @@ public class AdminProviderPhotosController{
 
 		}
 
-		try {
+	//	try {
 			photo.setDescription(photoForm.getDescription());
 			photo.setId(photoForm.getId());
 			photo.setEnabled(photoForm.isEnabled());
-			photoService.create(photo);
+			if(photo.getId() == null){
+				provider.getPhotos().add(photo);
+			}
+			photoService.addOrUpdate(photo);
 
-			provider.getPhotos().add(photo);
-			providerService.update(provider);
+			
+			//providerService.update(provider);
 
 			// Save profil pricture to amazon S3
 			File fileToUpload = ImagesUtils.prepareUploading(file,	EnumPhotoCategory.PROVIDER.getId());
@@ -126,13 +129,13 @@ public class AdminProviderPhotosController{
 			return "redirect:/admin/providers/" + provider.getId() + "/photos";
 
 			// Business errors
-		} catch (final BusinessException e) {
+		/*} catch (final BusinessException e) {
 			ErrorsHelper.rejectErrors(result, e.getErrors());
 			LOGGER.error("Photo-save error: " + result.toString());
 			attributes.addFlashAttribute("org.springframework.validation.BindingResult.photoForm", result);
 			attributes.addFlashAttribute("provider", provider);
 			return "adminpanel/provider/editPhoto";
-		} 
+		} */
 	}
 	
 	
