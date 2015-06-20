@@ -1,6 +1,8 @@
 package com.buseni.ubukwebwiza.config;
 
+import java.util.HashSet;
 import java.util.Properties;
+import java.util.Set;
 
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 
@@ -17,7 +19,9 @@ import org.springframework.web.multipart.support.StandardServletMultipartResolve
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
+import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
+import org.thymeleaf.templateresolver.TemplateResolver;
 
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.thymeleaf.dialect.DandelionDialect;
@@ -28,6 +32,7 @@ public class ViewConfiguration {
 	
 	 private static final String MESSAGE_SOURCE = "/WEB-INF/i18n/messages";
 	 private static final String VIEWS = "/WEB-INF/views/";
+	 private static final String EMAILS = "mails-templates/";
 
 	 @Autowired
 	private Environment env;
@@ -38,7 +43,7 @@ public class ViewConfiguration {
 		resolver.setPrefix(VIEWS);
 		resolver.setSuffix(".html");
 		resolver.setTemplateMode("HTML5");
-		resolver.setOrder(1);
+		resolver.setOrder(2);
 		resolver.addTemplateAlias("frontendHeader", "frontend/fragments/header");
 		resolver.addTemplateAlias("frontendFooter", "frontend/fragments/footer");
 		resolver.addTemplateAlias("frontendSidebar", "frontend/fragments/sidebar");
@@ -46,10 +51,26 @@ public class ViewConfiguration {
 		return resolver;
 	}
 	
+	 @Bean
+	 public ClassLoaderTemplateResolver emailTemplateResolver(){
+		 ClassLoaderTemplateResolver  emailTemplateResolver = new ClassLoaderTemplateResolver();
+		 emailTemplateResolver.setPrefix(EMAILS);
+		 emailTemplateResolver.setSuffix(".html");
+		 emailTemplateResolver.setTemplateMode("HTML5");
+		 emailTemplateResolver.setOrder(1);
+		 return emailTemplateResolver;
+	 }
 	@Bean 
 	public SpringTemplateEngine templateEngine() {
 		SpringTemplateEngine engine = new SpringTemplateEngine();
-		engine.setTemplateResolver(templateResolver());
+		//engine.setTemplateResolver(templateResolver());
+		 final Set<TemplateResolver> templateResolvers = new HashSet<TemplateResolver>();
+		    templateResolvers.add(templateResolver());
+		    templateResolvers.add(emailTemplateResolver());
+		    engine.setTemplateResolvers(templateResolvers);
+		//engine.addTemplateResolver(emailTemplateResolver());
+		//engine.addTemplateResolver(templateResolver());
+		
 		engine.addDialect(new LayoutDialect());
 		engine.addDialect(new SpringSecurityDialect());
 		engine.addDialect(new DandelionDialect());

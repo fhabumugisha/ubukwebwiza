@@ -4,7 +4,6 @@ package com.buseni.ubukwebwiza.account.controller;
 
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -13,11 +12,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.MessageSource;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -54,6 +50,7 @@ public class SignupController {
 	
 	@Autowired
 	private UserAccountService userAccountService;
+	
 	@Autowired
 	private WeddingServiceManager weddingServiceManager;
 	
@@ -62,15 +59,11 @@ public class SignupController {
 	
 	@Autowired
 	private PhotoService photoService;	
-	 @Autowired
-	 private MessageSource messages;
+
+	@Autowired
+	private MessageSource messages;
 	 
 
-	 @Autowired
-	 private JavaMailSender mailSender;
-	 
-	@Value("${support.email}")
-	private String supportEmail;
 	
 	@Autowired
 	private ApplicationEventPublisher eventPublisher;
@@ -131,13 +124,11 @@ public class SignupController {
 
 	
 	@RequestMapping(value = "/regitration-confirm", method = RequestMethod.GET)
-	public String confirmRegistration (WebRequest request, @RequestParam("token") String token, RedirectAttributes model) {
-	    Locale locale = request.getLocale();
+	public String confirmRegistration (WebRequest request, @RequestParam("token") String token, RedirectAttributes model) {	   
 	     
 	    VerificationToken verificationToken = userAccountService.getVerificationToken(token);
 	    if (verificationToken == null) {
-	        String error = messages.getMessage("auth.message.invalidToken", null, locale);
-	        LOGGER.error(error);
+	        LOGGER.error("Invalid account confirmation token.");
 	        model.addFlashAttribute("invalidToken", true);
 	        return "redirect:/signup-error";
 	    }
@@ -145,8 +136,7 @@ public class SignupController {
 	    UserAccount user = verificationToken.getUserAccount();
 	    Calendar cal = Calendar.getInstance();
 	    if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
-	    	String error = messages.getMessage("auth.message.expired", null, locale);
-	        LOGGER.error(error);
+	        LOGGER.error("Your registration token has expired.");
 	       // model.addFlashAttribute("error", error);
 	        model.addFlashAttribute("expired", true);
 	        model.addFlashAttribute("token", token);
@@ -156,7 +146,7 @@ public class SignupController {
 	    user.setEnabled(true); 
 	    userAccountService.update(user);
 	   // String message = messages.getMessage("message.accountVerified", null, locale);
-	    return "redirect:/login?verified"; 
+	    return "redirect:/profile/login?verified"; 
 	}
 	
 	@RequestMapping(value = "/resend-registration-token", method = RequestMethod.GET)
@@ -164,27 +154,16 @@ public class SignupController {
 	  HttpServletRequest request, @RequestParam("token") String existingToken, RedirectAttributes redirectAttributes) {
 	    VerificationToken newToken = userAccountService.generateNewVerificationToken(existingToken);
 	     
-	    UserAccount user = userAccountService.getUserByVerificationToken(newToken.getToken());
+	    UserAccount userAccount = userAccountService.getUserByVerificationToken(newToken.getToken());
 	    String appUrl =  "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
-	    SimpleMailMessage email =   constructResendVerificationTokenEmail(appUrl, request.getLocale(), newToken, user);
-	    mailSender.send(email);
+	    eventPublisher.publishEvent(new OnRegistrationCompleteEvent(userAccount, request.getLocale(), appUrl));
+	 
 	 
 	    String message = messages.getMessage("message.resendToken", null, request.getLocale());
 	    redirectAttributes.addFlashAttribute("message", message);
-	    return "redirect:/newTokenSent";
+	    return "redirect:/new-token-sent";
 	}
 	
-	
-	private SimpleMailMessage constructResendVerificationTokenEmail (String appUrl, Locale locale, VerificationToken newToken, UserAccount user) {
-	    String confirmationUrl =       appUrl + "/regitration-confirm?token=" + newToken.getToken();
-	    String message = messages.getMessage("message.regSuccEmail", null, locale);
-	    SimpleMailMessage email = new SimpleMailMessage();
-	    email.setSubject("Resend Registration Token");
-	    email.setText(message + " \r\n" + confirmationUrl);
-	    email.setFrom(supportEmail);
-	    email.setTo(user.getEmail());
-	    return email;
-	}
 	
 	
 	@ModelAttribute("allWeddingServices")

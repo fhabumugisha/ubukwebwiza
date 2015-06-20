@@ -17,6 +17,7 @@ public interface ProviderRepo extends JpaRepository<Provider, Integer> , QueryDs
 	
 	List<Provider> findByAccount_Enabled(boolean enabled);
 
+	
 	Provider findByAccount_Email(String email);
 
 

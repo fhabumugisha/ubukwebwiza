@@ -81,7 +81,7 @@ public class MyMultiHttpSecurityConfig {
 		private  DataSource dataSource;
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
-			http.antMatcher("/profile/**").authorizeRequests().anyRequest().hasRole("PROVIDER")
+			http.antMatcher("/profile/**").authorizeRequests().anyRequest().hasRole("PROVIDER")			
 			.and()
 				.formLogin().loginPage("/profile/login").permitAll().failureUrl("/profile/login?error").usernameParameter("email")
 					.passwordParameter("password").successHandler(savedRequestAwareAuthenticationSuccessHandler())

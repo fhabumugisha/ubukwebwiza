@@ -1,7 +1,7 @@
 package com.buseni.ubukwebwiza.account.controller;
 
+import java.net.MalformedURLException;
 import java.util.Locale;
-import java.util.UUID;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -12,19 +12,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.MessageSource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 
-import com.buseni.ubukwebwiza.account.domain.UserAccount;
 import com.buseni.ubukwebwiza.account.service.UserAccountService;
+import com.buseni.ubukwebwiza.provider.domain.Provider;
 
 @Component
-public class RegistrationListener implements ApplicationListener<OnRegistrationCompleteEvent> {
+public class ForgotPasswordListener implements ApplicationListener<ResetPasswordEvent> {
 	
-	public  static final Logger LOGGER = LoggerFactory.getLogger(RegistrationListener.class);
+	public  static final Logger LOGGER = LoggerFactory.getLogger(ForgotPasswordListener.class);
     @Autowired
     private UserAccountService userAccountService;
 
@@ -40,47 +42,40 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
     @Value("${support.email}")
 	private String supportEmail;
 
-    // API
-
-    @Override
-    public void onApplicationEvent(OnRegistrationCompleteEvent event) {
-        this.confirmRegistration(event);
-    }
-
-    private void confirmRegistration(OnRegistrationCompleteEvent event) {
-    	UserAccount userAccount = event.getUser();
-    	String token = UUID.randomUUID().toString();
-    	userAccountService.createVerificationTokenForUser(userAccount, token);
-    	sendMailWithInline(event.getAppUrl(), token, userAccount, event.getLocale());
-    	
-    }
-
   
-	public void sendMailWithInline(String contextPath, String token, UserAccount userAccount, final Locale locale) {
-		String url = contextPath +  "/regitration-confirm?token=" + token;
-		String activateAccountLinkText = messages.getMessage("message.registration.activateAccountLinkText", null,	locale);
-		 String emailText = messages.getMessage("message.registration.successEmail", null, locale);
+    @Override
+    public void onApplicationEvent(ResetPasswordEvent event) {
+        this.sendResetPasswordMail(event.getAppUrl(),  event.getToken(), event.getProvider(), event.getLocale());
+    }
+
+      
+    public void sendResetPasswordMail(String contextPath, String token, Provider provider, final Locale locale) {
+		String url = contextPath + "/reset-password?id="+ provider.getAccount().getId() + "&token=" + token;
+		String resetPasswordText = messages.getMessage("message.resetPasswordText", null,	locale);
+		String resetPasswordText2 = messages.getMessage("message.resetPasswordText2", null,	locale);
+		String resetPasswordLinkText = messages.getMessage("message.resetPasswordLinkText", null,	locale);
+
 		// Prepare the evaluation context
 		final Context ctx = new Context(locale);
-		ctx.setVariable("emailText", emailText);
-		ctx.setVariable("activateAccountLink", url);
-		ctx.setVariable("clickHereText", activateAccountLinkText);
-		
-		//ctx.setVariable("imageResourceName", "logo.jpg"); // so that we can reference it from HTML
+		ctx.setVariable("name", provider.getBusinessName());
+		ctx.setVariable("emailText", resetPasswordText);
+		ctx.setVariable("resetLink", url);
+		ctx.setVariable("clickHereText", resetPasswordLinkText);
+		ctx.setVariable("afterLinkText", resetPasswordText2);
+	//	ctx.setVariable("imageResourceName", "logo.jpg"); // so that we can reference it from HTML
 		try { 
 			// Prepare message using a Spring helper
 			final MimeMessage mimeMessage = this.mailSender.createMimeMessage();
 			final MimeMessageHelper message =
 					new MimeMessageHelper(mimeMessage, true, "UTF-8"); // true = multipart
-		
-			message.setSubject(messages.getMessage("message.registration.accountActivationTokenSubject", null,	locale));
+			message.setSubject(messages.getMessage("message.resetPasswordSubject", null,	locale));
 			message.setFrom(supportEmail);
-			message.setTo(userAccount.getEmail());
+			message.setTo(provider.getAccount().getEmail());
 
 			// Create the HTML body using Thymeleaf
-			final String htmlContent = this.templateEngine.process("accountActivationMail", ctx);
-			message.setText(htmlContent, true);	// true = isHtml
-		/*	Resource resource = null;
+			final String htmlContent = this.templateEngine.process("resetPasswordMail", ctx);
+			message.setText(htmlContent, true);			// true = isHtml
+			/*Resource resource = null;
 			try {
 				resource = new UrlResource("https://s3.amazonaws.com/ubfiles/logo.jpg");
 			} catch (MalformedURLException e) {
@@ -92,7 +87,8 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
 			// Send mail
 			this.mailSender.send(mimeMessage);
 		} catch (MessagingException e1) {
-			LOGGER.error("signup error sending email: " + e1.getMessage());
+			// TODO Auto-generated catch block
+			LOGGER.error(e1.getLocalizedMessage());
 		} 
 	}
 

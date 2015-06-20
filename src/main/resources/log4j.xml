@@ -80,6 +80,9 @@
 		<level value="warn" />
 	</logger>
 	
+	<logger name="org.thymeleaf">
+		<level value="debug" />
+	</logger>
 	
 
 	<!-- Root Logger -->

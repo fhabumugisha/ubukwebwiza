@@ -35,51 +35,108 @@
 					</div>
 					 
 					   <!-- Account feature is coming -->
-					<!-- <div
+					 <div
 						th:switch="${#authentication}? ${#authorization.expression('isAuthenticated()')} : ${false}">
-						<span th:case="${false}">User is not logged in</span> <span
-							th:case="${true}">Logged in user</span> <span th:case="*">Should
-							never happen, but who knows...</span>
-					</div>
-					<div class="pull-right hidden-xs" style="padding-top: 8px; margin-right: 10px;"
-						th:classappend="${#authorization}  ? 'dropdown' : ''">
+						<!-- User is not logged in -->
+						<div th:case="${false}" class="pull-right hidden-xs"
+							style="padding-top: 8px; margin-right: 10px;">
 
-						<div  sec:authorize="!isAuthenticated()" class="row">
+							<div class="row">
+								<div class="col-md-6">
+									<a href="account/signin.html" th:href="@{/profile/login}"
+										class="btn btn-default pull-right  navbar-btn"
+										th:text="#{signin.title}">Sign in</a>
+								</div>
+								<div class="col-md-6">
+									<a href="account/signup.html" th:href="@{/signup}"
+										th:text="#{joinus.title}"
+										class="btn btn-primary pull-right navbar-btn">Join us</a>
+								</div>
+
+							</div>
+
+							<!-- Logged in user -->
+							<div th:case="${true}" class="pull-right hidden-xs dropdown"
+								style="padding-top: 8px; margin-right: 10px;">
+								<a id="dLabel" data-toggle="dropdown" href="#"
+									class="btn btn-default"> <span
+									class="glyphicon glyphicon-user"></span>&nbsp; <span
+									sec:authentication="name">Hello Fabrice</span> <span
+									class="caret"></span>
+								</a>
+								<ul class="dropdown-menu no-collapse" role="menu"
+									aria-labelledby="dLabel">
+									<li><a href="account/signup.html" th:href="@{/profile}"
+										th:text="#{editProfile.myProfile}">My Profile</a></li>
+									<li>
+
+										<form class="navbar-form" data-th-action="@{/profile/logout}"
+											method="post" action="">
+											<label for="mySubmit" class="btn"> <span
+												class="glyphicon glyphicon-log-out"></span> &nbsp;<span
+												th:text="#{logout.title}">Log Out</span>
+											</label> <input id="mySubmit" type="submit" value="Go" class="hidden" />
+										</form>
+
+									</li>
+								</ul>
+
+							</div>
+
+
+						</div>
+
+						<!-- 						<span th:case="${false}">User is not logged in</span>  -->
+					<!-- 	<span th:case="${true}">Logged in user</span> 
+						<span th:case="*">Should never happen, but who knows...</span> -->
+					</div> 
+				
+					<!-- <div sec:authorize="!isAuthenticated()"  class="pull-right hidden-xs" style="padding-top: 8px; margin-right: 10px;">
+
+						<div  class="row">
 							<div class="col-md-6">
-								<a href="account/signin.html" th:href="@{/login}"
-									class="btn btn-default pull-right  navbar-btn">Sign in</a>
+								<a href="account/signin.html" th:href="@{/profile/login}"
+									class="btn btn-default pull-right  navbar-btn" th:text="#{signin.title}">Sign in</a>
 							</div>
 							<div class="col-md-6">
-								<a href="account/signup.html" th:href="@{/signup}"
+								<a href="account/signup.html" th:href="@{/signup}" th:text="#{joinus.title}"
 									class="btn btn-primary pull-right navbar-btn">Join us</a>
 							</div>
 
 						</div>
 
 
-						<a sec:authorize="isAuthenticated()"  id="dLabel" data-toggle="dropdown" href="#" class="btn btn-default"> 
+
+					</div>  -->
+					<!-- <div  sec:authorize="isAuthenticated()"  class="pull-right hidden-xs dropdown" style="padding-top: 8px; margin-right: 10px;">						
+
+
+						<a   id="dLabel" data-toggle="dropdown" href="#" class="btn btn-default"> 
 						<span class="glyphicon glyphicon-user"></span>&nbsp;
 						<span sec:authentication="name">Hello Fabrice</span> <span
 							class="caret"></span>
 						</a>
-						<ul sec:authorize="isAuthenticated()"  class="dropdown-menu no-collapse" role="menu" aria-labelledby="dLabel">
+						<ul  class="dropdown-menu no-collapse" role="menu" aria-labelledby="dLabel">
+							<li>
+								<a href="account/signup.html" th:href="@{/profile}" th:text="#{editProfile.myProfile}">My Profile</a>
+							</li>
 							<li>
 
-								<form class="navbar-form" data-th-action="@{/logout}"
+								<form class="navbar-form" data-th-action="@{/profile/logout}"
 									method="post" action="">
-									<label for="mySubmit" class="btn"> <span
-										class="glyphicon glyphicon-log-out"></span> &nbsp;Log Out
+									<label for="mySubmit" class="btn"> <span 
+										class="glyphicon glyphicon-log-out"></span>  &nbsp;<span th:text="#{logout.title}">Log Out</span> 
 									</label> <input id="mySubmit" type="submit" value="Go" class="hidden" />
 								</form>
 
 							</li>
 						</ul>
 
-					</div> -->
+					</div>  -->
 					
 					
 					<div class="navbar-offcanvas navmenu-fixed-left offcanvas">
-						<a class="navmenu-brand" href="#" th:href="@{/}">Menu</a>
+						<a class="navmenu-brand" href="#" th:href="@{/}">Home</a>
 						<ul class="nav navbar-nav">
 							<li th:classappend="${currentMenu == 'providers' ? 'active' : ''}"><a
 								href="listingProvider.html" th:href="@{/providers}">Service
@@ -87,36 +144,54 @@
 							<li th:classappend="${currentMenu == 'gallery' ? 'active' : ''}"><a
 								href="photoGallery.html" th:href="@{/gallery}">Photo gallery</a></li>
 							<!-- <li><a href="forum/listingHelp.html">Need an advice </a></li> -->
-							<li>
 							
 							
-							<!-- <div sec:authorize="!isAuthenticated()"
-									class="row visible-xs-block">
+							<li sec:authorize="!isAuthenticated()" >
+								
+							  <div class="row container visible-xs-block">
 									<div class="col-md-6">
-										<a href="account/signin.html" th:href="@{/login}"
-											class="btn btn-default  navbar-btn">Sign in</a>
+										<a href="account/signin.html" th:href="@{/profile/login}"
+											class="btn btn-default  navbar-btn" th:text="#{signin.title}">Sign in</a>
 									</div>
 									<div class="col-md-6">
 										<a href="account/signup.html" th:href="@{/signup}"
-											class="btn btn-primary  navbar-btn">Join us</a>
+											class="btn btn-primary  navbar-btn" th:text="#{joinus.title}">Join us</a>
 									</div>
-								</div> -->
-
-
-<!-- 								<div th:if="${#authorization.expression('!isAuthenticated()')}" -->
-<!-- 									class="row visible-xs-block"> -->
-<!-- 									<div class="col-md-6"> -->
-<!-- 										<a href="account/signin.html" th:href="@{/login}" -->
-<!-- 											class="btn btn-default  navbar-btn">Sign in</a> -->
-<!-- 									</div> -->
-<!-- 									<div class="col-md-6"> -->
-<!-- 										<a href="account/signup.html" th:href="@{/signup}" -->
-<!-- 											class="btn btn-primary  navbar-btn">Join us</a> -->
-<!-- 									</div> -->
-
-
-<!-- 								</div> -->
+								</div>  
+							
 							</li>
+							<li sec:authorize="isAuthenticated()" class="visible-xs-block">
+							<div class="container">
+							
+								<a  id="dLabel" data-toggle="dropdown" href="#" class="btn btn-default"> 
+									<span class="glyphicon glyphicon-user"></span>&nbsp;
+										<span sec:authentication="name">Hello Fabrice</span> <span
+										class="caret"></span>
+										</a>
+								<ul class="dropdown-menu no-collapse" role="menu"
+									aria-labelledby="dLabel">
+									<li><a href="account/signup.html" th:href="@{/profile}"
+										th:text="#{editProfile.myProfile}">My Profile</a></li>
+									<li>
+
+										<form class="navbar-form" data-th-action="@{/profile/logout}"
+											method="post" action="">
+											<label for="mySubmit" class="btn"> <span
+												class="glyphicon glyphicon-log-out">&nbsp;</span> <span
+												th:text="#{logout.title}">Log Out</span>
+											</label> <input id="mySubmit" type="submit" value="Go" class="hidden" />
+										</form>
+
+									</li>
+								</ul>
+							</div>
+								
+
+							</li>
+
+
+
+							
 							
 						</ul>
 					</div>

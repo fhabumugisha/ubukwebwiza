@@ -223,8 +223,9 @@ $(document).on("click","#hideAddPhotoForm",function(){
 	function resetAddServiceForm() {
 		$('#idService').val('');
 		$('#addServiceForm input.idService').val('');
-		$('#addServiceForm select[name="idcService"]').find('option:selected').removeAttr("selected");
+		$('#addServiceForm select[name="idcService"]').find('option:selected')
+		.removeAttr("selected");
 		$('#addServiceForm textarea[name="description"]').val('');
 		$('#addServiceForm input:checkbox').removeAttr('checked');
-		}
+}
 	
