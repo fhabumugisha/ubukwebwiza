@@ -78,8 +78,8 @@ public class AdminHomeController {
 	          HttpServletRequest request,Model model){
 		//model.addAttribute("currentMenu", "dashbord");
 		if (error != null) {
-/*			model.addAttribute("error", "Invalid username and password!");
-*/ 
+		model.addAttribute("error", "Invalid username and password!");
+ 
 			//login form for update page
                         //if login error, get the targetUrl from session again.
 			String targetUrl = getRememberMeTargetUrlFromSession(request);
@@ -91,9 +91,9 @@ public class AdminHomeController {
  
 		}
  
-		/*if (logout != null) {
+		if (logout != null) {
 			model.addAttribute("msg", "You've been logged out successfully.");
-		}*/
+		}
 		return "adminpanel/signin";
 	}
 	

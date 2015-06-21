@@ -14,7 +14,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
@@ -46,7 +45,7 @@ public class MyMultiHttpSecurityConfig {
 				.formLogin().loginPage("/admin/login").permitAll().failureUrl("/admin/login?error").usernameParameter("email")
 					.passwordParameter("password").successHandler(savedRequestAwareAuthenticationSuccessHandler())
 	        .and()
-	        	.logout().logoutUrl("/admin/logout").logoutSuccessUrl("/admin/login?logout").deleteCookies("JSESSIONID")
+	        	.logout().logoutUrl("/admin/logout").logoutSuccessUrl("/admin/login?logout").permitAll().deleteCookies("JSESSIONID")
 	        .and()
 	        	.exceptionHandling().accessDeniedPage("/admin403")
 	        .and()
@@ -57,12 +56,12 @@ public class MyMultiHttpSecurityConfig {
 			web.ignoring().antMatchers("/resources/**");
 		}
 		
-		@Bean
-		public  SavedRequestAwareAuthenticationSuccessHandler savedRequestAwareAuthenticationSuccessHandler() { 
-	               SavedRequestAwareAuthenticationSuccessHandler auth = new SavedRequestAwareAuthenticationSuccessHandler();
+		@Bean(name="customSavedRequestAwareAuthenticationSuccessHandlerAdmin")
+		public  CustomSavedRequestAwareAuthenticationSuccessHandler savedRequestAwareAuthenticationSuccessHandler() { 
+			CustomSavedRequestAwareAuthenticationSuccessHandler auth = new CustomSavedRequestAwareAuthenticationSuccessHandler();
 			auth.setTargetUrlParameter("targetUrl");
 			auth.setDefaultTargetUrl("/admin");
-			auth.setUseReferer(true);
+			//auth.setUseReferer(true);
 			return auth;
 		}
 		
@@ -105,12 +104,12 @@ public class MyMultiHttpSecurityConfig {
 			db.setDataSource(dataSource);
 			return db;
 		}
-		@Bean
-		public  SavedRequestAwareAuthenticationSuccessHandler savedRequestAwareAuthenticationSuccessHandler() { 
-	               SavedRequestAwareAuthenticationSuccessHandler auth = new SavedRequestAwareAuthenticationSuccessHandler();
+		@Bean(name="customSavedRequestAwareAuthenticationSuccessHandlerProfile")
+		public  CustomSavedRequestAwareAuthenticationSuccessHandler savedRequestAwareAuthenticationSuccessHandler() { 
+			CustomSavedRequestAwareAuthenticationSuccessHandler auth = new CustomSavedRequestAwareAuthenticationSuccessHandler();
 			auth.setTargetUrlParameter("targetUrl");
 			auth.setDefaultTargetUrl("/profile");
-			auth.setUseReferer(true);
+			//auth.setUseReferer(true);
 			return auth;
 		}
 		

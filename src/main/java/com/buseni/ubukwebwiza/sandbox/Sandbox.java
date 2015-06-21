@@ -55,7 +55,7 @@ public class Sandbox {
 		//resizeThumbnail();
 		
 		//System.out.println(MimeTypeUtils.parseMimeType(MediaType.IMAGE_JPEG_VALUE));
-		 System.out.println("Start...");
+		 //System.out.println("Start...");
 		//downloadFileFromAmazonS3();
 		 //uploadFileToAmazonS3();
 		// uploadLargeFile();
@@ -66,9 +66,15 @@ public class Sandbox {
 		 System.out.println(UbUtils.normalizeName(test));
 		 System.out.println(UbUtils.normalizeFileName(test));
 			System.out.println("done...");*/
-		 AWSCredentials myCredentials = new BasicAWSCredentials("AKIAJJDKPQYTEKXUQQTA", "BJLerZr6tsUGmv5BEn+Pin0F7dUIszeDSBBjrsyg");
+		 /*AWSCredentials myCredentials = new BasicAWSCredentials("AKIAJJDKPQYTEKXUQQTA", "BJLerZr6tsUGmv5BEn+Pin0F7dUIszeDSBBjrsyg");
 			AmazonS3 s3client = new AmazonS3Client(myCredentials);
-			s3client.deleteBucket("elasticbeanstalk-us-west-2-122458780597");
+			s3client.deleteBucket("elasticbeanstalk-us-west-2-122458780597");*/
+		 String targetUrl  = "http://localhost:9966/ubukwebwiza/profile/login?logout";
+		 System.out.println(targetUrl);
+		 if(targetUrl.contains("/login")){
+			 targetUrl = targetUrl.substring(0, targetUrl.lastIndexOf("login"));
+			 System.out.println(targetUrl);
+		 }
 	}
 
 	private static void getImagesUrl(){

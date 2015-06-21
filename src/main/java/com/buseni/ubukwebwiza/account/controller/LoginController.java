@@ -107,11 +107,12 @@ public class LoginController {
 	        return "redirect:/profile/login";
 	    }
 	    //TODO dont do this
-	   /* UserAccount account = passToken.getUserAccount();
-	    UserDetails userDetails  = userAccountService.loadUserByUsername(account.getEmail());
+	  UserAccount account = passToken.getUserAccount();
+	  /*   UserDetails userDetails  = userAccountService.loadUserByUsername(account.getEmail());
 	    Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 	    SecurityContextHolder.getContext().setAuthentication(auth);*/
-		
+	  model.addFlashAttribute("token", passToken.getToken());
+		model.addFlashAttribute("email", account.getEmail());
 		return "redirect:/change-password";
 	}
 	
@@ -122,17 +123,21 @@ public class LoginController {
 	}
 	
 	@RequestMapping(value = "/change-password", method = RequestMethod.POST)
-	@PreAuthorize("hasRole('ROLE_PROVIDER')")
 	//@ResponseBody
-	public String savePassword(HttpServletRequest request, @RequestParam("password" ) String password, @RequestParam("passwordConfirm") String passwordConfirm, RedirectAttributes attributes) {
+	public String savePassword(HttpServletRequest request, @RequestParam("token") String token, @RequestParam("email") String email, @RequestParam("password" ) String password, @RequestParam("passwordConfirm") String passwordConfirm, RedirectAttributes attributes) {
 	  if(!password.equals(passwordConfirm)){
 		  String error = messages.getMessage("error.passwordMatches", null, request.getLocale());		
 	    	LOGGER.error("Password does not match!");
-			attributes.addFlashAttribute("error", error);			
+			attributes.addFlashAttribute("error", error);		
+			attributes.addFlashAttribute("email", email);
+			attributes.addFlashAttribute("token",token);
 			return "redirect:/change-password";
 	  }		
-	  UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-	  UserAccount account  =  userAccountService.findByUsername(user.getUsername());
+	  PasswordResetToken passToken = userAccountService.getPasswordResetToken(token);
+	  UserAccount account  =  userAccountService.findByUsername(email);
+	  if (passToken == null || account == null || passToken.getUserAccount().getId() != account.getId()) {
+	        return "redirect:/";
+	    }
 		userAccountService.changeUserPassword(account, password);
 	    String message = messages.getMessage("message.resetPasswordSuc", null, request.getLocale());			
 		attributes.addFlashAttribute("message", message);
