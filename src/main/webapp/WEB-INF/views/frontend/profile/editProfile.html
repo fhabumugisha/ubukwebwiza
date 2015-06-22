@@ -22,20 +22,33 @@
 		<div class="row">
 				<!-- Content -->
 				<div id="content" class="col-md-12">
-				
 					<!-- Nav tabs -->
-					<ul class="nav nav-tabs responsive" id="editProfileTab">
-						<li class="active"><a href="#personnalInfo" data-toggle="tab" th:text="#{message.editProfile.myAccount}">Profile </a></li>
-						<li role="accountInfo"><a href="#accountInfo" aria-controls="accountInfo" role="tab" data-toggle="tab" th:text="#{message.editProfile.accountInfo}">Account Info</a></li>
-						<li><a href="#photos" data-toggle="tab" th:text="#{message.editProfile.photos}">Photos</a></li>
-						<li><a href="#services" data-toggle="tab" th:text="#{message.editProfile.services}">Services</a></li>
-						<li><a href="#socialMedia" data-toggle="tab" th:text="#{message.editProfile.socialMedia}">Social media</a></li>
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#personnalInfo" data-toggle="tab">Personnal
+								Info</a></li>
+						<li role="accountInfo"><a href="#accountInfo" aria-controls="accountInfo" role="tab" data-toggle="tab">Account Info</a></li>
+						<li><a href="#photos" data-toggle="tab">Photos</a></li>
+						<li><a href="#services" data-toggle="tab">Services</a></li>
 					</ul>
 					<!-- Tab panes -->
-					<div class="tab-content responsive">
-						
-        
-        
+					<div class="tab-content">
+						<div class="container">
+    <div class="row">
+        <div class="col-md-2 col-sm-2 col-xs-2">
+            <ul class="nav nav-pills nav-stacked">
+                <li class="active"><a href="#"><i class="fa fa-home fa-fw"></i>Home</a></li>
+                <li><a href="http://www.jquery2dotnet.com"><i class="fa fa-list-alt fa-fw"></i>Widgets</a></li>
+                <li><a href="http://www.jquery2dotnet.com"><i class="fa fa-file-o fa-fw"></i>Pages</a></li>
+                <li><a href="http://www.jquery2dotnet.com"><i class="fa fa-bar-chart-o fa-fw"></i>Charts</a></li>
+                <li><a href="http://www.jquery2dotnet.com"><i class="fa fa-table fa-fw"></i>Table</a></li>
+                <li><a href="http://www.jquery2dotnet.com"><i class="fa fa-tasks fa-fw"></i>Forms</a></li>
+                <li><a href="http://www.jquery2dotnet.com"><i class="fa fa-calendar fa-fw"></i>Calender</a></li>
+                <li><a href="http://www.jquery2dotnet.com"><i class="fa fa-book fa-fw"></i>Library</a></li>
+                <li><a href="http://www.jquery2dotnet.com"><i class="fa fa-pencil fa-fw"></i>Applications</a></li>
+                <li><a href="http://www.jquery2dotnet.com"><i class="fa fa-cogs fa-fw"></i>Settings</a></li>
+            </ul>
+        </div>
+        <div class="col-md-10 ">
             <!-- Personnal info pane -->
 						<div class="tab-pane fade in " th:classappend="${currentTab == 'personnalInfo' ? 'active' : ''}" id="personnalInfo">
 						<form role="form" th:action="@{/profile/update}" th:object="${provider}" 	method="post" enctype="multipart/form-data">
@@ -46,11 +59,11 @@
 																							
 
 									<div class="fileinput fileinput-new" data-provides="fileinput">
-										<div class="fileinput-new thumbnail"  style="width: 340px; height: 230px;" >
+										<div class="fileinput-new thumbnail" >
 											<img data-src="holder.js/100%x100%" alt="Select profile pic"
 												th:unless="*{profilPicture}"></img> 
 												<img
-												id="profilPicturePreview" width="340" height="230"
+												id="profilPicturePreview" 
 												alt="profile pic" th:if="*{profilPicture}"
 												th:alt="${businessName}"
 												th:src="@{'https://ubfiles.s3.amazonaws.com/'+*{profilPicture.filename}} "></img>
@@ -60,7 +73,7 @@
 										<div class="fileinput-preview fileinput-exists thumbnail" ></div>
 										<div>
 											<span class="btn btn-default btn-file"><span
-												class="fileinput-new" th:text="#{message.editProfile.changeProfilePicture}">Change photo</span><span
+												class="fileinput-new">Select image</span><span
 												class="fileinput-exists">Change</span>
 												<input type="file" 	name="file" /></span> <a href="#"
 												class="btn btn-default fileinput-exists"
@@ -140,16 +153,61 @@
 
 										<div class="panel-body">
 											
-											
-												<div class="form-group" 	th:classappend="${#fields.hasErrors('aboutme')}? has-error">
-													<label for="address" th:text="#{provider.list.aboutme}">About me</label>
-													<textarea class="form-control" rows="5" id="aboutme" th:field="*{aboutme}" maxlength="500"></textarea>
-													<span class="text-danger"
-										th:if="${#fields.hasErrors('aboutme')}" th:errors="*{aboutme}">Required
-										field</span>
+												<div class="form-group" th:classappend="${#fields.hasErrors('website')}? has-error">
+													<label for="website" th:text="#{provider.list.website}">Website</label>
+													<div class="input-group">
+														<span class="input-group-addon"><i
+															class="fa fa-link"></i></span> <input type="text"
+															class="form-control" id="website" th:field="*{website}"
+															placeholder="Enter your Website url " aria-describedby="wHelpBlock"/>
+															
+															<span class="text-danger" th:if="${#fields.hasErrors('website')}" th:errors="*{website}">Required field</span>
+													</div>
+													<span id="wHelpBlock" class="help-block">Your website url (www.yourdomain.com)</span>
+
+												</div>
+												<div class="form-group" th:classappend="${#fields.hasErrors('fbUsername')}? has-error">
+													<label for="fbUsername" th:text="#{provider.list.fbusername}">Facebook user name</label>
+													<div class="input-group">
+														<span class="input-group-addon">
+																			<i class="fa fa-facebook"></i>									
+														</span> <input type="text"
+															class="form-control" id="fbUsername" th:field="*{fbUsername}" 
+															placeholder="Enter your facebook page url " aria-describedby="fbHelpBlock"/>
+															
+															<span class="text-danger" th:if="${#fields.hasErrors('fbUsername')}" th:errors="*{fbUsername}">Required field</span>
+													</div>
+													<span id="fbHelpBlock" class="help-block">Your facebook page url (www.facebook.com/yourname)</span>
+
+												</div>
+												<div class="form-group" th:classappend="${#fields.hasErrors('twitterUsername')}? has-error">
+													<label for="twitterUsername" th:text="#{provider.list.twitterusername}">Twitter user name</label>
+													<div class="input-group">
+														<span class="input-group-addon">	<i class="fa fa-twitter"></i> 				
+														</span> <input type="text" th:field="*{twitterUsername}" 
+															class="form-control" id="twitterUsername"
+															placeholder="Enter your twitter page url" aria-describedby="tHelpBlock"/>
+															
+															<span class="text-danger" th:if="${#fields.hasErrors('twitterUsername')}" th:errors="*{twitterUsername}">Required field</span>
+													</div>
+														<span id="tHelpBlock" class="help-block">Your twitter page url (www.twitter.com/yourname)</span>
 												</div>
 
-												
+												<!-- <div class="form-group">
+													<label for="exampleInputEmail1">Google plus user
+														name</label>
+													<div class="input-group">
+														<span class="input-group-addon"><i
+															class="fa fa-google-plus"></i></span> <input type="text"
+															class="form-control" id="exampleInputEmail1"
+															placeholder="Enter user name"/>
+													</div>
+
+												</div> -->
+
+
+
+											
 
 										</div>
 									</div>
@@ -164,17 +222,18 @@
 								</div>
 							</div>
 							</form>
-						
+						</div>
         </div>
-  
+    </div>
+</div>
 						
 						<!-- Account info pane -->
 						<div class="tab-pane fade" th:classappend="${currentTab == 'accountInfo' ? 'active' : ''}" id="accountInfo">
-							<form role="form"  th:action="@{/profile/updateAccount}" th:object="${changePasswordForm}"	method="post">
+							<form role="form"  th:action="@{/profile/updateAccount}" 	method="post">
 								<div class="form-group">
 									<label for="email" th:text="#{provider.list.email}">Email</label>
 									<div class="input-group">
-										<span class="input-group-addon"><i class="fa fa-envelope"></i></span> <input th:field="${provider.account.email}"
+										<span class="input-group-addon">@</span> <input th:field="${provider.account.email}"
 											id="email" type="email" disabled="disabled"
 											value="email@example.com"/>
 
@@ -184,21 +243,21 @@
 									<hr />
 
 								</div>
-								<!-- <div class="form-group">
+								<div class="form-group">
 									<label for="currentPassword" th:text="#{provider.list.currentPassword}">Current password</label>
 									<div class="input-group col-md-5">
 										<span class="input-group-addon"><i class="fa fa-lock"></i>
 										</span> <input type="password" class="form-control" id="currentPassword" required="required"
 											placeholder="current password" name="currentPassword"/>
 									</div>
-								</div> -->
+								</div>
 								<div id="pwd-container">
 								<div class="form-group" >
 									<label for="userPassword" th:text="#{provider.list.newPassword}">New password</label>
 									<div class="input-group col-md-5">
 										<span class="input-group-addon"><i class="fa fa-lock"></i>
 										</span> <input type="password" class="form-control " id="userPassword" required="required"
-											placeholder="new password" th:fied="*{password}"/>
+											placeholder="new password" name="password"/>
 									</div>
 								</div>
 								</div>
@@ -207,7 +266,7 @@
 									<div class="input-group col-md-5">
 										<span class="input-group-addon"><i class="fa fa-lock"></i>
 										</span> <input type="password" class="form-control " id="inputNp"
-											placeholder="Retype new password" th:fied="*{passwordConfirm}" required="required"/>
+											placeholder="Retype new password" name="passwordConfirm" required="required"/>
 									</div>
 								</div>
 
@@ -566,90 +625,6 @@
 
 							</div>
 						</div>
-						     <!-- Personnal info pane -->
-						<div class="tab-pane fade in " th:classappend="${currentTab == 'socialMedia' ? 'active' : ''}" id="socialMedia">
-						<form role="form" th:action="@{/profile/updateSocialMedia}" th:object="${provider}" 	method="post" >
-						<input type="text" hidden="hidden" th:field="*{id}" class="hidden" />
-							
-							<div class="row">
-							
-							
-								<div class="col-md-4 ">
-									<div class="panel  panel-default">
-
-										<div class="panel-body">
-											
-												<div class="form-group" th:classappend="${#fields.hasErrors('website')}? has-error">
-													<label for="website" th:text="#{provider.list.website}">Website</label>
-													<div class="input-group">
-														<span class="input-group-addon"><i
-															class="fa fa-link"></i></span> <input type="text"
-															class="form-control" id="website" th:field="*{website}"
-															placeholder="Enter your Website url " aria-describedby="wHelpBlock"/>
-															
-															<span class="text-danger" th:if="${#fields.hasErrors('website')}" th:errors="*{website}">Required field</span>
-													</div>
-													<span id="wHelpBlock" class="help-block">Your website url (www.yourdomain.com)</span>
-
-												</div>
-												<div class="form-group" th:classappend="${#fields.hasErrors('fbUsername')}? has-error">
-													<label for="fbUsername" th:text="#{provider.list.fbusername}">Facebook user name</label>
-													<div class="input-group">
-														<span class="input-group-addon">
-																			<i class="fa fa-facebook"></i>									
-														</span> <input type="text"
-															class="form-control" id="fbUsername" th:field="*{fbUsername}" 
-															placeholder="Enter your facebook page url " aria-describedby="fbHelpBlock"/>
-															
-															<span class="text-danger" th:if="${#fields.hasErrors('fbUsername')}" th:errors="*{fbUsername}">Required field</span>
-													</div>
-													<span id="fbHelpBlock" class="help-block">Your facebook page url (www.facebook.com/yourname)</span>
-
-												</div>
-												<div class="form-group" th:classappend="${#fields.hasErrors('twitterUsername')}? has-error">
-													<label for="twitterUsername" th:text="#{provider.list.twitterusername}">Twitter user name</label>
-													<div class="input-group">
-														<span class="input-group-addon">	<i class="fa fa-twitter"></i> 				
-														</span> <input type="text" th:field="*{twitterUsername}" 
-															class="form-control" id="twitterUsername"
-															placeholder="Enter your twitter page url" aria-describedby="tHelpBlock"/>
-															
-															<span class="text-danger" th:if="${#fields.hasErrors('twitterUsername')}" th:errors="*{twitterUsername}">Required field</span>
-													</div>
-														<span id="tHelpBlock" class="help-block">Your twitter page url (www.twitter.com/yourname)</span>
-												</div>
-
-												<!-- <div class="form-group">
-													<label for="exampleInputEmail1">Google plus user
-														name</label>
-													<div class="input-group">
-														<span class="input-group-addon"><i
-															class="fa fa-google-plus"></i></span> <input type="text"
-															class="form-control" id="exampleInputEmail1"
-															placeholder="Enter user name"/>
-													</div>
-
-												</div> -->
-
-
-
-											
-
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-4 ">
-									<div class="pull-right">
-										<button type="submit" class="btn btn-primary"><span th:text="#{update.button.label}">Update</span></button>
-									</div>
-
-								</div>
-							</div>
-							</form>
-						
-        </div>
 					</div>
 
 

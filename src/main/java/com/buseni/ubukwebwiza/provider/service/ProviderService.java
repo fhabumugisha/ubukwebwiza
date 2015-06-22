@@ -28,6 +28,13 @@ public interface ProviderService {
 	void updateInfos(Provider provider) throws BusinessException;
 	
 	/**
+	 * Update provider related info
+	 * @param provider
+	 * @throws BusinessException
+	 */
+	void updateSocialMedia(Provider provider) throws BusinessException;
+	
+	/**
 	 * 
 	 * @param weddingService
 	 * @return

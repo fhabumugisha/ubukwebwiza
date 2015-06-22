@@ -372,13 +372,26 @@ public class ProviderServiceImpl implements ProviderService {
 		bdd.setAddress(provider.getAddress());
 		bdd.setPhoneNumber(provider.getPhoneNumber());
 		bdd.setDistrict(provider.getDistrict());
+		bdd.getAccount().setLastUpdate(new Date());
+					
+		providerRepo.save(bdd);
+		
+	}
+
+	@Override
+	@Transactional
+	public void updateSocialMedia(Provider provider) throws BusinessException {
+		if(null == provider){
+			throw new NullPointerException("Provider shouldn't be null");
+		}
+		
+		Provider bdd =  providerRepo.findOne(provider.getId());
 		bdd.setWebsite(provider.getWebsite());
 		bdd.setFbUsername(provider.getFbUsername());
 		bdd.setTwitterUsername(provider.getTwitterUsername());
 		bdd.getAccount().setLastUpdate(new Date());
 					
 		providerRepo.save(bdd);
-		
 	}
 
 

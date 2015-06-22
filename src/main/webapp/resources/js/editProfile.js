@@ -42,6 +42,7 @@ $(document).on("click",".deleteProfilePhoto",function(event){
 	$("#dialog-confirm").dialog({
 		resizable: false,
 		height:200,
+		width : 400,
 		modal: true,
 		buttons: {
 			Delete: function() {
@@ -155,6 +156,7 @@ $(document).on("click",".deleteProfileService",function(event){
 	$("#dialog-confirm").dialog({
 		resizable: false,
 		height:200,
+		width : 400,
 		modal: true,
 		buttons: {
 			Delete: function() {
