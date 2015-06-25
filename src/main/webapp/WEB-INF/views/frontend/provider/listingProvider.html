@@ -125,18 +125,15 @@
 									
 									</div>
 									<div class="col-md-8 col-sm-9">
-										<h3>
-										
-										<a href="detailProvider.html"
-												th:href="@{'/providers/'+${provider.id}}"
-												>  <span th:text="${provider.businessName}">Thumbnail label</span></a> 										
-												
-											
+										<h3>										
+										<a href="detailProvider.html"	th:href="@{'/providers/'+${provider.id}}"> 
+										 <span th:text="${provider.businessName}">Thumbnail label</span>
+										 </a> 										
 										</h3>
 										
 										<h5>
 										<strong>Services&nbsp;:&nbsp;</strong>
-										<th:block th:each="providerService : ${provider.providerWeddingServices}">
+										<th:block th:each="providerService : ${provider.providerWeddingServices}" th:if="${#bools.isTrue(providerService.enabled)}">
 											<span th:text="${providerService.weddingService.libelle}"></span>
 											<span th:text="${providerServiceStat.last}? '' : ', ' "></span>
 										</th:block>
@@ -159,7 +156,7 @@
 
 								<hr />
 							</th:block>
-							<div class="row">
+							<div class="row" th:if="${not #lists.isEmpty(providers)}">
 								<div class="col-md-12">
 								<div th:replace="util :: paginator ">
 									<ul class="pagination pagination-lg">
@@ -175,6 +172,15 @@
 									
 								</div>
 							</div>
+							<div class="row" th:if="${#lists.isEmpty(providers)}">
+								<div class="col-md-12">
+								<div class="alert alert-warning fade in">
+									<a href="#" class="close" data-dismiss="alert">&times;</a> <span
+										th:text="#{message.providersearch.noresults}">No results</span> 
+								</div>
+								
+								</div>
+								</div>
 							<div class="row" th:remove="all">
 								<div class="col-md-6">
 									<img data-src="holder.js/100%x150" alt="..."></img>
