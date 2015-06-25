@@ -233,8 +233,8 @@ public class EditProfileController {
 			}
 			providerWeddingServiceManager.create(vws);				
 			model.addAttribute("messageService", message);
-			provider.getProviderWeddingServices().add(vws);
-			model.addAttribute("provider", provider);
+			Provider updated =  providerService.update(provider);
+			model.addAttribute("provider", updated);
 			model.addAttribute("currentTab", "services");
 			return "frontend/account/editProfile::services-bloc";
 
@@ -306,17 +306,14 @@ public class EditProfileController {
 
 		}
 
-		//	try {
 		photo.setDescription(photoForm.getDescription());
 		photo.setId(photoForm.getId());
 		photo.setEnabled(photoForm.isEnabled());
-		Provider provider = (Provider) model.asMap().get("provider");
-		if(photo.getId() == null){			
-				provider.getPhotos().add(photo);
-		}
 		photoService.addOrUpdate(photo);
-		providerService.update(provider);
-		model.addAttribute("provider", provider);
+		
+		//TODO improve this
+		Provider provider = (Provider) model.asMap().get("provider");
+		model.addAttribute("provider", providerService.findOne(provider.getId()));
 
 		
 
@@ -343,7 +340,6 @@ public class EditProfileController {
 			return "frontend/account/editProfile::photos-bloc";
 		} */
 	}
-
 
 
 

@@ -55,7 +55,7 @@ public class PhotoServiceImpl implements PhotoService {
 	 */
 	@Override
 	@Transactional
-	public void addOrUpdate(Photo photo) {
+	public Photo addOrUpdate(Photo photo) {
 		// control before save
 		if (photo == null) {
 			throw new NullPointerException();
@@ -64,6 +64,7 @@ public class PhotoServiceImpl implements PhotoService {
 			photo.setCreatedAt(new Date());
 			photo.setLastUpdate(new Date());
 			photoRepo.save(photo);
+			return photo;
 		} else {
 			Photo photoBdd = photoRepo.findOne(photo.getId());
 			photoBdd.setLastUpdate( new Date());
@@ -77,6 +78,7 @@ public class PhotoServiceImpl implements PhotoService {
 				photoBdd.setFilename(photo.getFilename());
 			}	
 			photoRepo.save(photoBdd);
+			return photoBdd;
 		}
 	
 

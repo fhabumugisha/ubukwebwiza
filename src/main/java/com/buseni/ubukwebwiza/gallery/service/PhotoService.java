@@ -14,7 +14,7 @@ public interface PhotoService {
 	 * @param weddingService
 	 * @return 
 	 */
-	void addOrUpdate(Photo photo) ;
+	Photo addOrUpdate(Photo photo) ;
 	
 	/**
 	 * 
