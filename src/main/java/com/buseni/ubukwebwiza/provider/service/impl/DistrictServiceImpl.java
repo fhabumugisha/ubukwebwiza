@@ -3,6 +3,7 @@ package com.buseni.ubukwebwiza.provider.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -30,6 +31,7 @@ public class DistrictServiceImpl implements DistrictService {
 	}
 	
 	@Override
+	@Cacheable(value="findDistricts")
 	public List<District> findByEnabled(boolean enabled) {
 		return districtRepo.findByEnabled(enabled);
 	}

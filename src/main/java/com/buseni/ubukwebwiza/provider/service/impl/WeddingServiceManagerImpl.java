@@ -3,6 +3,7 @@ package com.buseni.ubukwebwiza.provider.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -36,8 +37,8 @@ public class WeddingServiceManagerImpl implements WeddingServiceManager {
 		return weddingServiceRepo.findAll(pr);
 	}
 	@Override
-	public List<WeddingService> findByEnabled(boolean enabled) {
-		
+	@Cacheable(value="findWeddingServices")
+	public List<WeddingService> findByEnabled(boolean enabled) {		
 		return weddingServiceRepo.findByEnabled(enabled);
 		
 	}
