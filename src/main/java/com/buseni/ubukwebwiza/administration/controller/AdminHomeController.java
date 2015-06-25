@@ -41,7 +41,6 @@ import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
 import com.buseni.ubukwebwiza.contactus.domain.ContactusForm;
 import com.buseni.ubukwebwiza.contactus.service.ContactusService;
 @Controller
-//@SessionAttributes({"allDistricts", "allWeddingServices"})
 @Navigation(url="/admin" ,name = "Dashbord")
 public class AdminHomeController {
 	public  static final Logger LOGGER = LoggerFactory.getLogger(AdminHomeController.class);
@@ -76,7 +75,7 @@ public class AdminHomeController {
 	public String login(@RequestParam(value = "error", required = false) String error,
 			  @RequestParam(value = "logout", required = false) String logout, 
 	          HttpServletRequest request,Model model){
-		//model.addAttribute("currentMenu", "dashbord");
+		
 		if (error != null) {
 		model.addAttribute("error", "Invalid username and password!");
  

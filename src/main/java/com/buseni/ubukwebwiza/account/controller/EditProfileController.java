@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -50,46 +51,48 @@ import com.buseni.ubukwebwiza.utils.UbUtils;
 
 @Controller
 @Navigation(url="/profile", name="My profile" , parent = HomeController.class)
+@SessionAttributes(value="provider")
 public class EditProfileController {
-	
+
 	public  static final Logger LOGGER = LoggerFactory.getLogger(EditProfileController.class);
-	
+
 	@Autowired
 	private UserAccountService userAccountService;
-	
+
 	@Autowired
 	private ProviderService providerService;
-	
+
 	@Autowired
 	private WeddingServiceManager weddingServiceManager;
-	
+
 	@Autowired
 	private ProviderWeddingServiceManager providerWeddingServiceManager;
-	
+
 	@Autowired
 	private DistrictService districtService;
-	
+
 	@Autowired
 	private PhotoService photoService;
-	
-	 @Autowired
-	 private MessageSource messages;
-	 
+
+	@Autowired
+	private MessageSource messages;
+
 	@Autowired
 	private AmazonS3Util amazonS3Util;
-	
+
 	@Autowired
 	private PasswordEncoder encoder;
-	
+
 	@RequestMapping(value="/profile", method=RequestMethod.GET)
-	public String myAccount( Model model){
+	public String myAccount( Model model, Principal principal){
+		model.addAttribute("provider", providerService.findProviderByUsername(principal.getName()));		
 		if(!model.containsAttribute("currentTab")){
 			model.addAttribute("currentTab", "personnalInfo");
 		}
-	
+
 		return "frontend/account/editProfile";
 	}
-	
+
 	@RequestMapping(value="/profile/update", method=RequestMethod.POST)
 	@PreAuthorize("hasRole('ROLE_PROVIDER')")
 	public String update(HttpServletRequest request, @Valid @ModelAttribute Provider provider , 
@@ -98,10 +101,10 @@ public class EditProfileController {
 		attributes.addFlashAttribute("currentTab", "personnalInfo");
 		//Validation erros	
 		if (result.hasErrors()) {
-			LOGGER.info("Profile-updater: " + result.toString());
+			LOGGER.info("Profile-update: " + result.toString());
 			attributes.addFlashAttribute("org.springframework.validation.BindingResult.provider", result);
 			attributes.addFlashAttribute("provider", provider);
-			return "frontend/account/editProfile";
+			return "redirect:/profile";
 
 		}
 		String filename = "no_person.jpg";
@@ -112,8 +115,9 @@ public class EditProfileController {
 				//attributes.addAttribute("org.springframework.validation.BindingResult.provider",result);
 				attributes.addFlashAttribute("provider", provider);	  
 				String  error = messages.getMessage("error.file.maxsizeexceeded", new String[]{ImagesUtils.MAXSIZE+ " byte."}, request.getLocale());	
-				attributes.addFlashAttribute("error", error);
-				return "frontend/account/editProfile";
+				attributes.addFlashAttribute("errorPersonnalInfo", error);
+				attributes.addFlashAttribute("provider", provider);
+				return "redirect:/profile";
 			}
 
 			filename = UbUtils.normalizeFileName(file.getOriginalFilename());
@@ -140,13 +144,13 @@ public class EditProfileController {
 			LOGGER.error("Profile-update error: " + result.toString());
 			attributes.addFlashAttribute("org.springframework.validation.BindingResult.provider", result);
 			attributes.addFlashAttribute("provider", provider);
-			return "frontend/account/editProfile";
+			return "redirect:/profile";
 		}
 		String message = messages.getMessage("message.profileUpdateSuccess", null, request.getLocale());			
-		attributes.addFlashAttribute("message", message);
+		attributes.addFlashAttribute("messagePersonnalInfo", message);
 		return "redirect:/profile";
 	}
-	
+
 	@RequestMapping(value="/profile/updateSocialMedia", method=RequestMethod.POST)
 	@PreAuthorize("hasRole('ROLE_PROVIDER')")
 	public String updateSocialMedia(HttpServletRequest request, @ModelAttribute Provider provider , 
@@ -155,53 +159,44 @@ public class EditProfileController {
 		attributes.addFlashAttribute("currentTab", "socialMedia");
 		//Validation erros	
 		if (result.hasErrors()) {
-			LOGGER.info("Profile-updater: " + result.toString());
+			LOGGER.info("Profile-updateSocialMedia errors: " + result.toString());
 			attributes.addFlashAttribute("org.springframework.validation.BindingResult.provider", result);
 			attributes.addFlashAttribute("provider", provider);
-			return "frontend/account/editProfile";
+			return "redirect:/profile";
 
 		}
-		
+
 		try {
 			providerService.updateSocialMedia(provider);			
-			
+
 			//Business errors	
 		} catch (final BusinessException e) {
 			ErrorsHelper.rejectErrors(result, e.getErrors());
-			LOGGER.error("Profile-updateSocialMedia error: " + result.toString());
+			LOGGER.error("Profile-updateSocialMedia errors: " + result.toString());
 			attributes.addFlashAttribute("org.springframework.validation.BindingResult.provider", result);
 			attributes.addFlashAttribute("provider", provider);
-			return "frontend/account/editProfile";
+			return "redirect:/profile";
 		}
 		String message = messages.getMessage("message.profileUpdateSuccess", null, request.getLocale());			
-		attributes.addFlashAttribute("message", message);
+		attributes.addFlashAttribute("messageSocialMedia", message);
 		return "redirect:/profile";
 	}
-	
+
 	@RequestMapping(value = "/profile/updateAccount", method = RequestMethod.POST)
 	@PreAuthorize("hasRole('ROLE_PROVIDER')")
-	public String updateAccount(HttpServletRequest request, Principal principal, @Valid @ModelAttribute("changePasswordForm") ChangePasswordForm changePasswordForm,  BindingResult result, RedirectAttributes attributes) {
+	public String updateAccount(HttpServletRequest request, Principal principal, @RequestParam(value="currentPassword", required=false ) String currentPassword,  @RequestParam("password" ) String password, @RequestParam("passwordConfirm") String passwordConfirm, RedirectAttributes attributes) {
 		//Provider provider = providerService.findProviderByUsername(principal.getName());
 		attributes.addFlashAttribute("currentTab", "accountInfo");
-		//Validation erros	
-				if (result.hasErrors()) {
-					LOGGER.info("Profile-updater: " + result.toString());
-					attributes.addFlashAttribute("org.springframework.validation.BindingResult.provider", result);
-				//	attributes.addAttribute("provider", provider);
-					return "frontend/account/editProfile";
-
-				}
-				
-				
-		if(!changePasswordForm.getPassword().equals(changePasswordForm.getPasswordConfirm())){
-		  String error = messages.getMessage("error.passwordMatches", null, request.getLocale());		
-	    	LOGGER.error("Password does not match!");
-			attributes.addFlashAttribute("error", error);	
+	
+		if(!password.equals(passwordConfirm)){
+			String error = messages.getMessage("error.passwordMatches", null, request.getLocale());		
+			LOGGER.error("Password does not match!");
+			attributes.addFlashAttribute("errorAccountInfo", error);	
 			//attributes.addAttribute("provider", provider);
-			return "frontend/account/editProfile";
-	  }		
-		Provider provider = providerService.findProviderByUsername(principal.getName());
-		UserAccount account  = provider.getAccount();
+			return "redirect:/profile";
+		}		
+		//Provider provider = providerService.findProviderByUsername(principal.getName());
+		UserAccount account  = userAccountService.findByUsername(principal.getName());
 		//TODO is it necessary to ask current password?
 		/*if(!account.getPassword().equals(encoder.encode(currentPassword))){
 			 String error = messages.getMessage("error.currentPassword", null, request.getLocale());		
@@ -210,47 +205,48 @@ public class EditProfileController {
 				//attributes.addFlashAttribute("provider", provider);
 				return "redirect:/profile";
 		}*/
-		userAccountService.changeUserPassword(account, changePasswordForm.getPassword());
-	    String message = messages.getMessage("message.passwordChangedSuccess", null, request.getLocale());			
-		attributes.addFlashAttribute("message", message);		
-	    return "redirect:/profile";
+		userAccountService.changeUserPassword(account, password);
+		String message = messages.getMessage("message.passwordChangedSuccess", null, request.getLocale());			
+		attributes.addFlashAttribute("messageAccountInfo", message);		
+		return "redirect:/profile";
 	}
-	
-	
-	
+
+
+
 	@RequestMapping(value="/profile/addService",method=RequestMethod.POST)
-	public String addService( HttpServletRequest request, Principal principal, @ModelAttribute ServiceForm serviceForm, Model model) throws BusinessException{		
+	public String addService( HttpServletRequest request, @ModelAttribute ServiceForm serviceForm, Model model) throws BusinessException{		
 		LOGGER.info("IN: profile/addService-POST");
-		Provider provider = providerService.findProviderByUsername(principal.getName());
-			ProviderWeddingService vws  = new ProviderWeddingService();				
-			try {
-				vws.setDescription(serviceForm.getDescription());
-				vws.setId(serviceForm.getId());
-				vws.setEnabled(serviceForm.isEnabled());
-				vws.setProvider(provider);
-				WeddingService  ws = weddingServiceManager.findOne(serviceForm.getIdcService());
-				vws.setWeddingService(ws);		
-				String message  =  "";
-				if(vws.getId() == null){
-					 message = messages.getMessage("message.profileServiceAddSuccess", new String[]{ ws.getLibelle()}, request.getLocale());	
-				}else{
-					message = messages.getMessage("message.profileServiceUpdateSuccess", new String[]{ ws.getLibelle()}, request.getLocale());	
-				}
-				providerWeddingServiceManager.create(vws);				
-				model.addAttribute("message", message);
-				model.addAttribute("provider", provider);
-				model.addAttribute("currentTab", "services");
-				return "frontend/account/editProfile::services-bloc";
-				
-				//Business errors
-			} catch (final BusinessException e) {
-				//ErrorsHelper.rejectErrors(result, e.getErrors());
-				LOGGER.error("profile/addService-POST error adding service");
-				model.addAttribute("currentTab", "services");
-				return "frontend/account/editProfile::services-bloc";
-											}
+		Provider provider = (Provider) model.asMap().get("provider");
+		ProviderWeddingService vws  = new ProviderWeddingService();				
+		try {
+			vws.setDescription(serviceForm.getDescription());
+			vws.setId(serviceForm.getId());
+			vws.setEnabled(serviceForm.isEnabled());
+			vws.setProvider(provider);
+			WeddingService  ws = weddingServiceManager.findOne(serviceForm.getIdcService());
+			vws.setWeddingService(ws);		
+			String message  =  "";
+			if(vws.getId() == null){
+				message = messages.getMessage("message.profileServiceAddSuccess", new String[]{ ws.getLibelle()}, request.getLocale());	
+			}else{
+				message = messages.getMessage("message.profileServiceUpdateSuccess", new String[]{ ws.getLibelle()}, request.getLocale());	
+			}
+			providerWeddingServiceManager.create(vws);				
+			model.addAttribute("messageService", message);
+			provider.getProviderWeddingServices().add(vws);
+			model.addAttribute("provider", provider);
+			model.addAttribute("currentTab", "services");
+			return "frontend/account/editProfile::services-bloc";
+
+			//Business errors
+		} catch (final BusinessException e) {
+			//ErrorsHelper.rejectErrors(result, e.getErrors());
+			LOGGER.error("profile/addService-POST error adding service");
+			model.addAttribute("currentTab", "services");
+			return "frontend/account/editProfile::services-bloc";
+		}
 	}
-	
+
 	@RequestMapping(value="/profile/editService", method=RequestMethod.GET)
 	public String editService(  @RequestParam(value="id") Integer id, Model model) {
 		LOGGER.info("IN: profile/editService-GET");
@@ -261,25 +257,27 @@ public class EditProfileController {
 		serviceForm.setIdcService(vws.getWeddingService().getId());
 		serviceForm.setEnabled(vws.isEnabled());		
 		model.addAttribute("serviceForm", serviceForm);	
-			
+
 		model.addAttribute("currentTab", "services");
 		return "frontend/account/editProfile::services-bloc";
 	}
-	
+
 	@RequestMapping(value="/profile/deleteService", method=RequestMethod.GET)
 	public String deleteService( HttpServletRequest request,  @RequestParam(value="id", required=true) Integer id, Model model) {
 		LOGGER.info("IN: profile/deleteService-GET");
 		ProviderWeddingService vws =  providerWeddingServiceManager.findById(id);
 		providerWeddingServiceManager.delete(id);
+		Provider provider = (Provider) model.asMap().get("provider");
+		provider.getProviderWeddingServices().remove(vws);
+		model.addAttribute("provider", provider);
 		String message = messages.getMessage("message.profileServiceDeleteSuccess", new String[]{ vws.getWeddingService().getLibelle()}, request.getLocale());	
-		model.addAttribute("message", message);	
+		model.addAttribute("messageService", message);	
 		return "frontend/account/editProfile::services-bloc";
 	}
-	
+
 	@RequestMapping(value="/profile/addPhoto", method=RequestMethod.POST)
-	public String savePhoto(HttpServletRequest request, Principal principal,@ModelAttribute PhotoForm photoForm,  Model model) throws BusinessException{		
+	public String savePhoto(HttpServletRequest request, @ModelAttribute PhotoForm photoForm,  Model model) throws BusinessException{		
 		LOGGER.info("IN: profile/addPhoto-POST");
-		Provider provider = providerService.findProviderByUsername(principal.getName());		
 		model.addAttribute("currentTab", "photos");
 		MultipartFile file  = photoForm.getFile();
 		Photo photo = new Photo();
@@ -287,13 +285,10 @@ public class EditProfileController {
 		if (file != null && !file.isEmpty()) {
 			if(file.getSize() > ImagesUtils.MAXSIZE){
 				LOGGER.error("File size should be less than " + ImagesUtils.MAXSIZE+ " byte.");				
-				//result.reject(ImagesUtils.MAX_SIZE_EXCEEDED_ERROR, new String[] {String.valueOf(ImagesUtils.MAXSIZE)}, "File size should be less than " + ImagesUtils.MAXSIZE+ " byte.");
-				//attributes.addAttribute("org.springframework.validation.BindingResult.photoForm",result);
 				String  error = messages.getMessage("error.file.maxsizeexceeded", new String[]{ImagesUtils.MAXSIZE+ " byte."}, request.getLocale());	
-				model.addAttribute("error", error);
+				model.addAttribute("errorPhoto", error);
 				model.addAttribute("photoForm", photoForm);
-				model.addAttribute("provider", provider);	     
-				
+
 				return "frontend/account/editProfile::photos-bloc";
 			}
 
@@ -304,45 +299,42 @@ public class EditProfileController {
 
 		} else if (photoForm.getId() == null) {
 			LOGGER.error("You failed to upload  because the file was empty.");
-			//result.reject("error.file.empty");
-			//attributes.addAttribute("org.springframework.validation.BindingResult.photoForm",result);
-			//model.addAttribute("errors", "You failed to upload  because the file was empty.");
 			String  error = messages.getMessage("error.file.empty", null, request.getLocale());
-			model.addAttribute("error", error);
+			model.addAttribute("errorPhoto", error);
 			model.addAttribute("photoForm", photoForm);
-			model.addAttribute("provider", provider);
 			return "frontend/account/editProfile::photos-bloc";
 
 		}
 
-	//	try {
-			photo.setDescription(photoForm.getDescription());
-			photo.setId(photoForm.getId());
-			photo.setEnabled(photoForm.isEnabled());
-			if(photo.getId() == null){
+		//	try {
+		photo.setDescription(photoForm.getDescription());
+		photo.setId(photoForm.getId());
+		photo.setEnabled(photoForm.isEnabled());
+		Provider provider = (Provider) model.asMap().get("provider");
+		if(photo.getId() == null){			
 				provider.getPhotos().add(photo);
-			}
-			photoService.addOrUpdate(photo);
+		}
+		photoService.addOrUpdate(photo);
+		providerService.update(provider);
+		model.addAttribute("provider", provider);
 
-			
-			//providerService.update(provider);
+		
 
-			// Save profil pricture to amazon S3
-			File fileToUpload = ImagesUtils.prepareUploading(file,	EnumPhotoCategory.PROVIDER.getId());
-			amazonS3Util.uploadFile(fileToUpload, filename);
+		// Save profil pricture to amazon S3
+		File fileToUpload = ImagesUtils.prepareUploading(file,	EnumPhotoCategory.PROVIDER.getId());
+		amazonS3Util.uploadFile(fileToUpload, filename);
 
-			String message  =  "";
-			if(photo.getId() == null){
-				 message = messages.getMessage("message.editprofile.photoAddSuccess", null, request.getLocale());	
-			}else{
-				message = messages.getMessage("message.editprofile.photoUpdateSuccess", null, request.getLocale());	
-			}
-			model.addAttribute("message", message);
-			model.addAttribute("provider", provider);			
-			model.addAttribute("photoForm", new PhotoForm());
-			return "frontend/account/editProfile::photos-bloc";
+		String message  =  "";
+		if(photo.getId() == null){
+			message = messages.getMessage("message.editprofile.photoAddSuccess", null, request.getLocale());	
+		}else{
+			message = messages.getMessage("message.editprofile.photoUpdateSuccess", null, request.getLocale());	
+		}
+		model.addAttribute("messagePhoto", message);
+		
+		return "frontend/account/editProfile::photos-bloc";
 
-			// Business errors
+		// Business errors
 		/*} catch (final BusinessException e) {
 			ErrorsHelper.rejectErrors(result, e.getErrors());
 			LOGGER.error("Photo-save error: " + result.toString());
@@ -351,81 +343,80 @@ public class EditProfileController {
 			return "frontend/account/editProfile::photos-bloc";
 		} */
 	}
-	
-	
-	
+
+
+
 
 	@RequestMapping(value="/profile/deletePhoto", method=RequestMethod.GET)
-	public String deletePhoto(HttpServletRequest request, Principal principal, @RequestParam(value="id") Integer id, Model model) {
+	public String deletePhoto(HttpServletRequest request, @RequestParam(value="id") Integer id, Model model) {
 		LOGGER.info("IN: providers/deletePhoto-GETT");
-		Provider provider = providerService.findProviderByUsername(principal.getName());
+		Provider provider = (Provider) model.asMap().get("provider");
 		Photo photo = photoService.findById(id);
-		providerService.deletePhoto(provider.getId(), photo);			
+		providerService.deletePhoto(provider.getId(), photo);	
+		provider.getPhotos().remove(photo);
 		amazonS3Util.deleteFile(photo.getFilename());
 		String message = messages.getMessage("message.editprofile.photoDeleteSuccess", null, request.getLocale());	
-		model.addAttribute("message", message);		
-		model.addAttribute("provider", provider);
-		PhotoForm photoForm = new PhotoForm();
-		model.addAttribute("currentTab", "photos");
-		model.addAttribute("photoForm", photoForm);	
+		model.addAttribute("messagePhoto", message);		
+		model.addAttribute("provider", provider);		
+		model.addAttribute("currentTab", "photos");		
 		return "frontend/account/editProfile::photos-bloc";
 	}
-	
+
 	@RequestMapping(value="/profile/editPhoto", method=RequestMethod.GET)
 	public String editPhoto( @RequestParam(value="id", required=true) Integer id, Model model) {
 		LOGGER.info("IN: profile/editPhoto-GET");
-		
+
 		Photo photo = photoService.findById(id);
 		PhotoForm photoForm = new PhotoForm();
 		photoForm.setDescription(photo.getDescription());
 		photoForm.setId(id);
 		photoForm.setName(photo.getFilename());
 		photoForm.setEnabled(photo.isEnabled());
-		
+
 		model.addAttribute("photoForm", photoForm);	
 		model.addAttribute("currentTab", "photos");
-		
+
 		return "frontend/account/editProfile::photos-bloc";
 	}
-	
-	
-	
+
+
+
 	@ModelAttribute("currentMenu")
 	public String module(){
 		return "profile";
 	}
-	
+
 	@ModelAttribute("allWeddingServices")
 	public List<WeddingService> populateWeddingServices(){
 		return weddingServiceManager.findByEnabled(Boolean.TRUE);
 	}
-	
+
 	@ModelAttribute("allDistricts")
 	public List<District> populateDistricts(){
 		return districtService.findByEnabled(Boolean.TRUE);
 	}
-	
+
 	@ModelAttribute("serviceForm")
 	public ServiceForm serviceForm(){
 		return new ServiceForm();
 	}
-	
+
 	@ModelAttribute("photoForm")
 	public PhotoForm photoForm(){
 		return new PhotoForm();
 	}
-	
+
 	@ModelAttribute("changePasswordForm")
 	public ChangePasswordForm changePasswordForm(){
 		return new ChangePasswordForm();
 	}
-
+/*
 	@ModelAttribute("provider")
 	public Provider provider( Principal principal){
 		return providerService.findProviderByUsername(principal.getName());
-	}
-	
-	
+	}*/
+
+
 	@ModelAttribute("showSidebar")
 	public boolean showSidebar(){
 		return false;

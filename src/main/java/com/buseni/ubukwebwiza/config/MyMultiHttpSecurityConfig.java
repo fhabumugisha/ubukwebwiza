@@ -35,7 +35,7 @@ public class MyMultiHttpSecurityConfig {
 	}
 
 	@Configuration
-	@Order                                                    
+	@Order (2)                                                   
 	public static class adminWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
 		@Autowired
 		private  DataSource dataSource;
@@ -115,7 +115,23 @@ public class MyMultiHttpSecurityConfig {
 		
 	}
 	
-
+	@Configuration      
+	@Order
+	public static class publicWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
+		
+		@Override
+		protected void configure(HttpSecurity http) throws Exception {
+			 http.antMatcher("/**").authorizeRequests().anyRequest().permitAll();
+	        
+		        
+		}
+		@Override
+		public void configure(WebSecurity web) throws Exception {
+			web.ignoring().antMatchers("/resources/**");
+		}
+		
+		
+	}
 	
 	
 	@Bean

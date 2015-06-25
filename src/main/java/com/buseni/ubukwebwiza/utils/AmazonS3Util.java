@@ -59,10 +59,10 @@ public class AmazonS3Util {
 				 objectMetadata.setHttpExpiresDate(now.plusMonths(2).toDate());
 				Upload myUpload = tx.upload(new PutObjectRequest(bucketName, filename, file).withMetadata(objectMetadata).withCannedAcl(CannedAccessControlList.PublicRead));
 
-				/*// While the transfer is processing, you can work with the transfer object
+				// While the transfer is processing, you can work with the transfer object
 				while (myUpload.isDone() == false) {
 					LOGGER.info(myUpload.getProgress().getPercentTransferred() + "%");
-				}*/
+				}
 			} catch (AmazonServiceException ase) {
 				LOGGER.error("Caught an AmazonServiceException, which means your request made it "
 						+ "to Amazon S3, but was rejected with an error response for some reason.");
@@ -89,9 +89,9 @@ public class AmazonS3Util {
 			 Upload myUpload = tx.upload(new PutObjectRequest(bucketName, filename, inpustream, objectMetadata).withCannedAcl(CannedAccessControlList.PublicRead));
 			 
 			 // While the transfer is processing, you can work with the transfer object
-			/* while (myUpload.isDone() == false) {
+			while (myUpload.isDone() == false) {
 			     LOGGER.info(myUpload.getProgress().getPercentTransferred() + "%");
-			 }*/
+			 }
 		} catch (AmazonServiceException ase) {
 	        LOGGER.error("Caught an AmazonServiceException, which means your request made it "
                     + "to Amazon S3, but was rejected with an error response for some reason.");

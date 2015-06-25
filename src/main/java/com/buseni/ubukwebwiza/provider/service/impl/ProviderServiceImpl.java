@@ -83,7 +83,7 @@ public class ProviderServiceImpl implements ProviderService {
 	@Override
 	@Transactional
 	public void addOrUpdate(Provider provider) throws BusinessException {
-		// TODO control before save
+		//control before save
 		if(null == provider){
 			throw new NullPointerException("Provider shouldn't be null");
 		}
@@ -157,7 +157,7 @@ public class ProviderServiceImpl implements ProviderService {
 	@Transactional
 	public Provider update(Provider provider) {
 		// TODO COntrol before save
-		//TODO provider.setLastUpdate(new Date());
+		provider.getAccount().setLastUpdate(new Date());
 		return providerRepo.save(provider);
 	}
 
@@ -175,7 +175,7 @@ public class ProviderServiceImpl implements ProviderService {
 			throw new ResourceNotFoundException();
 		}
 		provider.setNbViews(provider.getNbViews() + 1);
-		//TODO provider.setLastUpdated(new Date());
+		provider.getAccount().setLastUpdate(new Date());
 		providerRepo.save(provider);
 		return provider;
 	}
@@ -314,6 +314,7 @@ public class ProviderServiceImpl implements ProviderService {
 		account.setPassword(encoder.encode(signupForm.getPassword()));
 		account.setCreatedAt(new Date());			
 		account.setLastUpdate(new Date());
+		//add roles
 		Role roleProvider =  roleRepository.findByName(ROLE_PROVIDER);
 		account.getRoles().add(roleProvider);
 		account.setType(EnumAccountType.PROVIDER.name());
@@ -329,7 +330,6 @@ public class ProviderServiceImpl implements ProviderService {
 		vws.setEnabled(true);
 		providerWeddingServiceRepo.save(vws);
 		provider.getProviderWeddingServices().add(vws);		
-		//TODO add roles
 		providerRepo.save(provider);
 
 		return account;

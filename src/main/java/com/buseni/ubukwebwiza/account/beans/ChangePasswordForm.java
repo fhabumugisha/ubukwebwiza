@@ -12,11 +12,11 @@ public class ChangePasswordForm implements Serializable{
 	private static final long serialVersionUID = 6329353944175544782L;
 	
 	
-	@NotEmpty
+	@NotEmpty(message = "{error.user.requiredfield.password}")
 	//@ValidPassword
 	private String password;
 	
-	@NotEmpty
+	@NotEmpty(message = "{error.user.requiredfield.passwordConfirm}")
 	//@ValidPassword
 	private String passwordConfirm;
 	

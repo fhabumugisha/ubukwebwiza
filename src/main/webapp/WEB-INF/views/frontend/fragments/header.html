@@ -34,81 +34,28 @@
 						 
 					</div>
 					 
-					   <!-- Account feature is coming -->
-					 <div
-						th:switch="${#authentication}? ${#authorization.expression('isAuthenticated()')} : ${false}">
-						<!-- User is not logged in -->
-						<div th:case="${false}" class="pull-right hidden-xs"
-							style="padding-top: 8px; margin-right: 10px;">
+					   <!-- Account  -->
 
-							<div class="row">
-								<div class="col-md-6">
-									<a href="account/signin.html" th:href="@{/profile/login}"
-										class="btn btn-default pull-right  navbar-btn"
-										th:text="#{signin.title}">Sign in</a>
-								</div>
-								<div class="col-md-6">
-									<a href="account/signup.html" th:href="@{/signup}"
-										th:text="#{joinus.title}"
-										class="btn btn-primary pull-right navbar-btn">Join us</a>
-								</div>
+					<div sec:authorize="!isAuthenticated()"		class="pull-right hidden-xs"
+						style="padding-top: 8px; margin-right: 10px;">
 
-							</div>
-
-							<!-- Logged in user -->
-							<div th:case="${true}" class="pull-right hidden-xs dropdown"
-								style="padding-top: 8px; margin-right: 10px;">
-								<a id="dLabel" data-toggle="dropdown" href="#"
-									class="btn btn-default"> <span
-									class="glyphicon glyphicon-user"></span>&nbsp; <span
-									sec:authentication="name">Hello Fabrice</span> <span
-									class="caret"></span>
-								</a>
-								<ul class="dropdown-menu no-collapse" role="menu"
-									aria-labelledby="dLabel">
-									<li><a href="account/signup.html" th:href="@{/profile}"
-										th:text="#{editProfile.myProfile}">My Profile</a></li>
-									<li>
-
-										<form class="navbar-form" data-th-action="@{/profile/logout}"
-											method="post" action="">
-											<label for="mySubmit" class="btn"> <span
-												class="glyphicon glyphicon-log-out"></span> &nbsp;<span
-												th:text="#{logout.title}">Log Out</span>
-											</label> <input id="mySubmit" type="submit" value="Go" class="hidden" />
-										</form>
-
-									</li>
-								</ul>
-
-							</div>
-
-
-						</div>
-
-						<!-- 						<span th:case="${false}">User is not logged in</span>  -->
-					<!-- 	<span th:case="${true}">Logged in user</span> 
-						<span th:case="*">Should never happen, but who knows...</span> -->
-					</div> 
-				
-					<!-- <div sec:authorize="!isAuthenticated()"  class="pull-right hidden-xs" style="padding-top: 8px; margin-right: 10px;">
-
-						<div  class="row">
+						<div class="row">
 							<div class="col-md-6">
 								<a href="account/signin.html" th:href="@{/profile/login}"
-									class="btn btn-default pull-right  navbar-btn" th:text="#{signin.title}">Sign in</a>
+									class="btn btn-default pull-right  navbar-btn"
+									th:text="#{signin.title}">Sign in</a>
 							</div>
 							<div class="col-md-6">
-								<a href="account/signup.html" th:href="@{/signup}" th:text="#{joinus.title}"
+								<a href="account/signup.html" th:href="@{/signup}"
+									th:text="#{joinus.title}"
 									class="btn btn-primary pull-right navbar-btn">Join us</a>
 							</div>
 
 						</div>
+					</div>
 
 
-
-					</div>  -->
-					<!-- <div  sec:authorize="isAuthenticated()"  class="pull-right hidden-xs dropdown" style="padding-top: 8px; margin-right: 10px;">						
+					<div  sec:authorize="isAuthenticated()"  class="pull-right hidden-xs dropdown" style="padding-top: 8px; margin-right: 10px;">						
 
 
 						<a   id="dLabel" data-toggle="dropdown" href="#" class="btn btn-default"> 
@@ -132,7 +79,7 @@
 							</li>
 						</ul>
 
-					</div>  -->
+					</div> 
 					
 					
 					<div class="navbar-offcanvas navmenu-fixed-left offcanvas">
@@ -160,6 +107,7 @@
 								</div>  
 							
 							</li>
+							
 							<li sec:authorize="isAuthenticated()" class="visible-xs-block">
 							<div class="container">
 							
@@ -170,7 +118,7 @@
 										</a>
 								<ul class="dropdown-menu no-collapse" role="menu"
 									aria-labelledby="dLabel">
-									<li><a href="account/signup.html" th:href="@{/profile}"
+									<li><a href="account/editProfile.html" th:href="@{/profile}"
 										th:text="#{editProfile.myProfile}">My Profile</a></li>
 									<li>
 

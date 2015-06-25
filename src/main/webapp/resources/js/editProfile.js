@@ -2,17 +2,11 @@
  *  Edit profile  Js
  */
 
-
-
-
-
-
 $(document).on("submit","#addPhotoForm",function(event){
 	event.preventDefault(); // prevent this form from being submited
 	var form = document.getElementById("addPhotoForm");
 	var oMyForm = new FormData(form);
-	// oMyForm.append("file", file2.files[0]);
-
+	
 	$.ajax({
 		url: form.action,
 		data: oMyForm,
@@ -29,8 +23,7 @@ $(document).on("submit","#addPhotoForm",function(event){
 			  $('#errors').html(textStatus  + " " + errorThrown);
 			}
 	});
-	form.reset();
-	$('#picture').val('');
+	
 	return false;
 });
 
@@ -97,8 +90,26 @@ $(document).on("click",".editProfilePhoto",function(event){
 	return false;
 });
 
+$(document).on("click","#showAddPhotoForm",function(){
+	$("#editPhotoBox").show("slow");
+	$("#showAddPhotoForm").hide("slow");
+});
 
+	
+	
+$(document).on("click","#hideAddPhotoForm",function(){
+	resetAddPhotoForm();
+	$('#profilPicturePreview').remove();
+	$("#editPhotoBox").hide("slow");
+	$("#showAddPhotoForm").show("slow");
+});
 
+function resetAddPhotoForm() {
+	$('#idPhoto').val('');
+	$('#addPhotoForm input.idPhoto').val('');
+	$('#addPhotoForm textarea[name="description"]').val('');
+	$('#addPhotoForm input:checkbox').removeAttr('checked');
+}
 /**
  * SERVICES
  */
@@ -189,23 +200,9 @@ $(document).on("click",".deleteProfileService",function(event){
 	return false;
 });
 
-$(document).on("click","#showAddPhotoForm",function(){
-	$("#editPhotoBox").show("slow");
-	$("#showAddPhotoForm").hide("slow");
-});
 
 	
 	
-$(document).on("click","#hideAddPhotoForm",function(){
-	$("#editPhotoBox").hide("slow");
-	$("#showAddPhotoForm").show("slow");
-});
-
-	
-	
-	$(".deletePhotoBox").click(function(){
-		$('#confirm').modal('show');
-		});
 	$(document).on("click","#showAddServiceForm",function(){
 		$("#editServiceBox").show("slow");
 		$(this).hide("slow");
@@ -213,10 +210,7 @@ $(document).on("click","#hideAddPhotoForm",function(){
 	
 	
 	$(document).on("click","#hideAddServiceForm",function(){
-		resetAddServiceForm();
-		
-		
-		//$("#addServiceForm")[0].reset();
+		resetAddServiceForm();		
 		$("#editServiceBox").hide("slow");
 		$("#showAddServiceForm").show("slow");
 	});
@@ -225,9 +219,9 @@ $(document).on("click","#hideAddPhotoForm",function(){
 	function resetAddServiceForm() {
 		$('#idService').val('');
 		$('#addServiceForm input.idService').val('');
-		$('#addServiceForm select[name="idcService"]').find('option:selected')
-		.removeAttr("selected");
+		$('#addServiceForm select[name="idcService"]').find('option:selected').removeAttr("selected");
 		$('#addServiceForm textarea[name="description"]').val('');
 		$('#addServiceForm input:checkbox').removeAttr('checked');
 }
+
 	

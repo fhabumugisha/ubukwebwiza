@@ -49,8 +49,9 @@ public class Sandbox {
 		
 	
 		// TODO Auto-generated method stub
-		//PasswordEncoder encoder = new BCryptPasswordEncoder();
-		//System.out.println("123456 encode is " + encoder.encode("123456"));
+		PasswordEncoder encoder = new BCryptPasswordEncoder();
+		System.out.println("from bdd : " + "$2a$10$qPupB3ajXJKWNxcjyK/SRuF35UMojX57bZ4/QjdRFiwNOQXHm4crW");
+		System.out.println("123456 encode is " + encoder.encode("123456"));
 		//resizeImagScal();
 		//resizeThumbnail();
 		
@@ -69,12 +70,12 @@ public class Sandbox {
 		 /*AWSCredentials myCredentials = new BasicAWSCredentials("AKIAJJDKPQYTEKXUQQTA", "BJLerZr6tsUGmv5BEn+Pin0F7dUIszeDSBBjrsyg");
 			AmazonS3 s3client = new AmazonS3Client(myCredentials);
 			s3client.deleteBucket("elasticbeanstalk-us-west-2-122458780597");*/
-		 String targetUrl  = "http://localhost:9966/ubukwebwiza/profile/login?logout";
+		/* String targetUrl  = "http://localhost:9966/ubukwebwiza/profile/login?logout";
 		 System.out.println(targetUrl);
 		 if(targetUrl.contains("/login")){
 			 targetUrl = targetUrl.substring(0, targetUrl.lastIndexOf("login"));
 			 System.out.println(targetUrl);
-		 }
+		 }*/
 	}
 
 	private static void getImagesUrl(){

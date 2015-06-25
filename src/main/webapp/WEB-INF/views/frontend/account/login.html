@@ -31,7 +31,7 @@
 
 						</div>
 
-						<form role="form" th:action="@{/profile/login}" method="POST">
+						<form role="form" th:action="@{/profile/login}" method="POST" th:autocomplete="off" autocomplete="off">
 							<div th:if="${param.error}" class="alert alert-danger" th:text="#{message.invalidCredentials}">
 								Invalid username and password.</div>
 							
@@ -44,7 +44,7 @@
 							<div class="form-group">
 								<div class="input-group input-group-lg">
 									<span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-									 <input type="email" required="required" name="email" autocomplete="off"
+									 <input type="email" required="required" name="email" th:autocomplete="false"
 										autofocus="autofocus" class="form-control"
 										id="email" placeholder="Enter email" />
 								</div>
@@ -53,7 +53,7 @@
 							<div class="form-group">
 								<div class="input-group input-group-lg">
 									<span class="input-group-addon"><i class="fa fa-lg fa-lock"></i>
-									</span> <input type="password" class="form-control" id="password" name="password" placeholder="Password" required="required" autocomplete="off" />
+									</span> <input type="password" class="form-control" id="password" name="password" placeholder="Password" required="required"  th:autocomplete="false" />
 								</div>
 
 							</div>
