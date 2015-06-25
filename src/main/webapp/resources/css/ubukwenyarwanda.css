@@ -265,6 +265,11 @@ height: 34px;
   background-color: #f5f5f5;
   border-radius: 4px;
 }
+
+.whyJoinUs{
+	line-height :1.9em;font-family: 'GothamBook', Shift, Helvetica Neue; font-size:18px;
+	
+}
 /* jasny class */
 /* .navmenu, .navbar-offcanvas {
   width: 280px;

@@ -18,7 +18,7 @@
 						
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								<h3 class="panel-title">Sign up for a provider account</h3>
+								<h3 class="panel-title" th:text="#{message.signup.provider}">Sign up for a provider account</h3>
 							</div>
 							<div class="panel-body">
 								
@@ -110,11 +110,9 @@
 									</div>
 
 
-									<button type="submit" class="btn btn-primary btn-block">Sign
-										up</button>
+									<button type="submit" class="btn btn-primary btn-block" th:text="#{message.signup}">Sign up</button>
 									<br />
-									<div class="text-info">By clicking "Sign up", you agree
-										to our terms of service and privacy policy.</div>
+									<div class="text-info" th:text="#{message.clicksignup}">By clicking "Sign up", you agree to our terms of service and privacy policy.</div>
 								</form>
 							</div>
 
@@ -124,9 +122,8 @@
 					<div class="col-md-5">
 						<div class="panel panel-default">
 							<div class="panel-body">
-								<h4>Why Signin up ?</h4>
-								<p>...</p>
-								<p></p>
+								<h3 th:text="#{message.whyjoinus.title}">Why Signin up ?</h3>
+								<p class="whyJoinUs"  th:text="#{message.whyjoinus}"></p>
 							</div>
 
 						</div>
@@ -137,37 +134,6 @@
 			</div>
 		</div>
 
-		<script type="text/javascript">
-	
-// 	 $(document).ready(function() {
-		   	    
-		    var options = {};
-		    options.common = {minChar:8};
-		    options.ui = {
-		            
-		            
-		               /*  showVerdictsInsideProgressBar:true,
-		                showErrors:true,
-		                errorMessages:{
-		                    wordLength: '<spring:message code="error.wordLength"/>',
-		                    wordNotEmail: '<spring:message code="error.wordNotEmail"/>',
-		                    wordSequences: '<spring:message code="error.wordSequences"/>',
-		                    wordLowercase: '<spring:message code="error.wordLowercase"/>',
-		                    wordUppercase: '<spring:message code="error.wordUppercase"/>',
-		                    wordOneNumber: '<spring:message code="error.wordOneNumber"/>',
-		                    wordOneSpecialChar: '<spring:message code="error.wordOneSpecialChar"/>'
-		                } */
-		                container: "#pwd-container",
-		                showStatus: true,
-		                showProgressBar: false,
-		                viewports: {
-		                    verdict: ".pwstrength_viewport_verdict"
-		                }
-		            
-		        };
-		        $('#password').pwstrength(options);
-		 /*  }); */
-	</script>
 	</div>
 
 

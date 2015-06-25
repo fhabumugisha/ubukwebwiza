@@ -45,7 +45,14 @@ public class HomeController {
 		return "frontend/index";
 	}
 
-	
+	@RequestMapping(value="/privacy", method=RequestMethod.GET)
+	public String privacy(){
+		return "frontend/privacy";
+	}
+	@RequestMapping(value="/terms", method=RequestMethod.GET)
+	public String termsOfService(){
+		return "frontend/terms";
+	}
 	@ModelAttribute("allWeddingServices")
 	public List<WeddingService> populateWeddingServices(){
 		return weddingServiceManager.findByEnabled(Boolean.TRUE);
