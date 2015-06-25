@@ -9,14 +9,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.web.authentication.rememberme.CookieTheftException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.NoHandlerFoundException;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.buseni.ubukwebwiza.breadcrumbs.navigation.NavigationEntry;
 
-//@ControllerAdvice
+@ControllerAdvice
 public class GlobalDefaultExceptionHandler {
     public static final String DEFAULT_ERROR_VIEW = "frontend/error";
     public static final String NOT_FOUND_ERROR_VIEW = "frontend/404notfound";
@@ -36,12 +39,20 @@ public class GlobalDefaultExceptionHandler {
             return mav;
     }
   
-    
-//TODO CookieTheftException
+    @ExceptionHandler({CookieTheftException.class})
+    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    public RedirectView handleCookieTheftException (HttpServletRequest request) {
+    	LOGGER.debug("IN : handleCookieTheftException, redirecting to home page");
+            RedirectView  redirectView = new RedirectView("/", true);           
+            HttpSession currentSession = request.getSession();
+            currentSession.setAttribute(NAVIGATION_PATH, new ArrayList<NavigationEntry>());
+            return redirectView;
+    }
+
     
     @ExceptionHandler(value = Exception.class)
     public ModelAndView defaultErrorHandler(HttpServletRequest req, Exception e) throws Exception {
-       LOGGER.error(e.getMessage());
+       LOGGER.error("IN: defaultErrorHandler :" + e.getMessage());
     	// If the exception is annotated with @ResponseStatus rethrow it and let
         // the framework handle it 
         if (AnnotationUtils.findAnnotation(e.getClass(), ResponseStatus.class) != null)
