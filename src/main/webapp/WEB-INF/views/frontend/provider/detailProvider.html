@@ -104,7 +104,7 @@
 									<div class="list-group">
 
 										<!--/*/
- 											 <th:bloc th:each="providerWeddingService : ${provider.providerWeddingServices}">
+ 											 <th:bloc th:each="providerWeddingService : ${provider.providerWeddingServices}" th:if="${#bools.isTrue(providerWeddingService.enabled)}">
 											<div class="list-group-item">
 												<h4 class="list-group-item-heading">
 													<span
@@ -189,7 +189,7 @@
 								</div>
 								<div class="panel-body">
 									<div id="links">
-										<th:bloc th:each="photo : ${provider.photos}">
+										<th:bloc th:each="photo : ${provider.photos}" th:if="${#bools.isTrue(photo.enabled)}">
 											<a
 												href="../../../../resources/images/application/wedding_4_content.jpg"
 												title="Wedding planner" th:title="${photo.description}"
