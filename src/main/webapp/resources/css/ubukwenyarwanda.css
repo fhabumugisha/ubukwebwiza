@@ -239,6 +239,14 @@ height: 34px;
 	
 }
 
+#mainPitch2 {
+	position: absolute;
+	top: 170px;
+	width: 100%;
+	padding: 5px;
+	
+}
+
 #homeSearchFormContainer {
 	text-align: center;
 	color: #ffffff;
@@ -248,7 +256,7 @@ height: 34px;
 	
 }
 
-#homeSearchFormContainer h2 {
+#homeSearchFormContainer h2 , #homeSearchFormContainer h1{
 	margin-bottom: 10px;
 	font-family: 'GothamBook', Shift, Helvetica Neue;
 	font-weight: bold;
@@ -271,10 +279,6 @@ height: 34px;
 	
 }
 /* jasny class */
-/* .navmenu, .navbar-offcanvas {
+/*  .navmenu, .navbar-offcanvas {
   width: 280px;
-  height: auto;
-  border-width: 1px;
-  border-style: solid;
-  border-radius: 4px;
-} */
+}  */

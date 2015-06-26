@@ -45,6 +45,12 @@ public class HomeController {
 		return "frontend/index";
 	}
 
+	@RequestMapping(value="/landing-page", method=RequestMethod.GET)
+	public String landingPage(ProviderSearch providerSearch){
+		return "frontend/landingPage";
+	}
+
+	
 	@RequestMapping(value="/privacy", method=RequestMethod.GET)
 	public String privacy(){
 		return "frontend/privacy";

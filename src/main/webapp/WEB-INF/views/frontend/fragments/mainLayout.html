@@ -30,23 +30,23 @@
 	loadCSS( "//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css");
 	
 	var urlBootstrapImageGalleryCss = /*[[@{/resources/plugins/bs-image-gallery-3.1.0/css/bootstrap-image-gallery.min.css}]]*/ 'resources/plugins/bs-image-gallery-3.1.0/css/bootstrap-image-gallery.min.css';
-	console.log("url for bootstrap-image-gallery.css is: " + urlBootstrapImageGalleryCss);
+	//console.log("url for bootstrap-image-gallery.css is: " + urlBootstrapImageGalleryCss);
 	loadCSS( urlBootstrapImageGalleryCss );	
 	
-	loadCSS( "http://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css" );	
+	//loadCSS( "http://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css" );	
 	
 	
 	var urlSocialButtonsCss = /*[[@{/resources/css/social-buttons.css}]]*/ 'resources/css/social-buttons.css';
-	console.log("url for social-buttons.css is: " + urlSocialButtonsCss);
+	//console.log("url for social-buttons.css is: " + urlSocialButtonsCss);
 	loadCSS( urlSocialButtonsCss );
 	
 	var urlChosenCss = /*[[@{/resources/plugins/chosen_v1.4.2/chosen.min.css}]]*/ 'resources/plugins/chosen_v1.4.2/chosen.min.css';
-	console.log("url for chosen.css is: " + urlChosenCss);
+	//console.log("url for chosen.css is: " + urlChosenCss);
 	loadCSS( urlChosenCss );
 	
 	<!-- Load my css files async -->
 	var urlUbukwenyarwandaCss = /*[[@{/resources/css/ubukwenyarwanda.css}]]*/ 'resources/css/ubukwenyarwanda.css';
-	console.log("url for ubukwenyarwanda.css is: " + urlUbukwenyarwandaCss);
+	//console.log("url for ubukwenyarwanda.css is: " + urlUbukwenyarwandaCss);
 	loadCSS( urlUbukwenyarwandaCss );
 	
 
@@ -170,7 +170,7 @@
 		src="http://malsup.github.io/min/jquery.form.min.js"></script> -->
 		
 			<!-- Include all compiled plugins (below), or include individual files as needed -->
-	
+	<script src="../../../../resources/js/ie10-viewport-bug-workaround.js" th:src="@{/resources/js/ie10-viewport-bug-workaround.js}"></script>
 	<script src="../../../../resources/plugins/chosen_v1.4.2/chosen.jquery.min.js" th:src="@{/resources/plugins/chosen_v1.4.2/chosen.jquery.min.js}"></script>
 	<script src="../../../../resources/js/pwstrength.js" th:src="@{/resources/js/pwstrength.js}"></script>
 	<script src="../../../../resources/js/responsive-tabs.js" th:src="@{/resources/js/responsive-tabs.js}"></script>
