@@ -204,10 +204,21 @@
       </ol>
      
   		<div class="carousel-inner" role="listbox">
-			<th:block th:each="photo :${sliderPhotos}">
+  			
+  			<th:block th:each="photo :${sliderPhotos}" >
+				<div class="item" th:classappend="${photoStat.first}? 'active'">
+				  	<section th:style="'height: 500px; background: url('+ @{'https://ubfiles.s3.amazonaws.com/'+*{photo.filename}}+') no-repeat center; background-size: auto 500px;'"></section>
+				
+					<div class="carousel-caption">
+						<span th:text="${photo.description}"> Planning</span>
+					</div>
+				</div>
+			</th:block>
+			
+			<th:block th:each="photo :${sliderPhotos}" th:remove="all">
 				<div class="item" th:classappend="${photoStat.first}? 'active'">
 					<img
-						src="../../../resources/images/application/wedding_4_content.jpg"
+						src="../../../resources/images/application/wedding_4_content.jpg" class="img-responsive"
 						alt="..."
 						th:src="@{'https://ubfiles.s3.amazonaws.com/'+*{photo.filename}} " />
 					<div class="carousel-caption">
@@ -294,7 +305,7 @@
 			<th:block th:each="provider :${featuredProviders}">
 				<div class="col-lg-4">
 
-					<img id="profilPicturePreview" width="140" height="140"
+					<img id="profilPicturePreview" width="150" height="150"
 						class="img-circle" alt="profil pic"
 						th:if="*{provider.profilPicture}" th:alt="${businessName}"
 						th:src="@{'https://ubfiles.s3.amazonaws.com/'+*{provider.profilPicture.filename}} "></img>
@@ -338,7 +349,7 @@
 
 		<div class="row">
 			<div class="col-md-12 text-center"
-				style="border-top: 1px solid rgba(128, 128, 128, 0.58); margin: 5px;">
+				style="border-top: 1px solid rgba(128, 128, 128, 0.58); margin: 1px;">
 				<h2 style="font-family: 'GothamBook', Shift, Helvetica Neue;"
 					th:text="#{home.providerCallAction}">Are you a wedding service
 					provider ?</h2>
@@ -347,7 +358,7 @@
 		<div class="row">
 			<div class="col-md-12 text-center">
 				<a href="contactus.html" th:href="@{/signup}"
-					class="btn btn-primary btn-lg " role="button"
+					class="btn btn-primary " role="button"
 					th:text="#{joinus.title}">Join us</a>
 			</div>
 		</div>

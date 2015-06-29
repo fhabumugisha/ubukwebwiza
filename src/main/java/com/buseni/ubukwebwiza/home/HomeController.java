@@ -42,7 +42,7 @@ public class HomeController {
 	
 	@RequestMapping(value="/", method=RequestMethod.GET)
 	public String home(ProviderSearch providerSearch){
-		return "frontend/index";
+		return "frontend/landingPage";
 	}
 
 	@RequestMapping(value="/landing-page", method=RequestMethod.GET)

@@ -64,6 +64,7 @@ public class AdminPhotoController {
 	
 			MultipartFile file  = photoForm.getFile();
 			Photo photo = new Photo();
+			String filename = "no_person.jpg";
 			if (file != null && !file.isEmpty()) {
 				if(file.getSize() > ImagesUtils.MAXSIZE){
 					LOGGER.error("File size should be less than " + ImagesUtils.MAXSIZE+ " byte.");
@@ -73,8 +74,8 @@ public class AdminPhotoController {
 					attributes.addFlashAttribute("errors", "File size should be less than " + ImagesUtils.MAXSIZE+ " byte.");
 					return "adminpanel/photo/editPhoto";
 				}
-
-				photo.setFilename(UbUtils.normalizeName(file.getOriginalFilename()));
+				filename = UbUtils.normalizeFileName(file.getOriginalFilename());
+				photo.setFilename(filename);
 				photo.setContentType(file.getContentType());
 			} else if(photoForm.getId() == null){
 	        		LOGGER.error("You failed to upload  because the file was empty.");
@@ -95,7 +96,7 @@ public class AdminPhotoController {
 				
 				//Save profil pricture to amazon S3
 				File fileToUpload =  ImagesUtils.prepareUploading(file, EnumPhotoCategory.HOME_PAGE.getId());
-				amazonS3Util.uploadFile(fileToUpload, UbUtils.normalizeName(file.getOriginalFilename()));				
+				amazonS3Util.uploadFile(fileToUpload, filename);				
 				
 				String message = "Photo " + photo.getId() + " was successfully added";				
 				attributes.addFlashAttribute("message", message);				

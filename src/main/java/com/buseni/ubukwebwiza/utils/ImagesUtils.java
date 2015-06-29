@@ -24,14 +24,14 @@ public class ImagesUtils {
 	
 	public static final int PROFILE_IMAGE_HEIGHT = 150;
 
-	public static final int PROFILE_IMAGE_WIDTH = 290;
+	public static final int PROFILE_IMAGE_WIDTH = 295;
 	
 	
-	public static final int HP_IMAGE_HEIGHT = 300;
+	public static final int HP_IMAGE_HEIGHT = 500;
 
-	public static final int HP_IMAGE_WIDTH = 944;
+	public static final int HP_IMAGE_WIDTH = 1900;
 	
-	public  static final Logger LOGGER = LoggerFactory.getLogger(AmazonS3Util.class);
+	public  static final Logger LOGGER = LoggerFactory.getLogger(ImagesUtils.class);
 	
 	
 	
@@ -112,7 +112,7 @@ public class ImagesUtils {
 		}
 
 		BufferedImage thumbnailImage = Scalr.resize(originalImage,
-				Scalr.Method.QUALITY, Scalr.Mode.FIT_TO_WIDTH, imageWidth, imageHeight,	Scalr.OP_ANTIALIAS, Scalr.OP_BRIGHTER);	
+				Scalr.Method.QUALITY, Scalr.Mode.FIT_EXACT, imageWidth, imageHeight,	Scalr.OP_ANTIALIAS, Scalr.OP_BRIGHTER);	
 		
 		try {
 			ImageIO.write(thumbnailImage, imgExt, tempFile);			
