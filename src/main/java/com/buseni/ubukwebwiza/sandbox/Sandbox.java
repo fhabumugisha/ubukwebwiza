@@ -54,28 +54,10 @@ public class Sandbox {
 		System.out.println("123456 encode is " + encoder.encode("123456"));
 		//resizeImagScal();
 		//resizeThumbnail();
+		//resizeImgCarousel();
 		
-		//System.out.println(MimeTypeUtils.parseMimeType(MediaType.IMAGE_JPEG_VALUE));
-		 //System.out.println("Start...");
-		//downloadFileFromAmazonS3();
-		 //uploadFileToAmazonS3();
-		// uploadLargeFile();
-		// getImagesUrl();
-		// writeBOS();
-		/* String test =  "_dte ser.gif ";
-		 System.out.println(test);
-		 System.out.println(UbUtils.normalizeName(test));
-		 System.out.println(UbUtils.normalizeFileName(test));
-			System.out.println("done...");*/
-		 /*AWSCredentials myCredentials = new BasicAWSCredentials("AKIAJJDKPQYTEKXUQQTA", "BJLerZr6tsUGmv5BEn+Pin0F7dUIszeDSBBjrsyg");
-			AmazonS3 s3client = new AmazonS3Client(myCredentials);
-			s3client.deleteBucket("elasticbeanstalk-us-west-2-122458780597");*/
-		/* String targetUrl  = "http://localhost:9966/ubukwebwiza/profile/login?logout";
-		 System.out.println(targetUrl);
-		 if(targetUrl.contains("/login")){
-			 targetUrl = targetUrl.substring(0, targetUrl.lastIndexOf("login"));
-			 System.out.println(targetUrl);
-		 }*/
+		uploadFileToAmazonS3() ;
+		
 	}
 
 	private static void getImagesUrl(){
@@ -125,8 +107,8 @@ public class Sandbox {
 private static void uploadFileToAmazonS3() throws FileNotFoundException{
 	String existingBucketName = "ubfiles";
 	  String keyName = "mypic.JPG";
-	  
-	  String filePath = "C://Users/fahabumu/git/ubukwebwiza/userimages/new_look.jpg";
+
+	  String filePath = "C://Users/Fabrice/git/ubukwebwiza/Banquet-Events-Setup_fitExact.jpg";
 	  String amazonFileUploadLocationOriginal=existingBucketName+"/";
 	  
 
@@ -240,19 +222,21 @@ private static void uploadFileToAmazonS3() throws FileNotFoundException{
 	public static void resizeImgCarousel() {
 		BufferedImage originalImage = null;
 		try {
-			originalImage = ImageIO.read(new File("Bobo.jpg"));
+			originalImage = ImageIO.read(new File("Banquet-Events-Setup.jpg"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		//BufferedImage thumbnail = Scalr.resize(originalImage, 150);
-	
+		System.out.println("Origiginal size : height : " + originalImage.getHeight() + " and width : " + originalImage.getWidth());
 		BufferedImage thumbnail =
-				  Scalr.resize(originalImage, Scalr.Method.QUALITY, Scalr.Mode.FIT_TO_WIDTH,
-				               944, 300, Scalr.OP_ANTIALIAS, Scalr.OP_BRIGHTER);
+				  Scalr.resize(originalImage, Scalr.Method.QUALITY, Scalr.Mode.AUTOMATIC,
+						  1900, 500, Scalr.OP_ANTIALIAS, Scalr.OP_BRIGHTER);
+		
+		System.out.println("resize size : height : " + thumbnail.getHeight() + " and width : " + thumbnail.getWidth());
 		
 		try {
-		ImageIO.write(thumbnail, "png", new File("BoboThumnailImageScal2.jpg"));
+		ImageIO.write(thumbnail, "png", new File("Banquet-Events-Setup_fitAutomatique.jpg"));
 	} catch (IOException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
