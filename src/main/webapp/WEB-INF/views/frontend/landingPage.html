@@ -315,7 +315,8 @@
 						th:alt="${businessName}" data-src="holder.js/100%x150"></img>
 
 					<h3>
-						<span th:text="${provider.businessName}">Ubukwe SARL</span>
+						<a  href="provider/detailProvider.html"
+							th:href="@{'/providers/'+${provider.id}}"><span th:text="${provider.businessName}">Ubukwe SARL</span></a>
 					</h3>
 
 					<h4>
@@ -329,11 +330,11 @@
 							</h6>
 					
 					
-				<p>
-					<a class="btn btn-default" href="provider/detailProvider.html"
-							th:href="@{'/providers/'+${provider.id}}"><span>View details 	&raquo;</span></a>
+				<!-- <p>
+					<a class="btn btn-primary btn-sm" href="provider/detailProvider.html"
+							th:href="@{'/providers/'+${provider.id}}"><span th:text="#{provider.viewdetails}">View details</span>&raquo;</a>
 					
-				</p>
+				</p> -->
 			</div>
 			
 			

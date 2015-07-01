@@ -17,12 +17,12 @@
 						<h4 th:text="#{message.aboutus}">About us</h4>
 						<span th:text="#{message.aboutus.accroche}">We help you to get the best wedding service providers near you!</span> 
 					</div>
-					<div class="col-md-3">
+					<div class="col-md-5">
 <!-- 						<h4></h4> -->
 <!-- 						info@ubukwebwiza.com <br />  -->
 					</div>
 					
-					<div class="col-md-4">
+					<div class="col-md-2">
 						<h4 th:text="#{message.connectWithUs}">Connect with us</h4>
 						 <a class="btn btn-social-icon btn-facebook" target="_blank" href="https://www.facebook.com/ubukwebwiza"><i class="fa fa-facebook"></i></a>
 						<a class="btn btn-social-icon btn-twitter" target="_blank" href="https://twitter.com/ubukwebwiza" ><i class="fa fa-twitter"></i></a>
@@ -38,6 +38,11 @@
 				 	<li><a th:href="@{/contactus}" th:text="#{contactus.title}" >Contact us  </a> </li>
 				 	<li><a th:href="@{/terms}" th:text="#{message.terms}"> Terms</a> </li>
 				 	<li><a th:href="@{/privacy}" th:text="#{message.privacy}">Privacy</a></li>
+				 	<li><span th:text="#{changelanguage.title}">Change language </span> : &nbsp; 
+				 	     <a th:href="@{?lg=fr}"> <span th:text="#{changelanguage.french}">Français</span> </a> &nbsp;|
+				 	     <a th:href="@{?lg=en}" th:text="#{changelanguage.english}">English</a> &nbsp;|
+				 	     <a th:href="@{?lg=kn}" th:text="#{changelanguage.kinyarwanda}">Kinyarwanda</a> 
+				 	     </li>
 				 </ol>
 				 </div>
 				</div>

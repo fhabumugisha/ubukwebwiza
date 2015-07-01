@@ -39,7 +39,7 @@
 										<div class="input-group">
 											<span class="input-group-addon"><i class="fa fa-user"></i></span>
 											<input type="text" class="form-control" id="businessName"
-												th:field="*{businessName}" placeholder="Enter business name"
+												th:field="*{businessName}" placeholder="Enter your business name" th:placeholder="#{placeholder.provider.businessname}"
 												required="required" autofocus="autofocus" maxlength="30" />
 
 										</div>
@@ -88,7 +88,7 @@
 										<div class="input-group">
 											<span class="input-group-addon">@</span> <input type="email" autocomplete="off"
 												class="form-control" id="email" th:field="*{email}"
-												placeholder="Enter email" required="required" />
+												placeholder="Enter email" required="required" th:placeholder="#{placeholder.provider.email}" />
 
 										</div>
 										<span class="text-danger"
@@ -99,8 +99,9 @@
 									<div class="form-group" id="pwd-container">
 										<div class="input-group">
 											<span class="input-group-addon"><i class="fa fa-lg fa-lock"></i>
-											</span> <input type="password" th:field="*{password}" autocomplete="off"
-												class="form-control" id="userPassword"
+											</span> 
+											<input type="password" th:field="*{password}" autocomplete="off"
+												class="form-control" id="userPassword" th:placeholder="#{placeholder.provider.password}"
 												placeholder="Enter password" required="required" />
 										</div>
 										<span class="pwstrength_viewport_verdict"></span>

@@ -45,7 +45,7 @@
 								<div class="input-group input-group-lg">
 									<span class="input-group-addon"><i class="fa fa-envelope"></i></span>
 									 <input type="email" required="required" name="email" th:autocomplete="false"
-										autofocus="autofocus" class="form-control"
+										autofocus="autofocus" class="form-control" th:placeholder="#{placeholder.provider.email}"
 										id="email" placeholder="Enter email" />
 								</div>
 
@@ -53,7 +53,8 @@
 							<div class="form-group">
 								<div class="input-group input-group-lg">
 									<span class="input-group-addon"><i class="fa fa-lg fa-lock"></i>
-									</span> <input type="password" class="form-control" id="password" name="password" placeholder="Password" required="required"  th:autocomplete="false" />
+									</span> <input type="password" class="form-control" id="password" name="password" placeholder="Password" required="required" 
+									 th:autocomplete="false" th:placeholder="#{placeholder.provider.password}"/>
 								</div>
 
 							</div>

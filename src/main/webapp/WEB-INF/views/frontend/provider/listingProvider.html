@@ -45,7 +45,7 @@
 										</div>
 										<div class="col-md-2 col-sm-3   ">
 											<button type="submit" class="btn btn-primary btn-block">
-												Find <span class="glyphicon glyphicon-search"></span>
+											<span th:text="#{listingprovider.find}">Find</span>	 <span class="glyphicon glyphicon-search"></span>
 											</button>
 										</div>
 									</div>
@@ -145,7 +145,7 @@
 										<!-- <p>
 											<a href="detailProvider.html"
 												th:href="@{/providers/details(id=${provider.id})}"
-												class="btn btn-primary btn-xs" role="button">Follow</a> 
+												class="btn btn-primary btn-sm" role="button" ><span th:text="#{provider.viewdetails}">View details</span>&raquo;</a> 
 												<a
 												href="#" class="btn btn-default btn-xs" role="button">Like</a>
 										</p> -->
