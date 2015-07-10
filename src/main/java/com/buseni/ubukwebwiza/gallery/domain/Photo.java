@@ -127,20 +127,17 @@ public class Photo implements Serializable{
 
 	
 
+
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((createdAt == null) ? 0 : createdAt.hashCode());
-		result = prime * result
-				+ ((description == null) ? 0 : description.hashCode());
-		result = prime * result + (enabled ? 1231 : 1237);
-		result = prime * result
-				+ ((filename == null) ? 0 : filename.hashCode());
+		result = prime * result + ((category == null) ? 0 : category.hashCode());
+		result = prime * result + ((contentType == null) ? 0 : contentType.hashCode());
+		result = prime * result + ((createdAt == null) ? 0 : createdAt.hashCode());
+		result = prime * result + ((filename == null) ? 0 : filename.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result
-				+ ((lastUpdate == null) ? 0 : lastUpdate.hashCode());
 		return result;
 	}
 
@@ -153,17 +150,20 @@ public class Photo implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Photo other = (Photo) obj;
+		if (category == null) {
+			if (other.category != null)
+				return false;
+		} else if (!category.equals(other.category))
+			return false;
+		if (contentType == null) {
+			if (other.contentType != null)
+				return false;
+		} else if (!contentType.equals(other.contentType))
+			return false;
 		if (createdAt == null) {
 			if (other.createdAt != null)
 				return false;
 		} else if (!createdAt.equals(other.createdAt))
-			return false;
-		if (description == null) {
-			if (other.description != null)
-				return false;
-		} else if (!description.equals(other.description))
-			return false;
-		if (enabled != other.enabled)
 			return false;
 		if (filename == null) {
 			if (other.filename != null)
@@ -174,11 +174,6 @@ public class Photo implements Serializable{
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
-			return false;
-		if (lastUpdate == null) {
-			if (other.lastUpdate != null)
-				return false;
-		} else if (!lastUpdate.equals(other.lastUpdate))
 			return false;
 		return true;
 	}

@@ -18,8 +18,8 @@
 					</div>
 					<div class="panel-body">
 				
-					
-						<button class="btn btn-facebook btn-block">
+					<!-- This will be activated in the next version -->
+						<!-- <button class="btn btn-facebook btn-block">
 							<i class="fa fa-facebook"></i> | Sign in with Facebook
 						</button>
 
@@ -29,7 +29,7 @@
 								style="background-color: #FDFDFD; display: inline-block; margin: 0; padding: 8px;">OR</h5>
 							<hr style="margin: -16px auto 10px; width: 90%;" />
 
-						</div>
+						</div> -->
 
 						<form role="form" th:action="@{/profile/login}" method="POST" th:autocomplete="off" autocomplete="off">
 							<div th:if="${param.error}" class="alert alert-danger" th:text="#{message.invalidCredentials}">

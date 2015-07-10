@@ -341,6 +341,9 @@
 					<tomcatWebXml></tomcatWebXml>
 					<contextFile>${basedir}/src/main/webapp/META-INF/context.xml</contextFile>
 					<useTestClasspath>false</useTestClasspath>
+					<!--  <systemProperties>
+           			 <MAVEN_OPTS>-Xmx1024m -Xms512m -XX:MaxPermSize=512m -Xdebug  -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8000</MAVEN_OPTS>
+         		 </systemProperties> -->
 				</configuration>
 			</plugin>
 			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-clean-plugin</artifactId> 

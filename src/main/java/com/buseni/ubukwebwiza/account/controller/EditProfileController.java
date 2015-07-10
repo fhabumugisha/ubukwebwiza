@@ -4,6 +4,7 @@ import java.io.File;
 import java.security.Principal;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -13,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -80,8 +80,7 @@ public class EditProfileController {
 	@Autowired
 	private AmazonS3Util amazonS3Util;
 
-	@Autowired
-	private PasswordEncoder encoder;
+
 
 	@RequestMapping(value="/profile", method=RequestMethod.GET)
 	public String myAccount( Model model, Principal principal){
@@ -309,24 +308,32 @@ public class EditProfileController {
 		photo.setDescription(photoForm.getDescription());
 		photo.setId(photoForm.getId());
 		photo.setEnabled(photoForm.isEnabled());
-		photoService.addOrUpdate(photo);
 		
-		//TODO improve this
-		Provider provider = (Provider) model.asMap().get("provider");
-		model.addAttribute("provider", providerService.findOne(provider.getId()));
-
-		
-
-		// Save profil pricture to amazon S3
-		File fileToUpload = ImagesUtils.prepareUploading(file,	EnumPhotoCategory.PROVIDER.getId());
-		amazonS3Util.uploadFile(fileToUpload, filename);
-
 		String message  =  "";
 		if(photo.getId() == null){
 			message = messages.getMessage("message.editprofile.photoAddSuccess", null, request.getLocale());	
 		}else{
 			message = messages.getMessage("message.editprofile.photoUpdateSuccess", null, request.getLocale());	
 		}
+		
+		
+		
+		Photo updatedPhoto = photoService.addOrUpdate(photo);
+		
+		//TODO improve this
+		Provider provider = (Provider) model.asMap().get("provider");
+		Photo providerPhoto =  getPhoto(provider.getPhotos(), updatedPhoto.getId());
+		if(providerPhoto != null){
+			provider.getPhotos().remove(providerPhoto);
+		}
+		provider.getPhotos().add(updatedPhoto);
+		model.addAttribute("provider", providerService.update(provider));
+
+		// Save profil pricture to amazon S3
+		File fileToUpload = ImagesUtils.prepareUploading(file,	EnumPhotoCategory.PROVIDER.getId());
+		amazonS3Util.uploadFile(fileToUpload, filename);
+
+		
 		model.addAttribute("messagePhoto", message);
 		
 		return "frontend/account/editProfile::photos-bloc";
@@ -348,12 +355,12 @@ public class EditProfileController {
 		LOGGER.info("IN: providers/deletePhoto-GETT");
 		Provider provider = (Provider) model.asMap().get("provider");
 		Photo photo = photoService.findById(id);
-		providerService.deletePhoto(provider.getId(), photo);	
-		provider.getPhotos().remove(photo);
+		Provider updatedProvider = providerService.deletePhoto(provider.getId(), photo);	
+	//	provider.getPhotos().remove(photo);
 		amazonS3Util.deleteFile(photo.getFilename());
 		String message = messages.getMessage("message.editprofile.photoDeleteSuccess", null, request.getLocale());	
 		model.addAttribute("messagePhoto", message);		
-		model.addAttribute("provider", provider);		
+		model.addAttribute("provider", updatedProvider);		
 		model.addAttribute("currentTab", "photos");		
 		return "frontend/account/editProfile::photos-bloc";
 	}
@@ -412,6 +419,14 @@ public class EditProfileController {
 		return providerService.findProviderByUsername(principal.getName());
 	}*/
 
+	private Photo getPhoto(Set<Photo> photos, Integer idPhoto){
+		for(Photo photo : photos){
+			if(photo.getId().equals(idPhoto)){
+				return photo;
+			}
+		}
+		return null;
+	}
 
 	@ModelAttribute("showSidebar")
 	public boolean showSidebar(){

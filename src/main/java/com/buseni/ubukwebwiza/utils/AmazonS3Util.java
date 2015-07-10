@@ -61,7 +61,7 @@ public class AmazonS3Util {
 
 				// While the transfer is processing, you can work with the transfer object
 				while (myUpload.isDone() == false) {
-					LOGGER.info(myUpload.getProgress().getPercentTransferred() + "%");
+					LOGGER.debug(myUpload.getProgress().getPercentTransferred() + "%");
 				}
 			} catch (AmazonServiceException ase) {
 				LOGGER.error("Caught an AmazonServiceException, which means your request made it "

@@ -278,6 +278,7 @@ public class ProviderServiceImpl implements ProviderService {
 		Provider provider = findOne(idProvider);
 		if(photo != null && !CollectionUtils.isEmpty(provider.getPhotos())){
 			provider.getPhotos().remove(photo);
+			provider.getAccount().setLastUpdate(new Date());
 			providerRepo.save(provider);
 			photoRepo.delete(photo);
 		}
