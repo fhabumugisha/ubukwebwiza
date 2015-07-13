@@ -17,10 +17,10 @@
 								
 								<img id="profilPicturePreview"   width="290" height="150" class="img-thumbnail"
 									     alt="profil pic"  th:if="*{provider.profilPicture}" 
-									     th:alt="${businessName}" th:src="@{'https://ubfiles.s3.amazonaws.com/'+*{provider.profilPicture.filename}} "></img>
+									     th:alt="${provider.businessName}" th:src="@{'https://ubfiles.s3.amazonaws.com/'+*{provider.profilPicture.filename}} "></img>
 									
 									 <img id="profilPicturePreview" alt="profil pic" class="img-thumbnail"
-									      th:unless="*{provider.profilPicture}" th:alt="${businessName}" 
+									      th:unless="*{provider.profilPicture}" th:alt="${provider.businessName}" 
 									      data-src="holder.js/100%x150"></img>
 									      
 								<div class="caption">
@@ -39,9 +39,12 @@
 
 							
 							<div>
-							 <a class="btn btn-social-icon btn-facebook" th:if="*{provider.fbUsername}"><i class="fa fa-facebook"></i></a>
-								<a class="btn btn-social-icon btn-twitter" th:if="*{provider.twitterUsername}" ><i class="fa fa-twitter"></i></a>
-								<a class="btn btn-social-icon btn-google-plus" th:if="*{provider.website}" ><i class="fa fa-google-plus"></i></a>
+							 <a target="_blank" class="btn btn-social-icon btn-facebook" th:if="${!#strings.isEmpty(provider.fbUsername)}" 
+							 th:href="@{'http://' + ${provider.fbUsername}}" title="Facebook"><i class="fa fa-facebook"></i></a>
+								<a target="_blank"  class="btn btn-social-icon btn-twitter" th:if="${!#strings.isEmpty(provider.twitterUsername)}"
+								th:href="@{'http://' + ${provider.twitterUsername}}" title="Twitter" ><i class="fa fa-twitter"></i></a>
+								<a target="_blank"  class="btn btn-social-icon btn-google-plus" th:if="${!#strings.isEmpty(provider.website)}"
+								th:href="@{'http://' + ${provider.website}}" ><i class="fa fa-external-link" title="Website"></i></a>
 								
 							</div>
 						</div>
