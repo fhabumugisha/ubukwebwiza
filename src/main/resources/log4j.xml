@@ -87,7 +87,7 @@
 
 	<!-- Root Logger -->
 	<root>
-		<priority value="debug" />
+		<priority value="${log4j.rootlevel}" />
 		<appender-ref ref="console" />
 	</root>
 	
