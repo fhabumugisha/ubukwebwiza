@@ -258,7 +258,13 @@
 									<a href="#" class="close" data-dismiss="alert">&times;</a>
 									<span th:text="${messagePhoto}">Success</span>
 								</div>
-									<a id="showAddPhotoForm" href="#" class=" btn btn-primary btn-xs"> Add photo </a>
+								<div class="alert alert-danger" id="errors" style="display: none;">
+<!-- 									<a href="#" class="close" data-dismiss="alert">&times;</a>	 -->
+									<span id="errorMessage">Success</span>							
+								</div>
+								<!-- Free account can add only 5 photos -->
+									<a id="showAddPhotoForm" href="#" class=" btn btn-primary btn-xs"
+									th:if="${#bools.isTrue(canAddMorePhoto)}" th:text="#{message.editProfile.addPhoto}"> Add photo </a>
 									<br /><br />
 									
 									<div id="editPhotoBox" style=" display: none;">
@@ -421,8 +427,8 @@
 													<img alt="Cool stuff" src="images/thumbnails/orange.jpg"
 														width="180" height="200"/> <br /> <span
 														class="title2">Cool stuff</span> <br /> <a
-														href="JavaScript:editFashion();"> Edit</a> | <a
-														class="deletePhoto" href="#;"> Delete </a>
+														href="JavaScript:editFashion();" th:text="#{message.editProfile.edit}"> Edit</a> | <a
+														class="deletePhoto" href="#;" th:text="#{message.editProfile.delete}"> Delete </a>
 												</div>
 											</div>
 
@@ -450,7 +456,7 @@
 									<a href="#" class="close" data-dismiss="alert">&times;</a>
 									<span th:text="${messageService}">Success</span>
 								</div>
-								<a id="showAddServiceForm" href="#" class=" btn btn-primary btn-xs">
+								<a id="showAddServiceForm" href="#" class=" btn btn-primary btn-xs" th:text="#{message.editProfile.addService}">
 										Add Service </a><br /><br />
 								
 									

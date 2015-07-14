@@ -71,11 +71,15 @@ public class AdminHomeController {
 	}
 
 	
-	@RequestMapping(value="/admin/login", method=RequestMethod.GET)
+	@RequestMapping(value="/admin/signin", method=RequestMethod.GET)
 	public String login(@RequestParam(value = "error", required = false) String error,
 			  @RequestParam(value = "logout", required = false) String logout, 
 	          HttpServletRequest request,Model model){
-		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if(!(auth instanceof AnonymousAuthenticationToken)){
+			model.asMap().clear();
+			return "redirect:/admin";
+		}
 		if (error != null) {
 		model.addAttribute("error", "Invalid username and password!");
  
@@ -108,15 +112,15 @@ public class AdminHomeController {
 	        String error = messages.getMessage("auth.message.invalidToken", null, locale);
 	        LOGGER.error(error);
 	        model.addFlashAttribute("error", error);
-	        return "redirect:/admin/login";
+	        return "redirect:/admin/signin";
 	    }
 	 
 	    Calendar cal = Calendar.getInstance();
 	    if ((passToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
-	    	String error = messages.getMessage("auth.message.expired", null, locale);
+	    	String error = messages.getMessage("auth.message.resetpasswordtoken.expired", null, locale);
 	    	LOGGER.error(error);
 	        model.addFlashAttribute("error", error);
-	        return "redirect:/admin/login";
+	        return "redirect:/admin/signin";
 	    }
 	    UserAccount user = passToken.getUserAccount();
 	    Authentication auth = new UsernamePasswordAuthenticationToken(user, null, userAccountService.loadUserByUsername(user.getEmail()).getAuthorities());
@@ -140,11 +144,13 @@ public class AdminHomeController {
 			attributes.addFlashAttribute("error", error);			
 			return "redirect:/adminChangePassword";
 	  }		
-		UserAccount admin = (UserAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	  Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserAccount admin = (UserAccount) auth.getPrincipal();
 		userAccountService.changeUserPassword(admin, password);
 	    String message = messages.getMessage("message.resetPasswordSuc", null, request.getLocale());			
 		attributes.addFlashAttribute("message", message);		
-	    return "redirect:/admin/login";
+		auth.setAuthenticated(false);
+	    return "redirect:/admin/signin";
 	}
 	
 	@RequestMapping(value = "/adminForgotPassword", method = RequestMethod.POST)

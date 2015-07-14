@@ -14,6 +14,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.MessageSource;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,7 +34,6 @@ import com.buseni.ubukwebwiza.account.service.UserAccountService;
 import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
 import com.buseni.ubukwebwiza.exceptions.BusinessException;
 import com.buseni.ubukwebwiza.exceptions.ErrorsHelper;
-import com.buseni.ubukwebwiza.gallery.service.PhotoService;
 import com.buseni.ubukwebwiza.home.HomeController;
 import com.buseni.ubukwebwiza.provider.domain.District;
 import com.buseni.ubukwebwiza.provider.domain.WeddingService;
@@ -57,8 +59,6 @@ public class SignupController {
 	@Autowired
 	private DistrictService districtService;
 	
-	@Autowired
-	private PhotoService photoService;	
 
 	@Autowired
 	private MessageSource messages;
@@ -70,6 +70,11 @@ public class SignupController {
 
 	@RequestMapping(value="/signup", method=RequestMethod.GET)
 	public String goToSignup(Model model){
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if(!(auth instanceof AnonymousAuthenticationToken)){
+			model.asMap().clear();
+			return "redirect:/";
+		}
 		model.addAttribute("signupForm", new SignupForm());
 		return "frontend/account/signup";
 	}
@@ -145,8 +150,9 @@ public class SignupController {
 	     
 	    user.setEnabled(true); 
 	    userAccountService.update(user);
-	   // String message = messages.getMessage("message.accountVerified", null, locale);
-	    return "redirect:/profile/login?verified"; 
+	    String message = messages.getMessage("message.accountVerified", null, request.getLocale());
+	    model.addFlashAttribute("message", message);
+	    return "redirect:/profile/signin?verified"; 
 	}
 	
 	@RequestMapping(value = "/resend-registration-token", method = RequestMethod.GET)

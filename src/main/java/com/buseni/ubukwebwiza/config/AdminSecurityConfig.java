@@ -43,10 +43,10 @@ public class AdminSecurityConfig extends  WebSecurityConfigurerAdapter {
  
 		 http.antMatcher("/admin/**").authorizeRequests().anyRequest().hasRole("ADMIN")
 			.and()
-				.formLogin().loginPage("/admin/login").permitAll().failureUrl("/admin/login?error").usernameParameter("email")
+				.formLogin().loginPage("/admin/signin").permitAll().failureUrl("/admin/signin?error").usernameParameter("email")
 					.passwordParameter("password").successHandler(savedRequestAwareAuthenticationSuccessHandler())
 	        .and()
-	        	.logout().logoutUrl("/admin/logout").logoutSuccessUrl("/admin/login?logout").deleteCookies("JSESSIONID")
+	        	.logout().logoutUrl("/admin/logout").logoutSuccessUrl("/admin/signin?logout").deleteCookies("JSESSIONID")
 	        .and()
 	        	.exceptionHandling().accessDeniedPage("/admin403")
 	        .and()

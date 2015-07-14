@@ -20,7 +20,9 @@ $(document).on("submit","#addPhotoForm",function(event){
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
 			  console.log(textStatus, errorThrown);
-			  $('#errors').html(textStatus  + " " + errorThrown);
+			  $('#errorMessage').html(textStatus  + " " + errorThrown);
+			  $('#errors').removeAttr('style')
+			  $('#errors').show("slow").delay(5000).hide("slow");
 			}
 	});
 	

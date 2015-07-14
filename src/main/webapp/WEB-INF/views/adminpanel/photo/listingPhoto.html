@@ -63,7 +63,7 @@
 									</li>
 									<li th:if="${photo.category == 3}">
 									
-									<a href="#" th:href="@{/admin/photos/delete(id=${photo.id})}" class="deleteHomePagePhoto">
+									<a href="#" th:href="@{/admin/photos/delete(id=${photo.id})}" class="deleteHomePagePhoto confirmDelete">
 											
 											<button type="button" class="btn btn-default btn-xs">
          									  <span class="glyphicon glyphicon-trash"></span>&nbsp; <span th:text="#{list.delete}">delete</span>

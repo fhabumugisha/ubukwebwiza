@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,8 @@ public class EditProfileController {
 
 	public  static final Logger LOGGER = LoggerFactory.getLogger(EditProfileController.class);
 
+	public static final Integer MAX_PHOTO = 8;
+
 	@Autowired
 	private UserAccountService userAccountService;
 
@@ -84,11 +87,16 @@ public class EditProfileController {
 
 	@RequestMapping(value="/profile", method=RequestMethod.GET)
 	public String myAccount( Model model, Principal principal){
-		model.addAttribute("provider", providerService.findProviderByUsername(principal.getName()));		
+		Provider provider = providerService.findProviderByUsername(principal.getName());
+		model.addAttribute("provider", provider);		
 		if(!model.containsAttribute("currentTab")){
 			model.addAttribute("currentTab", "personnalInfo");
 		}
-
+		//model.addAttribute("canAddMorePhoto", false);
+		//Free account can add only 5 photos 
+		if(CollectionUtils.isEmpty(provider.getPhotos()) || provider.getPhotos().size() < MAX_PHOTO){
+			model.addAttribute("canAddMorePhoto", true);
+		}
 		return "frontend/account/editProfile";
 	}
 
@@ -186,7 +194,7 @@ public class EditProfileController {
 	public String updateAccount(HttpServletRequest request, Principal principal, @RequestParam(value="currentPassword", required=false ) String currentPassword,  @RequestParam("password" ) String password, @RequestParam("passwordConfirm") String passwordConfirm, RedirectAttributes attributes) {
 		//Provider provider = providerService.findProviderByUsername(principal.getName());
 		attributes.addFlashAttribute("currentTab", "accountInfo");
-	
+
 		if(!password.equals(passwordConfirm)){
 			String error = messages.getMessage("error.passwordMatches", null, request.getLocale());		
 			LOGGER.error("Password does not match!");
@@ -278,6 +286,12 @@ public class EditProfileController {
 	public String savePhoto(HttpServletRequest request, @ModelAttribute PhotoForm photoForm,  Model model) throws BusinessException{		
 		LOGGER.info("IN: profile/addPhoto-POST");
 		model.addAttribute("currentTab", "photos");
+		Provider provider = (Provider) model.asMap().get("provider");
+		//Free account can add only 5 photos 
+		if(CollectionUtils.isEmpty(provider.getPhotos()) || provider.getPhotos().size() < MAX_PHOTO){
+			model.addAttribute("canAddMorePhoto", true);
+		}
+
 		MultipartFile file  = photoForm.getFile();
 		Photo photo = new Photo();
 		String filename = "no_person.jpg";
@@ -308,34 +322,39 @@ public class EditProfileController {
 		photo.setDescription(photoForm.getDescription());
 		photo.setId(photoForm.getId());
 		photo.setEnabled(photoForm.isEnabled());
-		
+
 		String message  =  "";
 		if(photo.getId() == null){
 			message = messages.getMessage("message.editprofile.photoAddSuccess", null, request.getLocale());	
 		}else{
 			message = messages.getMessage("message.editprofile.photoUpdateSuccess", null, request.getLocale());	
 		}
-		
-		
-		
+
+
+
 		Photo updatedPhoto = photoService.addOrUpdate(photo);
-		
+
 		//TODO improve this
-		Provider provider = (Provider) model.asMap().get("provider");
+
 		Photo providerPhoto =  getPhoto(provider.getPhotos(), updatedPhoto.getId());
 		if(providerPhoto != null){
 			provider.getPhotos().remove(providerPhoto);
 		}
 		provider.getPhotos().add(updatedPhoto);
 		model.addAttribute("provider", providerService.update(provider));
-
+		//Free account can add only 5 photos 
+		if(CollectionUtils.isEmpty(provider.getPhotos()) || provider.getPhotos().size() < MAX_PHOTO){
+			model.addAttribute("canAddMorePhoto", true);
+		}else{
+			model.addAttribute("canAddMorePhoto", false);
+		}
 		// Save profil pricture to amazon S3
 		File fileToUpload = ImagesUtils.prepareUploading(file,	EnumPhotoCategory.PROVIDER.getId());
 		amazonS3Util.uploadFile(fileToUpload, filename);
 
-		
+
 		model.addAttribute("messagePhoto", message);
-		
+
 		return "frontend/account/editProfile::photos-bloc";
 
 		// Business errors
@@ -356,11 +375,15 @@ public class EditProfileController {
 		Provider provider = (Provider) model.asMap().get("provider");
 		Photo photo = photoService.findById(id);
 		Provider updatedProvider = providerService.deletePhoto(provider.getId(), photo);	
-	//	provider.getPhotos().remove(photo);
+		//	provider.getPhotos().remove(photo);
 		amazonS3Util.deleteFile(photo.getFilename());
 		String message = messages.getMessage("message.editprofile.photoDeleteSuccess", null, request.getLocale());	
 		model.addAttribute("messagePhoto", message);		
-		model.addAttribute("provider", updatedProvider);		
+		model.addAttribute("provider", updatedProvider);	
+		//Free account can add only 5 photos 
+		if(CollectionUtils.isEmpty(updatedProvider.getPhotos()) || updatedProvider.getPhotos().size() < MAX_PHOTO){
+			model.addAttribute("canAddMorePhoto", true);
+		}
 		model.addAttribute("currentTab", "photos");		
 		return "frontend/account/editProfile::photos-bloc";
 	}
@@ -413,7 +436,7 @@ public class EditProfileController {
 	public ChangePasswordForm changePasswordForm(){
 		return new ChangePasswordForm();
 	}
-/*
+	/*
 	@ModelAttribute("provider")
 	public Provider provider( Principal principal){
 		return providerService.findProviderByUsername(principal.getName());

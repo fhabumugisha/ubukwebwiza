@@ -81,7 +81,7 @@
 
 					<div class="row">
 						<div class="col-md-6">
-							<a href="account/signin.html" th:href="@{/profile/login}"
+							<a href="account/signin.html" th:href="@{/profile/signin}"
 								class="btn btn-default pull-right  navbar-btn"
 								th:text="#{signin.title}">Sign in</a>
 						</div>
@@ -140,7 +140,7 @@
 
 							<div class="row container visible-xs-block">
 								<div class="col-md-6">
-									<a href="account/signin.html" th:href="@{/profile/login}"
+									<a href="account/signin.html" th:href="@{/profile/signin}"
 										class="btn btn-default  navbar-btn" th:text="#{signin.title}">Sign
 										in</a>
 								</div>
@@ -351,28 +351,28 @@
       <!-- START THE FEATURETTES -->
 
 <!--       <hr class="featurette-divider"/> -->
-
-		<div class="row">
-			<div class="col-md-12 text-center"
-				style="border-top: 1px solid rgba(128, 128, 128, 0.58); margin: 1px;">
-				<h2 style="font-family: 'GothamBook', Shift, Helvetica Neue;"
-					th:text="#{home.providerCallAction}">Are you a wedding service
-					provider ?</h2>
+		<th:block sec:authorize="!isAuthenticated()">
+			<div class="row">
+				<div class="col-md-12 text-center"
+					style="border-top: 1px solid rgba(128, 128, 128, 0.58); margin: 1px;">
+					<h2 style="font-family: 'GothamBook', Shift, Helvetica Neue;"
+						th:text="#{home.providerCallAction}">Are you a wedding
+						service provider ?</h2>
+				</div>
 			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-12 text-center">
-				<a href="contactus.html" th:href="@{/signup}"
-					class="btn btn-primary " role="button"
-					th:text="#{joinus.title}">Join us</a>
+			<div class="row">
+				<div class="col-md-12 text-center">
+					<a href="contactus.html" th:href="@{/signup}"
+						class="btn btn-primary " role="button" th:text="#{joinus.title}">Join
+						us</a>
+				</div>
 			</div>
-		</div>
+		</th:block>
 
-	
-     
-      <!-- FOOTER -->
+
+		<!-- FOOTER -->
       
-      <hr class="featurette-divider"/>
+      <div class="featurette-divider"></div> 
       <!-- footer to be included -->
 		<div th:replace="frontendFooter :: footer">&nbsp;</div>
 		<!-- end of footer -->

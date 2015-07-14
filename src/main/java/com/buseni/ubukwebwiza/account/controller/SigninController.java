@@ -11,6 +11,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.MessageSource;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -27,11 +30,11 @@ import com.buseni.ubukwebwiza.home.HomeController;
 import com.buseni.ubukwebwiza.provider.service.ProviderService;
 
 @Controller
-@Navigation(url="/login", name="Login" , parent = HomeController.class)
-public class LoginController {
+@Navigation(url="/signin", name="Sign in" , parent = HomeController.class)
+public class SigninController {
 
 	
-	public  static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
+	public  static final Logger LOGGER = LoggerFactory.getLogger(SigninController.class);
 	
 	
 	
@@ -51,9 +54,14 @@ public class LoginController {
 
 	
 	
-	@RequestMapping(value="/profile/login", method=RequestMethod.GET)
+	@RequestMapping(value="/profile/signin", method=RequestMethod.GET)
 	public String login(@RequestParam(value = "error", required = false) String error, Model model){
-		return "frontend/account/login";
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if(!(auth instanceof AnonymousAuthenticationToken)){
+			model.asMap().clear();
+			return "redirect:/";
+		}
+		return "frontend/account/signin";
 	}
 	
 	@RequestMapping(value="/forgot-password", method=RequestMethod.GET)
@@ -90,21 +98,22 @@ public class LoginController {
 		PasswordResetToken passToken = userAccountService.getPasswordResetToken(token);
 	   
 	    if (passToken == null || passToken.getUserAccount().getId() != id) {
-	        String error = messages.getMessage("auth.message.invalidToken", null, locale);
-	        LOGGER.error("Invalid account confirmation token.");
+	        String error = messages.getMessage("auth.message.resetpasswordtoken.invalid", null, locale);
+	        LOGGER.error("Invalid reset password token.");
 	        model.addFlashAttribute("error", error);
-	        return "redirect:/profile/login";
+	        return "redirect:/reset-password-error";
 	    }
 	 
 	    Calendar cal = Calendar.getInstance();
 	    if ((passToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
-	    	String error = messages.getMessage("auth.message.expired", null, locale);
-	    	LOGGER.error("Your registration token has expired.");
+	    	String error = messages.getMessage("auth.message.resetpasswordtoken.expired", null, locale);
+	    	LOGGER.error("Your reset password token has expired.");
 	        model.addFlashAttribute("error", error);
-	        return "redirect:/profile/login";
+	        return "redirect:/reset-password-error";
 	    }
-	    //TODO dont do this
+	   
 	  UserAccount account = passToken.getUserAccount();
+	  //TODO dont do this
 	  /*   UserDetails userDetails  = userAccountService.loadUserByUsername(account.getEmail());
 	    Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 	    SecurityContextHolder.getContext().setAuthentication(auth);*/
@@ -113,6 +122,10 @@ public class LoginController {
 		return "redirect:/change-password";
 	}
 	
+	@RequestMapping(value="/reset-password-error", method=RequestMethod.GET)
+	public String resetPasswordError(Model model){
+		return "frontend/account/resetPasswordError";
+	}
 	
 	@RequestMapping(value="/change-password", method=RequestMethod.GET)
 	public String changePassword(Model model){
@@ -138,7 +151,7 @@ public class LoginController {
 		userAccountService.changeUserPassword(account, password);
 	    String message = messages.getMessage("message.resetPasswordSuc", null, request.getLocale());			
 		attributes.addFlashAttribute("message", message);
-	    return "redirect:/profile/login";
+	    return "redirect:/profile/signin";
 	}
 	
 	

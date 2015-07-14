@@ -85,8 +85,8 @@ public class CustomSavedRequestAwareAuthenticationSuccessHandler extends
 		// Use the DefaultSavedRequest URL
 		String targetUrl = savedRequest.getRedirectUrl();
 		logger.debug("Original  DefaultSavedRequest Url: " + targetUrl);
-		 if(targetUrl.contains("/login")){
-			 targetUrl = targetUrl.substring(0, targetUrl.lastIndexOf("login"));
+		 if(targetUrl.contains("/signin")){
+			 targetUrl = targetUrl.substring(0, targetUrl.lastIndexOf("signin"));
 		 }
 		logger.debug("Redirecting to DefaultSavedRequest Url: " + targetUrl);
 		getRedirectStrategy().sendRedirect(request, response, targetUrl);

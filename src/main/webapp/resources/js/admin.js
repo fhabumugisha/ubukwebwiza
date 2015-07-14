@@ -2,7 +2,7 @@
  *  Admin panel Js
  */
 
-$(".deleteProvince, .deletedistrict, .deleteProvider, .deleteHomePagePhoto").click(function(event){
+$(".confirmDelete").click(function(event){
 	event.preventDefault(); 
 	var url = $(this).attr('href');
 	console.log(url);

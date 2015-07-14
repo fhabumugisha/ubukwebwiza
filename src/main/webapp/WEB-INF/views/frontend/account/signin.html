@@ -3,18 +3,18 @@
 	xmlns:th="http://www.thymeleaf.org"
 	layout:decorator="frontend/fragments/mainLayout">
 <head>
-<title th:text="#{login.title}">Ubukwebwiza - login</title>
+<title th:text="#{signin.title}">Ubukwebwiza - Sign in</title>
 </head>
 <body>
 
 	<div layout:fragment="pageContent" id="content" >
 		<!-- <div th:if="${error}" class="alert alert-danger" th:text="${error}">Error</div> -->
-		<div th:if="${message}" class="alert alert-success" th:text="${message}">	Password reset successfully</div>	
+		<div th:if="${message}" class="alert alert-success" th:text="${message}">	Password reset/Your account verified  successfully</div>	
 		<div class="row">
 			<div class="col-md-5 col-md-offset-4">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h3 class="panel-title">Sign in</h3>
+						<h3 class="panel-title" th:text="#{login.signin}">Sign in</h3>
 					</div>
 					<div class="panel-body">
 				
@@ -31,7 +31,7 @@
 
 						</div> -->
 
-						<form role="form" th:action="@{/profile/login}" method="POST" th:autocomplete="off" autocomplete="off">
+						<form role="form" th:action="@{/profile/signin}" method="POST" th:autocomplete="off" autocomplete="off">
 							<div th:if="${param.error}" class="alert alert-danger" th:text="#{message.invalidCredentials}">
 								Invalid username and password.</div>
 							
@@ -60,20 +60,19 @@
 							</div>
 
 							<div class="checkbox" th:unless="${#bools.isTrue(loginUpdate)}">
-								<label> <input type="checkbox" name="remember-me"/> Remember me
+								<label> <input type="checkbox" name="remember-me" th:text="#{login.rememberme}"/> Remember me
 								</label> 
 								
 
 							</div>
-							<button type="submit" class="btn btn-primary btn-block">Sign
-								in</button>
+							<button type="submit" class="btn btn-primary btn-block" th:text="#{login.signin}">Sign in</button>
 						</form>
 						<div>
-						<span><a href="forgetPassword.html" th:href="@{/forgot-password}">Forgot password?</a></span>
+						<span><a href="forgetPassword.html" th:href="@{/forgot-password}" th:text="#{login.forgotPassword}">Forgot password?</a></span>
 							
 						</div>
 						<div>						
-							<span> Are you a wedding service provider ?<a href="signup.html" th:href="@{/signup}">Sign up</a>
+							<span th:text="#{login.areYouProvider}"> Are you a wedding service provider ?<a href="signup.html" th:href="@{/signup}" th:text="#{login.signup}">Sign up</a>
 							</span>
 						</div>
 

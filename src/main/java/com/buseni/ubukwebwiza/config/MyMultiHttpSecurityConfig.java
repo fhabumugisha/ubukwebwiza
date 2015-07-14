@@ -42,10 +42,10 @@ public class MyMultiHttpSecurityConfig {
 		protected void configure(HttpSecurity http) throws Exception {
 			 http.antMatcher("/admin/**").authorizeRequests().anyRequest().hasRole("ADMIN")
 			.and()
-				.formLogin().loginPage("/admin/login").permitAll().failureUrl("/admin/login?error").usernameParameter("email")
+				.formLogin().loginPage("/admin/signin").permitAll().failureUrl("/admin/signin?error").usernameParameter("email")
 					.passwordParameter("password").successHandler(savedRequestAwareAuthenticationSuccessHandler())
 	        .and()
-	        	.logout().logoutUrl("/admin/logout").logoutSuccessUrl("/admin/login?logout").permitAll().deleteCookies("JSESSIONID")
+	        	.logout().logoutUrl("/admin/logout").logoutSuccessUrl("/admin/signin?logout").permitAll().deleteCookies("JSESSIONID")
 	        .and()
 	        	.exceptionHandling().accessDeniedPage("/admin403")
 	        .and()
@@ -82,7 +82,7 @@ public class MyMultiHttpSecurityConfig {
 		protected void configure(HttpSecurity http) throws Exception {
 			http.antMatcher("/profile/**").authorizeRequests().anyRequest().hasRole("PROVIDER")			
 			.and()
-				.formLogin().loginPage("/profile/login").permitAll().failureUrl("/profile/login?error").usernameParameter("email")
+				.formLogin().loginPage("/profile/signin").permitAll().failureUrl("/profile/signin?error").usernameParameter("email")
 					.passwordParameter("password").successHandler(savedRequestAwareAuthenticationSuccessHandler())
 	        .and()
 	        	.logout().logoutUrl("/profile/logout").logoutSuccessUrl("/").deleteCookies("JSESSIONID")

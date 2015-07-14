@@ -21,11 +21,13 @@ public class DetailProviderController {
 
 	public static final Logger LOGGER = LoggerFactory.getLogger( DetailProviderController.class );
 
+
 	@Autowired
 	private ProviderService providerService;
 	@RequestMapping(value="/providers/{id:[\\d]+}",method=RequestMethod.GET)
 	public String getProvider(@PathVariable Integer id, Model model){		
 		Provider provider = providerService.getProvider(id);
+		
 		model.addAttribute("provider", provider);		
 		return "frontend/provider/detailProvider";
 	}
