@@ -260,7 +260,7 @@
 								</div>
 								<div class="alert alert-danger" id="errors" style="display: none;">
 <!-- 									<a href="#" class="close" data-dismiss="alert">&times;</a>	 -->
-									<span id="errorMessage">Success</span>							
+									<span id="errorMessage">Error</span>							
 								</div>
 								<!-- Free account can add only 5 photos -->
 									<a id="showAddPhotoForm" href="#" class=" btn btn-primary btn-xs"
@@ -456,7 +456,8 @@
 									<a href="#" class="close" data-dismiss="alert">&times;</a>
 									<span th:text="${messageService}">Success</span>
 								</div>
-								<a id="showAddServiceForm" href="#" class=" btn btn-primary btn-xs" th:text="#{message.editProfile.addService}">
+								<a id="showAddServiceForm" href="#" class=" btn btn-primary btn-xs"
+								 th:text="#{message.editProfile.addService}" th:if="${#lists.isEmpty(provider.providerWeddingServices)}">
 										Add Service </a><br /><br />
 								
 									
@@ -539,9 +540,8 @@
 												<tbody>
 												
 											
-												<!--/*/
- 											 <th:bloc th:each="providerWeddingService : ${provider.providerWeddingServices}">
-											
+												
+ 											 <th:bloc th:each="providerWeddingService : ${provider.providerWeddingServices}">											
 												
 												<tr>
 														
@@ -560,8 +560,12 @@
 														<td colspan="2">
 														<a th:href="@{/profile/editService(id=${providerWeddingService.id})}"
 															href="#" class="editProfileService"> 
-																 <span th:text="#{list.edit}">Edit</span> </a> | <a class="deleteProfileService" href="#"
-																th:href="@{/profile/deleteService(id=${providerWeddingService.id})}"> 	 <span th:text="#{list.delete}">delete</span> </a>
+																 <span th:text="#{list.edit}">Edit</span> </a> 
+																<!-- In a free account you can not delete the only service  -->
+																<!--  | <a class="deleteProfileService" href="#"
+																th:href="@{/profile/deleteService(id=${providerWeddingService.id})}">
+																 	 <span th:text="#{list.delete}">delete</span> </a> -->
+																 	 
 																
 																</td>
 																
@@ -571,7 +575,7 @@
 
 											
 										</th:bloc>
-									/*/-->
+									
 									
 													
 													<tr th:remove="all">

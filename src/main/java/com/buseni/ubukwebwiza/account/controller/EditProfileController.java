@@ -57,7 +57,7 @@ public class EditProfileController {
 
 	public  static final Logger LOGGER = LoggerFactory.getLogger(EditProfileController.class);
 
-	public static final Integer MAX_PHOTO = 8;
+
 
 	@Autowired
 	private UserAccountService userAccountService;
@@ -94,7 +94,7 @@ public class EditProfileController {
 		}
 		//model.addAttribute("canAddMorePhoto", false);
 		//Free account can add only 5 photos 
-		if(CollectionUtils.isEmpty(provider.getPhotos()) || provider.getPhotos().size() < MAX_PHOTO){
+		if(CollectionUtils.isEmpty(provider.getPhotos()) || provider.getPhotos().size() < UbUtils.MAX_PHOTO){
 			model.addAttribute("canAddMorePhoto", true);
 		}
 		return "frontend/account/editProfile";
@@ -288,7 +288,7 @@ public class EditProfileController {
 		model.addAttribute("currentTab", "photos");
 		Provider provider = (Provider) model.asMap().get("provider");
 		//Free account can add only 5 photos 
-		if(CollectionUtils.isEmpty(provider.getPhotos()) || provider.getPhotos().size() < MAX_PHOTO){
+		if(CollectionUtils.isEmpty(provider.getPhotos()) || provider.getPhotos().size() < UbUtils.MAX_PHOTO){
 			model.addAttribute("canAddMorePhoto", true);
 		}
 
@@ -343,7 +343,7 @@ public class EditProfileController {
 		provider.getPhotos().add(updatedPhoto);
 		model.addAttribute("provider", providerService.update(provider));
 		//Free account can add only 5 photos 
-		if(CollectionUtils.isEmpty(provider.getPhotos()) || provider.getPhotos().size() < MAX_PHOTO){
+		if(CollectionUtils.isEmpty(provider.getPhotos()) || provider.getPhotos().size() < UbUtils.MAX_PHOTO){
 			model.addAttribute("canAddMorePhoto", true);
 		}else{
 			model.addAttribute("canAddMorePhoto", false);
@@ -381,7 +381,7 @@ public class EditProfileController {
 		model.addAttribute("messagePhoto", message);		
 		model.addAttribute("provider", updatedProvider);	
 		//Free account can add only 5 photos 
-		if(CollectionUtils.isEmpty(updatedProvider.getPhotos()) || updatedProvider.getPhotos().size() < MAX_PHOTO){
+		if(CollectionUtils.isEmpty(updatedProvider.getPhotos()) || updatedProvider.getPhotos().size() < UbUtils.MAX_PHOTO){
 			model.addAttribute("canAddMorePhoto", true);
 		}
 		model.addAttribute("currentTab", "photos");		

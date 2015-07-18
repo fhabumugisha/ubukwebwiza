@@ -32,27 +32,31 @@ import com.buseni.ubukwebwiza.utils.UbUtils;
 @Controller
 @Navigation(url="/admin/providers/{idProvider:[\\d]+}/photos", name="Provider's photos", parent= {AdminProviderController.class, AdminHomeController.class})
 public class AdminProviderPhotosController{
-	
-	
+
+
 	public  static final Logger LOGGER = LoggerFactory.getLogger(AdminProviderPhotosController.class);
 
 	@Autowired
 	private ProviderService providerService;
-	
-	
+
+
 	@Autowired
 	private PhotoService photoService;
-	
+
 	@Autowired
 	private AmazonS3Util amazonS3Util;
-	
 
-	
+
+
 	@RequestMapping(value="/admin/providers/{idProvider:[\\d]+}/photos", method=RequestMethod.GET)
 	public String photos(@PathVariable Integer idProvider, Model model) {
 		LOGGER.info("IN: providers/photos-GET");
 		Provider provider =  providerService.findOne(idProvider);
 		model.addAttribute("provider", provider);
+		//Free account can add only 5 photos 
+		if(CollectionUtils.isEmpty(provider.getPhotos()) || provider.getPhotos().size() < UbUtils.MAX_PHOTO){
+			model.addAttribute("canAddMorePhoto", true);
+		}
 		return "adminpanel/provider/photos";
 	}
 
@@ -64,12 +68,16 @@ public class AdminProviderPhotosController{
 		model.addAttribute("provider", provider );
 		return "adminpanel/provider/editPhoto";
 	}
-	
+
 	@RequestMapping(value="/admin/providers/{idProvider:[\\d]+}/photos/addPhoto", method=RequestMethod.POST)
 	public String savePhoto(@PathVariable Integer idProvider, @ModelAttribute PhotoForm photoForm,
 			BindingResult result, RedirectAttributes attributes) throws BusinessException{		
 		LOGGER.info("IN: providers/addPhoto-POST");
 		Provider provider = providerService.findOne(idProvider);
+		//Free account can add only 5 photos 
+		if(CollectionUtils.isEmpty(provider.getPhotos()) || provider.getPhotos().size() < UbUtils.MAX_PHOTO){
+			attributes.addFlashAttribute("canAddMorePhoto", true);
+		}
 		LOGGER.info("IN: providers/addPhoto to provider : " + provider);
 
 		MultipartFile file  = photoForm.getFile();
@@ -83,7 +91,7 @@ public class AdminProviderPhotosController{
 				attributes.addFlashAttribute("errors", "File size should be less than " + ImagesUtils.MAXSIZE+ " byte.");
 				attributes.addFlashAttribute("photoForm", photoForm);
 				attributes.addFlashAttribute("provider", provider);	     
-				
+
 				return "adminpanel/provider/editPhoto";
 			}
 
@@ -103,31 +111,34 @@ public class AdminProviderPhotosController{
 
 		}
 
-	//	try {
-			photo.setDescription(photoForm.getDescription());
-			photo.setId(photoForm.getId());
-			photo.setEnabled(photoForm.isEnabled());
-			if(photo.getId() == null){
-				provider.getPhotos().add(photo);
-			}
-			photoService.addOrUpdate(photo);
+		//	try {
+		photo.setDescription(photoForm.getDescription());
+		photo.setId(photoForm.getId());
+		photo.setEnabled(photoForm.isEnabled());
+		if(photo.getId() == null){
+			provider.getPhotos().add(photo);
+		}
+		photoService.addOrUpdate(photo);
+		//Free account can add only 5 photos 
+		if(CollectionUtils.isEmpty(provider.getPhotos()) || provider.getPhotos().size() < UbUtils.MAX_PHOTO){
+			attributes.addFlashAttribute("canAddMorePhoto", true);
+		}else{
+			attributes.addFlashAttribute("canAddMorePhoto", false);
+		}
 
-			
-			//providerService.update(provider);
+		// Save profil pricture to amazon S3
+		File fileToUpload = ImagesUtils.prepareUploading(file,	EnumPhotoCategory.PROVIDER.getId());
+		amazonS3Util.uploadFile(fileToUpload, filename);
 
-			// Save profil pricture to amazon S3
-			File fileToUpload = ImagesUtils.prepareUploading(file,	EnumPhotoCategory.PROVIDER.getId());
-			amazonS3Util.uploadFile(fileToUpload, filename);
+		String message = "Photo " + photo.getId() + " was successfully added";
+		attributes.addFlashAttribute("message", message);
+		attributes.addFlashAttribute("provider", provider);
+		photoForm = new PhotoForm();
+		// photoForm.setIdProvider(provider.getId());
+		attributes.addFlashAttribute("photoForm", photoForm);
+		return "redirect:/admin/providers/" + provider.getId() + "/photos";
 
-			String message = "Photo " + photo.getId() + " was successfully added";
-			attributes.addFlashAttribute("message", message);
-			attributes.addFlashAttribute("provider", provider);
-			photoForm = new PhotoForm();
-			// photoForm.setIdProvider(provider.getId());
-			attributes.addFlashAttribute("photoForm", photoForm);
-			return "redirect:/admin/providers/" + provider.getId() + "/photos";
-
-			// Business errors
+		// Business errors
 		/*} catch (final BusinessException e) {
 			ErrorsHelper.rejectErrors(result, e.getErrors());
 			LOGGER.error("Photo-save error: " + result.toString());
@@ -136,9 +147,9 @@ public class AdminProviderPhotosController{
 			return "adminpanel/provider/editPhoto";
 		} */
 	}
-	
-	
-	
+
+
+
 
 	@RequestMapping(value="/admin/providers/{idProvider:[\\d]+}/photos/deletePhoto", method=RequestMethod.GET)
 	public String deletePhoto(@PathVariable Integer idProvider, @RequestParam(value="id", required=true) Integer id, Model model) {
@@ -150,11 +161,14 @@ public class AdminProviderPhotosController{
 		model.addAttribute("message", message);		
 		model.addAttribute("provider", provider);
 		PhotoForm photoForm = new PhotoForm();
-		
+		//Free account can add only 5 photos 
+		if(CollectionUtils.isEmpty(provider.getPhotos()) || provider.getPhotos().size() < UbUtils.MAX_PHOTO){
+			model.addAttribute("canAddMorePhoto", true);
+		}
 		model.addAttribute("photoForm", photoForm);	
 		return "adminpanel/provider/photos::listPhotos";
 	}
-	
+
 	@RequestMapping(value="/admin/providers/{idProvider:[\\d]+}/photos/editPhoto", method=RequestMethod.GET)
 	public String editPhoto(@PathVariable Integer idProvider, @RequestParam(value="id", required=true) Integer id, Model model) {
 		LOGGER.info("IN: providers/editPhoto-GET");
@@ -165,20 +179,20 @@ public class AdminProviderPhotosController{
 		photoForm.setName(photo.getFilename());
 		//photoForm.setIdProvider(idProvider);
 		photoForm.setEnabled(photo.isEnabled());
-		
+
 		model.addAttribute("photoForm", photoForm);	
 		Provider provider = providerService.findOne(idProvider);
 		if(!CollectionUtils.isEmpty(provider.getPhotos()) ){
 			provider.getPhotos().remove(photo);
 		}
-		
+
 		model.addAttribute("provider", provider );
 		return "adminpanel/provider/editPhoto";
 	}
-	
-	
-	
-	
+
+
+
+
 	/*@RequestMapping(value = "/image/{imageId}", method = RequestMethod.GET)
 	public void showImage(@PathVariable("imageId") Integer imageId,
 			HttpServletResponse response, HttpServletRequest request)
@@ -189,14 +203,14 @@ public class AdminProviderPhotosController{
 		response.getOutputStream().write(imageContent);
 		response.getOutputStream().close();
 	}*/
-	
+
 	@ModelAttribute("currentMenu")
 	public String module(){
 		return "providers";
 	}
-	
 
-	
-	
-	
+
+
+
+
 }

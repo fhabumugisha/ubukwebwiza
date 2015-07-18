@@ -7,6 +7,9 @@ import org.apache.commons.lang3.StringUtils;
 
 public class UbUtils {
 	
+	
+	public static final Integer MAX_PHOTO = 8;
+	
 	 /**
      * 
      * @param name

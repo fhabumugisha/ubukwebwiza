@@ -12,8 +12,10 @@
 			<h4 class="sub-header" th:text="#{provider.photos.list.title(${provider.businessName})}">Listing provider's photos</h4>
 
 
+		
+		<div id="listPhotos-bloc" th:fragment="listPhotos">
 		<div class="well well-sm">
-			<a href="#"
+			<a href="#" th:if="${#bools.isTrue(canAddMorePhoto)}" 
 				th:href="@{'/admin/providers/' + ${provider.id} +'/photos/addPhoto'}">
 				<button type="button" class="btn  btn-primary btn-xs">
 					<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
@@ -21,9 +23,14 @@
 				</button>
 			</a>
 		</div>
-		<div id="listPhotos-bloc" th:fragment="listPhotos">
-			<div th:if="${message}" id="message" class="alert alert-success" th:text="${message}">Cool</div>
-			<div th:if="${erros}" id="errors" class="alert alert-danger" th:text="${errors}">Bad</div>
+			<div th:if="${message}" id="message" class="alert alert-success fade in" >
+				<a href="#" class="close" data-dismiss="alert">&times;</a>
+				<span th:text="${message}">Success</span>
+				</div>
+			<div th:if="${erros}" id="errors" class="alert alert-danger fade in">
+				<a href="#" class="close" data-dismiss="alert">&times;</a>
+				<span th:text="${errors}">Error</span>
+			</div>
 			<div class="table-responsive">
 				<table id="listProvidersPhoto" class="table table-striped table-bordered table-hover" dt:table="true" dt:autoWidth="true"  dt:pageable="false" >
 					<thead>
