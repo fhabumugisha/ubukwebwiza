@@ -20,18 +20,18 @@ import com.buseni.ubukwebwiza.home.HomeController;
 import com.buseni.ubukwebwiza.utils.PageWrapper;
 
 @Controller
-@Navigation(url="/gallery", name="Photo gallery", parent= HomeController.class)
+@Navigation(url="/wedding-photos", name="Wedding photos", parent= HomeController.class)
 public class GalleryController {
 	
 	public  static final Logger LOGGER = LoggerFactory.getLogger(GalleryController.class);
 	@Autowired
 	private PhotoService photoService;	
 
-	@RequestMapping(value="/gallery", method=RequestMethod.GET)
+	@RequestMapping(value="/wedding-photos", method=RequestMethod.GET)
 	public String photos(Model model, Pageable page){
 		Page<Photo>  photosPage = photoService.findPhotoGallery(page);
 		model.addAttribute("photos", photosPage.getContent());
-		PageWrapper<Photo> pageWrapper = new PageWrapper<Photo>(photosPage, "/gallery");
+		PageWrapper<Photo> pageWrapper = new PageWrapper<Photo>(photosPage, "/wedding-photos");
 		model.addAttribute("page", pageWrapper);
 		return "frontend/gallery/photoGallery";
 	}

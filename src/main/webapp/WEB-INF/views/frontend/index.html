@@ -125,7 +125,7 @@
 									<div class="caption">
 										<h4 >
 										<a href="provider/detailProvider.html" 
-												th:href="@{'/providers/'+${provider.id}}"><span th:text="${provider.businessName}">Thumbnail label</span></a>
+												th:href="@{'/wedding-service-providers/'+${provider.id}}"><span th:text="${provider.businessName}">Thumbnail label</span></a>
 											
 										</h4>
 										<h4><span th:if="${not #lists.isEmpty(provider.providerWeddingServices)}" th:text="${provider.weddingService}">Planner</span> </h4>
@@ -135,7 +135,7 @@
 										</h6>
 										<!-- <p>
 											<a href="provider/detailProvider.html" class="btn btn-primary btn-xs" role="button"
-												th:href="@{/providers/details(id=${provider.id})}">Follow</a> <a href="#" class="btn btn-default btn-xs" role="button">Like</a>
+												th:href="@{/wedding-service-providers/details(id=${provider.id})}">Follow</a> <a href="#" class="btn btn-default btn-xs" role="button">Like</a>
 										</p> -->
 									</div>
 								</div>
@@ -201,7 +201,7 @@
 									</p>
 								</div>
 							</div>
-							<a href="provider/listingProvider.html" class="btn btn-primary btn-block" role="button" th:href="@{/providers}">Find more providers </a>
+							<a href="provider/listingProvider.html" class="btn btn-primary btn-block" role="button" th:href="@{/wedding-service-providers}">Find more providers </a>
 						</div> -->
 					</div>
 

@@ -16,7 +16,7 @@ import com.buseni.ubukwebwiza.provider.domain.Provider;
 import com.buseni.ubukwebwiza.provider.service.ProviderService;
 
 @Controller
-@Navigation(url="/providers/{id:[\\d]+}", name="Provider", parent={ ListProviderController.class, HomeController.class})
+@Navigation(url="/wedding-service-providers{id:[\\d]+}", name="provider", parent={ ListProviderController.class, HomeController.class})
 public class DetailProviderController {
 
 	public static final Logger LOGGER = LoggerFactory.getLogger( DetailProviderController.class );
@@ -24,7 +24,7 @@ public class DetailProviderController {
 
 	@Autowired
 	private ProviderService providerService;
-	@RequestMapping(value="/providers/{id:[\\d]+}",method=RequestMethod.GET)
+	@RequestMapping(value="/wedding-service-providers/{id:[\\d]+}",method=RequestMethod.GET)
 	public String getProvider(@PathVariable Integer id, Model model){		
 		Provider provider = providerService.getProvider(id);
 		

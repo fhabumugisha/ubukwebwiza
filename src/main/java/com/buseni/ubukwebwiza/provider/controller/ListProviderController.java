@@ -30,7 +30,7 @@ import com.buseni.ubukwebwiza.provider.service.ProviderService;
 import com.buseni.ubukwebwiza.provider.service.WeddingServiceManager;
 
 @Controller
-@Navigation(url="/providers", name="Service providers", parent= HomeController.class)
+@Navigation(url="/wedding-service-providers", name="Wedding Service providers", parent= HomeController.class)
 @SessionAttributes({"allWeddingServices","allDistricts"})
 public class ListProviderController {
 
@@ -46,12 +46,12 @@ public class ListProviderController {
 	private ProviderService providerService;
 
 
-	@RequestMapping(value="/providers",method=RequestMethod.GET)
+	@RequestMapping(value="/wedding-service-providers",method=RequestMethod.GET)
 	public String listing(Model model, Pageable page){
 
 		Page<Provider> providerPage  =  providerService.findByEnabled(Boolean.TRUE, page);
 
-		PageWrapper<Provider> pageWrapper = new PageWrapper<Provider>(providerPage, "/providers");
+		PageWrapper<Provider> pageWrapper = new PageWrapper<Provider>(providerPage, "/wedding-service-providers");
 		model.addAttribute("page", pageWrapper);
 		//model.addAttribute("currentMenu", "providers");
 		model.addAttribute("providers", providerPage.getContent());

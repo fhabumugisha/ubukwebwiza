@@ -39,7 +39,7 @@
 					   <!-- Account  -->
 
 					<div sec:authorize="!isAuthenticated()"		class="pull-right hidden-xs"
-						style="padding-top: 8px; margin-right: 10px;">
+						style="padding-top: 1px; margin-right: 10px;">
 
 						<div class="row">
 							<div class="col-md-6">
@@ -57,7 +57,7 @@
 					</div>
 
 
-					<div  sec:authorize="isAuthenticated()"  class="pull-right hidden-xs dropdown" style="padding-top: 8px; margin-right: 10px;">						
+					<div  sec:authorize="isAuthenticated()"  class="pull-right hidden-xs dropdown" style="padding-top: 1px; margin-right: 10px;">						
 
 
 						<a   id="dLabel" data-toggle="dropdown" href="#" class="btn btn-default"> 
@@ -88,10 +88,11 @@
 						<a class="navmenu-brand" href="#" th:href="@{/}">Home</a>
 						<ul class="nav navbar-nav">
 							<li th:classappend="${currentMenu == 'providers' ? 'active' : ''}"><a
-								href="listingProvider.html" th:href="@{/providers}">Service
-									providers</a></li>
+								href="listingProvider.html" th:href="@{/wedding-service-providers}"
+								th:text="#{menu.serviceProviders}">Service		providers</a></li>
 							<li th:classappend="${currentMenu == 'gallery' ? 'active' : ''}"><a
-								href="photoGallery.html" th:href="@{/gallery}">Photo gallery</a></li>
+								href="photoGallery.html" th:href="@{/wedding-photos}"
+								th:text="#{menu.photoGallery}">Photo gallery</a></li>
 							<!-- <li><a href="forum/listingHelp.html">Need an advice </a></li> -->
 							
 							

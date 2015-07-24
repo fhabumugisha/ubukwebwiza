@@ -67,7 +67,11 @@
 				<ol class="breadcrumb container" >
 				<li th:each="item : ${session.navigationPath}">
 					<a href="index.html"  th:if="${not itemStat.last}" th:href="@{${item.url}}" th:text="${item.name}" >Home</a>
-					<span  th:if="${itemStat.last}"  th:text="${item.name}" >Home</span>
+					<th:block th:if="${itemStat.last}">
+						<span  th:if="${item.name == 'provider'}"  th:text="${provider.businessName}" > uBUKWE</span>
+						<span  th:if="${item.name != 'provider'}"  th:text="${item.name}" >Home</span>
+					</th:block>
+					
 				</li>
 			</ol>
 			

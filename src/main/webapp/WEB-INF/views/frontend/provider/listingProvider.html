@@ -5,7 +5,7 @@
 <head>
 <title th:text="#{providers.list.title}">Providers</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
-
+<meta name="description" content="Listing wedding service providers in Rwanda" />
 </head>
 <body>
 
@@ -127,7 +127,7 @@
 									</div>
 									<div class="col-md-8 col-sm-9">
 										<h3>										
-										<a href="detailProvider.html"	th:href="@{'/providers/'+${provider.id}}"> 
+										<a href="detailProvider.html"	th:href="@{'/wedding-service-providers/'+${provider.id}}"> 
 										 <span th:text="${provider.businessName}">Thumbnail label</span>
 										 </a> 										
 										</h3>
@@ -145,7 +145,7 @@
 
 										<!-- <p>
 											<a href="detailProvider.html"
-												th:href="@{/providers/details(id=${provider.id})}"
+												th:href="@{/wedding-service-providers/details(id=${provider.id})}"
 												class="btn btn-primary btn-sm" role="button" ><span th:text="#{provider.viewdetails}">View details</span>&raquo;</a> 
 												<a
 												href="#" class="btn btn-default btn-xs" role="button">Like</a>
