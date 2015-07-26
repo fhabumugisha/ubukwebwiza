@@ -56,6 +56,13 @@ public interface ProviderService {
 	
 	/**
 	 * 
+	 * @param urlName
+	 * @return
+	 */
+	Provider getProvider(String urlName);
+	
+	/**
+	 * 
 	 * @param pageable
 	 * @return
 	 */

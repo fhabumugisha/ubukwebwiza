@@ -19,6 +19,8 @@ public interface ProviderRepo extends JpaRepository<Provider, Integer> , QueryDs
 
 	
 	Provider findByAccount_Email(String email);
+	
+	Provider findByUrlName(String urlName);
 
 
 }

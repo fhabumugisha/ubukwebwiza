@@ -7,12 +7,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Random;
+import java.util.UUID;
 
 import javax.imageio.ImageIO;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
-
-import net.coobird.thumbnailator.Thumbnails;
 
 import org.imgscalr.Scalr;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,7 +21,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.auth.ClasspathPropertiesFileCredentialsProvider;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
@@ -39,6 +38,8 @@ import com.amazonaws.services.s3.transfer.Upload;
 import com.amazonaws.util.IOUtils;
 import com.amazonaws.util.StringUtils;
 
+import net.coobird.thumbnailator.Thumbnails;
+
 
 public class Sandbox {
 	
@@ -49,16 +50,25 @@ public class Sandbox {
 		
 	
 		// TODO Auto-generated method stub
-		PasswordEncoder encoder = new BCryptPasswordEncoder();
-		System.out.println("from bdd : " + "$2a$10$qPupB3ajXJKWNxcjyK/SRuF35UMojX57bZ4/QjdRFiwNOQXHm4crW");
-		System.out.println("123456 encode is " + encoder.encode("123456"));
+	
 		//resizeImagScal();
 		//resizeThumbnail();
 		//resizeImgCarousel();
 		
-		uploadFileToAmazonS3() ;
+	//	System.out.println(UbUtils.normalizeName("W + / , edding professianal's job"));
+		System.out.println(generatePIN());
+		
+		//uploadFileToAmazonS3() ;
 		
 	}
+	 public static String generatePIN() {
+	        //generate a 4 digit integer 1000 <10000
+	        int randomPIN = (int)(Math.random()*9000)+1000;
+
+	        //Store integer in a string
+	       return String.valueOf(randomPIN);
+
+	    }
 
 	private static void getImagesUrl(){
 		String existingBucketName = "ubfiles";

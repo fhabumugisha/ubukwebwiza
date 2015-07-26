@@ -33,6 +33,12 @@ public class UbUtils {
         return normalizeName.toLowerCase();
     }
     
+    public static String createUrlName(String name){
+    	 StringBuilder sb =  new StringBuilder();
+    	 sb.append(name).append("-").append(generatePIN());
+    	 return normalizeName(sb.toString());
+    }
+    
     
     public static String normalizeFileName(String name){
        if(StringUtils.isNotEmpty(name)){
@@ -40,6 +46,16 @@ public class UbUtils {
        }
      return "";
     }
+    
+    public static String generatePIN() {
+        //generate a 4 digit integer 1000 <10000
+        int randomPIN = (int)(Math.random()*9000)+1000;
+
+        //Store integer in a string
+       return String.valueOf(randomPIN);
+
+    }
+
     
 
 }

@@ -125,7 +125,7 @@
 									<div class="caption">
 										<h4 >
 										<a href="provider/detailProvider.html" 
-												th:href="@{'/wedding-service-providers/'+${provider.id}}"><span th:text="${provider.businessName}">Thumbnail label</span></a>
+												th:href="@{'/wedding-service-providers/'+${provider.urlName}}"><span th:text="${provider.businessName}">Thumbnail label</span></a>
 											
 										</h4>
 										<h4><span th:if="${not #lists.isEmpty(provider.providerWeddingServices)}" th:text="${provider.weddingService}">Planner</span> </h4>

@@ -24,13 +24,25 @@ public class DetailProviderController {
 
 	@Autowired
 	private ProviderService providerService;
-	@RequestMapping(value="/wedding-service-providers/{id:[\\d]+}",method=RequestMethod.GET)
+	
+	/*@RequestMapping(value="/wedding-service-providers/{id:[\\d]+}",method=RequestMethod.GET)
 	public String getProvider(@PathVariable Integer id, Model model){		
 		Provider provider = providerService.getProvider(id);
 		
 		model.addAttribute("provider", provider);		
 		return "frontend/provider/detailProvider";
+	}*/
+	
+
+	@RequestMapping(value="/wedding-service-providers/{urlName}",method=RequestMethod.GET)
+	public String getProvider(@PathVariable String urlName, Model model){		
+		Provider provider = providerService.getProvider(urlName);
+		
+		model.addAttribute("provider", provider);		
+		return "frontend/provider/detailProvider";
 	}
+	
+	
 
 	@ModelAttribute("currentMenu")
 	public String module(){

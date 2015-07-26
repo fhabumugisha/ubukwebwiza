@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections4.IteratorUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -43,7 +44,10 @@ import com.buseni.ubukwebwiza.provider.repository.ProviderWeddingServiceRepo;
 import com.buseni.ubukwebwiza.provider.repository.WeddingServiceRepo;
 import com.buseni.ubukwebwiza.provider.service.ProviderService;
 import com.buseni.ubukwebwiza.utils.AmazonS3Util;
+import com.buseni.ubukwebwiza.utils.UbUtils;
 import com.mysema.query.types.Predicate;
+
+
 
 /**
  * @author habumugisha
@@ -100,6 +104,7 @@ public class ProviderServiceImpl implements ProviderService {
 			provider.getAccount().getRoles().add(roleProvider);
 			provider.getAccount().setLastUpdate(new Date());
 			provider.getAccount().setType(EnumAccountType.PROVIDER.name());
+			provider.setUrlName(UbUtils.createUrlName(provider.getBusinessName()));
 			providerRepo.save(provider);
 			if(provider.getIdcService() != null){
 				WeddingService weddingService = weddingServiceRepo.findOne(provider.getIdcService());
@@ -142,6 +147,7 @@ public class ProviderServiceImpl implements ProviderService {
 			bdd.setWebsite(provider.getWebsite());
 			bdd.setFbUsername(provider.getFbUsername());
 			bdd.setTwitterUsername(provider.getTwitterUsername());
+			bdd.setUrlName(UbUtils.createUrlName(provider.getBusinessName()));
 			bdd.getAccount().setLastUpdate(new Date());
 						
 			providerRepo.save(bdd);
@@ -315,6 +321,7 @@ public class ProviderServiceImpl implements ProviderService {
 		account.setPassword(encoder.encode(signupForm.getPassword()));
 		account.setCreatedAt(new Date());			
 		account.setLastUpdate(new Date());
+		provider.setUrlName(UbUtils.createUrlName(signupForm.getBusinessName()));
 		//add roles
 		Role roleProvider =  roleRepository.findByName(ROLE_PROVIDER);
 		account.getRoles().add(roleProvider);
@@ -393,6 +400,22 @@ public class ProviderServiceImpl implements ProviderService {
 		bdd.getAccount().setLastUpdate(new Date());
 					
 		providerRepo.save(bdd);
+	}
+
+	@Override
+	public Provider getProvider(String urlName) {
+		if(StringUtils.isEmpty(urlName)){
+			throw new NullPointerException();
+		}
+		
+		Provider provider  = providerRepo.findByUrlName(urlName);
+		if(provider ==  null){
+			throw new ResourceNotFoundException();
+		}
+		provider.setNbViews(provider.getNbViews() + 1);
+		provider.getAccount().setLastUpdate(new Date());
+		providerRepo.save(provider);
+		return provider;
 	}
 
 

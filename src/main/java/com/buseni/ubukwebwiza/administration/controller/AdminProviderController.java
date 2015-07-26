@@ -23,16 +23,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.buseni.ubukwebwiza.administrator.enums.EnumPhotoCategory;
 import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
-import com.buseni.ubukwebwiza.exceptions.ErrorsHelper;
 import com.buseni.ubukwebwiza.exceptions.BusinessException;
+import com.buseni.ubukwebwiza.exceptions.ErrorsHelper;
 import com.buseni.ubukwebwiza.gallery.domain.Photo;
-import com.buseni.ubukwebwiza.gallery.service.PhotoService;
 import com.buseni.ubukwebwiza.provider.domain.District;
 import com.buseni.ubukwebwiza.provider.domain.Provider;
 import com.buseni.ubukwebwiza.provider.domain.WeddingService;
 import com.buseni.ubukwebwiza.provider.service.DistrictService;
 import com.buseni.ubukwebwiza.provider.service.ProviderService;
-import com.buseni.ubukwebwiza.provider.service.ProviderWeddingServiceManager;
 import com.buseni.ubukwebwiza.provider.service.WeddingServiceManager;
 import com.buseni.ubukwebwiza.utils.AmazonS3Util;
 import com.buseni.ubukwebwiza.utils.ImagesUtils;
@@ -56,11 +54,7 @@ public class AdminProviderController {
 	@Autowired
 	private WeddingServiceManager weddingServiceManager;
 	
-	@Autowired
-	private ProviderWeddingServiceManager providerWeddingServiceManager;
-	
-	@Autowired
-	private PhotoService photoService;
+
 	
 	@Autowired
 	private AmazonS3Util amazonS3Util;
