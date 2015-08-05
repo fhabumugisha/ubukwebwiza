@@ -22,10 +22,13 @@ import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.ClasspathPropertiesFileCredentialsProvider;
+import com.amazonaws.auth.SystemPropertiesCredentialsProvider;
+import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.GetObjectRequest;
+import com.amazonaws.services.s3.model.ListObjectsRequest;
 import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
@@ -56,9 +59,11 @@ public class Sandbox {
 		//resizeImgCarousel();
 		
 	//	System.out.println(UbUtils.normalizeName("W + / , edding professianal's job"));
-		System.out.println(generatePIN());
+		//System.out.println(generatePIN());
 		
 		//uploadFileToAmazonS3() ;
+		
+		 listingFiles();
 		
 	}
 	 public static String generatePIN() {
@@ -114,13 +119,52 @@ public class Sandbox {
 		
 		
 	}
+	
+
+	private static void listingFiles() {
+		String existingBucketName = "ubfiles";
+		AmazonS3 s3client = new AmazonS3Client(new ProfileCredentialsProvider());
+		try {
+			 System.out.println("Listing objects");
+			   
+	            ListObjectsRequest listObjectsRequest = new ListObjectsRequest()
+	                .withBucketName(existingBucketName);
+	            ObjectListing objectListing;            
+	            do {
+	                objectListing = s3client.listObjects(listObjectsRequest);
+	                for (S3ObjectSummary objectSummary : 
+	                	objectListing.getObjectSummaries()) {
+	                    System.out.println(" - " + objectSummary.getKey() + "  " +
+	                            "(size = " + objectSummary.getSize() + 
+	                            ")");
+	                }
+	                listObjectsRequest.setMarker(objectListing.getNextMarker());
+	            } while (objectListing.isTruncated());
+			 
+		} catch (AmazonServiceException ase) {
+	        System.out.println("Caught an AmazonServiceException, which means your request made it "
+                    + "to Amazon S3, but was rejected with an error response for some reason.");
+            System.out.println("Error Message:    " + ase.getMessage());
+            System.out.println("HTTP Status Code: " + ase.getStatusCode());
+            System.out.println("AWS Error Code:   " + ase.getErrorCode());
+            System.out.println("Error Type:       " + ase.getErrorType());
+            System.out.println("Request ID:       " + ase.getRequestId());
+        } catch (AmazonClientException ace) {
+            System.out.println("Caught an AmazonClientException, which means the client encountered "
+                    + "a serious internal problem while trying to communicate with S3, "
+                    + "such as not being able to access the network.");
+            System.out.println("Error Message: " + ace.getMessage());
+		}
+		
+		
+	}
 private static void uploadFileToAmazonS3() throws FileNotFoundException{
-	String existingBucketName = "ubfiles";
+	/*String existingBucketName = "ubfiles";
 	  String keyName = "mypic.JPG";
 
 	  String filePath = "C://Users/Fabrice/git/ubukwebwiza/Banquet-Events-Setup_fitExact.jpg";
 	  String amazonFileUploadLocationOriginal=existingBucketName+"/";
-	  
+	  SystemPropertiesCredentialsProvider
 
 	  AmazonS3 s3Client = new AmazonS3Client(new ClasspathPropertiesFileCredentialsProvider("application.properties"));
 
@@ -128,7 +172,7 @@ private static void uploadFileToAmazonS3() throws FileNotFoundException{
 	  ObjectMetadata objectMetadata = new ObjectMetadata();
 	  PutObjectRequest putObjectRequest = new PutObjectRequest(existingBucketName, keyName, stream, objectMetadata).withCannedAcl(CannedAccessControlList.PublicRead);
 	  PutObjectResult result = s3Client.putObject(putObjectRequest);
-	  System.out.println("Etag:" + result.getETag() + "-->" + result);
+	  System.out.println("Etag:" + result.getETag() + "-->" + result);*/
 }
 
 /**
@@ -255,38 +299,5 @@ private static void uploadFileToAmazonS3() throws FileNotFoundException{
 
 	
 	
-	/*@Order(1)
-	@Configuration
-	private static class ApiSecurityConfigurationAdapter
-	        extends WebSecurityConfigurerAdapter {
-	    @Override
-	    protected void configure(HttpSecurity http) throws Exception {
-	        http
-	            .antMatcher("/api/**")
-	            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER)
-	            .and.httpBasic().authenticationEntryPoint(xBasicAuthenticationEntryPoint)
-	            .and.authorizeRequests()
-	                .anyRequest().authenticated();
-	    }
-	}
 
-	@Configuration
-	private static class NormalSecurityConfigurationAdapter
-	        extends WebSecurityConfigurerAdapter {
-	    @Override
-	    protected void configure(HttpSecurity http) throws Exception {
-	        http.addFilter(switchUserFilter())
-	            .authorizeRequests()
-	            .antMatchers("/").permitAll()
-	            .antMatchers("/static/**").permitAll()
-	            .anyRequest().authenticated()
-	            .and().formLogin()
-	                  .loginPage("/login")
-	                  .permitAll()
-	                  .defaultSuccessUrl("/")
-	            .and().logout()
-	                  .logoutUrl("/logout")
-	                  .logoutSuccessUrl("/");
-	    }
-	}*/
 }
