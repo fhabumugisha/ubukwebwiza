@@ -15,6 +15,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 
 import org.imgscalr.Scalr;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -40,11 +42,15 @@ import com.amazonaws.services.s3.transfer.TransferManager;
 import com.amazonaws.services.s3.transfer.Upload;
 import com.amazonaws.util.IOUtils;
 import com.amazonaws.util.StringUtils;
+import com.buseni.ubukwebwiza.utils.AmazonS3Util;
 
 import net.coobird.thumbnailator.Thumbnails;
 
 
 public class Sandbox {
+	
+	
+	public  static final Logger LOGGER = LoggerFactory.getLogger(Sandbox.class);
 	
 	@PersistenceContext
 	static 	 EntityManagerFactory emfactory;

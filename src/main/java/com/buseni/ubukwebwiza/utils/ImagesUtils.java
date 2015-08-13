@@ -24,7 +24,7 @@ public class ImagesUtils {
 	
 	public static final int PROFILE_IMAGE_HEIGHT = 150;
 
-	public static final int PROFILE_IMAGE_WIDTH = 295;
+	public static final int PROFILE_IMAGE_WIDTH = 150;
 	
 	
 	public static final int HP_IMAGE_HEIGHT = 500;

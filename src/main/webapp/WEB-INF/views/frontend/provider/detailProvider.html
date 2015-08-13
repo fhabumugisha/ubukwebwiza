@@ -11,11 +11,11 @@
 				<div layout:fragment="pageContent" id="content" >
 
 					<div class="row">
-						<div class="col-md-4 col-sm-5">
-							<div class="thumbnail">
+						<div class="col-md-2 col-sm-5">
+<!-- 							<div class="thumbnail"> -->
 							
 								
-								<img id="profilPicturePreview"   width="290" height="150" class="img-thumbnail"
+								<img id="profilPicturePreview"   width="150" height="150" class="img-rounded"
 									     alt="profil pic"  th:if="*{provider.profilPicture}" 
 									     th:alt="${provider.businessName}" th:src="@{'https://ubfiles.s3.amazonaws.com/'+*{provider.profilPicture.filename}} "></img>
 									
@@ -23,10 +23,8 @@
 									      th:unless="*{provider.profilPicture}" th:alt="${provider.businessName}" 
 									      data-src="holder.js/100%x150"></img>
 									      
-								<div class="caption">
-									<h4>
-										<span th:text="${provider.businessName}">Thumbnail label</span>
-									</h4>
+<!-- 								<div class="caption"> -->
+									
 
 									<!-- <p>
 										<a href="detailProvider.html" class="btn btn-primary btn-xs"
@@ -38,26 +36,21 @@
 									</p> -->
 
 							
-							<div>
-							 <a target="_blank" class="btn btn-social-icon btn-facebook" th:if="${!#strings.isEmpty(provider.fbUsername)}" 
-							 th:href="@{'http://' + ${provider.fbUsername}}" title="Facebook"><i class="fa fa-facebook"></i></a>
-								<a target="_blank"  class="btn btn-social-icon btn-twitter" th:if="${!#strings.isEmpty(provider.twitterUsername)}"
-								th:href="@{'http://' + ${provider.twitterUsername}}" title="Twitter" ><i class="fa fa-twitter"></i></a>
-								<a target="_blank"  class="btn btn-social-icon btn-google-plus" th:if="${!#strings.isEmpty(provider.website)}"
-								th:href="@{'http://' + ${provider.website}}" ><i class="fa fa-external-link" title="Website"></i></a>
-								
-							</div>
-						</div>
-							</div>
+							
+<!-- 						</div> -->
+<!-- 							</div> -->
 
 
 						</div>
-						<div class="col-md-5  col-sm-7">
+						<div class="col-md-7  col-sm-7">
 							<div class="panel  panel-default">
 								<div class="panel-heading">
 									<h3 class="panel-title">About</h3>
 								</div>
 								<div class="panel-body">
+									<h4>
+										<span th:text="${provider.businessName}">Thumbnail label</span>
+									</h4>
 									<p>
 										<span th:text="${provider.aboutme}">Thu empo enu in eudu
 											ayd Ka dfheu</span>
@@ -88,7 +81,16 @@
 										<a href="mailto:#" th:value="${provider.account.email}"
 											th:text="${provider.account.email}">first.last@example.com</a>
 									</address>
-
+									
+									<div>
+							 <a target="_blank" class="btn btn-social-icon btn-facebook" th:if="${!#strings.isEmpty(provider.fbUsername)}" 
+							 th:href="@{'http://' + ${provider.fbUsername}}" title="Facebook"><i class="fa fa-facebook"></i></a>
+								<a target="_blank"  class="btn btn-social-icon btn-twitter" th:if="${!#strings.isEmpty(provider.twitterUsername)}"
+								th:href="@{'http://' + ${provider.twitterUsername}}" title="Twitter" ><i class="fa fa-twitter"></i></a>
+								<a target="_blank"  class="btn btn-social-icon btn-google-plus" th:if="${!#strings.isEmpty(provider.website)}"
+								th:href="@{'http://' + ${provider.website}}" ><i class="fa fa-external-link" title="Website"></i></a>
+								
+							</div>
 
 								</div>
 							</div>
