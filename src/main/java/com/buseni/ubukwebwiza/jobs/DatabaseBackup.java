@@ -1,8 +1,9 @@
-package com.buseni.ubukwebwiza.utils;
+package com.buseni.ubukwebwiza.jobs;
 
 import java.io.File;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.nio.file.Files;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -98,6 +99,8 @@ public class DatabaseBackup {
 			}
 			
 			uploadFile(test, filename);
+			
+			Files.deleteIfExists(test.toPath());
 		} catch (Exception exc) {
 			exc.printStackTrace();
 		}
