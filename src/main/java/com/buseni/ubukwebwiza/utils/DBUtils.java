@@ -2,7 +2,6 @@ package com.buseni.ubukwebwiza.utils;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,15 +18,12 @@ import org.slf4j.LoggerFactory;
 
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.transfer.TransferManager;
 import com.amazonaws.services.s3.transfer.Upload;
-import com.buseni.ubukwebwiza.sandbox.Sandbox;
 
 public class DBUtils {
 	
@@ -171,11 +167,11 @@ public class DBUtils {
 	}
 	
 	public static void export(){
-		String dbName = "ubukwebwiza";
-		String dbUser = "ubukwebwiza";
-		String dbPass = "UbukweBwiza123&";
-		String host = "104.131.9.243";
-		String port = "3306";
+		String dbName = "";
+		String dbUser = "";
+		String dbPass = "";
+		String host = "";
+		String port = "";
 		 
 		String executeCmd = "";
 		//mysqldump -h 104.131.9.243 --port 3306 -u ubukwebwiza --password UbukweBwiza123& ubukwebwiza -r backup.sql

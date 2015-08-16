@@ -7,8 +7,8 @@ import org.quartz.JobExecutionException;
 import org.quartz.JobKey;
 import org.quartz.PersistJobDataAfterExecution;
 import org.springframework.scheduling.quartz.QuartzJobBean;
-@PersistJobDataAfterExecution
-@DisallowConcurrentExecution
+//@PersistJobDataAfterExecution
+//@DisallowConcurrentExecution
 public class MyJobTwo extends QuartzJobBean {
 	public static final String COUNT = "count";
 	private String name;

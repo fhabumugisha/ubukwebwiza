@@ -29,9 +29,9 @@ import com.amazonaws.services.s3.transfer.Upload;
  *
  */
 @Component
-public class DBBackup {
+public class DatabaseBackup {
 	
-	public  static final Logger LOGGER = LoggerFactory.getLogger(DBBackup.class);
+	public  static final Logger LOGGER = LoggerFactory.getLogger(DatabaseBackup.class);
 	
 	@Value("${aws.backupBucketName}")
 	private String bucketName;
@@ -52,15 +52,15 @@ public class DBBackup {
 	private String databaseName;
 	
 	@Value("${datasource.username}")
-	private String user;
+	private String username;
 	
 	@Value("${datasource.password}")
 	private String password;
 	
 	
-	public  void export(){
+	public  void exportDatabase(){
 		
-		 
+		LOGGER.debug("In exportDatabase ");
 		String executeCmd = "";
 		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy-hhmmss");
         Date date = new Date();
@@ -68,16 +68,16 @@ public class DBBackup {
 				
 		StringBuilder sb =  new StringBuilder();		
 		sb.append(" ssh ")
-			.append(user).append("@").append(host)
+			.append(username).append("@").append(host)
 			.append(" mysqldump ")
 			.append(" -h ").append(host)
 			.append(" --port=").append(port)
-			.append(" -u ").append(user)
+			.append(" -u ").append(username)
 			.append(" --password='").append(password).append("'")
 			.append(" --add-drop-database -B  ").append(databaseName);
 			//.append(" > ").append(filepath);
 		executeCmd =  sb.toString();
-		LOGGER.debug("Command : " +  executeCmd);
+		//LOGGER.debug("Command : " +  executeCmd);
 		Runtime rt = Runtime.getRuntime();
 		File test = new File(filename);
 		PrintStream ps;
@@ -89,13 +89,14 @@ public class DBBackup {
 			int ch;
 			while ((ch = in.read()) != -1) {
 				ps.write(ch);
-				System.out.write(ch); // to view it by console
+				//System.out.write(ch); // to view it by console
 			}
 
 			InputStream err = child.getErrorStream();
 			while ((ch = err.read()) != -1) {
 				System.out.write(ch);
 			}
+			
 			uploadFile(test, filename);
 		} catch (Exception exc) {
 			exc.printStackTrace();
@@ -109,6 +110,7 @@ public class DBBackup {
 	 */
 	public   void uploadFile(File file, String filename) {
 		if(file != null){
+			LOGGER.debug("In uploadFile file :  " +  filename + "  in : " + bucketName);
 			AWSCredentials myCredentials = new BasicAWSCredentials(accessKey, secretKey);
 			//TransferManager tx = new TransferManager(new ProfileCredentialsProvider());
 			TransferManager tx = new TransferManager(myCredentials);
@@ -139,4 +141,5 @@ public class DBBackup {
 		}
 	}
 
+	
 }
