@@ -17,8 +17,8 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import com.buseni.ubukwebwiza.jobs.DatabaseBackup;
 import com.buseni.ubukwebwiza.jobs.DatabaseBackupJob;
 import com.buseni.ubukwebwiza.jobs.MyJobTwo;
-@Configuration 
-@ComponentScan("com.buseni.ubukwebwiza") 
+//@Configuration 
+//@ComponentScan("com.buseni.ubukwebwiza") 
 public class QuartzConfiguration {
 	
 	@Autowired

@@ -45,10 +45,10 @@
 						<input type="text" hidden="hidden" th:field="*{id}" class="hidden" />
 							
 							<div class="row">
-								<div class="col-md-4 " th:classappend="${#fields.hasErrors('profilPicture')}? has-error">
+								<div class="col-md-2 " th:classappend="${#fields.hasErrors('profilPicture')}? has-error">
 																							
 
-									<div class="fileinput fileinput-new" data-provides="fileinput">
+									<!-- <div class="fileinput fileinput-new" data-provides="fileinput">
 										<div class="fileinput-new thumbnail"  style="width: 260px; height: 230px;" >
 											<img data-src="holder.js/100%x100%" alt="Select profile pic"
 												th:unless="*{profilPicture}"></img> 
@@ -69,7 +69,26 @@
 												class="btn btn-default fileinput-exists"
 												data-dismiss="fileinput">Remove</a>
 										</div>
-									</div>
+									</div> -->
+									
+									<!-- This wraps the whole cropper -->
+<div id="image-cropper">
+  <div class="cropit-image-preview-container">
+    <div class="cropit-image-preview"></div>
+  </div>
+  
+  <div class="slider-wrapper">
+  	<i class="icon icon-small icon-picture"></i>
+  	<input type="range" class="cropit-image-zoom-input custom" min="0" max="1" step="0.01"/>
+  	<i class="icon icon-large icon-picture"></i>
+  </div>
+  
+  <input type="file" class="cropit-image-input" />
+  <div class="btn select-image-btn"><i class="icon icon-picture"></i>Select new image</div>
+  <br />
+  <div class="btn save-btn"><i class="icon icon-ok"></i>Save</div>
+</div>
+
 									<span class="text-danger"
 										th:if="${#fields.hasErrors('profilPicture')}"
 										th:errors="*{profilPicture}">Required field</span>
@@ -79,7 +98,7 @@
 
 
 								</div>
-								<div class="col-md-4 ">
+								<div class="col-md-5 ">
 									<div class="panel  panel-default">
 
 										<div class="panel-body">
@@ -147,7 +166,7 @@
 
 
 								</div>
-								<div class="col-md-4 ">
+								<div class="col-md-5 ">
 									<div class="panel  panel-default">
 
 										<div class="panel-body">

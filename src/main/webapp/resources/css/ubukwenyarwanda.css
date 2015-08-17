@@ -278,6 +278,67 @@ height: 34px;
 	line-height :1.9em;font-family: 'GothamBook', Shift, Helvetica Neue; font-size:18px;
 	
 }
+
+.cropit-image-preview {
+  /* You can specify preview size in CSS */
+  width: 160px;
+  height: 160px;
+  background-color: #f8f8f8;
+        background-size: cover;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        margin-top: 7px;
+}
+/* Hide file input */
+input.cropit-image-input {
+  visibility: hidden;
+}
+/* Translucent background image */
+.cropit-image-background {
+  opacity: .2;
+}
+
+/*
+ * If the slider or anything else is covered by the background image,
+ * use relative or absolute position on it
+ */
+input.cropit-image-zoom-input {
+  position: relative;
+}
+
+/* Limit the background image by adding overflow: hidden */
+#image-cropper {
+  overflow: hidden;
+}
+
+.save-btn,.select-image-btn {
+    background: #52a0c7;
+    color: #fff;
+    padding: 5px 10px;
+    text-align: center;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    -webkit-box-shadow: 0 2px #3784aa;
+    box-shadow: 0 2px #3784aa;
+}
+
+.slider-wrapper {
+    -webkit-transition: opacity 0.25s;
+    -moz-transition: opacity 0.25s;
+    -o-transition: opacity 0.25s;
+    -ms-transition: opacity 0.25s;
+    transition: opacity 0.25s;
+    margin-top:10px;
+}
+input[type=range] {
+    display: block;
+    width: 160px;
+}
 /* jasny class */
 /*  .navmenu, .navbar-offcanvas {
   width: 280px;

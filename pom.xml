@@ -459,8 +459,8 @@
 				<artifactId>jelastic-maven-plugin</artifactId>
 				<version>1.7</version>
 				<configuration>
-					<email>fabriceboris@yahoo.fr</email>
-					<password>fAb0nly1</password>
+					<email>ubukwebwiza@gmail.com</email>
+					<password>UbukweBwiza123&amp;</password>
 					<context>ROOT</context>
 					<environment>ubukwebwiza</environment>
 					<comment>Deploy to jelastic</comment>
