@@ -8,7 +8,10 @@
 <body ddl:bundle-excludes="jquery">
 	<div layout:fragment="pageContent">
 
-			<div th:if="${message}" class="alert alert-success" th:text="${message}">Cool</div>
+			<div th:if="${message}" class="alert alert-success" > 
+			<a href="#" class="close" data-dismiss="alert">&times;</a> 
+			<span th:text="${message}">Cool</span>
+			</div>
 			<h4 class="sub-header" th:text="#{provider.list.title}">Listing providers</h4>
 					
 			<div class="well well-sm">

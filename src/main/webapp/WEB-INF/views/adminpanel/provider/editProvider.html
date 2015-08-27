@@ -199,7 +199,7 @@
 
 						<div class="col-sm-6">
 						
-							<div class="form-group" th:unless="*{id}"
+							<!-- <div class="form-group" th:unless="*{id}"
 								th:classappend="${#fields.hasErrors('account.password')}? has-error">
 								<label for="password" class="col-sm-3 control-label"
 									th:text="#{provider.list.password}">password</label>
@@ -211,7 +211,7 @@
 										th:errors="*{account.password}">Required field</span>
 								</div>
 
-							</div>
+							</div> -->
 							<div class="form-group"
 								th:classappend="${#fields.hasErrors('aboutme')}? has-error">
 								<label for="aboutme" class="col-sm-3 control-label"

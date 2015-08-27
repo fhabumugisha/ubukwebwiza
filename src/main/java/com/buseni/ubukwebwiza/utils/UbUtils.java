@@ -1,6 +1,7 @@
 package com.buseni.ubukwebwiza.utils;
 
 import java.text.Normalizer;
+import java.util.Random;
 import java.util.StringTokenizer;
 
 import org.apache.commons.lang3.StringUtils;
@@ -45,6 +46,30 @@ public class UbUtils {
     	  return System.currentTimeMillis()+name.trim().replaceAll("\\s+","_").toLowerCase();           
        }
      return "";
+    }
+    
+    public static String generatePassword(int len) {
+        final char[] alphanumeric = alphanumeric();
+        StringBuffer out = new StringBuffer();
+        final Random rand = new Random();
+        while(out.length() < len){
+            int idx = Math.abs(( rand.nextInt() % alphanumeric.length ));
+            out.append(alphanumeric[idx]);
+        }
+        return out.toString();
+    }
+    
+    
+    /**
+     *  create alphanumeric char array
+     * @return
+     */
+    private static char[] alphanumeric(){
+        StringBuffer buf=new StringBuffer(128);
+        for(int i=48; i<= 57;i++)buf.append((char)i); // 0-9
+        for(int i=65; i<= 90;i++)buf.append((char)i); // A-Z
+        for(int i=97; i<=122;i++)buf.append((char)i); // a-z
+        return buf.toString().toCharArray();
     }
     
     public static String generatePIN() {

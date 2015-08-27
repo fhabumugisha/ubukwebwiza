@@ -48,8 +48,8 @@
 								<div class="col-md-2 " th:classappend="${#fields.hasErrors('profilPicture')}? has-error">
 																							
 
-									<!-- <div class="fileinput fileinput-new" data-provides="fileinput">
-										<div class="fileinput-new thumbnail"  style="width: 260px; height: 230px;" >
+									<div class="fileinput fileinput-new" data-provides="fileinput">
+										<div class="fileinput-new thumbnail"  style="width: 150px; height: 150px;" >
 											<img data-src="holder.js/100%x100%" alt="Select profile pic"
 												th:unless="*{profilPicture}"></img> 
 												<img
@@ -60,7 +60,7 @@
 
 										</div>
 										
-										<div class="fileinput-preview fileinput-exists thumbnail" style="width: 260px; height: 230px;"></div>
+										<div class="fileinput-preview fileinput-exists thumbnail"></div>
 										<div>
 											<span class="btn btn-default btn-file"><span
 												class="fileinput-new" th:text="#{message.editProfile.changeProfilePicture}">Change photo</span><span
@@ -69,25 +69,10 @@
 												class="btn btn-default fileinput-exists"
 												data-dismiss="fileinput">Remove</a>
 										</div>
-									</div> -->
+									</div> 
 									
-									<!-- This wraps the whole cropper -->
-<div id="image-cropper">
-  <div class="cropit-image-preview-container">
-    <div class="cropit-image-preview"></div>
-  </div>
-  
-  <div class="slider-wrapper">
-  	<i class="icon icon-small icon-picture"></i>
-  	<input type="range" class="cropit-image-zoom-input custom" min="0" max="1" step="0.01"/>
-  	<i class="icon icon-large icon-picture"></i>
-  </div>
-  
-  <input type="file" class="cropit-image-input" />
-  <div class="btn select-image-btn"><i class="icon icon-picture"></i>Select new image</div>
-  <br />
-  <div class="btn save-btn"><i class="icon icon-ok"></i>Save</div>
-</div>
+									
+
 
 									<span class="text-danger"
 										th:if="${#fields.hasErrors('profilPicture')}"

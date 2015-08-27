@@ -93,6 +93,7 @@ $(document).on("click",".editProfilePhoto",function(event){
 });
 
 $(document).on("click","#showAddPhotoForm",function(){
+	resetAddPhotoForm();
 	$("#editPhotoBox").show("slow");
 	$("#showAddPhotoForm").hide("slow");
 });

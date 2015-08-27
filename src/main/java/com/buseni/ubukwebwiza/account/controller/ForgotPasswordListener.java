@@ -17,16 +17,12 @@ import org.springframework.stereotype.Component;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 
-import com.buseni.ubukwebwiza.account.service.UserAccountService;
 import com.buseni.ubukwebwiza.provider.domain.Provider;
 
 @Component
 public class ForgotPasswordListener implements ApplicationListener<ResetPasswordEvent> {
 	
 	public  static final Logger LOGGER = LoggerFactory.getLogger(ForgotPasswordListener.class);
-    @Autowired
-    private UserAccountService userAccountService;
-
     @Autowired
     private MessageSource messages;
 

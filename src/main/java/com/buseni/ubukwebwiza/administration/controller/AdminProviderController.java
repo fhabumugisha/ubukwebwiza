@@ -4,13 +4,18 @@ import java.io.File;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -54,7 +59,8 @@ public class AdminProviderController {
 	@Autowired
 	private WeddingServiceManager weddingServiceManager;
 	
-
+	@Autowired
+	private ApplicationEventPublisher eventPublisher;
 	
 	@Autowired
 	private AmazonS3Util amazonS3Util;
@@ -72,7 +78,7 @@ public class AdminProviderController {
 	}
 	
 	@RequestMapping(value="/providers/save",method=RequestMethod.POST)
-	public String save(@Valid @ModelAttribute Provider provider , BindingResult result, RedirectAttributes attributes,  @RequestParam("file") MultipartFile file) throws BusinessException{		
+	public String save(HttpServletRequest request, @Valid @ModelAttribute Provider provider , BindingResult result, RedirectAttributes attributes,  @RequestParam("file") MultipartFile file) throws BusinessException{		
 		LOGGER.info("IN: providers/save-POSST");
 		//Validation erros	
 		if (result.hasErrors()) {
@@ -116,10 +122,27 @@ public class AdminProviderController {
 	        	
 	        }
 			try {
+				String password = null;
+				//creation mode, generate a random passowrd
+				if(provider.getId() == null){
+					password = UbUtils.generatePassword(6);
+					PasswordEncoder encoder = new BCryptPasswordEncoder();
+					provider.getAccount().setPassword(encoder.encode(password));
+				}
 				providerService.addOrUpdate(provider);				
 				//Save profil pricture to amazon S3
 				File fileToUpload =  ImagesUtils.prepareUploading(file, EnumPhotoCategory.PROFILE.getId());
 				amazonS3Util.uploadFile(fileToUpload, filename);
+				
+				//in creation mode send a "provider added email
+				LOGGER.debug("in creation mode send a 'provider added email'");
+				if(StringUtils.isNotEmpty(password)){
+					String appUrl =  "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+				    eventPublisher.publishEvent(new OnProviderRegistrationCompleteEvent(provider.getBusinessName(), provider.getUrlName()
+				    		, provider.getAccount().getEmail(), password, request.getLocale(),  appUrl));
+				}
+				
+				
 				
 				//Business errors	
 			} catch (final BusinessException e) {
@@ -130,7 +153,7 @@ public class AdminProviderController {
 				return "adminpanel/provider/editProvider";
 			}
 			
-			String message = "Provider " + provider.getId() + " was successfully added";
+			String message = "Provider " + provider.getBusinessName() + " was successfully added";
 			attributes.addFlashAttribute("message", message);
 			return "redirect:/admin/providers";
 		
