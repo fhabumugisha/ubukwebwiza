@@ -9,6 +9,7 @@ import java.io.InputStream;
 import javax.imageio.ImageIO;
 
 import org.imgscalr.Scalr;
+import org.imgscalr.Scalr.Mode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -51,9 +52,9 @@ public class ImagesUtils {
 				tempFile = File.createTempFile("tempuploadedfile" + System.currentTimeMillis(),	"." + imgExt);
 				tempFile.deleteOnExit();
 				if (EnumPhotoCategory.PROFILE.getId().equals(imgCateg)) {
-					resizeImageScal(multipartFile.getInputStream(), tempFile, PROFILE_IMAGE_WIDTH,PROFILE_IMAGE_HEIGHT, imgExt);
+					resizeImageScal(multipartFile.getInputStream(), tempFile, PROFILE_IMAGE_WIDTH,PROFILE_IMAGE_HEIGHT, Scalr.Mode.FIT_EXACT,imgExt);
 				} else if (EnumPhotoCategory.HOME_PAGE.getId().equals(imgCateg)) {
-					resizeImageScal(multipartFile.getInputStream(), tempFile, HP_IMAGE_WIDTH,HP_IMAGE_HEIGHT, imgExt);
+					resizeImageScal(multipartFile.getInputStream(), tempFile, HP_IMAGE_WIDTH,HP_IMAGE_HEIGHT, Scalr.Mode.FIT_EXACT, imgExt);
 				} else {					
 					multipartFile.transferTo(tempFile);
 				}
@@ -103,7 +104,7 @@ public class ImagesUtils {
 	}
 	
 	
-	public static File resizeImageScal(InputStream multipartFile, File tempFile,  int imageWidth, int imageHeight, String imgExt)  {
+	public static File resizeImageScal(InputStream multipartFile, File tempFile,  int imageWidth, int imageHeight, Mode scalingMode, String imgExt)  {
 		BufferedImage originalImage = null;    	
 		try {
 			originalImage = ImageIO.read(multipartFile);
@@ -112,7 +113,7 @@ public class ImagesUtils {
 		}
 
 		BufferedImage thumbnailImage = Scalr.resize(originalImage,
-				Scalr.Method.QUALITY, Scalr.Mode.FIT_EXACT, imageWidth, imageHeight,	Scalr.OP_ANTIALIAS, Scalr.OP_BRIGHTER);	
+				Scalr.Method.QUALITY, scalingMode, imageWidth, imageHeight,	Scalr.OP_ANTIALIAS, Scalr.OP_BRIGHTER);	
 		
 		try {
 			ImageIO.write(thumbnailImage, imgExt, tempFile);			
