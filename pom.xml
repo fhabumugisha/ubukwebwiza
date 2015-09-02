@@ -1,9 +1,8 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.buseni</groupId>
 	<artifactId>ubukwebwiza</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<packaging>war</packaging>
 
 	<properties>
@@ -379,7 +378,7 @@
 					<port>9966</port>
 					<path>/ubukwebwiza</path>
 					<protocol>org.apache.coyote.http11.Http11NioProtocol</protocol>
-					<tomcatWebXml></tomcatWebXml>
+					<tomcatWebXml />
 					<contextFile>${basedir}/src/main/webapp/META-INF/context.xml</contextFile>
 					<useTestClasspath>false</useTestClasspath>
 					<!-- <systemProperties> <MAVEN_OPTS>-Xmx1024m -Xms512m -XX:MaxPermSize=512m 
