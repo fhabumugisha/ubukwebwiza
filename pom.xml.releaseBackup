@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.buseni</groupId>
 	<artifactId>ubukwebwiza</artifactId>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.0.5-SNAPSHOT</version>
 	<packaging>war</packaging>
 
 	<properties>
@@ -38,11 +38,11 @@
 
 	    <distributionManagement>
         <repository>
-            <id>nexus-releases</id>
+            <id>nexus</id>
             <url>http://localhost:8082/nexus/content/repositories/releases</url>
         </repository>
         <snapshotRepository>
-            <id>nexus-snapshots</id>
+            <id>nexus</id>
             <url>http://localhost:8082/nexus/content/repositories/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
@@ -490,8 +490,8 @@
 	
 	
 	<pluginRepository>
-     <id>sonatype-oss-public</id>
-     <url>https://oss.sonatype.org/content/groups/public</url>
+     <id>nexus</id>
+     <url>http://localhost:8082/nexus/content/groups/public/</url>
      <releases>
          <enabled>true</enabled>
      </releases>
