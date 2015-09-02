@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.buseni</groupId>
 	<artifactId>ubukwebwiza</artifactId>
-	<version>1.0.2-SNAPSHOT</version>
+	<version>1.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
 	<properties>
@@ -490,8 +490,8 @@
 	
 	
 	<pluginRepository>
-     <id>nexus-sonatype-oss-public</id>
-     <url>http://localhost:8082/nexus/content/groups/public/</url>
+     <id>sonatype-oss-public</id>
+     <url>https://oss.sonatype.org/content/groups/public</url>
      <releases>
          <enabled>true</enabled>
      </releases>
