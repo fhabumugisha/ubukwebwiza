@@ -93,10 +93,10 @@ public class EditProfileController {
 			model.addAttribute("currentTab", "personnalInfo");
 		}
 		//model.addAttribute("canAddMorePhoto", false);
-		//Free account can add only 5 photos 
-		/*if(CollectionUtils.isEmpty(provider.getPhotos()) || provider.getPhotos().size() < UbUtils.MAX_PHOTO){
+		//Free account can add only 8 photos 
+		if(CollectionUtils.isEmpty(provider.getPhotos()) || provider.getPhotos().size() < UbUtils.MAX_PHOTO){
 			model.addAttribute("canAddMorePhoto", true);
-		}*/
+		}
 		return "frontend/account/editProfile";
 	}
 
