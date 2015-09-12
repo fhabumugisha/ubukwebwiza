@@ -168,7 +168,8 @@ public class ProviderServiceImpl implements ProviderService {
 	public Provider update(Provider provider) {
 		// TODO COntrol before save
 		provider.getAccount().setLastUpdate(new Date());
-		return providerRepo.save(provider);
+		Provider updated = providerRepo.save(provider);		 
+		 return updated;
 	}
 
 	/* (non-Javadoc)

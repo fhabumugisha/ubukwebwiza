@@ -267,9 +267,14 @@
 									<span id="errorMessage">Error</span>							
 								</div>
 								<!-- Free account can add only 5 photos -->
-									<a id="showAddPhotoForm" href="#" class=" btn btn-primary btn-xs"
-									th:if="${#bools.isTrue(canAddMorePhoto)}" th:text="#{message.editProfile.addPhoto}"> Add photo </a>
-									<br /><br />
+									<div>
+										<a id="showAddPhotoForm" href="#" class=" btn btn-primary btn-xs"
+											th:if="${#bools.isTrue(canAddMorePhoto)}" 
+											th:text="#{message.editProfile.addPhoto}"> Add photo </a>
+									</div>
+									
+									
+									<br />
 									
 									<div id="editPhotoBox" style=" display: none;">
 										<div class="panel panel-default">
@@ -350,7 +355,8 @@
 													<button type="button" id="hideAddPhotoForm"
 														class="btn  btn-default btn-sm" data-dismiss="profilPicturePreview"><span th:text="#{cancel.button.label}">Cancel</span></button>
 													<button type="submit" class="btn  btn-primary btn-sm"><span th:text="#{add.button.label}">Add</span></button>
-												</div>
+													<div id="saving"></div>
+													</div>
 
 
 											</form>

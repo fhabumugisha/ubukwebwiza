@@ -105,7 +105,7 @@ $(document).on("click",".deletePhoto",function(event){
 					dataType: 'html',					       
 					type: 'GET',
 					success: function(data){
-						console.log(data);
+						//console.log(data);
 						$('#listPhotos-bloc').html(data);
 					},
 					error : function() {
@@ -207,7 +207,7 @@ $(document).on("click",".deleteService",function(event){
 					dataType: 'html',					       
 					type: 'GET',
 					success: function(data){
-						console.log(data);
+						//console.log(data);
 						$('#listServices-bloc').html(data);
 					},
 					error : function() {

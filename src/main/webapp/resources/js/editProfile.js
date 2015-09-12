@@ -14,9 +14,14 @@ $(document).on("submit","#addPhotoForm",function(event){
 		processData: false,
 		contentType: false,
 		type: 'POST',
+		beforeSend: function( xhr ) {
+			$("#saving").html(
+                    '<img src="https://s3.amazonaws.com/ubfiles/saving.gif" align="absmiddle" width="25" height="16" style="padding-right:5px;"/>Saving...');
+		  },
 		success: function(data){
-			console.log(data);
+			//console.log(data);
 			$('#photos').html(data);
+			$("#saving").empty();
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
 			  console.log(textStatus, errorThrown);
@@ -46,7 +51,7 @@ $(document).on("click",".deleteProfilePhoto",function(event){
 					dataType: 'html',					       
 					type: 'GET',
 					success: function(data){
-						console.log(data);
+						//console.log(data);
 						$('#photos').html(data);
 					},
 					error : function() {
@@ -79,7 +84,7 @@ $(document).on("click",".editProfilePhoto",function(event){
 		dataType: 'html',					       
 		type: 'GET',
 		success: function(data){
-			console.log(data);
+			//console.log(data);
 			$('#photos').html(data);
 			$("#editPhotoBox").show("slow");
 			$("#showAddPhotoForm").hide("slow");
@@ -88,6 +93,7 @@ $(document).on("click",".editProfilePhoto",function(event){
 			console.log('Deconnexion du serveur');
 		}
 	});
+	
 	event.stopPropagation();
 	return false;
 });
@@ -130,7 +136,7 @@ $(document).on("submit","#addServiceForm",function(event){
 		contentType: false,
 		type: 'POST',
 		success: function(data){
-			console.log(data);
+			//console.log(data);
 			$('#services').html(data);
 			resetAddServiceForm() ;
 		}
@@ -179,7 +185,7 @@ $(document).on("click",".deleteProfileService",function(event){
 					dataType: 'html',					       
 					type: 'GET',
 					success: function(data){
-						console.log(data);
+						//console.log(data);
 						$('#services').html(data);
 					},
 					error : function() {

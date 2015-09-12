@@ -94,9 +94,9 @@ public class EditProfileController {
 		}
 		//model.addAttribute("canAddMorePhoto", false);
 		//Free account can add only 5 photos 
-		if(CollectionUtils.isEmpty(provider.getPhotos()) || provider.getPhotos().size() < UbUtils.MAX_PHOTO){
+		/*if(CollectionUtils.isEmpty(provider.getPhotos()) || provider.getPhotos().size() < UbUtils.MAX_PHOTO){
 			model.addAttribute("canAddMorePhoto", true);
-		}
+		}*/
 		return "frontend/account/editProfile";
 	}
 
@@ -141,7 +141,7 @@ public class EditProfileController {
 
 		try {
 			providerService.updateInfos(provider);				
-			//Save profil pricture to amazon S3
+			//Save profil picture to amazon S3
 			File fileToUpload =  ImagesUtils.prepareUploading(file, EnumPhotoCategory.PROFILE.getId());
 			amazonS3Util.uploadFile(fileToUpload, filename);
 
@@ -287,11 +287,7 @@ public class EditProfileController {
 		LOGGER.info("IN: profile/addPhoto-POST");
 		model.addAttribute("currentTab", "photos");
 		Provider provider = (Provider) model.asMap().get("provider");
-		//Free account can add only 5 photos 
-		if(CollectionUtils.isEmpty(provider.getPhotos()) || provider.getPhotos().size() < UbUtils.MAX_PHOTO){
-			model.addAttribute("canAddMorePhoto", true);
-		}
-
+		
 		MultipartFile file  = photoForm.getFile();
 		Photo photo = new Photo();
 		String filename = "no_person.jpg";
@@ -341,9 +337,10 @@ public class EditProfileController {
 			provider.getPhotos().remove(providerPhoto);
 		}
 		provider.getPhotos().add(updatedPhoto);
-		model.addAttribute("provider", providerService.update(provider));
-		//Free account can add only 5 photos 
-		if(CollectionUtils.isEmpty(provider.getPhotos()) || provider.getPhotos().size() < UbUtils.MAX_PHOTO){
+		Provider updated = providerService.update(provider);
+		model.addAttribute("provider", updated);
+		//Free account can add only 8 photos 
+		if(CollectionUtils.isEmpty(updated.getPhotos()) || updated.getPhotos().size() < UbUtils.MAX_PHOTO){
 			model.addAttribute("canAddMorePhoto", true);
 		}else{
 			model.addAttribute("canAddMorePhoto", false);
@@ -380,7 +377,7 @@ public class EditProfileController {
 		String message = messages.getMessage("message.editprofile.photoDeleteSuccess", null, request.getLocale());	
 		model.addAttribute("messagePhoto", message);		
 		model.addAttribute("provider", updatedProvider);	
-		//Free account can add only 5 photos 
+		//Free account can add only 8 photos 
 		if(CollectionUtils.isEmpty(updatedProvider.getPhotos()) || updatedProvider.getPhotos().size() < UbUtils.MAX_PHOTO){
 			model.addAttribute("canAddMorePhoto", true);
 		}
@@ -398,7 +395,6 @@ public class EditProfileController {
 		photoForm.setId(id);
 		photoForm.setName(photo.getFilename());
 		photoForm.setEnabled(photo.isEnabled());
-
 		model.addAttribute("photoForm", photoForm);	
 		model.addAttribute("currentTab", "photos");
 
@@ -453,6 +449,19 @@ public class EditProfileController {
 
 	@ModelAttribute("showSidebar")
 	public boolean showSidebar(){
+		return false;
+	}
+	
+	@ModelAttribute("canAddMorePhoto")
+	public boolean canAddMorePhoto(Model model){
+		Provider provider = (Provider) model.asMap().get("provider");
+		//Free account can add only 8 photos 
+		if(provider != null){
+			if( CollectionUtils.isEmpty(provider.getPhotos()) || provider.getPhotos().size() < UbUtils.MAX_PHOTO){
+				return true;
+			}
+		}
+		
 		return false;
 	}
 
