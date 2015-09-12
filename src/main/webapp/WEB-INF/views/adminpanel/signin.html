@@ -51,11 +51,11 @@
 							<label for="email" class="sr-only">Email address</label>
 							 <input type="email" id="email" name="email" class="form-control"
 								placeholder="Email address" required="required" autofocus="autofocus" /> 
-								
+								<div class="visible-xs-block" style="margin-bottom: 7px;"></div>
 								<label for="password"	class="sr-only">Password</label> 
 								<input type="password" id="password" name="password" class="form-control"
 								placeholder="Password" required="required" />
-							  
+							  <div class="visible-xs-block" style="margin-bottom: 7px;"></div>
 							  <div class="checkbox" th:unless="${#bools.isTrue(loginUpdate)}">
 								<label> <input  type="checkbox" name="remember-me" />
 									Remember me

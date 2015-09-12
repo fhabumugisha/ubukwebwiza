@@ -121,6 +121,7 @@ public class AdminProviderController {
 	    			return "adminpanel/provider/editProvider";
 	        	
 	        }
+			String message = "";
 			try {
 				String password = null;
 				//creation mode, generate a random passowrd
@@ -128,6 +129,9 @@ public class AdminProviderController {
 					password = UbUtils.generatePassword(6);
 					PasswordEncoder encoder = new BCryptPasswordEncoder();
 					provider.getAccount().setPassword(encoder.encode(password));
+					 message = "Provider " + provider.getBusinessName() + " was successfully added";
+				}else{
+					 message = "Provider " + provider.getBusinessName() + " was successfully updated";
 				}
 				providerService.addOrUpdate(provider);				
 				//Save profil pricture to amazon S3
@@ -153,7 +157,7 @@ public class AdminProviderController {
 				return "adminpanel/provider/editProvider";
 			}
 			
-			String message = "Provider " + provider.getBusinessName() + " was successfully added";
+			
 			attributes.addFlashAttribute("message", message);
 			return "redirect:/admin/providers";
 		

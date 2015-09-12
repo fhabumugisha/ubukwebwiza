@@ -8,6 +8,8 @@ import java.util.List;
 
 import org.apache.commons.collections4.IteratorUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -58,6 +60,7 @@ import com.mysema.query.types.Predicate;
 public class ProviderServiceImpl implements ProviderService {
 	
 	private static final String ROLE_PROVIDER = "ROLE_PROVIDER";
+	public static final Logger LOGGER = LoggerFactory.getLogger( ProviderServiceImpl.class );
 	private ProviderRepo providerRepo;
 	private WeddingServiceRepo weddingServiceRepo;
 	private ProviderWeddingServiceRepo providerWeddingServiceRepo;
@@ -148,6 +151,7 @@ public class ProviderServiceImpl implements ProviderService {
 			bdd.setFbUsername(provider.getFbUsername());
 			bdd.setTwitterUsername(provider.getTwitterUsername());
 			bdd.setUrlName(UbUtils.createUrlName(provider.getBusinessName()));
+			bdd.getAccount().setEnabled(provider.getAccount().isEnabled());
 			bdd.getAccount().setLastUpdate(new Date());
 						
 			providerRepo.save(bdd);
@@ -180,6 +184,7 @@ public class ProviderServiceImpl implements ProviderService {
 		if(provider ==  null){
 			throw new ResourceNotFoundException();
 		}
+		LOGGER.info("Increase the number of views of the provider " + provider.getBusinessName());
 		provider.setNbViews(provider.getNbViews() + 1);
 		provider.getAccount().setLastUpdate(new Date());
 		providerRepo.save(provider);
@@ -403,6 +408,7 @@ public class ProviderServiceImpl implements ProviderService {
 	}
 
 	@Override
+	@Transactional
 	public Provider getProvider(String urlName) {
 		if(StringUtils.isEmpty(urlName)){
 			throw new NullPointerException();

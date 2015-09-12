@@ -327,9 +327,9 @@
 						th:if="*{provider.profilPicture}" th:alt="${businessName}"
 						th:src="@{'https://ubfiles.s3.amazonaws.com/'+*{provider.profilPicture.filename}} "></img>
 
-					<img id="profilPicturePreview" alt="profil pic" class="img-circle"
-						width="140" height="140" th:unless="*{provider.profilPicture}"
-						th:alt="${businessName}" data-src="holder.js/100%x150"></img>
+					<img id="profilPicturePreview" alt="profil pic" class="img-rounded"
+						width="150" height="150" th:unless="*{provider.profilPicture}"
+						th:alt="${businessName}" data-src="holder.js/150x150"></img>
 
 					<h3>
 						<a  href="provider/detailProvider.html"
