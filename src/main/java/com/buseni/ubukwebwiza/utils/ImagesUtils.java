@@ -37,7 +37,7 @@ public class ImagesUtils {
 	
 	
 	public static File prepareUploading(MultipartFile multipartFile,
-			Integer imgCateg) {
+			String filename, Integer imgCateg) {
 		File tempFile = null;
 		if (multipartFile != null && !multipartFile.isEmpty()) {
 			String contentType = multipartFile.getContentType();
@@ -49,8 +49,9 @@ public class ImagesUtils {
 			}
 
 			try {
-				tempFile = File.createTempFile("tempuploadedfile" + System.currentTimeMillis(),	"." + imgExt);
-				tempFile.deleteOnExit();
+				LOGGER.debug("Creating temp file" +  filename);
+				tempFile = File.createTempFile(filename,	"." + imgExt);
+				//FIXME FHA tempFile.deleteOnExit();
 				if (EnumPhotoCategory.PROFILE.getId().equals(imgCateg)) {
 					resizeImageScal(multipartFile.getInputStream(), tempFile, PROFILE_IMAGE_WIDTH,PROFILE_IMAGE_HEIGHT, Scalr.Mode.FIT_EXACT,imgExt);
 				} else if (EnumPhotoCategory.HOME_PAGE.getId().equals(imgCateg)) {
