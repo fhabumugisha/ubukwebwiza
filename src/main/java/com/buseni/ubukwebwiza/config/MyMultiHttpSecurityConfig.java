@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
@@ -47,9 +48,10 @@ public class MyMultiHttpSecurityConfig {
 	        .and()
 	        	.logout().logoutUrl("/admin/logout").logoutSuccessUrl("/admin/signin?logout").permitAll().deleteCookies("JSESSIONID")
 	        .and()
-	        	.exceptionHandling().accessDeniedPage("/admin403")
+	        	.exceptionHandling().accessDeniedPage("/admin403").accessDeniedHandler(customAccessDeniedHandler())
 	        .and()
-	        	.rememberMe().tokenRepository(persistentTokenRepository()).tokenValiditySeconds(604800).and().csrf();
+	        	.rememberMe().tokenRepository(persistentTokenRepository()).tokenValiditySeconds(604800)
+	        	.and().csrf().ignoringAntMatchers("/admin/logout");;
 		}
 		@Override
 		public void configure(WebSecurity web) throws Exception {
@@ -71,6 +73,12 @@ public class MyMultiHttpSecurityConfig {
 			db.setDataSource(dataSource);
 			return db;
 		}
+		@Bean
+		public AccessDeniedHandler customAccessDeniedHandler(){
+			CustomAccessDienedHandlerImpl customAccessDeniedHandler = new CustomAccessDienedHandlerImpl();
+			customAccessDeniedHandler.setErrorPage("/admin403");
+			return customAccessDeniedHandler;
+		}
 	}
 
 	@Configuration      
@@ -87,10 +95,10 @@ public class MyMultiHttpSecurityConfig {
 	        .and()
 	        	.logout().logoutUrl("/profile/logout").logoutSuccessUrl("/").deleteCookies("JSESSIONID")
 	        .and()
-	        	.exceptionHandling().accessDeniedPage("/admin403")
+	        	.exceptionHandling().accessDeniedPage("/admin403").accessDeniedHandler(customAccessDeniedHandler())
 	        .and()
 	        	.rememberMe().tokenRepository(persistentTokenRepository()).tokenValiditySeconds(604800)
-	        	.and().csrf();
+	        	.and().csrf().ignoringAntMatchers("/profile/logout");
 	        
 		        
 		}
@@ -113,6 +121,13 @@ public class MyMultiHttpSecurityConfig {
 			return auth;
 		}
 		
+		@Bean
+		public AccessDeniedHandler customAccessDeniedHandler(){
+			CustomAccessDienedHandlerImpl customAccessDeniedHandler = new CustomAccessDienedHandlerImpl();
+			customAccessDeniedHandler.setErrorPage("/admin403");
+			return customAccessDeniedHandler;
+		}
+		
 	}
 	
 	@Configuration      
@@ -121,7 +136,8 @@ public class MyMultiHttpSecurityConfig {
 		
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
-			 http.antMatcher("/**").authorizeRequests().anyRequest().permitAll();
+			 http.antMatcher("/**").authorizeRequests().anyRequest().permitAll()
+			 .and().exceptionHandling().accessDeniedHandler(customAccessDeniedHandler());
 	        
 		        
 		}
@@ -129,7 +145,12 @@ public class MyMultiHttpSecurityConfig {
 		public void configure(WebSecurity web) throws Exception {
 			web.ignoring().antMatchers("/resources/**");
 		}
-		
+		@Bean
+		public AccessDeniedHandler customAccessDeniedHandler(){
+			CustomAccessDienedHandlerImpl customAccessDeniedHandler = new CustomAccessDienedHandlerImpl();
+			customAccessDeniedHandler.setErrorPage("/admin403");
+			return customAccessDeniedHandler;
+		}
 		
 	}
 	
@@ -139,4 +160,6 @@ public class MyMultiHttpSecurityConfig {
 		PasswordEncoder encoder = new BCryptPasswordEncoder();
 		return encoder;
 	}
+	
+	
 }

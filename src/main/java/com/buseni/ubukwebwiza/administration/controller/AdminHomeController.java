@@ -10,6 +10,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +37,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.buseni.ubukwebwiza.account.domain.PasswordResetToken;
 import com.buseni.ubukwebwiza.account.domain.UserAccount;
 import com.buseni.ubukwebwiza.account.service.UserAccountService;
-import com.buseni.ubukwebwiza.administrator.service.AdministratorService;
 import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
 import com.buseni.ubukwebwiza.contactus.domain.ContactusForm;
 import com.buseni.ubukwebwiza.contactus.service.ContactusService;
@@ -44,8 +44,7 @@ import com.buseni.ubukwebwiza.contactus.service.ContactusService;
 @Navigation(url="/admin" ,name = "Dashbord")
 public class AdminHomeController {
 	public  static final Logger LOGGER = LoggerFactory.getLogger(AdminHomeController.class);
-	@Autowired
-	private AdministratorService administratorService;
+	
 	
 	@Autowired
 	private UserAccountService userAccountService;
@@ -74,6 +73,7 @@ public class AdminHomeController {
 	@RequestMapping(value="/admin/signin", method=RequestMethod.GET)
 	public String login(@RequestParam(value = "error", required = false) String error,
 			  @RequestParam(value = "logout", required = false) String logout, 
+			  @RequestParam(value = "timeout", required = false) String timeout,
 	          HttpServletRequest request,Model model){
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if(!(auth instanceof AnonymousAuthenticationToken)){
@@ -96,6 +96,11 @@ public class AdminHomeController {
  
 		if (logout != null) {
 			model.addAttribute("msg", "You've been logged out successfully.");
+		}
+		Boolean browserSessionTimeout =  (Boolean) request.getSession().getAttribute("browserSessionTimeout");
+		if (BooleanUtils.isTrue(browserSessionTimeout)) {
+			model.addAttribute("error", "The session of your browser is expired. Please try again.");
+			request.getSession().removeAttribute("browserSessionTimeout");
 		}
 		return "adminpanel/signin";
 	}

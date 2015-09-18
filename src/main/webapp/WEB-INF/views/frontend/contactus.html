@@ -11,7 +11,12 @@
 		
 		<div layout:fragment="pageContent" id="content" >
 		<div th:if="${message}" class="alert alert-success" th:text="${message}">Cool</div>
-			
+		
+		<div th:if="${error}"
+							class="alert alert-danger fade in">
+							<a href="#" class="close" data-dismiss="alert">&times;</a> <span
+								th:text="${error}">Error</span>
+		</div>
 			<div class="row">
 				<div class="col-md-12">
 					<div class="panel panel-default">

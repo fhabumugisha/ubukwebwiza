@@ -1,6 +1,7 @@
 package com.buseni.ubukwebwiza.provider.domain;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -35,6 +38,15 @@ public class WeddingService implements Serializable {
 	private String libelleEn;
 	@Column(name="libelle_kn")
 	private String libelleKn;
+	
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="last_update")
+	private Date lastUpdate;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="created_at")
+	private Date createdAt;
 	
 	private boolean enabled;
 	
@@ -149,6 +161,22 @@ public class WeddingService implements Serializable {
 		} else if (!libelleKn.equals(other.libelleKn))
 			return false;
 		return true;
+	}
+
+	public Date getLastUpdate() {
+		return lastUpdate;
+	}
+
+	public void setLastUpdate(Date lastUpdate) {
+		this.lastUpdate = lastUpdate;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 
 	

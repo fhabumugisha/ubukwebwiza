@@ -44,8 +44,8 @@
 							</td>							
 							<td th:text="${photo.description}">Wedding Planning</td>
 							<td th:text="${photo.category}">Profile pic</td>
-							<td th:text="${#dates.format(photo.lastUpdate, 'dd/MM/yyyy')}">Ok</td>
-							<td th:text="${#dates.format(photo.createdAt, 'dd/MM/yyyy')}">Ok</td>
+							<td th:text="${#dates.format(photo.lastUpdate, 'dd/MM/yyyy HH:mm:ss')}">Ok</td>
+							<td th:text="${#dates.format(photo.createdAt, 'dd/MM/yyyy HH:mm:ss')}">Ok</td>
 							<td th:text="${photo.enabled}">Ok</td>
 							<td class="dropdown">
 							<a th:if="${photo.category == 3}"  class="dropdown-toggle" data-toggle="dropdown" href="#">

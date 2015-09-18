@@ -44,10 +44,11 @@
 
 						<form class="form-signin" role="form" th:action="@{/admin/signin}" method="POST">
 
-							<div th:if="${param.error}" class="alert alert-danger">
+							<!-- <div th:if="${param.error}" class="alert alert-danger">
 								Invalid username and password.</div>
 							<div th:if="${param.logout}" class="alert alert-success">
-								You have been logged out.</div>
+								You have been logged out.</div> -->
+							
 							<label for="email" class="sr-only">Email address</label>
 							 <input type="email" id="email" name="email" class="form-control"
 								placeholder="Email address" required="required" autofocus="autofocus" /> 

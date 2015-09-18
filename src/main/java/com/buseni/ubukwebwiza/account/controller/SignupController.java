@@ -69,11 +69,16 @@ public class SignupController {
 	private ApplicationEventPublisher eventPublisher;
 
 	@RequestMapping(value="/signup", method=RequestMethod.GET)
-	public String goToSignup(Model model){
+	public String goToSignup( @RequestParam(value = "timeout", required = false) String timeout,
+			Model model,HttpServletRequest request){
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if(!(auth instanceof AnonymousAuthenticationToken)){
 			model.asMap().clear();
 			return "redirect:/";
+		}
+		if (timeout != null) {
+			String errorMessage  =  messages.getMessage("message.sessiontimeout", null, request.getLocale());
+			model.addAttribute("error", errorMessage);
 		}
 		model.addAttribute("signupForm", new SignupForm());
 		return "frontend/account/signup";
