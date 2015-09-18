@@ -36,16 +36,16 @@
 
 	</scm>
 
-	    <distributionManagement>
+	     <distributionManagement>
         <repository>
             <id>nexus</id>
-            <url>http://localhost:8082/nexus/content/repositories/releases</url>
+            <url>http://ubnexus.jelastic.lunacloud.com/content/repositories/releases</url>
         </repository>
         <snapshotRepository>
             <id>nexus</id>
-            <url>http://localhost:8082/nexus/content/repositories/snapshots</url>
+            <url>http://ubnexus.jelastic.lunacloud.com/content/repositories/snapshots</url>
         </snapshotRepository>
-    </distributionManagement>
+    </distributionManagement> 
 	<developers>
 
 		<developer>
@@ -486,20 +486,20 @@
 		</plugins>
 		
 	</build>
-	<pluginRepositories>
-	
-	
+	 <pluginRepositories>
+
+
 	<pluginRepository>
-     <id>nexus</id>
-     <url>http://localhost:8082/nexus/content/groups/public/</url>
-     <releases>
-         <enabled>true</enabled>
-     </releases>
-     <snapshots>
-         <enabled>true</enabled>
-     </snapshots>
- </pluginRepository>
- </pluginRepositories>
+		<id>nexus</id>
+		<url>http://ubnexus.jelastic.lunacloud.com/content/groups/public/</url>
+		<releases>
+			<enabled>true</enabled>
+		</releases>
+		<snapshots>
+			<enabled>true</enabled>
+		</snapshots>
+	</pluginRepository>
+</pluginRepositories> 
 	<profiles>
 		<profile>
 			<id>dev</id>
