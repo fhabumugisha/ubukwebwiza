@@ -26,6 +26,8 @@ public class CustomAccessDienedHandlerImpl implements AccessDeniedHandler{
 	// ================================================================================================
 
 	private String errorPage;
+	
+	 private int customSessionExpiredErrorCode = 901;
 
 	// ~ Methods
 	// ========================================================================================================
@@ -39,22 +41,30 @@ public class CustomAccessDienedHandlerImpl implements AccessDeniedHandler{
 			if (accessDeniedException instanceof MissingCsrfTokenException
 			        || accessDeniedException instanceof InvalidCsrfTokenException) {
 
-				 HttpSession currentSession = request.getSession(false);
-				 if(currentSession  != null){
-					 currentSession.setAttribute("browserSessionTimeout", true);
-				 }
-			    if(request.getRequestURI().contains("profile")){
-			        response.sendRedirect(request.getContextPath()+"/profile/login");                                        
-			    }
-			    if(request.getRequestURI().contains("admin")){
+				 HttpSession currentSession = request.getSession(false);				
+				 if(request.getRequestURI().contains("profile")){
+					 String ajaxHeader = ((HttpServletRequest) request).getHeader("X-Requested-With");
+					 if("XMLHttpRequest".equals(ajaxHeader)){
+						 response.setHeader("redirectUrl", request.getContextPath()+"/profile/signin");
+						 response.sendError(customSessionExpiredErrorCode);
+					 }else{
+						 if(currentSession  != null){
+							 currentSession.setAttribute("browserSessionTimeout", true);
+						 }
+						 response.sendRedirect(request.getContextPath()+"/profile/signin");
+					 }
+				 }else   if(request.getRequestURI().contains("admin")){
+					 if(currentSession  != null){
+						 currentSession.setAttribute("browserSessionTimeout", true);
+					 }
 			        response.sendRedirect(request.getContextPath()+"/admin/signin");                                        
-			    }
-			    if(request.getRequestURI().contains("signup")){
+			    }else if(request.getRequestURI().contains("signup")){
 			    	
 			        response.sendRedirect(request.getContextPath()+"/signup?timeout");                                        
-			    }
-			    if(request.getRequestURI().contains("contactus")){
+			    }else   if(request.getRequestURI().contains("contactus")){
 			        response.sendRedirect(request.getContextPath()+"/contactus?timeout");                                        
+			    }else{
+			    	 response.sendRedirect(request.getContextPath()+"?timeout"); 
 			    }
 			}else{
 				

@@ -18,13 +18,27 @@ $(document).on("submit","#addPhotoForm",function(event){
 			$("#saving").html(
                     '<img src="https://s3.amazonaws.com/ubfiles/saving.gif" align="absmiddle" width="25" height="16" style="padding-right:5px;"/>Saving...');
 		  },
-		success: function(data){
-			//console.log(data);
-			$('#photos').html(data);
-			$("#saving").empty();
-		},
+		  success: function(data , textStatus , jqXHR){
+			  console.log("textStatus :" + textStatus);
+			  console.log("jqXHR status :" + jqXHR.status);
+			  console.log("jqXHR getAllResponseHeaders() :" + jqXHR.getAllResponseHeaders());
+
+			  //console.log(data);
+			  $('#photos').html(data);
+			  $("#saving").empty();
+
+
+
+		  },
 		error: function(jqXHR, textStatus, errorThrown) {
+			$("#saving").empty();
+			console.log("textStatus :" + textStatus);
+			console.log("jqXHR status :" + jqXHR.status);
+			console.log("jqXHR getAllResponseHeaders() :" + jqXHR.getAllResponseHeaders());
 			  console.log(textStatus, errorThrown);
+			  if(jqXHR.status === 901){
+				  window.location.href =  jqXHR.getResponseHeader("redirectUrl");
+			  }
 			  $('#errorMessage').html(textStatus  + " " + errorThrown);
 			  $('#errors').removeAttr('style')
 			  $('#errors').show("slow").delay(5000).hide("slow");
@@ -78,13 +92,17 @@ $(document).on("click",".deleteProfilePhoto",function(event){
 $(document).on("click",".editProfilePhoto",function(event){
 	event.preventDefault(); 
 	var url = $(this).attr('href');
-	console.log(url);
+	//console.log(url);
 	$.ajax({
 		url: url,
 		dataType: 'html',					       
 		type: 'GET',
-		success: function(data){
+		success: function(data, textStatus, jqXHR){
 			//console.log(data);
+			console.log("textStatus :" + textStatus);
+			console.log("jqXHR status :" + jqXHR.status);
+			console.log("jqXHR getAllResponseHeaders() :" + jqXHR.getAllResponseHeaders());
+			console.log("jqXHR location :" + jqXHR.getResponseHeader("Location"));
 			$('#photos').html(data);
 			$("#editPhotoBox").show("slow");
 			$("#showAddPhotoForm").hide("slow");
@@ -139,6 +157,19 @@ $(document).on("submit","#addServiceForm",function(event){
 			//console.log(data);
 			$('#services').html(data);
 			resetAddServiceForm() ;
+		},
+	error: function(jqXHR, textStatus, errorThrown) {
+		$("#saving").empty();
+		console.log("textStatus :" + textStatus);
+		console.log("jqXHR status :" + jqXHR.status);
+		console.log("jqXHR getAllResponseHeaders() :" + jqXHR.getAllResponseHeaders());
+		  console.log(textStatus, errorThrown);
+		  if(jqXHR.status === 901){
+			  window.location.href =  jqXHR.getResponseHeader("redirectUrl");
+		  }
+		  $('#errorMessage').html(textStatus  + " " + errorThrown);
+		  $('#errors').removeAttr('style')
+		  $('#errors').show("slow").delay(5000).hide("slow");
 		}
 	});
 	return false;
@@ -154,7 +185,7 @@ $(document).on("click",".editProfileService",function(event){
 		dataType: 'html',					       
 		type: 'GET',
 		success: function(data){
-			console.log("edit service data : " + data);
+			//console.log("edit service data : " + data);
 			$('#services').html(data);
 			$("#editServiceBox").show("slow");
 			$("#showAddServiceForm").hide("slow");

@@ -19,6 +19,7 @@
    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet"  />
    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"  />
    <link rel="stylesheet" 	href="https://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css" media="screen"/>
+   <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/jquery-jgrowl/1.4.1/jquery.jgrowl.min.css" />
     <!-- Custom styles for this template -->
    <link href="../../../../resources/css/social-buttons.css" rel="stylesheet" th:href="@{/resources/css/social-buttons.css}" />
       <link href="../../../../resources/plugins/chosen_v1.4.2/chosen.min.css" rel="stylesheet" th:href="@{/resources/plugins/chosen_v1.4.2/chosen.min.css}" />
@@ -402,6 +403,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/holder/2.6.0/holder.min.js"></script>
     <script
 		src="https://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js"></script>
+	 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-jgrowl/1.4.1/jquery.jgrowl.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="http://cdn.alifeopp.com/js/ie10-viewport-bug-workaround.js" ></script>
 <!--     <script src="../../../../resources/plugins/chosen_v1.4.2/chosen.jquery.min.js" th:src="@{/resources/plugins/chosen_v1.4.2/chosen.jquery.min.js}"></script>
@@ -417,7 +419,26 @@
 	 $('.carousel').carousel({
 		  interval: 9000
 		});
-		   
+	
+	
 	</script>
+	 <script th:inline="javascript">
+		/*<![CDATA[*/
+    	
+	 $( document ).ready(function() {
+		 
+		 var browserSessionTimeout = /*[[${#httpServletRequest.getParameter('timeout')}]]*/ null;
+		 
+		 if(browserSessionTimeout != null ){
+			 var message  = 'The session of your browser is expired. Please try again.';
+		 $.jGrowl(message, { sticky: true , position: 'top-left'});
+		 }
+		});
+		
+	
+
+   	 
+		/*]]>*/
+</script> 
   </body>
 </html>
