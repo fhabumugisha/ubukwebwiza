@@ -68,7 +68,12 @@ $(document).on("click",".deleteProfilePhoto",function(event){
 						//console.log(data);
 						$('#photos').html(data);
 					},
-					error : function() {
+					error : function(jqXHR, textStatus, errorThrown) {
+						console.log("textStatus :" + textStatus);
+						console.log("jqXHR status :" + jqXHR.status);
+						  if(jqXHR.status === 901){
+							  window.location.href =  jqXHR.getResponseHeader("redirectUrl");
+						  }
 						console.log('Deconnexion du serveur');
 					}
 				});
@@ -99,15 +104,16 @@ $(document).on("click",".editProfilePhoto",function(event){
 		type: 'GET',
 		success: function(data, textStatus, jqXHR){
 			//console.log(data);
-			console.log("textStatus :" + textStatus);
-			console.log("jqXHR status :" + jqXHR.status);
-			console.log("jqXHR getAllResponseHeaders() :" + jqXHR.getAllResponseHeaders());
-			console.log("jqXHR location :" + jqXHR.getResponseHeader("Location"));
 			$('#photos').html(data);
 			$("#editPhotoBox").show("slow");
 			$("#showAddPhotoForm").hide("slow");
 		},
-		error : function() {
+		error : function(jqXHR, textStatus, errorThrown) {
+			console.log("textStatus :" + textStatus);
+			console.log("jqXHR status :" + jqXHR.status);
+			  if(jqXHR.status === 901){
+				  window.location.href =  jqXHR.getResponseHeader("redirectUrl");
+			  }
 			console.log('Deconnexion du serveur');
 		}
 	});
@@ -162,8 +168,6 @@ $(document).on("submit","#addServiceForm",function(event){
 		$("#saving").empty();
 		console.log("textStatus :" + textStatus);
 		console.log("jqXHR status :" + jqXHR.status);
-		console.log("jqXHR getAllResponseHeaders() :" + jqXHR.getAllResponseHeaders());
-		  console.log(textStatus, errorThrown);
 		  if(jqXHR.status === 901){
 			  window.location.href =  jqXHR.getResponseHeader("redirectUrl");
 		  }
@@ -191,7 +195,12 @@ $(document).on("click",".editProfileService",function(event){
 			$("#showAddServiceForm").hide("slow");
 			
 		},
-		error : function() {
+		error : function(jqXHR, textStatus, errorThrown) {
+			console.log("textStatus :" + textStatus);
+			console.log("jqXHR status :" + jqXHR.status);
+			if(jqXHR.status === 901){
+				  window.location.href =  jqXHR.getResponseHeader("redirectUrl");
+			  }
 			console.log('Deconnexion du serveur');
 		}
 	});
@@ -219,7 +228,12 @@ $(document).on("click",".deleteProfileService",function(event){
 						//console.log(data);
 						$('#services').html(data);
 					},
-					error : function() {
+					error :function(jqXHR, textStatus, errorThrown) {
+						console.log("textStatus :" + textStatus);
+						console.log("jqXHR status :" + jqXHR.status);
+						if(jqXHR.status === 901){
+							  window.location.href =  jqXHR.getResponseHeader("redirectUrl");
+						  }
 						console.log('Deconnexion du serveur');
 					}
 				});

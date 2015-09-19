@@ -10,6 +10,6 @@ public class SpringSecurityInitializer extends AbstractSecurityWebApplicationIni
 	
 	@Override
 	protected void beforeSpringSecurityFilterChain(ServletContext servletContext) {
-		insertFilters(servletContext, new MultipartFilter());
+		insertFilters(servletContext, new AjaxSessionExpirationFilter(), new MultipartFilter());
 	}
 }

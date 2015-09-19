@@ -78,6 +78,11 @@ public class ApplicationInitializer implements WebApplicationInitializer {
 		
 		// Register the hiddenHttpMethodFilter
 		servletContext.addFilter("hiddenHttpMethodFilter", HiddenHttpMethodFilter.class).addMappingForUrlPatterns(null, false, "/*");
+		
+		/*// Register the AjaxSessionExpirationFilter
+				servletContext.addFilter("ajaxSessionExpirationFilter", AjaxSessionExpirationFilter.class).addMappingForUrlPatterns(null, false, "/*");*/
+		
+		
 
 	}
 
