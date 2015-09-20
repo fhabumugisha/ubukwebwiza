@@ -135,7 +135,7 @@ public class AdminProviderController {
 				}
 				providerService.addOrUpdate(provider);				
 				//Save profil pricture to amazon S3
-				File fileToUpload =  ImagesUtils.prepareUploading(file, EnumPhotoCategory.PROFILE.getId());
+				File fileToUpload =  ImagesUtils.prepareUploading(file, filename, EnumPhotoCategory.PROFILE.getId());
 				amazonS3Util.uploadFile(fileToUpload, filename);
 				
 				//in creation mode send a "provider added email

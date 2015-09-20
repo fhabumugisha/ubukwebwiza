@@ -34,9 +34,10 @@
 							<td th:text="${message.id}">1</td>
 							<td th:text="${message.name}">Me</td>
 							<td th:text="${message.email}">Me</td>
-							<td th:text="${message.message}">Me</td>
-							<td th:text="${message.createdAt}">2001-12-12</td>
-							<td th:text="${message.lastUpdate}">2001-12-12</td>
+							<td th:text="${message.message}">Me</td>							
+							<td th:text="${#dates.format(message.createdAt, 'dd/MM/yyyy HH:mm:ss')}">Ok</td>
+							<td th:text="${#dates.format(message.lastUpdate, 'dd/MM/yyyy HH:mm:ss')}">Ok</td>
+						
 							<td th:text="${message.readed}">Ok</td>
 							<td class="dropdown">
 							<a id="dLabel" data-toggle="dropdown" href="#"> <span th:text="#{list.actions}">Actions</span>

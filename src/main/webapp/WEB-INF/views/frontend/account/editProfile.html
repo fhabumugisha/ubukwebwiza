@@ -135,7 +135,7 @@
 												<div class="input-group">
 													<span class="input-group-addon"><i
 														class="fa fa-phone"></i></span> <input type="text"
-														th:field="*{phoneNumber}" maxlength="50"
+														th:field="*{phoneNumber}" maxlength="15"
 														class="form-control" id="phoneNumber"
 														placeholder="Enter your phonenumber" /> 
 												</div>
@@ -467,7 +467,7 @@
 									<span th:text="${messageService}">Success</span>
 								</div>
 								<a id="showAddServiceForm" href="#" class=" btn btn-primary btn-xs"
-								 th:text="#{message.editProfile.addService}" th:if="${#lists.isEmpty(provider.providerWeddingServices)}">
+								 th:text="#{message.editProfile.addService}">
 										Add Service </a><br /><br />
 								
 									
@@ -571,10 +571,10 @@
 														<a th:href="@{/profile/editService(id=${providerWeddingService.id})}"
 															href="#" class="editProfileService"> 
 																 <span th:text="#{list.edit}">Edit</span> </a> 
-																<!-- In a free account you can not delete the only service  -->
-																<!--  | <a class="deleteProfileService" href="#"
+																
+																 | <a class="deleteProfileService" href="#"
 																th:href="@{/profile/deleteService(id=${providerWeddingService.id})}">
-																 	 <span th:text="#{list.delete}">delete</span> </a> -->
+																 	 <span th:text="#{list.delete}">delete</span> </a>
 																 	 
 																
 																</td>

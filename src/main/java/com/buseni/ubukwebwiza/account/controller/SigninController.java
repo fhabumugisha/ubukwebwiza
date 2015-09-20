@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,11 +56,18 @@ public class SigninController {
 	
 	
 	@RequestMapping(value="/profile/signin", method=RequestMethod.GET)
-	public String login(@RequestParam(value = "error", required = false) String error, Model model){
+	public String login(@RequestParam(value = "error", required = false) String error, 
+			Model model, HttpServletRequest request){
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if(!(auth instanceof AnonymousAuthenticationToken)){
 			model.asMap().clear();
 			return "redirect:/";
+		}
+		Boolean browserSessionTimeout =  (Boolean) request.getSession().getAttribute("browserSessionTimeout");
+		if (BooleanUtils.isTrue(browserSessionTimeout)) {
+			String errorMessage  =  messages.getMessage("message.sessiontimeout", null, request.getLocale());
+			model.addAttribute("error", errorMessage);
+			request.getSession().removeAttribute("browserSessionTimeout");
 		}
 		return "frontend/account/signin";
 	}

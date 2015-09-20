@@ -182,6 +182,10 @@
 		th:src="@{/resources/plugins/bs-image-gallery-3.1.0/js/bootstrap-image-gallery.min.js}"></script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js"></script>
+		
+		<!-- <script
+		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-growl/1.0.6/bootstrap-growl.min.js"></script> -->
+
 	<!-- <script
 		src="http://malsup.github.io/min/jquery.form.min.js"></script> -->
 		
@@ -192,6 +196,33 @@
 	<script src="../../../../resources/js/responsive-tabs.js" th:src="@{/resources/js/responsive-tabs.js}"></script>
 	<script src="../../../../resources/js/editProfile.js" th:src="@{/resources/js/editProfile.js}"></script>
 	<script src="../../../../resources/js/jquery.cropit.js" th:src="@{/resources/js/jquery.cropit.js}"></script>
+	<!-- <script th:inline="javascript">
+		/*<![CDATA[*/
+    	
+
+   	 var browserSessionTimeout = /*[[${session.browserSessionTimeout}]]*/ null;
+		if(browserSessionTimeout != null && browserSessionTimeout == true){
+			$(function() {
+			    $.bootstrapGrowl("This is a test.");
+			    
+			   		    
+			    setTimeout(function() {
+			        $.bootstrapGrowl("Danger, Danger!", {
+			            type: 'danger',
+			            align: 'center',
+			            width: 'auto',
+			            allow_dismiss: false
+			        });
+			    }, 2000);
+			    
+			    
+			});
+
+		}
+
+   	 
+		/*]]>*/
+</script> -->
 	<script type="text/javascript">
 	$('.carousel').carousel({
 		  interval: 6000
@@ -254,6 +285,8 @@
  $('.select-image-btn').click(function() {
    $('.cropit-image-input').click();
  });
+ 
+ 
 	</script>
 </body>
 

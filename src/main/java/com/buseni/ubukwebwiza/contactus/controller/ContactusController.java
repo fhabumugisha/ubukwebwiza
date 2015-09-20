@@ -2,12 +2,14 @@ package com.buseni.ubukwebwiza.contactus.controller;
 
 
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,11 +33,20 @@ public class ContactusController {
 	public  static final Logger LOGGER = LoggerFactory.getLogger(ContactusController.class);
 	
 	@Autowired
-	private ContactusService  contactusService;
+	private ContactusService  contactusService;	
+
+	@Autowired
+	private MessageSource messages;
 
 	@RequestMapping(value="/contactus", method=RequestMethod.GET)
-	public String goToContactus(Model model){
+	public String goToContactus( @RequestParam(value = "timeout", required = false) String timeout, 
+			Model model,HttpServletRequest request){
 		model.addAttribute("contactusForm", new ContactusForm());
+		
+		if (timeout != null) {
+			String errorMessage  =  messages.getMessage("message.sessiontimeout", null, request.getLocale());
+			model.addAttribute("error", errorMessage);
+		}
 		return "frontend/contactus";
 	}
 

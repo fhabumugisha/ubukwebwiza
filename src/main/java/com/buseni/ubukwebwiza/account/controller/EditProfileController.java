@@ -142,7 +142,7 @@ public class EditProfileController {
 		try {
 			providerService.updateInfos(provider);				
 			//Save profil picture to amazon S3
-			File fileToUpload =  ImagesUtils.prepareUploading(file, EnumPhotoCategory.PROFILE.getId());
+			File fileToUpload =  ImagesUtils.prepareUploading(file, filename, EnumPhotoCategory.PROFILE.getId());
 			amazonS3Util.uploadFile(fileToUpload, filename);
 
 			//Business errors	
@@ -346,7 +346,7 @@ public class EditProfileController {
 			model.addAttribute("canAddMorePhoto", false);
 		}
 		// Save profil pricture to amazon S3
-		File fileToUpload = ImagesUtils.prepareUploading(file,	EnumPhotoCategory.PROVIDER.getId());
+		File fileToUpload = ImagesUtils.prepareUploading(file, filename,	EnumPhotoCategory.PROVIDER.getId());
 		amazonS3Util.uploadFile(fileToUpload, filename);
 
 

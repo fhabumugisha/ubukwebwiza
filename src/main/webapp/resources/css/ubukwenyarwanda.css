@@ -340,6 +340,20 @@ input[type=range] {
     display: block;
     width: 160px;
 }
+.jGrowl-notification {
+    background-color: #E44040;
+    opacity: .9;
+    -ms-filter: alpha(90);
+    filter: alpha(90);
+    zoom: 1;
+    width: 250px;
+    padding: 10px;
+    margin: 10px;
+    text-align: left;
+    display: none;
+    border-radius: 5px;
+    min-height: 40px;
+}
 /* jasny class */
 /*  .navmenu, .navbar-offcanvas {
   width: 280px;

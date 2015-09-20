@@ -41,6 +41,7 @@ public class ContactusServiceImpl implements ContactusService {
 	public void add(ContactusForm contactusForm) {
 		contactusForm.setReaded(false);
 		contactusForm.setCreatedAt(new Date());
+		contactusForm.setLastUpdate(new Date());
 		contactusRepo.save(contactusForm);
 
 	}

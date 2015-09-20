@@ -1,4 +1,4 @@
-package com.buseni.ubukwebwiza.config;
+package com.buseni.ubukwebwiza.filters;
 
 
 

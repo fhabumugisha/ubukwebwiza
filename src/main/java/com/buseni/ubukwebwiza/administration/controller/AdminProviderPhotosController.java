@@ -127,7 +127,7 @@ public class AdminProviderPhotosController{
 		}
 
 		// Save profil pricture to amazon S3
-		File fileToUpload = ImagesUtils.prepareUploading(file,	EnumPhotoCategory.PROVIDER.getId());
+		File fileToUpload = ImagesUtils.prepareUploading(file,filename,	EnumPhotoCategory.PROVIDER.getId());
 		amazonS3Util.uploadFile(fileToUpload, filename);
 
 		String message = "Photo " + photo.getId() + " was successfully added";
