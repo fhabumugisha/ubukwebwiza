@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.buseni</groupId>
 	<artifactId>ubukwebwiza</artifactId>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.0.2-SNAPSHOT</version>
 	<packaging>war</packaging>
 
 	<properties>
@@ -472,7 +472,7 @@
 					<password>UbukweBwiza123&amp;</password>
 					<context>ROOT</context>
 					<environment>ubukwebwiza</environment>
-					<comment>Deploy to jelastic</comment>
+					<comment>Deploy to jelastic ubukwebwiza-1.0.1</comment>
 
 					<api_hoster>app.jelastic.lunacloud.com</api_hoster>
 				</configuration>
@@ -507,19 +507,13 @@
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
-			<properties>
-				<!-- <datasource.driver.classname>com.mysql.jdbc.Driver</datasource.driver.classname> 
-					<datasource.url>jdbc:mysql://89.206.216.53:3306/ubukwebwiza</datasource.url> 
-					<datasource.username>ubukwe</datasource.username> <datasource.password>ubukwe123</datasource.password> -->
+			<properties>				
 				<build.profile.id>dev</build.profile.id>
 			</properties>
 		</profile>
 		<profile>
 			<id>prod</id>
-			<properties>
-				<!-- <datasource.driver.classname>com.mysql.jdbc.Driver</datasource.driver.classname> 
-					<datasource.url>jdbc:mysql://89.206.216.53:3306/ubukwebwiza</datasource.url> 
-					<datasource.username>ubukwe</datasource.username> <datasource.password>ubukwe123</datasource.password> -->
+			<properties>				
 				<build.profile.id>prod</build.profile.id>
 			</properties>
 		</profile>
