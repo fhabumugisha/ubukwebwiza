@@ -21,9 +21,7 @@ $(document).on("submit","#addPhotoForm",function(event){
 		  success: function(data , textStatus , jqXHR){
 			  console.log("textStatus :" + textStatus);
 			  console.log("jqXHR status :" + jqXHR.status);
-			  console.log("jqXHR getAllResponseHeaders() :" + jqXHR.getAllResponseHeaders());
-
-			  //console.log(data);
+			   //console.log(data);
 			  $('#photos').html(data);
 			  $("#saving").empty();
 
@@ -34,7 +32,6 @@ $(document).on("submit","#addPhotoForm",function(event){
 			$("#saving").empty();
 			console.log("textStatus :" + textStatus);
 			console.log("jqXHR status :" + jqXHR.status);
-			console.log("jqXHR getAllResponseHeaders() :" + jqXHR.getAllResponseHeaders());
 			  console.log(textStatus, errorThrown);
 			  if(jqXHR.status === 901){
 				  window.location.href =  jqXHR.getResponseHeader("redirectUrl");

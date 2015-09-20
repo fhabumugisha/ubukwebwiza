@@ -1,4 +1,4 @@
-package com.buseni.ubukwebwiza.config;
+package com.buseni.ubukwebwiza.filters;
 
 import java.io.IOException;
 
@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.AccessDeniedException;
@@ -18,13 +16,11 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.csrf.InvalidCsrfTokenException;
 import org.springframework.security.web.csrf.MissingCsrfTokenException;
 
-import com.buseni.ubukwebwiza.account.controller.SigninController;
-
-public class CustomAccessDienedHandlerImpl implements AccessDeniedHandler{
+public class CustomAccessDeniedHandlerImpl implements AccessDeniedHandler{
 	// ~ Static fields/initializers
 	// =====================================================================================
 
-	public  static final Logger LOGGER = LoggerFactory.getLogger(CustomAccessDienedHandlerImpl.class);
+	public  static final Logger LOGGER = LoggerFactory.getLogger(CustomAccessDeniedHandlerImpl.class);
 
 	// ~ Instance fields
 	// ================================================================================================
@@ -41,7 +37,7 @@ public class CustomAccessDienedHandlerImpl implements AccessDeniedHandler{
 			ServletException {
 		if (!response.isCommitted()) {
 			
-			
+			//FIXEME Improve this method
 			if (accessDeniedException instanceof MissingCsrfTokenException
 			        || accessDeniedException instanceof InvalidCsrfTokenException) {
 

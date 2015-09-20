@@ -159,13 +159,13 @@ public class PhotoServiceImpl implements PhotoService {
 			throw new NullPointerException();
 		}
 		PageRequest pr = new PageRequest(pageable.getPageNumber()-1, pageable.getPageSize());
-		return photoRepo.findAll(GalleryPredicates.gelleryPhotos(EnumPhotoCategory.PROVIDER.getId()), pr);
+		return photoRepo.findAll(GalleryPredicates.galleryPhotos(EnumPhotoCategory.PROVIDER.getId()), pr);
 	
 	}
 	
 	@Override
 	public List<Photo>  homePagePhotos(){		
-		Page<Photo>  photosPage = photoRepo.findAll(GalleryPredicates.gelleryPhotos(EnumPhotoCategory.HOME_PAGE.getId()), new PageRequest(0, 5, Sort.Direction.DESC, "lastUpdate"));
+		Page<Photo>  photosPage = photoRepo.findAll(GalleryPredicates.galleryPhotos(EnumPhotoCategory.HOME_PAGE.getId()), new PageRequest(0, 5, Sort.Direction.DESC, "lastUpdate"));
 		if(photosPage != null){
 			return  photosPage.getContent();
 		}

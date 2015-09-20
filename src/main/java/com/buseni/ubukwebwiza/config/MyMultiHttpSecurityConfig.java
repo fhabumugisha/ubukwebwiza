@@ -19,6 +19,8 @@ import org.springframework.security.web.authentication.rememberme.JdbcTokenRepos
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 import com.buseni.ubukwebwiza.account.service.UserAccountService;
+import com.buseni.ubukwebwiza.filters.CustomAccessDeniedHandlerImpl;
+import com.buseni.ubukwebwiza.filters.CustomSavedRequestAwareAuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -75,7 +77,7 @@ public class MyMultiHttpSecurityConfig {
 		}
 		@Bean
 		public AccessDeniedHandler customAccessDeniedHandler(){
-			CustomAccessDienedHandlerImpl customAccessDeniedHandler = new CustomAccessDienedHandlerImpl();
+			CustomAccessDeniedHandlerImpl customAccessDeniedHandler = new CustomAccessDeniedHandlerImpl();
 			customAccessDeniedHandler.setErrorPage("/admin403");
 			return customAccessDeniedHandler;
 		}
@@ -123,7 +125,7 @@ public class MyMultiHttpSecurityConfig {
 		
 		@Bean
 		public AccessDeniedHandler customAccessDeniedHandler(){
-			CustomAccessDienedHandlerImpl customAccessDeniedHandler = new CustomAccessDienedHandlerImpl();
+			CustomAccessDeniedHandlerImpl customAccessDeniedHandler = new CustomAccessDeniedHandlerImpl();
 			customAccessDeniedHandler.setErrorPage("/admin403");
 			return customAccessDeniedHandler;
 		}
@@ -147,7 +149,7 @@ public class MyMultiHttpSecurityConfig {
 		}
 		@Bean
 		public AccessDeniedHandler customAccessDeniedHandler(){
-			CustomAccessDienedHandlerImpl customAccessDeniedHandler = new CustomAccessDienedHandlerImpl();
+			CustomAccessDeniedHandlerImpl customAccessDeniedHandler = new CustomAccessDeniedHandlerImpl();
 			customAccessDeniedHandler.setErrorPage("/admin403");
 			return customAccessDeniedHandler;
 		}
