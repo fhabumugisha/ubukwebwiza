@@ -13,7 +13,7 @@
 				
 		<div id="listServices-bloc" th:fragment="listServices">
 		<div class="well well-sm">
-			<a href="#" th:if="${#lists.isEmpty(provider.providerWeddingServices)}"
+			<a href="#" 
 				th:href="@{'/admin/providers/' + ${provider.id} +'/services/addService'}">
 				<button type="button" class="btn  btn-primary btn-xs">
 					<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
