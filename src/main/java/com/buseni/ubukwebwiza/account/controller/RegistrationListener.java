@@ -21,6 +21,7 @@ import org.thymeleaf.spring4.SpringTemplateEngine;
 import com.buseni.ubukwebwiza.account.domain.UserAccount;
 import com.buseni.ubukwebwiza.account.service.UserAccountService;
 
+
 @Component
 public class RegistrationListener implements ApplicationListener<OnRegistrationCompleteEvent> {
 	
