@@ -112,7 +112,7 @@ public class AdminProviderController {
 	               provider.setProfilPicture(profil);
 	               
 	           
-	        } else  if(provider.getId() == null){
+	        } /*else  if(provider.getId() == null){
 	        		LOGGER.error("You failed to upload  because the file was empty.");
 		        	result.reject("error.file.empty");
 	            	//attributes.addFlashAttribute("org.springframework.validation.BindingResult.provider", result);
@@ -120,7 +120,7 @@ public class AdminProviderController {
 	    			attributes.addFlashAttribute("errors", "You failed to upload  because the file was empty.");
 	    			return "adminpanel/provider/editProvider";
 	        	
-	        }
+	        }*/
 			String message = "";
 			try {
 				String password = null;
