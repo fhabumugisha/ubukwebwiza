@@ -118,11 +118,11 @@
 										
 										<img id="profilPicturePreview"   height="150" width="150" class="img-rounded"
 									     alt="profil pic"  th:if="*{provider.profilPicture}" 
-									     th:alt="${businessName}" th:src="@{'https://ubfiles.s3.amazonaws.com/'+*{provider.profilPicture.filename}} "></img>
+									     th:alt="${businessName}" th:src="@{'http://cdn.ubukwebwiza.com/'+*{provider.profilPicture.filename}} "></img>
 									
 									 <img id="profilPicturePreview" alt="profil pic" class="img-thumbnail"
 									      th:unless="*{provider.profilPicture}" th:alt="${businessName}" 
-									      data-src="holder.js/100%x150"></img>
+									      src="http://cdn.ubukwebwiza.com/images/no-picture.jpg"></img>
 									
 									</div>
 									<div class="col-md-10 col-sm-9">

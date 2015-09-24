@@ -52,7 +52,7 @@
 							
 							<td>
 							
-								<img class="img-thumbnail"  width="100" height="50" alt="Photo" th:if="${!#strings.isEmpty(photo.filename)}" th:alt="${photo.filename}" th:src="@{'https://ubfiles.s3.amazonaws.com/'+${photo.filename}}"></img>
+								<img class="img-thumbnail"  width="100" height="50" alt="Photo" th:if="${!#strings.isEmpty(photo.filename)}" th:alt="${photo.filename}" th:src="@{'http://cdn.ubukwebwiza.com/'+${photo.filename}}"></img>
 								<img class="img-thumbnail"  width="100" height="50" alt="Photo" th:if="${#strings.isEmpty(photo.filename)}"  th:src="@{/resources/images/application/no_person.jpg} "></img>
 							
 							</td>

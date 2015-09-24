@@ -16,7 +16,7 @@ $(document).on("submit","#addPhotoForm",function(event){
 		type: 'POST',
 		beforeSend: function( xhr ) {
 			$("#saving").html(
-                    '<img src="https://s3.amazonaws.com/ubfiles/saving.gif" align="absmiddle" width="25" height="16" style="padding-right:5px;"/>Saving...');
+                    '<img src="http://cdn.ubukwebwiza.com/images/saving.gif" align="absmiddle" width="25" height="16" style="padding-right:5px;"/>Saving...');
 		  },
 		  success: function(data , textStatus , jqXHR){
 			  console.log("textStatus :" + textStatus);

@@ -56,7 +56,7 @@
 												id="profilPicturePreview" 
 												alt="profile pic" th:if="*{profilPicture}"
 												th:alt="${businessName}"
-												th:src="@{'https://ubfiles.s3.amazonaws.com/'+*{profilPicture.filename}} "></img>
+												th:src="@{'http://cdn.ubukwebwiza.com/'+*{profilPicture.filename}} "></img>
 
 										</div>
 										
@@ -296,7 +296,7 @@
 															
 															<img id="profilPicturePreview" width="225" height="200"
 																	alt="pic" th:if="*{name}"
-																	th:src="@{'https://ubfiles.s3.amazonaws.com/'+*{name}} "></img>
+																	th:src="@{'http://cdn.ubukwebwiza.com/'+*{name}} "></img>
 
 															</div>
 															<div class="fileinput-preview fileinput-exists thumbnail" style="width: 225px; height: 200px;"></div>
@@ -406,11 +406,11 @@
 												href="../../../../resources/images/application/wedding_4_content.jpg"
 												title="Wedding planner" th:title="${photo.description}"
 												data-gallery=""
-												th:href="@{'https://ubfiles.s3.amazonaws.com/'+${photo.filename}}">
+												th:href="@{'http://cdn.ubukwebwiza.com/'+${photo.filename}}">
 													
 													<img alt="Cool stuff" src="../../../../resources/images/application/wedding_4_content.jpg"
 													 th:alt="${photo.description}"
-												th:src="@{'https://ubfiles.s3.amazonaws.com/'+${photo.filename}}" 
+												th:src="@{'http://cdn.ubukwebwiza.com/'+${photo.filename}}" 
 														width="225" height="200"/> 
 														</a>
 														<br />

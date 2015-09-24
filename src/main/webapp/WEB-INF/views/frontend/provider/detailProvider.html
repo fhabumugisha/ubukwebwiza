@@ -17,11 +17,11 @@
 								
 								<img id="profilPicturePreview"   width="150" height="150" class="img-rounded"
 									     alt="profil pic"  th:if="*{provider.profilPicture}" 
-									     th:alt="${provider.businessName}" th:src="@{'https://ubfiles.s3.amazonaws.com/'+*{provider.profilPicture.filename}} "></img>
+									     th:alt="${provider.businessName}" th:src="@{'http://cdn.ubukwebwiza.com/'+*{provider.profilPicture.filename}} "></img>
 									
 									 <img id="profilPicturePreview" alt="profil pic" class="img-thumbnail"
 									      th:unless="*{provider.profilPicture}" th:alt="${provider.businessName}" 
-									      data-src="holder.js/100%x150"></img>
+									     src="http://cdn.ubukwebwiza.com/images/no-picture.jpg"></img>
 									      
 <!-- 								<div class="caption"> -->
 									
@@ -207,12 +207,12 @@
 												href="../../../../resources/images/application/wedding_4_content.jpg"
 												title="Wedding planner" th:title="${photo.description}"
 												data-gallery=""
-												th:href="@{'https://ubfiles.s3.amazonaws.com/'+${photo.filename}}">
+												th:href="@{'http://cdn.ubukwebwiza.com/'+${photo.filename}}">
 												
 												<img height="150" width="210"
 												src="../../../../resources/images/application/wedding_4_content.jpg"
 												alt="Wedding planner" th:alt="${photo.filename}"
-												th:src="@{'https://ubfiles.s3.amazonaws.com/'+${photo.filename}}" />
+												th:src="@{'http://cdn.ubukwebwiza.com/'+${photo.filename}}" />
 											</a>
 										</th:bloc>
 
@@ -226,22 +226,7 @@
 											alt="Wedding rings"
 											th:src="@{/resources/images/application/Wedding_rings.jpg}"></img>
 										</a> 
-										<a th:remove="all"	href="../../../../resources/images/application/wedding-banner.png"
-											th:href="@{/resources/images/application/wedding-banner.png}"
-											title="Bannner" data-gallery="">
-											 <img height="150"	width="210"
-											src="../../../../resources/images/application/wedding-banner.png"
-											alt="Orange"
-											th:src="@{/resources/images/application/wedding-banner.png}"></img>
-										</a> 
-										<a th:remove="all" href="../../../../resources/images/application/wedding-banner.png"
-										   th:href="@{/resources/images/application/wedding-banner.png}"
-											title="Bannner" data-gallery=""> 
-											<img height="150" width="210"
-											src="../../../../resources/images/application/wedding-banner.png"
-											alt="Orange"
-											th:src="@{/resources/images/application/wedding-banner.png}"></img>
-										</a>
+										
 									</div>
 
 								</div>

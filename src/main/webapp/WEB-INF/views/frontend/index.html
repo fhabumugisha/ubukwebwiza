@@ -25,7 +25,7 @@
 								<img
 									src="../../../resources/images/application/wedding_4_content.jpg"
 									alt="..."
-									th:src="@{'https://ubfiles.s3.amazonaws.com/'+*{photo.filename}} "
+									th:src="@{'http://cdn.ubukwebwiza.com/'+*{photo.filename}} "
 									width="950" height="300" />
 								<div class="carousel-caption">
 									<span th:text="${photo.description}"> Planning</span>
@@ -117,7 +117,7 @@
 									
 									<img id="profilPicturePreview"   width="290" height="150"
 									     alt="profil pic"  th:if="*{provider.profilPicture}" 
-									     th:alt="${businessName}" th:src="@{'https://ubfiles.s3.amazonaws.com/'+*{provider.profilPicture.filename}} "></img>
+									     th:alt="${businessName}" th:src="@{'http://cdn.ubukwebwiza.com/'+*{provider.profilPicture.filename}} "></img>
 									
 									 <img id="profilPicturePreview" alt="profil pic" 
 									      th:unless="*{provider.profilPicture}" th:alt="${businessName}" 
