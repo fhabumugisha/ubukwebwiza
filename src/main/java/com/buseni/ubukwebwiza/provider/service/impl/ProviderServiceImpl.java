@@ -385,6 +385,9 @@ public class ProviderServiceImpl implements ProviderService {
 			}
 			bdd.setProfilPicture(provider.getProfilPicture());
 		}
+		if(!bdd.getBusinessName().equals(provider.getBusinessName())){
+			bdd.setUrlName(UbUtils.createUrlName(provider.getBusinessName()));
+		}
 		bdd.setBusinessName(provider.getBusinessName());
 		bdd.setAboutme(provider.getAboutme());
 		bdd.setAddress(provider.getAddress());
