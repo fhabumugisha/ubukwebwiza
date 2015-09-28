@@ -63,15 +63,15 @@ public class Provider implements Serializable {
 	@Length(min=0, max=50)
 	private String phoneNumber;
 
-	@Length(min=0, max=50)
+	@Length(min=0, max=80)
 	private String website;
 	
 	@Column(name="fb_username")
-	@Length(min=0, max=50)
+	@Length(min=0, max=80)
 	private String fbUsername;
 	
 	@Column(name="twitter_username")
-	@Length(min=0, max=50)
+	@Length(min=0, max=80)
 	private String twitterUsername;
 	
 	
