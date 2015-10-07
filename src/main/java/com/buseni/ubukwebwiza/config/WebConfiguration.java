@@ -72,6 +72,13 @@ public class WebConfiguration extends WebMvcConfigurerAdapter{
 		            .resourceChain(true)
 		            .addResolver(new GzipResourceResolver())
 		       .addResolver(new PathResourceResolver());
+			
+			registry.addResourceHandler("/sitemap.xml")
+			.addResourceLocations("/")
+			/*.setCachePeriod(3600)*/
+            .resourceChain(true)
+            /*.addResolver(new GzipResourceResolver())*/
+            .addResolver(new PathResourceResolver());
 		}
 		
 		@Override
