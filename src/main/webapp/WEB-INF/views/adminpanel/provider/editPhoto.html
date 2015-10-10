@@ -23,7 +23,7 @@
 			<div class="panel-body">
 				<form class="form-horizontal" role="form" action="#" enctype="multipart/form-data"
 					th:action="@{'/admin/providers/' + ${provider.id} +'/photos/addPhoto'}" th:object="${photoForm}"
-					method="post" id="uploadPhotoForm">
+					method="post" id="uploadPhotoForm" >
 					<div th:if="${#fields.hasGlobalErrors()}"
 						class="alert alert-danger">
 						<ul>
