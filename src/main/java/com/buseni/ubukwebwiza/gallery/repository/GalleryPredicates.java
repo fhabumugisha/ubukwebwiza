@@ -10,8 +10,7 @@ public class GalleryPredicates {
 
 	public static Predicate galleryPhotos(Integer category) {
 		Assert.notNull(category, "The given id must not be null!");
-		
-		return PHOTO.enabled.isTrue().and(PHOTO.category.eq(category));
+		return PHOTO.enabled.isTrue().and(PHOTO.isGalleryPhoto.isTrue()).and(PHOTO.category.eq(category));
 
 	}
 }

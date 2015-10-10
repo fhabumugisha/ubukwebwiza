@@ -55,15 +55,11 @@ public class Photo implements Serializable{
 	@Column(name="created_at")
 	private Date createdAt;
 	
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
 	
 	private boolean enabled;
+	
+	@Column(name="is_gallery_photo")
+	private Boolean isGalleryPhoto;
 	
 	public Photo(){
 		
@@ -87,6 +83,13 @@ public class Photo implements Serializable{
 		this.id = id;
 	}
 
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
 	
 
 	public String getDescription() {
@@ -192,6 +195,32 @@ public class Photo implements Serializable{
 
 	public void setCategory(Integer category) {
 		this.category = category;
+	}
+
+
+
+
+	public Boolean isGalleryPhoto() {
+		return isGalleryPhoto;
+	}
+
+
+
+	public Boolean getIsGalleryPhoto() {
+		return isGalleryPhoto;
+	}
+
+
+
+	public void setGalleryPhoto(Boolean isGalleryPhoto) {
+		this.isGalleryPhoto = isGalleryPhoto;
+	}
+
+
+
+
+	public void setIsGalleryPhoto(Boolean isGalleryPhoto) {
+		this.isGalleryPhoto = isGalleryPhoto;
 	}
 
 }

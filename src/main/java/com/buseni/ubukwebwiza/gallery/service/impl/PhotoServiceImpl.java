@@ -178,7 +178,7 @@ public class PhotoServiceImpl implements PhotoService {
 		if( category == null || pageable ==  null){
 			throw new NullPointerException();
 		}
-		PageRequest pr = new PageRequest(pageable.getPageNumber()-1, pageable.getPageSize());
+		PageRequest pr = new PageRequest(pageable.getPageNumber()-1, pageable.getPageSize(), Sort.Direction.DESC, "lastUpdate");
 		return photoRepo.findByCategory(category, pr);
 	}
 
@@ -193,8 +193,6 @@ public class PhotoServiceImpl implements PhotoService {
 		
 	}
 
-	
 
-	
 
 }

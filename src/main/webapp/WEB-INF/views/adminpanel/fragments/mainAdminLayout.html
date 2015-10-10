@@ -20,7 +20,7 @@
 <!-- Custom styles for this template -->
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
 <link href="http://cdn.ubukwebwiza.com/css/dashboard.css" rel="stylesheet"  />
-
+<link href="http://cdn.ubukwebwiza.com/css/ekko-lightbox.min.css" rel="stylesheet"  />
 <link href="https://cdnjs.cloudflare.com/ajax/libs/metisMenu/2.0.2/metisMenu.min.css" rel="stylesheet" 	 />
 
 <link rel="stylesheet" 	href="http://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css"
@@ -114,6 +114,9 @@
 						th:href="@{/admin/providerweddingservices}">Provider wedding service</a></li> -->
 					
 					<li th:classappend="${currentMenu == 'photos' ? 'active' : ''}"><a href="#" th:href="@{/admin/photos}">HomePage Photos</a></li>
+					
+					<li th:classappend="${currentMenu == 'gallery-photos' ? 'active' : ''}"><a href="#" th:href="@{/admin/gallery-photos}">Gallery Photos</a></li>
+					
 					<li th:classappend="${currentMenu == 'contactus' ? 'active' : ''}"><a href="#" th:href="@{/admin/contactus}">Contactus 
 					<span th:if="${unreadMessages > 0}" class="badge" th:text="${unreadMessages}"> </span>
 					</a>
@@ -189,6 +192,8 @@
 	
 	<script
 		src="http://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js"	></script>
+	
+	<script src="http://cdn.ubukwebwiza.com/js/ekko-lightbox.min.js" ></script>
 	<script type="text/javascript">
 		$(function() {
 			$('#menu').metisMenu();
