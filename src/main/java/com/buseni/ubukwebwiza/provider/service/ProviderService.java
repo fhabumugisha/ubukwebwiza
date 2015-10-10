@@ -122,6 +122,12 @@ public interface ProviderService {
 	 */
 	Provider findProviderByUsername(String name);
 
+	/**
+	 * Removes the profile photo
+	 * @param idProvider : id of the provider
+	 */
+	void removeProfilePhoto(Integer idProvider);
+
 	
 
 

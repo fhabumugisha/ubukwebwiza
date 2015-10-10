@@ -59,12 +59,20 @@
 										
 										<div class="fileinput-preview fileinput-exists thumbnail"></div>
 										<div>
-											<span class="btn btn-default btn-file"><span
-												class="fileinput-new" th:text="#{message.editProfile.changeProfilePicture}">Change photo</span><span
-												class="fileinput-exists">Change</span>
-												<input type="file" 	name="file" /></span> <a href="#"
-												class="btn btn-default fileinput-exists"
-												data-dismiss="fileinput">Remove</a>
+											<span class="btn btn-primary btn-xs btn-file">
+											 <span
+												class="fileinput-new" th:text="#{message.editProfile.changeProfilePicture}">Change photo</span>
+																				
+											<span class="fileinput-exists" th:text="#{message.editProfile.changeProfilePicture}">Change</span>
+												<input type="file" 	name="file" />
+											</span> 
+											
+											<a href="#" th:if="*{profilPicture}" data-toggle="modal" data-target="#confirmRemove"
+												class="btn btn-default btn-xs " th:text="#{message.editProfile.removeProfilePicture}">Remove</a>
+											
+											<a href="#"
+												class="btn btn-default btn-xs fileinput-exists"
+												data-dismiss="fileinput" th:text="#{message.editProfile.removeProfilePicture}">Remove</a>
 										</div>
 									</div> 
 									
@@ -712,17 +720,17 @@
 			</div>
 		
 	<div class="modal fade bs-modal-xs" tabindex="-1" role="dialog"
-		id="confirm" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+		id="confirmRemove" aria-labelledby="mySmallModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-xs">
 			<div class="modal-content">
 				<div class="modal-header">
-					<a class="close" data-dismiss="modal">ï¿½</a>
-					<h5>Confirm</h5>
+					<a class="close" data-dismiss="modal">&times;</a>
+					<h5 th:text="#{message.editProfile.removePhoto}">Remove profile photo?</h5>
 				</div>
-				<div class="modal-body">Are your sure ?</div>
-				<div class="modal-footer">
-					<a href="#" class="btn btn-danger">Delete</a> <a href="#"
-						class="btn btn-cancel" data-dismiss="modal">Cancel</a>
+				<div class="modal-body"><span th:text="#{message.editProfile.confirmRemovePhoto}"> Are your sure ?</span></div>
+				<div class="modal-footer"> 
+					<a  href="#" th:href="@{/profile/removeProfilePhoto(idProvider=${provider.id})}" class="btn btn-primary" th:text="#{message.editProfile.removeProfilePicture}">Remove</a>
+					 <a href="#" class="btn btn-default btn-cancel" data-dismiss="modal"  th:text="#{cancel.button.label}">Cancel</a>
 				</div>
 			</div>
 

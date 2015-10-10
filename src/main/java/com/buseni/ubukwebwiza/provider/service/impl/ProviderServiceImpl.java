@@ -163,6 +163,30 @@ public class ProviderServiceImpl implements ProviderService {
 	
 
 	}
+	
+	/*
+	 * 
+	 */
+	@Override
+	@Transactional
+	public void removeProfilePhoto(Integer idProvider){
+		if(null == idProvider){
+			throw new NullPointerException("idProvider shouldn't be null");
+		}
+		Provider provider =  providerRepo.findOne(idProvider);
+		if(null == provider){
+			throw new NullPointerException("provider shouldn't be null");
+		}
+		if(provider.getProfilPicture() != null){
+			
+			photoRepo.delete(provider.getProfilPicture());
+			amazonS3Util.deleteFile(provider.getProfilPicture().getFilename());		
+			provider.setProfilPicture(null);
+		}
+		provider.getAccount().setLastUpdate(new Date());
+		providerRepo.save(provider);
+		
+	}
 
 	/* (non-Javadoc)
 	 * @see com.buseni.ubukwebwiza.administrator.service.ProviderService#update(com.buseni.ubukwebwiza.administrator.domain.Provider)
