@@ -63,6 +63,7 @@ public class PhotoServiceImpl implements PhotoService {
 		if (photo.getId() == null) {
 			photo.setCreatedAt(new Date());
 			photo.setLastUpdate(new Date());
+			photo.setEnabled(Boolean.TRUE);
 			photoRepo.save(photo);
 			return photo;
 		} else {

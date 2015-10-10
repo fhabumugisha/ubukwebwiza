@@ -15,6 +15,13 @@
 		
 		<div id="listPhotos-bloc" th:fragment="listPhotos">
 		<div class="well well-sm">
+		
+			<!-- <a href="#" th:unless="*{id}" th:href="@{'/admin/providers/edit(id='+${provider.id} +')'}">
+								<button type="button" class="btn  btn-default">
+									<span th:text="#{return.button.label}">Return</span>
+								</button>
+							</a>
+			&nbsp;&nbsp; -->
 			<a href="#" th:if="${#bools.isTrue(canAddMorePhoto)}" 
 				th:href="@{'/admin/providers/' + ${provider.id} +'/photos/addPhoto'}">
 				<button type="button" class="btn  btn-primary btn-xs">

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
 import com.buseni.ubukwebwiza.exceptions.BusinessException;
@@ -25,7 +26,6 @@ import com.buseni.ubukwebwiza.provider.service.DistrictService;
 import com.buseni.ubukwebwiza.provider.service.ProviderService;
 import com.buseni.ubukwebwiza.provider.service.ProviderWeddingServiceManager;
 import com.buseni.ubukwebwiza.provider.service.WeddingServiceManager;
-import com.buseni.ubukwebwiza.utils.AmazonS3Util;
 
 @Controller
 @Navigation(url="/admin/providers/{idProvider:[\\d]+}/services", name="Provider's services", parent={AdminProviderController.class, AdminHomeController.class})
@@ -48,13 +48,6 @@ public class AdminProviderServicesController {
 	
 	
 	
-	@Autowired
-	private AmazonS3Util amazonS3Util;
-	
-
-	
-	
-	
 	@RequestMapping(value="/admin/providers/{idProvider:[\\d]+}/services", method=RequestMethod.GET)
 	public String services( @PathVariable Integer idProvider, Model model) {		
 		LOGGER.info("IN: providers/services");		
@@ -67,7 +60,7 @@ public class AdminProviderServicesController {
 	
 
 	@RequestMapping(value="/admin/providers/{idProvider:[\\d]+}/services/addService", method=RequestMethod.GET)
-	public String addService(@PathVariable Integer idProvider, Model model) {
+	public String showAddServiceForm(@PathVariable Integer idProvider, Model model) {
 		LOGGER.info("IN: providers/addService-GET");
 		model.addAttribute("serviceForm", new ServiceForm());	
 		model.addAttribute("provider", providerService.findOne(idProvider) );
@@ -75,7 +68,7 @@ public class AdminProviderServicesController {
 	}
 	
 	@RequestMapping(value="/admin/providers/{idProvider:[\\d]+}/services/addService",method=RequestMethod.POST)
-	public String addService( @PathVariable Integer idProvider, @ModelAttribute ServiceForm serviceForm, Model model) throws BusinessException{		
+	public String addService( @PathVariable Integer idProvider, @ModelAttribute ServiceForm serviceForm, RedirectAttributes attributes) throws BusinessException{		
 		LOGGER.info("IN: providers/addService-POST");
 			ProviderWeddingService vws  = new ProviderWeddingService();	
 			
@@ -89,10 +82,10 @@ public class AdminProviderServicesController {
 				vws.setWeddingService(ws);				
 				providerWeddingServiceManager.create(vws);				
 				String message = "Service " + vws.getId() + " was successfully added";
-				model.addAttribute("message", message);
-				model.addAttribute("provider", provider);
+				attributes.addFlashAttribute("message", message);
+				attributes.addFlashAttribute("provider", provider);
 				 serviceForm = new ServiceForm();
-				model.addAttribute("serviceForm", serviceForm);
+				 attributes.addFlashAttribute("serviceForm", serviceForm);
 				return "redirect:/admin/providers/"+provider.getId() +"/services";
 				
 					

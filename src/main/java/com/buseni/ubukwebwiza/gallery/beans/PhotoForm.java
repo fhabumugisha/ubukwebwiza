@@ -15,7 +15,7 @@ public class PhotoForm implements Serializable{
 	private String description;
 	private  MultipartFile file;
 	private String name;
-	private boolean enabled;
+	private boolean enabled =  true;
 	
 	public Integer getId() {
 		return id;

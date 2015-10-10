@@ -7,8 +7,6 @@
 </head>
 <body>
 
-	
-
 		<!-- Main Content -->
 		<div layout:fragment="pageContent" id="content" >
 		
@@ -26,10 +24,8 @@
 					</ul>
 					<!-- Tab panes -->
 					<div class="tab-content responsive">
-						
-        
-        
-            <!-- Personnal info pane -->
+						        
+            		<!-- Personnal info pane -->
 						<div class="tab-pane fade in " th:classappend="${currentTab == 'personnalInfo' ? 'active' : ''}" id="personnalInfo">
 						<div th:if="${errorPersonnalInfo}"
 							class="alert alert-danger fade in">
@@ -73,8 +69,6 @@
 									</div> 
 									
 									
-
-
 									<span class="text-danger"
 										th:if="${#fields.hasErrors('profilPicture')}"
 										th:errors="*{profilPicture}">Required field</span>
@@ -335,9 +329,9 @@
 
 													<!-- </div> -->
 												</div>
-												<div class="form-group"
+												<!-- <div class="form-group"
 													th:classappend="${#fields.hasErrors('enabled')}? has-error">
-													<!-- <div class="col-sm-7"> -->
+													<div class="col-sm-7">
 
 														<div class="checkbox">
 															<label> <input type="checkbox"
@@ -349,9 +343,9 @@
 															</label>
 														</div>
 
-													<!-- </div> -->
+													</div>
 
-												</div>
+												</div> -->
 												<div class="form-group ">
 													<button type="button" id="hideAddPhotoForm"
 														class="btn  btn-default btn-sm" data-dismiss="profilPicturePreview"><span th:text="#{cancel.button.label}">Cancel</span></button>
@@ -399,7 +393,7 @@
 							</div>
 									<div id="listingFashionBox" class="row">
 										<div id="links">
-										<th:bloc th:each="photo : ${provider.photos}">
+										<th:bloc th:each="photo : ${provider.photos}" th:if="${#bools.isTrue(photo.enabled)}">
 											<div class="fashionBox col-md-3">
 											<div class="panel panel-default">
 												<div class="panel-body">
@@ -503,7 +497,7 @@
 													</div>
 
 												</div>
-												<div class="form-group"
+												<!-- <div class="form-group"
 													th:classappend="${#fields.hasErrors('enabled')}? has-error">
 
 													<div class="col-sm-2">
@@ -519,7 +513,7 @@
 													</div>
 
 
-												</div>
+												</div> -->
 
 
 												<div class="form-group ">
@@ -552,7 +546,7 @@
 												
 											
 												
- 											 <th:bloc th:each="providerWeddingService : ${provider.providerWeddingServices}">											
+ 											 <th:bloc th:each="providerWeddingService : ${provider.providerWeddingServices}" th:if="${#bools.isTrue(providerWeddingService.enabled)}">											
 												
 												<tr>
 														

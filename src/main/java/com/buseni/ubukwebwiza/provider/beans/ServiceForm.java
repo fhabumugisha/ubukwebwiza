@@ -12,7 +12,7 @@ public class ServiceForm implements Serializable{
 	private Integer idProvider;
 	private String description;
 	private Integer idcService;
-	private boolean enabled;
+	private boolean enabled =  true;
 	
 	
 	public ServiceForm() {
