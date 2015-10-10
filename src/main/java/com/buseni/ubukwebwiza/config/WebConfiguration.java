@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
@@ -17,7 +16,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.annotation.Order;
-import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.PageRequest;
@@ -44,7 +42,7 @@ import org.springframework.web.servlet.resource.GzipResourceResolver;
 import org.springframework.web.servlet.resource.PathResourceResolver;
 
 import com.buseni.ubukwebwiza.breadcrumbs.interceptor.NavigationPathInterceptor;
-//@ActiveProfiles("embedded")
+
 @Configuration
 @ComponentScan(basePackages = {"com.buseni.ubukwebwiza"})
 @PropertySource("classpath:application.properties")
@@ -53,12 +51,13 @@ import com.buseni.ubukwebwiza.breadcrumbs.interceptor.NavigationPathInterceptor;
 @Import({PersistenceMySqlConfig.class,  ViewConfiguration.class, MyMultiHttpSecurityConfig.class})
 public class WebConfiguration extends WebMvcConfigurerAdapter{
 	
-	
+	/*
 	@Autowired
-	private Environment env;
+	private Environment env;*/
 	// Maps resources path to webapp/resources
 		@Override
 		public void addResourceHandlers(ResourceHandlerRegistry registry) {
+			
 			registry.addResourceHandler("/resources/**").addResourceLocations("/resources/")
 			.setCachePeriod(2592000)
             .resourceChain(true)
@@ -66,19 +65,19 @@ public class WebConfiguration extends WebMvcConfigurerAdapter{
             .addResolver(new PathResourceResolver());
 			
 			//String workingDir = System.getProperty("user.dir");
-			registry.addResourceHandler("/images/**")
+			/*registry.addResourceHandler("/images/**")
 					.addResourceLocations("file:"+env.getProperty("files.location"))
 					.setCachePeriod(3600)
 		            .resourceChain(true)
 		            .addResolver(new GzipResourceResolver())
-		       .addResolver(new PathResourceResolver());
+		       .addResolver(new PathResourceResolver());*/
 			
 			registry.addResourceHandler("/sitemap.xml")
-			.addResourceLocations("/")
-			/*.setCachePeriod(3600)*/
-            .resourceChain(true)
-            /*.addResolver(new GzipResourceResolver())*/
-            .addResolver(new PathResourceResolver());
+			.addResourceLocations("/sitemap.xml");
+			
+			registry.addResourceHandler("/robots.txt")
+			.addResourceLocations("/robots.txt");
+			
 		}
 		
 		@Override
@@ -170,7 +169,7 @@ public class WebConfiguration extends WebMvcConfigurerAdapter{
 				mediaType("xml", MediaType.APPLICATION_XML).
 				mediaType("json", MediaType.APPLICATION_JSON).
 				mediaType("png", MediaType.IMAGE_PNG).mediaType("jpeg", MediaType.IMAGE_JPEG)
-				.mediaType("jpg", MediaType.IMAGE_JPEG);;
+				.mediaType("jpg", MediaType.IMAGE_JPEG);
 		}
 		
 		@Bean(name="filterMultipartResolver")

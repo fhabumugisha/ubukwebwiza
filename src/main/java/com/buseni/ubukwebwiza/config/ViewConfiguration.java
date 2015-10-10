@@ -4,8 +4,6 @@ import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
 
-import nz.net.ultraq.thymeleaf.LayoutDialect;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -25,6 +23,8 @@ import org.thymeleaf.templateresolver.TemplateResolver;
 
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.thymeleaf.dialect.DandelionDialect;
+
+import nz.net.ultraq.thymeleaf.LayoutDialect;
 
 @Configuration 
 @PropertySource("classpath:email.properties")
@@ -122,4 +122,5 @@ public class ViewConfiguration {
 	        mailSenderImpl.setJavaMailProperties(javaMailProps);
 	        return mailSenderImpl;
 	    }
+	
 }
