@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.buseni.ubukwebwiza.gallery.beans.PhotoDetails;
 import com.buseni.ubukwebwiza.gallery.domain.Photo;
 
 public interface PhotoService {
@@ -48,12 +49,10 @@ public interface PhotoService {
 	
 	
 	/**
-	 * 
-	 * @param activeFlag
 	 * @param pageable
 	 * @return
 	 */
-	Page<Photo> findPhotoGallery(Pageable pageable);
+	Page<PhotoDetails> findPhotoGallery(Pageable pageable);
 	
  	
 	/**

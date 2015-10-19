@@ -14,12 +14,15 @@
 	
 		<div layout:fragment="pageContent" id="content" >
 			<div class="row">
-				<div class="col-md-12">
+				<!-- <div class="col-md-12">
 					<div class="jumbotron">
 						<h2 th:text="#{photogallery.accroche}">Find inspiration for your wedding!</h2>
 
 					</div>
 
+				</div> -->
+				<div class="col-md-12 text-center" style=" margin: 1px;">
+					<h2 style="font-family: 'GothamBook', Shift, Helvetica Neue;" th:text="#{photogallery.accroche}">Find inspiration for your wedding!</h2>
 				</div>
 			</div>
 			<div class="row">
@@ -58,8 +61,8 @@
 
 						<div class="panel-body">
 							<div id="links">
-
-								<th:bloc th:each="photo : ${photos}">
+								
+								<!-- <th:bloc th:each="photo : ${photos}">
 									<a
 										href="../../../../resources/images/application/wedding_4_content.jpg"
 										title="Wedding planner" data-gallery="" th:title="${photo.description}"
@@ -70,26 +73,41 @@
 										src="../../../../resources/images/application/wedding_4_content.jpg"
 										th:src="@{'http://cdn.ubukwebwiza.com/'+${photo.filename}}" />
 									</a>
-								</th:bloc>
+								</th:bloc> -->
 
+								<div class="row">
+ 
+								<th:bloc th:each="photo : ${photos}">
+								 <div class="col-sm-6 col-md-4">
+									<div class="thumbnail">
+      									<a
+										href="../../../../resources/images/application/wedding_4_content.jpg"
+										title="Wedding planner" data-gallery="" th:title="${photo.description}"
+										th:href="@{'http://cdn.ubukwebwiza.com/'+${photo.filename}}">
+										
+										<img style="min-height: 251px; max-height:251px;" height="200" width="250" alt="Wedding planner" th:alt-title="${photo.description}" 
+										
+										src="../../../../resources/images/application/wedding_4_content.jpg"
+										th:src="@{'http://cdn.ubukwebwiza.com/'+${photo.filename}}" />
+									</a>
+      									
+      									<div class="caption">
+       										 <span>Photo by  </span> 
+       										 <a href="detailProvider.html"	th:href="@{'/wedding-service-providers/'+${photo.providerUrl}}"> 
+											<span th:text="${photo.providerBusinessName}"></span>
+										 </a> 
+										  
+       										 
+      									</div>
+    								</div>
+									
+								</div>
+								
+								</th:bloc>
+								
+								</div>
 								
 								<a th:remove="all"
-									href="../../../../resources/images/application/Wedding_rings.jpg"
-									title="Wedding rings" data-gallery=""
-									th:href="@{/resources/images/application/Wedding_rings.jpg}">
-									<img height="150" width="210"
-									src="../../../../resources/images/application/Wedding_rings.jpg"
-									alt="Wedding rings"
-									th:src="@{/resources/images/application/Wedding_rings.jpg}"></img>
-								</a> <a th:remove="all"
-									href="../../../../resources/images/application/wedding-banner.png"
-									title="Bannner" data-gallery=""
-									th:href="@{/resources/images/application/wedding-banner.png}">
-									<img height="150" width="210"
-									src="../../../../resources/images/application/wedding-banner.png"
-									alt="Orange"
-									th:src="@{/resources/images/application/wedding-banner.png}"></img>
-								</a> <a th:remove="all"
 									href="../../../../resources/images/application/wedding-banner.png"
 									title="Bannner" data-gallery=""
 									th:href="@{/resources/images/application/wedding-banner.png}">
