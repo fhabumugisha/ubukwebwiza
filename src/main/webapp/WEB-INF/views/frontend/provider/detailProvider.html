@@ -81,16 +81,45 @@
 											94107
 										</span>
 									</address>
-									<address>
-										<abbr title="Phone">P:</abbr> <span
-											th:text="${provider.phoneNumber}"> (123) 456-7890 </span>
-									</address>
-									<address>
+
+						<div class="row">
+							<div class="col-md-10" id="showPhonenumber">
+
+
+								<button type="button" class="btn  btn-primary btn-xs">
+									<span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
+									&nbsp; <span th:text="#{message.showphonenumber}">Show
+										phone number</span>
+								</button>
+							</div>
+							<div id="phonenumberBox" class="col-md-12" style="display: none;">
+								<small> <span th:text="#{provider.phonenumberText}">
+										Please indicate to this provider that you found the phone
+										number on Ubukwebwiza. </span>
+								</small> <br />
+
+								<address>
+									<abbr title="Phone">P:</abbr> <span
+										th:text="${provider.phoneNumber}"> (123) 456-7890 </span>
+								</address>
+
+								<button type="button" class="btn  btn-primary btn-xs"
+									id="hidePhonenumber">
+									<span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
+									&nbsp; <span th:text="#{message.hidephonenumber}">Hide
+										phone number</span>
+								</button>
+							</div>
+
+						</div>
+
+						<br />
+						<address>
 										<a href="mailto:#" th:value="${provider.account.email}"
 											th:text="${provider.account.email}">first.last@example.com</a>
 									</address>
 									
-									<div>
+						<div>
 							 <a target="_blank" class="btn btn-social-icon btn-facebook" th:if="${!#strings.isEmpty(provider.fbUsername)}" 
 							 th:href="@{'http://' + ${provider.fbUsername}}" title="Facebook"><i class="fa fa-facebook"></i></a>
 								<a target="_blank"  class="btn btn-social-icon btn-twitter" th:if="${!#strings.isEmpty(provider.twitterUsername)}"

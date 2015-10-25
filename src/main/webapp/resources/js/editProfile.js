@@ -273,6 +273,17 @@ $(document).on("click",".deleteProfileService",function(event){
 		$('#addServiceForm select[name="idcService"]').find('option:selected').removeAttr("selected");
 		$('#addServiceForm textarea[name="description"]').val('');
 		$('#addServiceForm input:checkbox').removeAttr('checked');
-}
+	}
 
+	//show / hide provider phone number
+	$(document).on("click","#showPhonenumber",function(){
+		$("#phonenumberBox").show("slow");		
+		$(this).hide("slow");
+	});
 	
+	
+	$(document).on("click","#hidePhonenumber",function(){			
+		$("#phonenumberBox").hide("slow");
+		$("#showPhonenumber").show("slow");
+		
+	});
