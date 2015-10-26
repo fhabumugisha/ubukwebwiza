@@ -51,7 +51,6 @@ import com.buseni.ubukwebwiza.provider.service.ProviderService;
 import com.buseni.ubukwebwiza.utils.AmazonS3Util;
 import com.buseni.ubukwebwiza.utils.UbUtils;
 import com.mysema.query.types.Predicate;
-import com.sun.mail.handlers.message_rfc822;
 
 
 
@@ -476,7 +475,8 @@ public class ProviderServiceImpl implements ProviderService {
 		message.setSenderName(messageDto.getSenderName());
 		message.setSenderPhonenumber(messageDto.getSenderPhonenumber());
 		Provider provider =  providerRepo.findOne(messageDto.getIdProvider());
-		message.setProvider(provider);		
+		message.setProvider(provider);	
+		message.setCreatedAt(new Date());
 		messageRepo.save(message);
 		
 		messageDto.setProviderEmail(provider.getAccount().getEmail());
