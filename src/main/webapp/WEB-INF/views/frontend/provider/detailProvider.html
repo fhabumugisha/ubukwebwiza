@@ -9,7 +9,10 @@
 <body>
 
 				<div layout:fragment="pageContent" id="content" >
-
+					<div th:if="${message}" class="alert alert-success" > 
+							<a href="#" class="close" data-dismiss="alert">&times;</a> 
+								<span th:text="${message}">Cool</span>
+					</div>
 					<div class="row">
 						<div class="col-md-2 col-sm-5">
 <!-- 							<div class="thumbnail"> -->
@@ -114,12 +117,26 @@
 						</div>
 
 						<br />
-						<address>
+						<div class="row">
+							<div class="col-md-10" id="contactProvider">
+								<a href="#"
+									th:href="@{/contact-provider(name=${provider.urlName})}">
+									<button type="button" class="btn  btn-primary btn-xs"
+										id="contactus">
+										<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+										&nbsp; <span th:text="#{message.contactus}">Contact us</span>
+									</button>
+								</a>
+							</div>
+						</div>
+<br />
+						<!-- <address>
 										<a href="mailto:#" th:value="${provider.account.email}"
 											th:text="${provider.account.email}">first.last@example.com</a>
-									</address>
-									
-						<div>
+									</address> -->
+							
+							<div class="row">	
+						      <div class="col-md-10">
 							 <a target="_blank" class="btn btn-social-icon btn-facebook" th:if="${!#strings.isEmpty(provider.fbUsername)}" 
 							 th:href="@{'http://' + ${provider.fbUsername}}" title="Facebook"><i class="fa fa-facebook"></i></a>
 								<a target="_blank"  class="btn btn-social-icon btn-twitter" th:if="${!#strings.isEmpty(provider.twitterUsername)}"
@@ -127,6 +144,7 @@
 								<a target="_blank"  class="btn btn-social-icon btn-google-plus" th:if="${!#strings.isEmpty(provider.website)}"
 								th:href="@{'http://' + ${provider.website}}" ><i class="fa fa-external-link" title="Website"></i></a>
 								
+							</div>
 							</div>
 
 								</div>

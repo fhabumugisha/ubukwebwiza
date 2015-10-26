@@ -59,7 +59,7 @@ public class WebConfiguration extends WebMvcConfigurerAdapter{
 		public void addResourceHandlers(ResourceHandlerRegistry registry) {
 			
 			registry.addResourceHandler("/resources/**").addResourceLocations("/resources/")
-			.setCachePeriod(2592000)
+			//.setCachePeriod(2592000)
             .resourceChain(true)
             .addResolver(new GzipResourceResolver())
             .addResolver(new PathResourceResolver());
@@ -104,7 +104,7 @@ public class WebConfiguration extends WebMvcConfigurerAdapter{
 		@Bean
 		public WebContentInterceptor webContentInterceptor() {
 		    WebContentInterceptor interceptor = new WebContentInterceptor();
-		    interceptor.setCacheSeconds(2592000);
+		  //  interceptor.setCacheSeconds(2592000);
 		    interceptor.setUseExpiresHeader(true);
 		    interceptor.setUseCacheControlHeader(true);
 		    interceptor.setUseCacheControlNoStore(true);
