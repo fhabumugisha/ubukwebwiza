@@ -11,6 +11,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -44,7 +45,7 @@ public class PersistenceMySqlConfig {
 	@Autowired
 	Environment environment;
 
-	@Bean
+/*	@Bean
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
@@ -54,12 +55,19 @@ public class PersistenceMySqlConfig {
 		dataSource.setPassword( getRequired( DATASOURCE_PASSWORD ) );
 		//Properties connectionProperties = new Properties();
 		//Parametrage d'un proxy http
-		/*connectionProperties.put("http.proxyHost", "172.27.231.250");
+		connectionProperties.put("http.proxyHost", "172.27.231.250");
 		connectionProperties.put("http.proxyPort", "8080");
-		dataSource.setConnectionProperties(connectionProperties);*/
+		dataSource.setConnectionProperties(connectionProperties);
 		return dataSource;
-	}
+	}*/
 
+	@Bean
+	public DataSource jndiDataSource() {
+		final JndiDataSourceLookup dsLookup = new JndiDataSourceLookup();
+        //dsLookup.setResourceRef(true);
+        DataSource dataSource = dsLookup.getDataSource("jdbc/ubukwebwiza");
+        return dataSource;
+	}
 	@Bean
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		 HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
@@ -67,7 +75,7 @@ public class PersistenceMySqlConfig {
 		    vendorAdapter.setShowSql(true);
 		LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
 		entityManagerFactoryBean.setPackagesToScan( SCAN_PACKAGES );
-		entityManagerFactoryBean.setDataSource( dataSource() );
+		entityManagerFactoryBean.setDataSource( jndiDataSource() );
 		entityManagerFactoryBean.setJpaVendorAdapter(vendorAdapter);
 		entityManagerFactoryBean.setJpaProperties( hibProperties() );
 		return entityManagerFactoryBean;

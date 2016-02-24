@@ -56,6 +56,13 @@
 	//console.log("url for ubukwebwiza.css is: " + urlUbukwebwizaCss);
 	loadCSS( urlUbukwebwizaCss );
 	
+	var urlimgareaselect = /*[[@{/resources/css/imgareaselect-default.css}]]*/ 'resources/css/imgareaselect-default.css';
+	//console.log("url for imgareaselect-default.css is: " + urlimgareaselect);
+	loadCSS( urlimgareaselect );
+	
+	var urlJQueryAwesomeCropper = /*[[@{/resources/css/jquery.awesome-cropper.css}]]*/ 'resources/css/jquery.awesome-cropper.css';
+	//console.log("url for jquery.awesome-cropper.css is: " + urlJQueryAwesomeCropper);
+	loadCSS( urlJQueryAwesomeCropper );
 
 
 </script>
@@ -85,6 +92,10 @@
 <link rel="icon" type="image/x-icon" href="../../../../resources/images/application/favicon.ico"
     th:href="@{/resources/images/application/favicon.ico}" />
 
+ <!-- Css files-->
+          <link rel="stylesheet" type="text/css" href="css/style.css" th:href="@{/resources/css/style.css}" />
+          <link rel="stylesheet" type="text/css" href="css/style-example.css"  th:href="@{/resources/css/style-example.css}" />
+          <link rel="stylesheet" type="text/css" href="css/jquery.Jcrop.css"  th:href="@{/resources/css/jquery.Jcrop.css}"  />
 
     <style type="text/css">
    	@media (max-width: 646px) {
@@ -185,10 +196,13 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.min.js"></script>
 	<script src="http://cdn.ubukwebwiza.com/js/pwstrength.js" ></script>
 	<script src="http://cdn.ubukwebwiza.com/js/responsive-tabs.js" ></script>
-	<script src="http://cdn.ubukwebwiza.com/js/jquery.cropit.js" ></script>
+	<!-- <script src="http://cdn.ubukwebwiza.com/js/jquery.cropit.js" ></script> -->
 	<script src="../../../../resources/js/editProfile.js" th:src="@{/resources/js/editProfile.js}"></script>
+	<!-- <script src="../../../../resources/js/jquery.imgareaselect.min.js" th:src="@{/resources/js/jquery.imgareaselect.min.js}"></script>
+	<script src="../../../../resources/js/jquery.awesome-cropper.js" th:src="@{/resources/js/jquery.awesome-cropper.js}"></script> -->
 	
-	
+	 <script type="text/javascript" src="scripts/jquery.Jcrop.js" th:src="@{/resources/js/jquery.Jcrop.js}"></script>
+          <script type="text/javascript" src="scripts/jquery.SimpleCropper.js" th:src="@{/resources/js/jquery.SimpleCropper.js}"></script>
 	<script type="text/javascript">
 	$('.carousel').carousel({
 		  interval: 6000
@@ -242,17 +256,27 @@
     
     fakewaffle.responsiveTabs(['xs', 'sm']);
     
-    $('#image-cropper').cropit({
+    /* $('#image-cropper').cropit({
     	 // imageBackground: true,
     	//  imageBackgroundBorderWidth: 15 // Width of background border
-    	});
+    	}); */
  // When user clicks select image button,
  // open select file dialog programmatically
- $('.select-image-btn').click(function() {
+/*  $('.select-image-btn').click(function() {
    $('.cropit-image-input').click();
- });
+ }); */
  
- 
+/*  $('#demo').awesomeCropper({
+	 
+	 width: 150,
+	 
+	 height: 150,
+	 
+	 debug: false
+	 
+	 }); */
+	 
+	  $('.cropme').simpleCropper();
  
 	</script>
 </body>

@@ -3,12 +3,9 @@ package com.buseni.ubukwebwiza.sandbox;
 import java.awt.image.BufferedImage;
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Random;
-import java.util.UUID;
 
 import javax.imageio.ImageIO;
 import javax.persistence.EntityManagerFactory;
@@ -24,17 +21,15 @@ import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.ClasspathPropertiesFileCredentialsProvider;
+import com.amazonaws.auth.EnvironmentVariableCredentialsProvider;
 import com.amazonaws.auth.SystemPropertiesCredentialsProvider;
-import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.ListObjectsRequest;
 import com.amazonaws.services.s3.model.ObjectListing;
-import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.amazonaws.services.s3.model.PutObjectResult;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
@@ -42,7 +37,6 @@ import com.amazonaws.services.s3.transfer.TransferManager;
 import com.amazonaws.services.s3.transfer.Upload;
 import com.amazonaws.util.IOUtils;
 import com.amazonaws.util.StringUtils;
-import com.buseni.ubukwebwiza.utils.AmazonS3Util;
 
 import net.coobird.thumbnailator.Thumbnails;
 
@@ -129,7 +123,9 @@ public class Sandbox {
 
 	private static void listingFiles() {
 		String existingBucketName = "ubfiles";
-		AmazonS3 s3client = new AmazonS3Client(new ProfileCredentialsProvider());
+		//AmazonS3 s3client = new AmazonS3Client(new ProfileCredentialsProvider());
+		AmazonS3 s3client = new AmazonS3Client(new SystemPropertiesCredentialsProvider());
+		
 		try {
 			 System.out.println("Listing objects");
 			   

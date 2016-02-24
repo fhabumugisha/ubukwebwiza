@@ -62,7 +62,7 @@ public class QuartzConfiguration {
 	public DatabaseBackup databaseBackup(){
 		
 		DatabaseBackup databaseBackup = new DatabaseBackup();
-		databaseBackup.setBucketName(environment.getProperty("aws.backupBucketName"));
+		databaseBackup.setBucketName(enviaws.accessKeyronment.getProperty("aws.backupBucketName"));
 		databaseBackup.setAccessKey(environment.getProperty("aws.accessKey"));
 		databaseBackup.setSecretKey(environment.getProperty("aws.secretKey"));
 		databaseBackup.setHost(environment.getProperty("datasource.host"));
