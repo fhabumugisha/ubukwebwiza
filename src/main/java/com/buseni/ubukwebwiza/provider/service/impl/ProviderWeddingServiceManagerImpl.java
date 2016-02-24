@@ -43,6 +43,7 @@ public class ProviderWeddingServiceManagerImpl implements ProviderWeddingService
 		
 		if(providerWeddingService.getId() == null){
 			providerWeddingService.setCreatedAt(new Date());
+			providerWeddingService.setEnabled(Boolean.TRUE);
 		}else{
 			ProviderWeddingService vwsBdd = providerWeddingServiceRepo.findOne(providerWeddingService.getId());
 			providerWeddingService.setCreatedAt(vwsBdd.getCreatedAt());			

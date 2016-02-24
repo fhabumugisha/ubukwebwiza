@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.auth.SystemPropertiesCredentialsProvider;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
@@ -48,7 +48,8 @@ public class AmazonS3Util {
 	 */
 	public   void uploadFile(File file, String filename) {
 		if(file != null){
-			AWSCredentials myCredentials = new BasicAWSCredentials(accessKey, secretKey);
+			AWSCredentials myCredentials  = new SystemPropertiesCredentialsProvider().getCredentials();
+			//AWSCredentials myCredentials = new BasicAWSCredentials(accessKey, secretKey);
 			TransferManager tx = new TransferManager(myCredentials);
 
 			try {
@@ -82,7 +83,8 @@ public class AmazonS3Util {
 	}
 	
 	public   void uploadFile(InputStream inpustream, String filename) {
-		AWSCredentials myCredentials = new BasicAWSCredentials(accessKey, secretKey);
+		//AWSCredentials myCredentials = new BasicAWSCredentials(accessKey, secretKey);
+		AWSCredentials myCredentials  = new SystemPropertiesCredentialsProvider().getCredentials();
 		TransferManager tx = new TransferManager(myCredentials);
 		ObjectMetadata objectMetadata = new ObjectMetadata();
 		try {
@@ -110,7 +112,8 @@ public class AmazonS3Util {
 	}
 	
 	public   void deleteFile(String filename) {
-		AWSCredentials myCredentials = new BasicAWSCredentials(accessKey, secretKey);
+		//AWSCredentials myCredentials = new BasicAWSCredentials(accessKey, secretKey);
+		AWSCredentials myCredentials  = new SystemPropertiesCredentialsProvider().getCredentials();
 		AmazonS3 s3client = new AmazonS3Client(myCredentials);
 		try {
 			s3client.deleteObject(bucketName, filename);
@@ -132,7 +135,8 @@ public class AmazonS3Util {
 		
 	}
 	public   void deleteBucket(String bucketToDelete) {
-		AWSCredentials myCredentials = new BasicAWSCredentials(accessKey, secretKey);
+	//	AWSCredentials myCredentials = new BasicAWSCredentials(accessKey, secretKey);
+		AWSCredentials myCredentials  = new SystemPropertiesCredentialsProvider().getCredentials();
 		AmazonS3 s3client = new AmazonS3Client(myCredentials);
 		try {
 			s3client.deleteBucket(bucketToDelete);

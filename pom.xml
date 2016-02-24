@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.buseni</groupId>
 	<artifactId>ubukwebwiza</artifactId>
-	<version>1.0.2-SNAPSHOT</version>
+	<version>1.0.7-SNAPSHOT</version>
 	<packaging>war</packaging>
 
 	<properties>
@@ -32,7 +32,7 @@
 
 		<url>git@github.com:fhabumugisha/ubukwebwiza.git</url>
 
-		<tag>ubukwebwiza-1.0.0</tag>
+		<tag>ubukwebwiza-1.0.3</tag>
 
 	</scm>
 

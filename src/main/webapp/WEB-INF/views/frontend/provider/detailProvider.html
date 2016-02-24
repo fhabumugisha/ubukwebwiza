@@ -9,7 +9,10 @@
 <body>
 
 				<div layout:fragment="pageContent" id="content" >
-
+					<div th:if="${message}" class="alert alert-success" > 
+							<a href="#" class="close" data-dismiss="alert">&times;</a> 
+								<span th:text="${message}">Cool</span>
+					</div>
 					<div class="row">
 						<div class="col-md-2 col-sm-5">
 <!-- 							<div class="thumbnail"> -->
@@ -17,11 +20,11 @@
 								
 								<img id="profilPicturePreview"   width="150" height="150" class="img-rounded"
 									     alt="profil pic"  th:if="*{provider.profilPicture}" 
-									     th:alt="${provider.businessName}" th:src="@{'https://ubfiles.s3.amazonaws.com/'+*{provider.profilPicture.filename}} "></img>
+									     th:alt="${provider.businessName}" th:src="@{'http://cdn.ubukwebwiza.com/'+*{provider.profilPicture.filename}} "></img>
 									
 									 <img id="profilPicturePreview" alt="profil pic" class="img-thumbnail"
 									      th:unless="*{provider.profilPicture}" th:alt="${provider.businessName}" 
-									      data-src="holder.js/100%x150"></img>
+									     src="http://cdn.ubukwebwiza.com/images/no-picture.jpg"></img>
 									      
 <!-- 								<div class="caption"> -->
 									
@@ -81,16 +84,59 @@
 											94107
 										</span>
 									</address>
-									<address>
-										<abbr title="Phone">P:</abbr> <span
-											th:text="${provider.phoneNumber}"> (123) 456-7890 </span>
-									</address>
-									<address>
+
+						<div class="row">
+							<div class="col-md-10" id="showPhonenumber">
+
+
+								<button type="button" class="btn  btn-primary btn-xs">
+									<span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
+									&nbsp; <span th:text="#{message.showphonenumber}">Show
+										phone number</span>
+								</button>
+							</div>
+							<div id="phonenumberBox" class="col-md-12" style="display: none;">
+								<small> <span th:text="#{provider.phonenumberText}">
+										Please indicate to this provider that you found the phone
+										number on Ubukwebwiza. </span>
+								</small> <br />
+
+								<address>
+									<abbr title="Phone">P:</abbr> <span
+										th:text="${provider.phoneNumber}"> (123) 456-7890 </span>
+								</address>
+
+								<button type="button" class="btn  btn-primary btn-xs"
+									id="hidePhonenumber">
+									<span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
+									&nbsp; <span th:text="#{message.hidephonenumber}">Hide
+										phone number</span>
+								</button>
+							</div>
+
+						</div>
+
+						<br />
+						<div class="row">
+							<div class="col-md-10" id="contactProvider">
+								<a href="#"
+									th:href="@{/contact-provider(name=${provider.urlName})}">
+									<button type="button" class="btn  btn-primary btn-xs"
+										id="contactus">
+										<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+										&nbsp; <span th:text="#{message.contactus}">Contact us</span>
+									</button>
+								</a>
+							</div>
+						</div>
+<br />
+						<!-- <address>
 										<a href="mailto:#" th:value="${provider.account.email}"
 											th:text="${provider.account.email}">first.last@example.com</a>
-									</address>
-									
-									<div>
+									</address> -->
+							
+							<div class="row">	
+						      <div class="col-md-10">
 							 <a target="_blank" class="btn btn-social-icon btn-facebook" th:if="${!#strings.isEmpty(provider.fbUsername)}" 
 							 th:href="@{'http://' + ${provider.fbUsername}}" title="Facebook"><i class="fa fa-facebook"></i></a>
 								<a target="_blank"  class="btn btn-social-icon btn-twitter" th:if="${!#strings.isEmpty(provider.twitterUsername)}"
@@ -98,6 +144,7 @@
 								<a target="_blank"  class="btn btn-social-icon btn-google-plus" th:if="${!#strings.isEmpty(provider.website)}"
 								th:href="@{'http://' + ${provider.website}}" ><i class="fa fa-external-link" title="Website"></i></a>
 								
+							</div>
 							</div>
 
 								</div>
@@ -207,12 +254,12 @@
 												href="../../../../resources/images/application/wedding_4_content.jpg"
 												title="Wedding planner" th:title="${photo.description}"
 												data-gallery=""
-												th:href="@{'https://ubfiles.s3.amazonaws.com/'+${photo.filename}}">
+												th:href="@{'http://cdn.ubukwebwiza.com/'+${photo.filename}}">
 												
-												<img height="150" width="210"
+												<img height="200" width="210"
 												src="../../../../resources/images/application/wedding_4_content.jpg"
 												alt="Wedding planner" th:alt="${photo.filename}"
-												th:src="@{'https://ubfiles.s3.amazonaws.com/'+${photo.filename}}" />
+												th:src="@{'http://cdn.ubukwebwiza.com/'+${photo.filename}}" />
 											</a>
 										</th:bloc>
 
@@ -226,22 +273,7 @@
 											alt="Wedding rings"
 											th:src="@{/resources/images/application/Wedding_rings.jpg}"></img>
 										</a> 
-										<a th:remove="all"	href="../../../../resources/images/application/wedding-banner.png"
-											th:href="@{/resources/images/application/wedding-banner.png}"
-											title="Bannner" data-gallery="">
-											 <img height="150"	width="210"
-											src="../../../../resources/images/application/wedding-banner.png"
-											alt="Orange"
-											th:src="@{/resources/images/application/wedding-banner.png}"></img>
-										</a> 
-										<a th:remove="all" href="../../../../resources/images/application/wedding-banner.png"
-										   th:href="@{/resources/images/application/wedding-banner.png}"
-											title="Bannner" data-gallery=""> 
-											<img height="150" width="210"
-											src="../../../../resources/images/application/wedding-banner.png"
-											alt="Orange"
-											th:src="@{/resources/images/application/wedding-banner.png}"></img>
-										</a>
+										
 									</div>
 
 								</div>

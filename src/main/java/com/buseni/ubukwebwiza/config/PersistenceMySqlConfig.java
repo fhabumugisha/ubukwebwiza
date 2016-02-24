@@ -11,6 +11,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -24,10 +25,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 public class PersistenceMySqlConfig {
 
-	private final static String DRIVER_CLASSNAME = "datasource.driver.classname";
+	/*private final static String DRIVER_CLASSNAME = "datasource.driver.classname";
 	private final static String DATASOURCE_URL = "datasource.url";
 	private final static String DATASOURCE_USERNAME = "datasource.username";
-	private final static String DATASOURCE_PASSWORD = "datasource.password";
+	private final static String DATASOURCE_PASSWORD = "datasource.password";*/
 
 	private final static String HIBERNATE_DIALECT = "hibernate.dialect";
 	private final static String HIBERNATE_BATCH_SIZE = "hibernate.jdbc.batch_size";
@@ -44,7 +45,7 @@ public class PersistenceMySqlConfig {
 	@Autowired
 	Environment environment;
 
-	@Bean
+/*	@Bean
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
@@ -53,8 +54,15 @@ public class PersistenceMySqlConfig {
 		dataSource.setUsername( getRequired( DATASOURCE_USERNAME ) );
 		dataSource.setPassword( getRequired( DATASOURCE_PASSWORD ) );
 		return dataSource;
-	}
+	}*/
 
+	@Bean
+	public DataSource jndiDataSource() {
+		final JndiDataSourceLookup dsLookup = new JndiDataSourceLookup();
+        //dsLookup.setResourceRef(true);
+        DataSource dataSource = dsLookup.getDataSource("jdbc/ubukwebwiza");
+        return dataSource;
+	}
 	@Bean
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		 HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
@@ -62,7 +70,7 @@ public class PersistenceMySqlConfig {
 		    vendorAdapter.setShowSql(true);
 		LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
 		entityManagerFactoryBean.setPackagesToScan( SCAN_PACKAGES );
-		entityManagerFactoryBean.setDataSource( dataSource() );
+		entityManagerFactoryBean.setDataSource( jndiDataSource() );
 		entityManagerFactoryBean.setJpaVendorAdapter(vendorAdapter);
 		entityManagerFactoryBean.setJpaProperties( hibProperties() );
 		return entityManagerFactoryBean;

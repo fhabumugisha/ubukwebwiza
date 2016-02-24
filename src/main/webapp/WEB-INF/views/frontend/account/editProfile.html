@@ -7,8 +7,6 @@
 </head>
 <body>
 
-	
-
 		<!-- Main Content -->
 		<div layout:fragment="pageContent" id="content" >
 		
@@ -26,10 +24,8 @@
 					</ul>
 					<!-- Tab panes -->
 					<div class="tab-content responsive">
-						
-        
-        
-            <!-- Personnal info pane -->
+						        
+            		<!-- Personnal info pane -->
 						<div class="tab-pane fade in " th:classappend="${currentTab == 'personnalInfo' ? 'active' : ''}" id="personnalInfo">
 						<div th:if="${errorPersonnalInfo}"
 							class="alert alert-danger fade in">
@@ -41,7 +37,8 @@
 							<a href="#" class="close" data-dismiss="alert">&times;</a> <span
 								th:text="${messagePersonnalInfo}">Success</span>
 						</div>
-						<form role="form" th:action="@{/profile/update}" th:object="${provider}" 	method="post" enctype="multipart/form-data">
+						<form role="form" th:action="@{/profile/update}" th:object="${provider}" 	method="post" 
+						enctype="multipart/form-data" >
 						<input type="text" hidden="hidden" th:field="*{id}" class="hidden" />
 							
 							<div class="row">
@@ -56,30 +53,36 @@
 												id="profilPicturePreview" 
 												alt="profile pic" th:if="*{profilPicture}"
 												th:alt="${businessName}"
-												th:src="@{'https://ubfiles.s3.amazonaws.com/'+*{profilPicture.filename}} "></img>
+												th:src="@{'http://cdn.ubukwebwiza.com/'+*{profilPicture.filename}} "></img>
 
 										</div>
 										
 										<div class="fileinput-preview fileinput-exists thumbnail"></div>
 										<div>
-											<span class="btn btn-default btn-file"><span
-												class="fileinput-new" th:text="#{message.editProfile.changeProfilePicture}">Change photo</span><span
-												class="fileinput-exists">Change</span>
-												<input type="file" 	name="file" /></span> <a href="#"
-												class="btn btn-default fileinput-exists"
-												data-dismiss="fileinput">Remove</a>
+											<span class="btn btn-primary btn-xs btn-file">
+											 <span
+												class="fileinput-new" th:text="#{message.editProfile.changeProfilePicture}">Change photo</span>
+																				
+											<span class="fileinput-exists" th:text="#{message.editProfile.changeProfilePicture}">Change</span>
+												<input type="file" 	name="file" />
+											</span> 
+											
+											<a href="#" th:if="*{profilPicture}" data-toggle="modal" data-target="#confirmRemove"
+												class="btn btn-default btn-xs " th:text="#{message.editProfile.removeProfilePicture}">Remove</a>
+											
+											<!-- <a href="#"
+												class="btn btn-default btn-xs fileinput-exists"
+												data-dismiss="fileinput" th:text="#{message.editProfile.removeProfilePicture}">Remove</a> -->
 										</div>
 									</div> 
 									
 									
-
-
 									<span class="text-danger"
 										th:if="${#fields.hasErrors('profilPicture')}"
 										th:errors="*{profilPicture}">Required field</span>
 								
 
-							
+							 <div class="cropme" style="width: 155px; height: 155px;"></div>
 
 
 								</div>
@@ -279,8 +282,8 @@
 									<div id="editPhotoBox" style=" display: none;">
 										<div class="panel panel-default">
 											<div class="panel-body">
-											<form role="form" enctype="multipart/form-data" th:action="@{/profile/addPhoto}" th:object="${photoForm}" id="addPhotoForm"
-												method="post">
+											<form role="form" enctype="multipart/form-data" th:action="@{/profile/addPhoto}"
+											 th:object="${photoForm}" id="addPhotoForm"	method="post">
 												<input type="text" hidden="hidden" th:field="*{id}"
 													id="idPhoto" th:id="idPhoto" class="hidden" />
 												<div class="form-group"
@@ -296,7 +299,7 @@
 															
 															<img id="profilPicturePreview" width="225" height="200"
 																	alt="pic" th:if="*{name}"
-																	th:src="@{'https://ubfiles.s3.amazonaws.com/'+*{name}} "></img>
+																	th:src="@{'http://cdn.ubukwebwiza.com/'+*{name}} "></img>
 
 															</div>
 															<div class="fileinput-preview fileinput-exists thumbnail" style="width: 225px; height: 200px;"></div>
@@ -334,9 +337,9 @@
 
 													<!-- </div> -->
 												</div>
-												<div class="form-group"
+												<!-- <div class="form-group"
 													th:classappend="${#fields.hasErrors('enabled')}? has-error">
-													<!-- <div class="col-sm-7"> -->
+													<div class="col-sm-7">
 
 														<div class="checkbox">
 															<label> <input type="checkbox"
@@ -348,9 +351,9 @@
 															</label>
 														</div>
 
-													<!-- </div> -->
+													</div>
 
-												</div>
+												</div> -->
 												<div class="form-group ">
 													<button type="button" id="hideAddPhotoForm"
 														class="btn  btn-default btn-sm" data-dismiss="profilPicturePreview"><span th:text="#{cancel.button.label}">Cancel</span></button>
@@ -398,7 +401,7 @@
 							</div>
 									<div id="listingFashionBox" class="row">
 										<div id="links">
-										<th:bloc th:each="photo : ${provider.photos}">
+										<th:bloc th:each="photo : ${provider.photos}" th:if="${#bools.isTrue(photo.enabled)}">
 											<div class="fashionBox col-md-3">
 											<div class="panel panel-default">
 												<div class="panel-body">
@@ -406,11 +409,11 @@
 												href="../../../../resources/images/application/wedding_4_content.jpg"
 												title="Wedding planner" th:title="${photo.description}"
 												data-gallery=""
-												th:href="@{'https://ubfiles.s3.amazonaws.com/'+${photo.filename}}">
+												th:href="@{'http://cdn.ubukwebwiza.com/'+${photo.filename}}">
 													
 													<img alt="Cool stuff" src="../../../../resources/images/application/wedding_4_content.jpg"
 													 th:alt="${photo.description}"
-												th:src="@{'https://ubfiles.s3.amazonaws.com/'+${photo.filename}}" 
+												th:src="@{'http://cdn.ubukwebwiza.com/'+${photo.filename}}" 
 														width="225" height="200"/> 
 														</a>
 														<br />
@@ -502,7 +505,7 @@
 													</div>
 
 												</div>
-												<div class="form-group"
+												<!-- <div class="form-group"
 													th:classappend="${#fields.hasErrors('enabled')}? has-error">
 
 													<div class="col-sm-2">
@@ -518,7 +521,7 @@
 													</div>
 
 
-												</div>
+												</div> -->
 
 
 												<div class="form-group ">
@@ -551,7 +554,7 @@
 												
 											
 												
- 											 <th:bloc th:each="providerWeddingService : ${provider.providerWeddingServices}">											
+ 											 <th:bloc th:each="providerWeddingService : ${provider.providerWeddingServices}" th:if="${#bools.isTrue(providerWeddingService.enabled)}">											
 												
 												<tr>
 														
@@ -717,17 +720,17 @@
 			</div>
 		
 	<div class="modal fade bs-modal-xs" tabindex="-1" role="dialog"
-		id="confirm" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+		id="confirmRemove" aria-labelledby="mySmallModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-xs">
 			<div class="modal-content">
 				<div class="modal-header">
-					<a class="close" data-dismiss="modal">ï¿½</a>
-					<h5>Confirm</h5>
+					<a class="close" data-dismiss="modal">&times;</a>
+					<h5 th:text="#{message.editProfile.removePhoto}">Remove profile photo?</h5>
 				</div>
-				<div class="modal-body">Are your sure ?</div>
-				<div class="modal-footer">
-					<a href="#" class="btn btn-danger">Delete</a> <a href="#"
-						class="btn btn-cancel" data-dismiss="modal">Cancel</a>
+				<div class="modal-body"><span th:text="#{message.editProfile.confirmRemovePhoto}"> Are your sure ?</span></div>
+				<div class="modal-footer"> 
+					<a  href="#" th:href="@{/profile/removeProfilePhoto(idProvider=${provider.id})}" class="btn btn-primary" th:text="#{message.editProfile.removeProfilePicture}">Remove</a>
+					 <a href="#" class="btn btn-default btn-cancel" data-dismiss="modal"  th:text="#{cancel.button.label}">Cancel</a>
 				</div>
 			</div>
 

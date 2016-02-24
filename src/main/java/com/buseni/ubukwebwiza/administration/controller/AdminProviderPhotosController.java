@@ -64,7 +64,9 @@ public class AdminProviderPhotosController{
 	public String addPhoto(@PathVariable Integer idProvider, Model model) {
 		LOGGER.info("IN: providers/addPhoto-GET");			
 		Provider provider = providerService.findOne(idProvider);
-		model.addAttribute("photoForm", new PhotoForm());	
+		if(!model.containsAttribute("photoForm")){
+			model.addAttribute("photoForm", new PhotoForm());	
+		}
 		model.addAttribute("provider", provider );
 		return "adminpanel/provider/editPhoto";
 	}
@@ -78,7 +80,7 @@ public class AdminProviderPhotosController{
 		if(CollectionUtils.isEmpty(provider.getPhotos()) || provider.getPhotos().size() < UbUtils.MAX_PHOTO){
 			attributes.addFlashAttribute("canAddMorePhoto", true);
 		}
-		LOGGER.info("IN: providers/addPhoto to provider : " + provider);
+		LOGGER.info("IN: providers/addPhoto to provider : " + provider.getBusinessName());
 
 		MultipartFile file  = photoForm.getFile();
 		Photo photo = new Photo();
@@ -88,11 +90,10 @@ public class AdminProviderPhotosController{
 				LOGGER.error("File size should be less than " + ImagesUtils.MAXSIZE+ " byte.");				
 				result.reject(ImagesUtils.MAX_SIZE_EXCEEDED_ERROR, new String[] {String.valueOf(ImagesUtils.MAXSIZE)}, "File size should be less than " + ImagesUtils.MAXSIZE+ " byte.");
 				//attributes.addAttribute("org.springframework.validation.BindingResult.photoForm",result);
-				attributes.addFlashAttribute("errors", "File size should be less than " + ImagesUtils.MAXSIZE+ " byte.");
+				attributes.addFlashAttribute("errors", "File size should be less than 2 Mo.");
 				attributes.addFlashAttribute("photoForm", photoForm);
 				attributes.addFlashAttribute("provider", provider);	     
-
-				return "adminpanel/provider/editPhoto";
+				return "redirect:/admin/providers/"+provider.getId()+"/photos/addPhoto";
 			}
 
 			filename = UbUtils.normalizeFileName(file.getOriginalFilename());
@@ -107,7 +108,7 @@ public class AdminProviderPhotosController{
 			attributes.addFlashAttribute("errors", "You failed to upload  because the file was empty.");
 			attributes.addFlashAttribute("photoForm", photoForm);
 			attributes.addFlashAttribute("provider", provider);
-			return "adminpanel/provider/editPhoto";
+			return "redirect:/admin/providers/"+provider.getId()+"/photos/addPhoto";
 
 		}
 

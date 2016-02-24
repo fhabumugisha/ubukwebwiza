@@ -13,7 +13,7 @@
 				
 		<div id="listServices-bloc" th:fragment="listServices">
 		<div class="well well-sm">
-			<a href="#" th:if="${#lists.isEmpty(provider.providerWeddingServices)}"
+			<a href="#" 
 				th:href="@{'/admin/providers/' + ${provider.id} +'/services/addService'}">
 				<button type="button" class="btn  btn-primary btn-xs">
 					<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
@@ -50,7 +50,7 @@
 							<td th:text="${#dates.format(providerService.lastUpdate, 'dd/MM/yyyy')}">Ok</td>
 							<td th:text="${#dates.format(providerService.createdAt, 'dd/MM/yyyy')}">Ok</td>
 							<td th:text="${providerService.enabled}">Ok</td>
-							<td>
+							<!-- <td>
 								<a href="#" th:href="@{'/admin/providers/' + ${provider.id} +'/services/editService'(id=${providerService.id})}" class="editService">
 									
 											<button type="button" class="btn btn-default btn-xs">
@@ -58,8 +58,8 @@
        								 		 </button>
 										
 									 </a>
-							</td>
-							 <!-- <td class="dropdown">
+							</td> -->
+							  <td class="dropdown">
 							<a id="dLabel" data-toggle="dropdown" href="#"> <span th:text="#{list.actions}">Actions</span>
 									<span class="caret"></span></a>
 								<ul class="dropdown-menu no-collapse" role="menu" aria-labelledby="dLabel">
@@ -74,7 +74,7 @@
 
 									</li>
 									<li>
-									In a free account you can not delete the only service 
+									
 									<a href="#" th:href="@{'/admin/providers/' + ${provider.id} +'/services/deleteService'(id=${providerService.id})}" class="deleteService">
 											
 											<button type="button" class="btn btn-default btn-xs">
@@ -86,7 +86,7 @@
 
 									</li>
 								</ul>
-								</td> -->
+								</td> 
 						</tr>
 						<tr th:remove="all">
 							<td>1,002</td>

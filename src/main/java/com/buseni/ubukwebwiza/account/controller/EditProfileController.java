@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.apache.commons.collections4.CollectionUtils;
@@ -191,7 +192,9 @@ public class EditProfileController {
 
 	@RequestMapping(value = "/profile/updateAccount", method = RequestMethod.POST)
 	@PreAuthorize("hasRole('ROLE_PROVIDER')")
-	public String updateAccount(HttpServletRequest request, Principal principal, @RequestParam(value="currentPassword", required=false ) String currentPassword,  @RequestParam("password" ) String password, @RequestParam("passwordConfirm") String passwordConfirm, RedirectAttributes attributes) {
+	public String updateAccount(HttpServletRequest request, Principal principal, @RequestParam(value="currentPassword", required=false ) String currentPassword, 
+					@RequestParam("password" ) String password, @RequestParam("passwordConfirm") String passwordConfirm, 
+					RedirectAttributes attributes) {
 		//Provider provider = providerService.findProviderByUsername(principal.getName());
 		attributes.addFlashAttribute("currentTab", "accountInfo");
 
@@ -282,6 +285,17 @@ public class EditProfileController {
 		return "frontend/account/editProfile::services-bloc";
 	}
 
+	@RequestMapping(value="/profile/removeProfilePhoto", method=RequestMethod.GET)
+	public String removeProfilePhoto(HttpServletRequest request, HttpSession session, @RequestParam(value="idProvider", required=true) Integer idProvider,
+			RedirectAttributes attributes) {
+		LOGGER.info("IN: profile/removeProfilePhoto-GET");			
+		providerService.removeProfilePhoto(idProvider);
+		
+		session.removeAttribute("provider");
+		String message = messages.getMessage("message.profileUpdateSuccess", null, request.getLocale());	
+		attributes.addFlashAttribute("messagePersonnalInfo", message);	
+		return "redirect:/profile";
+	}
 	@RequestMapping(value="/profile/addPhoto", method=RequestMethod.POST)
 	public String savePhoto(HttpServletRequest request, @ModelAttribute PhotoForm photoForm,  Model model) throws BusinessException{		
 		LOGGER.info("IN: profile/addPhoto-POST");

@@ -229,3 +229,8 @@ $(document).on("click",".deleteService",function(event){
 	});
 	
 });
+
+$(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
+    event.preventDefault();
+    $(this).ekkoLightbox();
+}); 

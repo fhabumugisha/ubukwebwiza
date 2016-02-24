@@ -4,8 +4,6 @@ import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
 
-import nz.net.ultraq.thymeleaf.LayoutDialect;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -26,6 +24,8 @@ import org.thymeleaf.templateresolver.TemplateResolver;
 import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
 import com.github.dandelion.thymeleaf.dialect.DandelionDialect;
 
+import nz.net.ultraq.thymeleaf.LayoutDialect;
+
 @Configuration 
 @PropertySource("classpath:email.properties")
 public class ViewConfiguration {
@@ -43,6 +43,8 @@ public class ViewConfiguration {
 		resolver.setPrefix(VIEWS);
 		resolver.setSuffix(".html");
 		resolver.setTemplateMode("HTML5");
+		resolver.setCharacterEncoding("UTF-8");
+		
 		resolver.setOrder(2);
 		resolver.addTemplateAlias("frontendHeader", "frontend/fragments/header");
 		resolver.addTemplateAlias("frontendFooter", "frontend/fragments/footer");
@@ -57,6 +59,7 @@ public class ViewConfiguration {
 		 emailTemplateResolver.setPrefix(EMAILS);
 		 emailTemplateResolver.setSuffix(".html");
 		 emailTemplateResolver.setTemplateMode("HTML5");
+		 emailTemplateResolver.setCharacterEncoding("UTF-8");
 		 emailTemplateResolver.setOrder(1);
 		 return emailTemplateResolver;
 	 }
@@ -83,6 +86,8 @@ public class ViewConfiguration {
 		ThymeleafViewResolver resolver = new ThymeleafViewResolver();
 		resolver.setTemplateEngine(templateEngine());
 		resolver.setOrder(0);
+		resolver.setCharacterEncoding("UTF-8");
+		resolver.setContentType("text/html; charset=UTF-8");
 		return resolver;
 	}
 	
@@ -117,4 +122,5 @@ public class ViewConfiguration {
 	        mailSenderImpl.setJavaMailProperties(javaMailProps);
 	        return mailSenderImpl;
 	    }
+	
 }

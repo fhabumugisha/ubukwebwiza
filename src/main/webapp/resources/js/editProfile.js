@@ -16,7 +16,7 @@ $(document).on("submit","#addPhotoForm",function(event){
 		type: 'POST',
 		beforeSend: function( xhr ) {
 			$("#saving").html(
-                    '<img src="https://s3.amazonaws.com/ubfiles/saving.gif" align="absmiddle" width="25" height="16" style="padding-right:5px;"/>Saving...');
+                    '<img src="http://cdn.ubukwebwiza.com/images/saving.gif" align="absmiddle" width="25" height="16" style="padding-right:5px;"/>Saving...');
 		  },
 		  success: function(data , textStatus , jqXHR){
 			  console.log("textStatus :" + textStatus);
@@ -273,6 +273,17 @@ $(document).on("click",".deleteProfileService",function(event){
 		$('#addServiceForm select[name="idcService"]').find('option:selected').removeAttr("selected");
 		$('#addServiceForm textarea[name="description"]').val('');
 		$('#addServiceForm input:checkbox').removeAttr('checked');
-}
+	}
 
+	//show / hide provider phone number
+	$(document).on("click","#showPhonenumber",function(){
+		$("#phonenumberBox").show("slow");		
+		$(this).hide("slow");
+	});
 	
+	
+	$(document).on("click","#hidePhonenumber",function(){			
+		$("#phonenumberBox").hide("slow");
+		$("#showPhonenumber").show("slow");
+		
+	});

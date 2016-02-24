@@ -25,6 +25,8 @@ public class DetailProviderController {
 	@Autowired
 	private ProviderService providerService;
 	
+	
+	
 	/*@RequestMapping(value="/wedding-service-providers/{id:[\\d]+}",method=RequestMethod.GET)
 	public String getProvider(@PathVariable Integer id, Model model){		
 		Provider provider = providerService.getProvider(id);
@@ -41,7 +43,6 @@ public class DetailProviderController {
 		model.addAttribute("provider", provider);		
 		return "frontend/provider/detailProvider";
 	}
-	
 	
 
 	@ModelAttribute("currentMenu")

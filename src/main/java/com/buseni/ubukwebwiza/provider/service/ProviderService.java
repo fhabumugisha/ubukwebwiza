@@ -9,6 +9,7 @@ import com.buseni.ubukwebwiza.account.beans.SignupForm;
 import com.buseni.ubukwebwiza.account.domain.UserAccount;
 import com.buseni.ubukwebwiza.exceptions.BusinessException;
 import com.buseni.ubukwebwiza.gallery.domain.Photo;
+import com.buseni.ubukwebwiza.provider.beans.MessageDto;
 import com.buseni.ubukwebwiza.provider.beans.ProviderSearch;
 import com.buseni.ubukwebwiza.provider.domain.Provider;
 
@@ -53,6 +54,13 @@ public interface ProviderService {
 	 * @return
 	 */
 	Provider getProvider(Integer id);
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	Provider getProviderByUrlName(String urlName);
 	
 	/**
 	 * 
@@ -121,6 +129,18 @@ public interface ProviderService {
 	 * @return
 	 */
 	Provider findProviderByUsername(String name);
+
+	/**
+	 * Removes the profile photo
+	 * @param idProvider : id of the provider
+	 */
+	void removeProfilePhoto(Integer idProvider);
+	/**
+	 * Send a mail to the provider and saves and message in the table "message"
+	 * @param message : Object containing mail to be send
+	 * @return 
+	 */
+	MessageDto contactProvider(MessageDto message);
 
 	
 

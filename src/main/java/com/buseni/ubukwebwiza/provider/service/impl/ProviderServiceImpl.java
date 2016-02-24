@@ -34,13 +34,16 @@ import com.buseni.ubukwebwiza.exceptions.CustomErrorBuilder;
 import com.buseni.ubukwebwiza.exceptions.ResourceNotFoundException;
 import com.buseni.ubukwebwiza.gallery.domain.Photo;
 import com.buseni.ubukwebwiza.gallery.repository.PhotoRepo;
+import com.buseni.ubukwebwiza.provider.beans.MessageDto;
 import com.buseni.ubukwebwiza.provider.beans.ProviderSearch;
 import com.buseni.ubukwebwiza.provider.domain.District;
+import com.buseni.ubukwebwiza.provider.domain.Message;
 import com.buseni.ubukwebwiza.provider.domain.Provider;
 import com.buseni.ubukwebwiza.provider.domain.ProviderWeddingService;
 import com.buseni.ubukwebwiza.provider.domain.WeddingService;
 import com.buseni.ubukwebwiza.provider.predicates.ProviderPredicates;
 import com.buseni.ubukwebwiza.provider.repository.DistrictRepo;
+import com.buseni.ubukwebwiza.provider.repository.MessageRepo;
 import com.buseni.ubukwebwiza.provider.repository.ProviderRepo;
 import com.buseni.ubukwebwiza.provider.repository.ProviderWeddingServiceRepo;
 import com.buseni.ubukwebwiza.provider.repository.WeddingServiceRepo;
@@ -68,11 +71,13 @@ public class ProviderServiceImpl implements ProviderService {
 	private DistrictRepo districtRepo;
 	private RoleRepository roleRepository;
 	private UserAccountRepository userAccountRepository;
+	private MessageRepo messageRepo;
 	@Autowired
 	private AmazonS3Util amazonS3Util;
 	@Autowired
 	public ProviderServiceImpl(ProviderRepo providerRepo, WeddingServiceRepo weddingServiceRepo, ProviderWeddingServiceRepo providerWeddingServiceRepo,
-			PhotoRepo photoRepo,  DistrictRepo districtRepo, RoleRepository roleRepository, UserAccountRepository userAccountRepository){
+			PhotoRepo photoRepo,  DistrictRepo districtRepo, RoleRepository roleRepository, UserAccountRepository userAccountRepository,
+			MessageRepo messageRepo){
 		this.providerRepo = providerRepo;
 		this.weddingServiceRepo = weddingServiceRepo;
 		this.providerWeddingServiceRepo = providerWeddingServiceRepo;
@@ -80,7 +85,7 @@ public class ProviderServiceImpl implements ProviderService {
 		this.districtRepo = districtRepo;
 		this.roleRepository = roleRepository;
 		this.userAccountRepository =  userAccountRepository;
-		
+		this.messageRepo = messageRepo;
 		
 	}
 
@@ -142,6 +147,10 @@ public class ProviderServiceImpl implements ProviderService {
 				}
 				bdd.setProfilPicture(provider.getProfilPicture());
 			}
+			if(!bdd.getBusinessName().equals(provider.getBusinessName())){
+				bdd.setUrlName(UbUtils.createUrlName(provider.getBusinessName()));
+			}
+				
 			bdd.setBusinessName(provider.getBusinessName());
 			bdd.setAboutme(provider.getAboutme());
 			bdd.setAddress(provider.getAddress());
@@ -150,7 +159,7 @@ public class ProviderServiceImpl implements ProviderService {
 			bdd.setWebsite(provider.getWebsite());
 			bdd.setFbUsername(provider.getFbUsername());
 			bdd.setTwitterUsername(provider.getTwitterUsername());
-			bdd.setUrlName(UbUtils.createUrlName(provider.getBusinessName()));
+			
 			bdd.getAccount().setEnabled(provider.getAccount().isEnabled());
 			bdd.getAccount().setLastUpdate(new Date());
 						
@@ -158,6 +167,30 @@ public class ProviderServiceImpl implements ProviderService {
 		}
 	
 
+	}
+	
+	/*
+	 * 
+	 */
+	@Override
+	@Transactional
+	public void removeProfilePhoto(Integer idProvider){
+		if(null == idProvider){
+			throw new NullPointerException("idProvider shouldn't be null");
+		}
+		Provider provider =  providerRepo.findOne(idProvider);
+		if(null == provider){
+			throw new NullPointerException("provider shouldn't be null");
+		}
+		if(provider.getProfilPicture() != null){
+			
+			photoRepo.delete(provider.getProfilPicture());
+			amazonS3Util.deleteFile(provider.getProfilPicture().getFilename());		
+			provider.setProfilPicture(null);
+		}
+		provider.getAccount().setLastUpdate(new Date());
+		providerRepo.save(provider);
+		
 	}
 
 	/* (non-Javadoc)
@@ -381,6 +414,9 @@ public class ProviderServiceImpl implements ProviderService {
 			}
 			bdd.setProfilPicture(provider.getProfilPicture());
 		}
+		if(!bdd.getBusinessName().equals(provider.getBusinessName())){
+			bdd.setUrlName(UbUtils.createUrlName(provider.getBusinessName()));
+		}
 		bdd.setBusinessName(provider.getBusinessName());
 		bdd.setAboutme(provider.getAboutme());
 		bdd.setAddress(provider.getAddress());
@@ -422,6 +458,44 @@ public class ProviderServiceImpl implements ProviderService {
 		provider.setNbViews(provider.getNbViews() + 1);
 		provider.getAccount().setLastUpdate(new Date());
 		providerRepo.save(provider);
+		return provider;
+	}
+
+	
+	@Override
+	@Transactional
+	public MessageDto contactProvider(MessageDto messageDto) {
+		if(messageDto == null){
+			throw new NullPointerException();
+		}
+		Message message = new Message();
+		message.setComment(messageDto.getComment());
+		message.setSubject(messageDto.getSubject());
+		message.setSenderEmail(messageDto.getSenderEmail());
+		message.setSenderName(messageDto.getSenderName());
+		message.setSenderPhonenumber(messageDto.getSenderPhonenumber());
+		Provider provider =  providerRepo.findOne(messageDto.getIdProvider());
+		message.setProvider(provider);	
+		message.setCreatedAt(new Date());
+		messageRepo.save(message);
+		
+		messageDto.setProviderEmail(provider.getAccount().getEmail());
+		messageDto.setProviderName(provider.getBusinessName());
+		messageDto.setProviderUrlName(provider.getUrlName());
+		return messageDto;
+		
+	}
+
+	@Override
+	public Provider getProviderByUrlName(String urlName) {
+		if(StringUtils.isEmpty(urlName)){
+			throw new NullPointerException();
+		}
+		
+		Provider provider  = providerRepo.findByUrlName(urlName);
+		if(provider ==  null){
+			throw new ResourceNotFoundException();
+		}
 		return provider;
 	}
 

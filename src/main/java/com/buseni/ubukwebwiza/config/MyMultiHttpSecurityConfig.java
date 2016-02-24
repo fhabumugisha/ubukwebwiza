@@ -14,12 +14,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 import com.buseni.ubukwebwiza.account.service.UserAccountService;
-import com.buseni.ubukwebwiza.filters.CustomAccessDeniedHandlerImpl;
 import com.buseni.ubukwebwiza.filters.CustomSavedRequestAwareAuthenticationSuccessHandler;
 
 @Configuration
@@ -48,12 +46,13 @@ public class MyMultiHttpSecurityConfig {
 				.formLogin().loginPage("/admin/signin").permitAll().failureUrl("/admin/signin?error").usernameParameter("email")
 					.passwordParameter("password").successHandler(savedRequestAwareAuthenticationSuccessHandler())
 	        .and()
-	        	.logout().logoutUrl("/admin/logout").logoutSuccessUrl("/admin/signin?logout").permitAll().deleteCookies("JSESSIONID")
+	        	.logout().logoutUrl("/admin/logout").logoutSuccessUrl("/admin/signin?logout").permitAll()
+	        	.deleteCookies("JSESSIONID")
 	        .and()
-	        	.exceptionHandling().accessDeniedPage("/admin403").accessDeniedHandler(customAccessDeniedHandler())
+	        	.exceptionHandling().accessDeniedPage("/admin403")
 	        .and()
 	        	.rememberMe().tokenRepository(persistentTokenRepository()).tokenValiditySeconds(604800)
-	        	.and().csrf().ignoringAntMatchers("/admin/logout");;
+	        	.and().csrf().disable();
 		}
 		@Override
 		public void configure(WebSecurity web) throws Exception {
@@ -75,12 +74,12 @@ public class MyMultiHttpSecurityConfig {
 			db.setDataSource(dataSource);
 			return db;
 		}
-		@Bean
+		/*@Bean
 		public AccessDeniedHandler customAccessDeniedHandler(){
 			CustomAccessDeniedHandlerImpl customAccessDeniedHandler = new CustomAccessDeniedHandlerImpl();
 			customAccessDeniedHandler.setErrorPage("/admin403");
 			return customAccessDeniedHandler;
-		}
+		}*/
 	}
 
 	@Configuration      
@@ -97,10 +96,10 @@ public class MyMultiHttpSecurityConfig {
 	        .and()
 	        	.logout().logoutUrl("/profile/logout").logoutSuccessUrl("/").deleteCookies("JSESSIONID")
 	        .and()
-	        	.exceptionHandling().accessDeniedPage("/admin403").accessDeniedHandler(customAccessDeniedHandler())
+	        	.exceptionHandling().accessDeniedPage("/admin403")
 	        .and()
 	        	.rememberMe().tokenRepository(persistentTokenRepository()).tokenValiditySeconds(604800)
-	        	.and().csrf().ignoringAntMatchers("/profile/logout");
+	        	.and().csrf().disable();
 	        
 		        
 		}
@@ -123,12 +122,12 @@ public class MyMultiHttpSecurityConfig {
 			return auth;
 		}
 		
-		@Bean
+		/*@Bean
 		public AccessDeniedHandler customAccessDeniedHandler(){
 			CustomAccessDeniedHandlerImpl customAccessDeniedHandler = new CustomAccessDeniedHandlerImpl();
 			customAccessDeniedHandler.setErrorPage("/admin403");
 			return customAccessDeniedHandler;
-		}
+		}*/
 		
 	}
 	
@@ -139,7 +138,8 @@ public class MyMultiHttpSecurityConfig {
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
 			 http.antMatcher("/**").authorizeRequests().anyRequest().permitAll()
-			 .and().exceptionHandling().accessDeniedHandler(customAccessDeniedHandler());
+			 .and().exceptionHandling()
+			 .and().csrf().disable();
 	        
 		        
 		}
@@ -147,12 +147,12 @@ public class MyMultiHttpSecurityConfig {
 		public void configure(WebSecurity web) throws Exception {
 			web.ignoring().antMatchers("/resources/**");
 		}
-		@Bean
+		/*@Bean
 		public AccessDeniedHandler customAccessDeniedHandler(){
 			CustomAccessDeniedHandlerImpl customAccessDeniedHandler = new CustomAccessDeniedHandlerImpl();
 			customAccessDeniedHandler.setErrorPage("/admin403");
 			return customAccessDeniedHandler;
-		}
+		}*/
 		
 	}
 	

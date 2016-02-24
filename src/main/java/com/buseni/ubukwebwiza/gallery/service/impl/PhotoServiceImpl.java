@@ -17,8 +17,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.buseni.ubukwebwiza.administrator.enums.EnumPhotoCategory;
 import com.buseni.ubukwebwiza.exceptions.ResourceNotFoundException;
+import com.buseni.ubukwebwiza.gallery.beans.PhotoDetails;
 import com.buseni.ubukwebwiza.gallery.domain.Photo;
 import com.buseni.ubukwebwiza.gallery.repository.GalleryPredicates;
 import com.buseni.ubukwebwiza.gallery.repository.PhotoRepo;
@@ -34,9 +34,7 @@ import com.buseni.ubukwebwiza.utils.AmazonS3Util;
 public class PhotoServiceImpl implements PhotoService {
 
 	public  static final Logger LOGGER = LoggerFactory.getLogger(PhotoServiceImpl.class);
-	
-	/*@PersistenceContext	
-	private EntityManager entityManager;*/
+
 
 	
 	private PhotoRepo photoRepo;
@@ -63,6 +61,7 @@ public class PhotoServiceImpl implements PhotoService {
 		if (photo.getId() == null) {
 			photo.setCreatedAt(new Date());
 			photo.setLastUpdate(new Date());
+			photo.setEnabled(Boolean.TRUE);
 			photoRepo.save(photo);
 			return photo;
 		} else {
@@ -154,18 +153,23 @@ public class PhotoServiceImpl implements PhotoService {
 	}
 
 	@Override
-	public Page<Photo> findPhotoGallery( Pageable pageable) {
+	public Page<PhotoDetails> findPhotoGallery( Pageable pageable) {
 		if( pageable == null){
 			throw new NullPointerException();
 		}
+		
+		
 		PageRequest pr = new PageRequest(pageable.getPageNumber()-1, pageable.getPageSize());
-		return photoRepo.findAll(GalleryPredicates.galleryPhotos(EnumPhotoCategory.PROVIDER.getId()), pr);
+		
+		Page<PhotoDetails> photoDetailsPage = photoRepo.findPhotoGallery(pr);
+		
+		return photoDetailsPage;
 	
 	}
 	
 	@Override
 	public List<Photo>  homePagePhotos(){		
-		Page<Photo>  photosPage = photoRepo.findAll(GalleryPredicates.galleryPhotos(EnumPhotoCategory.HOME_PAGE.getId()), new PageRequest(0, 5, Sort.Direction.DESC, "lastUpdate"));
+		Page<Photo>  photosPage = photoRepo.findAll(GalleryPredicates.homePagePhotos(), new PageRequest(0, 5, Sort.Direction.DESC, "lastUpdate"));
 		if(photosPage != null){
 			return  photosPage.getContent();
 		}
@@ -177,7 +181,7 @@ public class PhotoServiceImpl implements PhotoService {
 		if( category == null || pageable ==  null){
 			throw new NullPointerException();
 		}
-		PageRequest pr = new PageRequest(pageable.getPageNumber()-1, pageable.getPageSize());
+		PageRequest pr = new PageRequest(pageable.getPageNumber()-1, pageable.getPageSize(), Sort.Direction.DESC, "lastUpdate");
 		return photoRepo.findByCategory(category, pr);
 	}
 
@@ -192,8 +196,6 @@ public class PhotoServiceImpl implements PhotoService {
 		
 	}
 
-	
 
-	
 
 }
