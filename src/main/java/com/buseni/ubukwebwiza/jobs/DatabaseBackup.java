@@ -29,33 +29,33 @@ import com.amazonaws.services.s3.transfer.Upload;
  * @author habumugisha
  *
  */
-@Component
+//@Component
 public class DatabaseBackup {
 	
 	public  static final Logger LOGGER = LoggerFactory.getLogger(DatabaseBackup.class);
 	
-	@Value("${aws.backupBucketName}")
+	//@Value("${aws.backupBucketName}")
 	private String bucketName;
 	
-	@Value("${aws.accessKey}")
+	//@Value("${aws.accessKey}")
 	private String accessKey;
 	
-	@Value("${aws.secretKey}")
+	//@Value("${aws.secretKey}")
 	private String secretKey;
 	
-	@Value("${datasource.host}")
+	//@Value("${datasource.host}")
 	private String host;
 	
-	@Value("${datasource.port}")
+	//@Value("${datasource.port}")
 	private String port;
 	
-	@Value("${datasource.dbname}")
+	//@Value("${datasource.dbname}")
 	private String databaseName;
 	
-	@Value("${datasource.username}")
+	//@Value("${datasource.username}")
 	private String username;
 	
-	@Value("${datasource.password}")
+	//@Value("${datasource.password}")
 	private String password;
 	
 	

@@ -6,8 +6,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
 import org.springframework.scheduling.quartz.JobDetailFactoryBean;
@@ -16,7 +14,6 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
 import com.buseni.ubukwebwiza.jobs.DatabaseBackup;
 import com.buseni.ubukwebwiza.jobs.DatabaseBackupJob;
-import com.buseni.ubukwebwiza.jobs.MyJobTwo;
 //@Configuration 
 //@ComponentScan("com.buseni.ubukwebwiza") 
 public class QuartzConfiguration {

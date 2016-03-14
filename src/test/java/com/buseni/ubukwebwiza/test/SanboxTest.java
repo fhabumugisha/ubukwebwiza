@@ -1,8 +1,13 @@
 package com.buseni.ubukwebwiza.test;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -19,13 +24,32 @@ public class SanboxTest {
 	
 
 	
+	
+	
 	@Autowired
-	private UserAccountRepository userBaseRepository	;
+	private JavaMailSenderImpl mailSender;
 	@Test
-	public void addData(){
+	public void sendMail(){
 		
-		UserAccount customerAccount =  new UserAccount("email@test.com", "password");
-		//userBaseRepository.save(customerAccount);
+
+		
+		try { 
+			// Prepare message using a Spring helper
+			final MimeMessage mimeMessage = this.mailSender.createMimeMessage();
+			final MimeMessageHelper message =
+					new MimeMessageHelper(mimeMessage, false, "UTF-8"); // true = multipart
+		
+			message.setSubject("Test");
+			message.setFrom("test@ubukwebwiza.com");
+			message.setTo("me@ubukwebwiza.com");
+
+			message.setText("Hello JavaMailSender");	
+			// Send mail
+			this.mailSender.send(mimeMessage);
+		} catch (MessagingException e1) {
+			System.out.println("signup error sending email: " + e1.getMessage());
+			
+		} 
 		
 	     
 		
