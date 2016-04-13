@@ -7,6 +7,7 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -15,6 +16,7 @@ import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 //@Profile( "mysql" )
@@ -25,10 +27,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 public class PersistenceMySqlConfig {
 
-	/*private final static String DRIVER_CLASSNAME = "datasource.driver.classname";
+	private final static String DRIVER_CLASSNAME = "datasource.driver.classname";
 	private final static String DATASOURCE_URL = "datasource.url";
 	private final static String DATASOURCE_USERNAME = "datasource.username";
-	private final static String DATASOURCE_PASSWORD = "datasource.password";*/
+	private final static String DATASOURCE_PASSWORD = "datasource.password";
 
 	private final static String HIBERNATE_DIALECT = "hibernate.dialect";
 	private final static String HIBERNATE_BATCH_SIZE = "hibernate.jdbc.batch_size";
@@ -45,7 +47,10 @@ public class PersistenceMySqlConfig {
 	@Autowired
 	Environment environment;
 
-/*	@Bean
+	@Autowired
+	DataSource datasource;
+	/*@Bean
+	@Profile("dev")
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
@@ -54,15 +59,16 @@ public class PersistenceMySqlConfig {
 		dataSource.setUsername( getRequired( DATASOURCE_USERNAME ) );
 		dataSource.setPassword( getRequired( DATASOURCE_PASSWORD ) );
 		return dataSource;
-	}*/
+	}
 
 	@Bean
+	@Profile("default")
 	public DataSource jndiDataSource() {
 		final JndiDataSourceLookup dsLookup = new JndiDataSourceLookup();
         //dsLookup.setResourceRef(true);
         DataSource dataSource = dsLookup.getDataSource("jdbc/ubukwebwiza");
         return dataSource;
-	}
+	}*/
 	@Bean
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		 HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
@@ -70,7 +76,7 @@ public class PersistenceMySqlConfig {
 		    vendorAdapter.setShowSql(true);
 		LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
 		entityManagerFactoryBean.setPackagesToScan( SCAN_PACKAGES );
-		entityManagerFactoryBean.setDataSource( jndiDataSource() );
+		entityManagerFactoryBean.setDataSource( datasource);
 		entityManagerFactoryBean.setJpaVendorAdapter(vendorAdapter);
 		entityManagerFactoryBean.setJpaProperties( hibProperties() );
 		return entityManagerFactoryBean;

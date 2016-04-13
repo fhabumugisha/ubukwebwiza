@@ -391,9 +391,13 @@
 					<tomcatWebXml />
 					<contextFile>${basedir}/src/main/webapp/META-INF/context.xml</contextFile>
 					<useTestClasspath>false</useTestClasspath>
-					<!-- <systemProperties> <MAVEN_OPTS>-Xmx1024m -Xms512m -XX:MaxPermSize=512m 
-						-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8000</MAVEN_OPTS> 
-						</systemProperties> -->
+					 <systemProperties> 
+					 <!-- <MAVEN_OPTS>
+					 	-Xmx1024m -Xms512m -XX:MaxPermSize=512m 
+						-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8000
+						</MAVEN_OPTS>  -->
+						<spring.profiles.active>dev</spring.profiles.active>
+					</systemProperties> 
 				</configuration>
 			</plugin>
 			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-clean-plugin</artifactId> 
@@ -508,7 +512,7 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>				
-				<build.profile.id>dev</build.profile.id>
+				<build.profile.id>devconfig</build.profile.id>
 			</properties>
 		</profile>
 		<profile>
