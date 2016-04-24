@@ -49,6 +49,7 @@ public class ViewConfiguration {
 		resolver.addTemplateAlias("frontendHeader", "frontend/fragments/header");
 		resolver.addTemplateAlias("frontendFooter", "frontend/fragments/footer");
 		resolver.addTemplateAlias("frontendSidebar", "frontend/fragments/sidebar");
+		resolver.addTemplateAlias("accountMenu", "frontend/fragments/menu");
 		resolver.addTemplateAlias("util", "util/navigation");
 		return resolver;
 	}
@@ -114,10 +115,10 @@ public class ViewConfiguration {
 	        mailSenderImpl.setHost(env.getProperty("mail.server.smtp.host"));
 	        mailSenderImpl.setPort(env.getProperty("mail.server.smtp.port", Integer.class));
 	        mailSenderImpl.setProtocol(env.getProperty("mail.server.smtp.protocol"));
-	       /* mailSenderImpl.setUsername(env.getProperty("mail.server.username"));
-	        mailSenderImpl.setPassword(env.getProperty("mail.server.password"));*/
-	         mailSenderImpl.setUsername(System.getProperty("mail.server.username"));
-	        mailSenderImpl.setPassword(System.getProperty("mail.server.password"));
+	        mailSenderImpl.setUsername(env.getProperty("mail.server.username"));
+	        mailSenderImpl.setPassword(env.getProperty("mail.server.password"));
+	         /*mailSenderImpl.setUsername(System.getProperty("mail.server.username"));
+	        mailSenderImpl.setPassword(System.getProperty("mail.server.password"));*/
 	        Properties javaMailProps = new Properties();
 	        javaMailProps.put("mail.smtp.auth", true);
 	        javaMailProps.put("mail.smtp.starttls.enable", true);

@@ -94,10 +94,7 @@ public class EditProfileController {
 			model.addAttribute("currentTab", "personnalInfo");
 		}
 		//model.addAttribute("canAddMorePhoto", false);
-		//Free account can add only 8 photos 
-		if(CollectionUtils.isEmpty(provider.getPhotos()) || provider.getPhotos().size() < UbUtils.MAX_PHOTO){
-			model.addAttribute("canAddMorePhoto", true);
-		}
+		
 		return "frontend/account/editProfile";
 	}
 
@@ -415,8 +412,59 @@ public class EditProfileController {
 		return "frontend/account/editProfile::photos-bloc";
 	}
 
+	@RequestMapping(value="/profile/photos", method=RequestMethod.GET)
+	public String photos( Principal principal, Model model) {
+		Provider provider = providerService.findProviderByUsername(principal.getName());
+		model.addAttribute("provider", provider);		
+		if(!model.containsAttribute("currentTab")){
+			model.addAttribute("currentTab", "photos");
+		}
+		//Free account can add only 8 photos 
+		if(CollectionUtils.isEmpty(provider.getPhotos()) || provider.getPhotos().size() < UbUtils.MAX_PHOTO){
+			model.addAttribute("canAddMorePhoto", true);
+		}
+		return "frontend/account/photos";
+	}
 
+	@RequestMapping(value="/profile/services", method=RequestMethod.GET)
+	public String services( Principal principal, Model model) {
+		Provider provider = providerService.findProviderByUsername(principal.getName());
+		model.addAttribute("provider", provider);		
+		if(!model.containsAttribute("currentTab")){
+			model.addAttribute("currentTab", "services");
+		}
+		return "frontend/account/services";
+	}
+	@RequestMapping(value="/profile/messages", method=RequestMethod.GET)
+	public String messages( Principal principal, Model model) {
+		Provider provider = providerService.findProviderByUsername(principal.getName());
+		model.addAttribute("provider", provider);		
+		if(!model.containsAttribute("currentTab")){
+			model.addAttribute("currentTab", "messages");
+		}
 
+		return "frontend/account/messages";
+	}
+	
+	@RequestMapping(value="/profile/socialMedia", method=RequestMethod.GET)
+	public String socialMedia( Principal principal, Model model) {
+		Provider provider = providerService.findProviderByUsername(principal.getName());
+		model.addAttribute("provider", provider);		
+		if(!model.containsAttribute("currentTab")){
+			model.addAttribute("currentTab", "socialMedia");
+		}
+		return "frontend/account/socialMedia";
+	}
+	@RequestMapping(value="/profile/accountInfo", method=RequestMethod.GET)
+	public String accountInfo( Principal principal, Model model) {
+		Provider provider = providerService.findProviderByUsername(principal.getName());
+		model.addAttribute("provider", provider);		
+		if(!model.containsAttribute("currentTab")){
+			model.addAttribute("currentTab", "accountInfo");
+		}
+		return "frontend/account/accountInfo";
+	}
+	
 	@ModelAttribute("currentMenu")
 	public String module(){
 		return "profile";
@@ -466,7 +514,7 @@ public class EditProfileController {
 		return false;
 	}
 	
-	@ModelAttribute("canAddMorePhoto")
+	/*@ModelAttribute("canAddMorePhoto")
 	public boolean canAddMorePhoto(Model model){
 		Provider provider = (Provider) model.asMap().get("provider");
 		//Free account can add only 8 photos 
@@ -477,6 +525,6 @@ public class EditProfileController {
 		}
 		
 		return false;
-	}
+	}*/
 
 }
