@@ -1,7 +1,10 @@
 package com.buseni.ubukwebwiza.provider.domain;
 
 import java.util.Date;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -54,6 +59,10 @@ public class Message {
 	@ManyToOne
 	@JoinColumn(name="id_provider", referencedColumnName="id")
 	private Provider provider;
+	
+	@OneToMany(mappedBy="message", cascade = CascadeType.REMOVE)
+	@OrderBy("createdAt")
+	private Set<MessageAnswer>  messageAnswers = new LinkedHashSet<>();
 	
 	public Integer getId() {
 		return id;
@@ -103,6 +112,12 @@ public class Message {
 	}
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
+	}
+	public Set<MessageAnswer> getMessageAnswers() {
+		return messageAnswers;
+	}
+	public void setMessageAnswers(Set<MessageAnswer> messageAnswers) {
+		this.messageAnswers = messageAnswers;
 	}
 	
 

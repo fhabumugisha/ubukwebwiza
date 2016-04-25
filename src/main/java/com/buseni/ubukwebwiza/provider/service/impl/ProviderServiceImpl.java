@@ -71,13 +71,12 @@ public class ProviderServiceImpl implements ProviderService {
 	private DistrictRepo districtRepo;
 	private RoleRepository roleRepository;
 	private UserAccountRepository userAccountRepository;
-	private MessageRepo messageRepo;
+	
 	@Autowired
 	private AmazonS3Util amazonS3Util;
 	@Autowired
 	public ProviderServiceImpl(ProviderRepo providerRepo, WeddingServiceRepo weddingServiceRepo, ProviderWeddingServiceRepo providerWeddingServiceRepo,
-			PhotoRepo photoRepo,  DistrictRepo districtRepo, RoleRepository roleRepository, UserAccountRepository userAccountRepository,
-			MessageRepo messageRepo){
+			PhotoRepo photoRepo,  DistrictRepo districtRepo, RoleRepository roleRepository, UserAccountRepository userAccountRepository){
 		this.providerRepo = providerRepo;
 		this.weddingServiceRepo = weddingServiceRepo;
 		this.providerWeddingServiceRepo = providerWeddingServiceRepo;
@@ -85,7 +84,7 @@ public class ProviderServiceImpl implements ProviderService {
 		this.districtRepo = districtRepo;
 		this.roleRepository = roleRepository;
 		this.userAccountRepository =  userAccountRepository;
-		this.messageRepo = messageRepo;
+	
 		
 	}
 
@@ -462,29 +461,7 @@ public class ProviderServiceImpl implements ProviderService {
 	}
 
 	
-	@Override
-	@Transactional
-	public MessageDto contactProvider(MessageDto messageDto) {
-		if(messageDto == null){
-			throw new NullPointerException();
-		}
-		Message message = new Message();
-		message.setComment(messageDto.getComment());
-		message.setSubject(messageDto.getSubject());
-		message.setSenderEmail(messageDto.getSenderEmail());
-		message.setSenderName(messageDto.getSenderName());
-		message.setSenderPhonenumber(messageDto.getSenderPhonenumber());
-		Provider provider =  providerRepo.findOne(messageDto.getIdProvider());
-		message.setProvider(provider);	
-		message.setCreatedAt(new Date());
-		messageRepo.save(message);
-		
-		messageDto.setProviderEmail(provider.getAccount().getEmail());
-		messageDto.setProviderName(provider.getBusinessName());
-		messageDto.setProviderUrlName(provider.getUrlName());
-		return messageDto;
-		
-	}
+
 
 	@Override
 	public Provider getProviderByUrlName(String urlName) {

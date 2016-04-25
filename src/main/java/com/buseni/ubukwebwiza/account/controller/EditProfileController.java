@@ -15,6 +15,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,17 +40,23 @@ import com.buseni.ubukwebwiza.gallery.beans.PhotoForm;
 import com.buseni.ubukwebwiza.gallery.domain.Photo;
 import com.buseni.ubukwebwiza.gallery.service.PhotoService;
 import com.buseni.ubukwebwiza.home.HomeController;
+import com.buseni.ubukwebwiza.provider.beans.MessageDto;
 import com.buseni.ubukwebwiza.provider.beans.ServiceForm;
 import com.buseni.ubukwebwiza.provider.domain.District;
+import com.buseni.ubukwebwiza.provider.domain.Message;
+import com.buseni.ubukwebwiza.provider.domain.MessageAnswer;
 import com.buseni.ubukwebwiza.provider.domain.Provider;
 import com.buseni.ubukwebwiza.provider.domain.ProviderWeddingService;
+import com.buseni.ubukwebwiza.provider.domain.Province;
 import com.buseni.ubukwebwiza.provider.domain.WeddingService;
 import com.buseni.ubukwebwiza.provider.service.DistrictService;
+import com.buseni.ubukwebwiza.provider.service.MessageService;
 import com.buseni.ubukwebwiza.provider.service.ProviderService;
 import com.buseni.ubukwebwiza.provider.service.ProviderWeddingServiceManager;
 import com.buseni.ubukwebwiza.provider.service.WeddingServiceManager;
 import com.buseni.ubukwebwiza.utils.AmazonS3Util;
 import com.buseni.ubukwebwiza.utils.ImagesUtils;
+import com.buseni.ubukwebwiza.utils.PageWrapper;
 import com.buseni.ubukwebwiza.utils.UbUtils;
 
 @Controller
@@ -77,6 +85,9 @@ public class EditProfileController {
 
 	@Autowired
 	private PhotoService photoService;
+	
+	@Autowired
+	private MessageService messageService;
 
 	@Autowired
 	private MessageSource messages;
@@ -436,14 +447,44 @@ public class EditProfileController {
 		return "frontend/account/services";
 	}
 	@RequestMapping(value="/profile/messages", method=RequestMethod.GET)
-	public String messages( Principal principal, Model model) {
+	public String messages( Principal principal, Model model,Pageable page) {
 		Provider provider = providerService.findProviderByUsername(principal.getName());
 		model.addAttribute("provider", provider);		
 		if(!model.containsAttribute("currentTab")){
 			model.addAttribute("currentTab", "messages");
 		}
-
+		Page<Message> pageMessage = messageService.listProviderMessages(provider.getId(), page);
+		PageWrapper<Message> pageWrapper = new PageWrapper<Message>(pageMessage, "/profile/messages");
+		model.addAttribute("page", pageWrapper);
+		model.addAttribute("messages", pageMessage.getContent());	
 		return "frontend/account/messages";
+	}
+	
+
+	@RequestMapping(value="/profile/messages/read", method=RequestMethod.GET)
+	public String edit(@RequestParam(value="id", required=true) Integer id, Model model, HttpServletRequest request) {
+		LOGGER.info("IN: profile/messages/read-GET");
+		
+		Message message =  messageService.findById(id);
+		model.addAttribute("message", message);
+		MessageAnswer messageAnswer = new MessageAnswer();
+		messageAnswer.setMessage(message);
+		model.addAttribute("messageAnswer", messageAnswer);
+		if(!model.containsAttribute("currentTab")){
+			model.addAttribute("currentTab", "messages");
+		}
+		return "frontend/account/readMessage";
+		
+		
+	}
+	
+	
+
+	@RequestMapping(value="/profile/messages/answer",method=RequestMethod.POST)
+	public String answerMessage( @ModelAttribute MessageAnswer messageAnswer, BindingResult result, RedirectAttributes attributes) throws BusinessException{		
+		LOGGER.info("IN: profile/essages/answer-POST");
+		messageService.answerMessage(messageAnswer);	
+		return "redirect:/profile/messages/read?id="+messageAnswer.getMessage().getId();
 	}
 	
 	@RequestMapping(value="/profile/socialMedia", method=RequestMethod.GET)

@@ -22,6 +22,7 @@ import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
 import com.buseni.ubukwebwiza.home.HomeController;
 import com.buseni.ubukwebwiza.provider.beans.MessageDto;
 import com.buseni.ubukwebwiza.provider.domain.Provider;
+import com.buseni.ubukwebwiza.provider.service.MessageService;
 import com.buseni.ubukwebwiza.provider.service.ProviderService;
 
 @Controller
@@ -33,6 +34,9 @@ public class ContactProviderController {
 
 	@Autowired
 	private ProviderService providerService;
+	
+	@Autowired
+	private MessageService messageService;
 	
 	 @Autowired
 	 private MessageSource messages;
@@ -62,7 +66,7 @@ public class ContactProviderController {
 		}
 		String subject = messages.getMessage("message.contactProviderSubject", null,	request.getLocale());
 		messageDto.setSubject(subject);
-		MessageDto updatedMessageDto = 	providerService.contactProvider(messageDto);
+		MessageDto updatedMessageDto = 	messageService.contactProvider(messageDto);
 		String appUrl = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
 		eventPublisher.publishEvent(new ContactProviderEvent(updatedMessageDto, request.getLocale(), appUrl));
 		

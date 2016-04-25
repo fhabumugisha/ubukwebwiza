@@ -135,12 +135,7 @@ public interface ProviderService {
 	 * @param idProvider : id of the provider
 	 */
 	void removeProfilePhoto(Integer idProvider);
-	/**
-	 * Send a mail to the provider and saves and message in the table "message"
-	 * @param message : Object containing mail to be send
-	 * @return 
-	 */
-	MessageDto contactProvider(MessageDto message);
+	
 
 	
 
