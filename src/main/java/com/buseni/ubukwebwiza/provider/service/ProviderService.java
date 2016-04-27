@@ -9,9 +9,9 @@ import com.buseni.ubukwebwiza.account.beans.SignupForm;
 import com.buseni.ubukwebwiza.account.domain.UserAccount;
 import com.buseni.ubukwebwiza.exceptions.BusinessException;
 import com.buseni.ubukwebwiza.gallery.domain.Photo;
-import com.buseni.ubukwebwiza.provider.beans.MessageDto;
 import com.buseni.ubukwebwiza.provider.beans.ProviderSearch;
 import com.buseni.ubukwebwiza.provider.domain.Provider;
+import com.buseni.ubukwebwiza.provider.domain.ProviderWeddingService;
 
 public interface ProviderService {
 	
@@ -135,6 +135,14 @@ public interface ProviderService {
 	 * @param idProvider : id of the provider
 	 */
 	void removeProfilePhoto(Integer idProvider);
+
+	/**
+	 * deletes a service
+	 * @param idProvider
+	 * @param providerWeddingService
+	 * @return
+	 */
+	Provider deleteService(Integer idProvider, ProviderWeddingService providerWeddingService);
 	
 
 	

@@ -12,7 +12,7 @@
 		<nav th:replace="accountMenu :: menu"> </nav>
 		<div class="row">
 				<!-- Content -->
-				<div id="content" class="col-md-12">
+				<div id="profilInfo" class="col-md-12">
 				
 						<div th:if="${errorPersonnalInfo}"
 							class="alert alert-danger fade in">
@@ -70,7 +70,7 @@
 										th:errors="*{profilPicture}">Required field</span>
 
 
-									<div class="cropme" style="width: 155px; height: 155px;"></div>
+<!-- 									<div class="cropme" style="width: 155px; height: 155px;"></div> -->
 
 
 								</div>

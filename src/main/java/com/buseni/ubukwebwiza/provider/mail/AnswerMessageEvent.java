@@ -1,21 +1,22 @@
-package com.buseni.ubukwebwiza.provider.controller;
+package com.buseni.ubukwebwiza.provider.mail;
 
 import java.util.Locale;
 
 import org.springframework.context.ApplicationEvent;
 
 import com.buseni.ubukwebwiza.provider.beans.MessageDto;
+import com.buseni.ubukwebwiza.provider.domain.MessageAnswer;
 
 @SuppressWarnings("serial")
-public class ContactProviderEvent extends ApplicationEvent {
+public class AnswerMessageEvent extends ApplicationEvent {
 
     private final String appUrl;
     private final Locale locale;
-    private final MessageDto messageDto;
+    private final MessageAnswer messageAnswer;
    
-    public ContactProviderEvent(MessageDto messageDto, Locale locale, String appUrl) {
-        super(messageDto);
-        this.messageDto = messageDto;
+    public AnswerMessageEvent(MessageAnswer messageAnswer, Locale locale, String appUrl) {
+        super(messageAnswer);
+        this.messageAnswer = messageAnswer;
         this.locale = locale;
         this.appUrl = appUrl;
        
@@ -29,8 +30,8 @@ public class ContactProviderEvent extends ApplicationEvent {
         return locale;
     }
 
-	public MessageDto getMessageDto() {
-		return messageDto;
+	public MessageAnswer getMessageAnswer() {
+		return messageAnswer;
 	}
 
    

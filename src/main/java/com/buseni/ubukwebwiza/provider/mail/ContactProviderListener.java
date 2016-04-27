@@ -1,4 +1,4 @@
-package com.buseni.ubukwebwiza.provider.controller;
+package com.buseni.ubukwebwiza.provider.mail;
 
 import java.util.Locale;
 
@@ -44,19 +44,19 @@ public class ContactProviderListener implements ApplicationListener<ContactProvi
 
       
     public void sendMail(String contextPath,  MessageDto  messageDto, final Locale locale) {
-		String url = contextPath + "/wedding-service-providers/"+ messageDto.getProviderUrlName();
+		String url = contextPath + "/profile/messages/read?id="+ messageDto.getId();
 		
-		String visitProfileText = messages.getMessage("message.visitProfileText", null,	locale);
+		String readMessageText = messages.getMessage("message.readMessageText", null,	locale);
 		// Prepare the evaluation context
 		final Context ctx = new Context(locale);
 		ctx.setVariable("name", messageDto.getProviderName());
-		ctx.setVariable("emailText", messageDto.getComment());
+		//ctx.setVariable("emailText", messageDto.getComment());
 		ctx.setVariable("senderName", messageDto.getSenderName());
-		ctx.setVariable("senderEmail", messageDto.getSenderEmail());
-		ctx.setVariable("senderPhonenumber", messageDto.getSenderPhonenumber());
+		/*ctx.setVariable("senderEmail", messageDto.getSenderEmail());
+		ctx.setVariable("senderPhonenumber", messageDto.getSenderPhonenumber());*/
 	   
-		ctx.setVariable("visitProfileLink", url);
-		ctx.setVariable("visitProfileText", visitProfileText);
+		ctx.setVariable("readMessageLink", url);
+		ctx.setVariable("readMessageText", readMessageText);
 		//ctx.setVariable("clickHereText", resetPasswordLinkText);
 		//ctx.setVariable("afterLinkText", resetPasswordText2);
 	//	ctx.setVariable("imageResourceName", "logo.jpg"); // so that we can reference it from HTML

@@ -329,6 +329,18 @@ public class ProviderServiceImpl implements ProviderService {
 		return provider;
 	}
 
+	@Transactional
+	@Override
+	public Provider deleteService(Integer idProvider, ProviderWeddingService providerWeddingService) {
+		Provider provider = findOne(idProvider);
+		if(providerWeddingService != null && !CollectionUtils.isEmpty(provider.getProviderWeddingServices())){
+			provider.getProviderWeddingServices().remove(providerWeddingService);
+			provider.getAccount().setLastUpdate(new Date());
+			providerRepo.save(provider);
+			providerWeddingServiceRepo.delete(providerWeddingService);
+		}
+		return provider;
+	}
 	 private boolean emailExist(String email) {
 		 	UserAccount user = userAccountRepository.findByEmail(email);
 	        if (user != null) {

@@ -22,6 +22,7 @@ import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
 import com.buseni.ubukwebwiza.home.HomeController;
 import com.buseni.ubukwebwiza.provider.beans.MessageDto;
 import com.buseni.ubukwebwiza.provider.domain.Provider;
+import com.buseni.ubukwebwiza.provider.mail.ContactProviderEvent;
 import com.buseni.ubukwebwiza.provider.service.MessageService;
 import com.buseni.ubukwebwiza.provider.service.ProviderService;
 

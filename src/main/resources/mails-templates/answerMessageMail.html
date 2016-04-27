@@ -11,14 +11,17 @@
   		<img alt="Ubukwebwiza" src="https://s3.amazonaws.com/ubfiles/logo.jpg"  />
   	</p>
   	<br />
-    <p th:text="#{message.greeting(${name})}">
-      Hello, Peter Static!
+    <p ><span th:text="#{message.greeting(${name})}"></span>,
+     
     </p>
-    <p th:text="#{message.contactProvider(${senderName})}"> </p>
+    <p > <span th:text="#{message.answerMessageSubject(${senderName})}"></span>:  </p>  
+   
+    <br />
+    <p th:text="${emailText}"> </p>
     
    
     <br />
-    <p> <a th:href="${readMessageLink}" ><span th:text="${readMessageText}"></span> </a> </p>
+    <p> <a th:href="${answerMessageLink}" ><span th:text="${answerMessageText}"></span> </a> </p>
     
     <br />
     <p>

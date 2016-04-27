@@ -89,17 +89,20 @@ public class MessageServiceImpl implements MessageService {
 		messageDto.setProviderEmail(provider.getAccount().getEmail());
 		messageDto.setProviderName(provider.getBusinessName());
 		messageDto.setProviderUrlName(provider.getUrlName());
+		messageDto.setId(message.getId());
 		return messageDto;
 		
 	}
 	@Transactional
 	@Override
-	public void answerMessage(MessageAnswer messageAnswer) {
+	public MessageAnswer answerMessage(MessageAnswer messageAnswer) {
 		if(messageAnswer == null){
 			throw new NullPointerException();
 		}
 		messageAnswer.setCreatedAt(new Date());
-		messageAnswerRepo.save(messageAnswer);
+		Message message = messageRepo.findOne(messageAnswer.getMessage().getId());
+		messageAnswer.setMessage(message);
+		return messageAnswerRepo.save(messageAnswer);
 	}
 
 }

@@ -34,6 +34,6 @@ public interface MessageService {
 	 * Answer a message
 	 * @param messageAnswer
 	 */
-	void answerMessage(MessageAnswer messageAnswer);
+	MessageAnswer answerMessage(MessageAnswer messageAnswer);
 
 }

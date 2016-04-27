@@ -14,6 +14,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -40,15 +41,14 @@ import com.buseni.ubukwebwiza.gallery.beans.PhotoForm;
 import com.buseni.ubukwebwiza.gallery.domain.Photo;
 import com.buseni.ubukwebwiza.gallery.service.PhotoService;
 import com.buseni.ubukwebwiza.home.HomeController;
-import com.buseni.ubukwebwiza.provider.beans.MessageDto;
 import com.buseni.ubukwebwiza.provider.beans.ServiceForm;
 import com.buseni.ubukwebwiza.provider.domain.District;
 import com.buseni.ubukwebwiza.provider.domain.Message;
 import com.buseni.ubukwebwiza.provider.domain.MessageAnswer;
 import com.buseni.ubukwebwiza.provider.domain.Provider;
 import com.buseni.ubukwebwiza.provider.domain.ProviderWeddingService;
-import com.buseni.ubukwebwiza.provider.domain.Province;
 import com.buseni.ubukwebwiza.provider.domain.WeddingService;
+import com.buseni.ubukwebwiza.provider.mail.AnswerMessageEvent;
 import com.buseni.ubukwebwiza.provider.service.DistrictService;
 import com.buseni.ubukwebwiza.provider.service.MessageService;
 import com.buseni.ubukwebwiza.provider.service.ProviderService;
@@ -95,7 +95,10 @@ public class EditProfileController {
 	@Autowired
 	private AmazonS3Util amazonS3Util;
 
-
+	 @Autowired
+	private ApplicationEventPublisher eventPublisher;
+	 
+	 
 
 	@RequestMapping(value="/profile", method=RequestMethod.GET)
 	public String myAccount( Model model, Principal principal){
@@ -178,7 +181,7 @@ public class EditProfileController {
 			LOGGER.info("Profile-updateSocialMedia errors: " + result.toString());
 			attributes.addFlashAttribute("org.springframework.validation.BindingResult.provider", result);
 			attributes.addFlashAttribute("provider", provider);
-			return "redirect:/profile";
+			return "redirect:/profile/socialMedia";
 
 		}
 
@@ -191,11 +194,11 @@ public class EditProfileController {
 			LOGGER.error("Profile-updateSocialMedia errors: " + result.toString());
 			attributes.addFlashAttribute("org.springframework.validation.BindingResult.provider", result);
 			attributes.addFlashAttribute("provider", provider);
-			return "redirect:/profile";
+			return "redirect:/profile/socialMedia";
 		}
 		String message = messages.getMessage("message.profileUpdateSuccess", null, request.getLocale());			
 		attributes.addFlashAttribute("messageSocialMedia", message);
-		return "redirect:/profile";
+		return "redirect:/profile/socialMedia";
 	}
 
 	@RequestMapping(value = "/profile/updateAccount", method = RequestMethod.POST)
@@ -211,7 +214,7 @@ public class EditProfileController {
 			LOGGER.error("Password does not match!");
 			attributes.addFlashAttribute("errorAccountInfo", error);	
 			//attributes.addAttribute("provider", provider);
-			return "redirect:/profile";
+			return "redirect:/profile/accountInfo";
 		}		
 		//Provider provider = providerService.findProviderByUsername(principal.getName());
 		UserAccount account  = userAccountService.findByUsername(principal.getName());
@@ -226,7 +229,7 @@ public class EditProfileController {
 		userAccountService.changeUserPassword(account, password);
 		String message = messages.getMessage("message.passwordChangedSuccess", null, request.getLocale());			
 		attributes.addFlashAttribute("messageAccountInfo", message);		
-		return "redirect:/profile";
+		return "redirect:/profile/accountInfo";
 	}
 
 
@@ -254,14 +257,14 @@ public class EditProfileController {
 			Provider updated =  providerService.update(provider);
 			model.addAttribute("provider", updated);
 			model.addAttribute("currentTab", "services");
-			return "frontend/account/editProfile::services-bloc";
+			return "frontend/account/services::services-bloc";
 
 			//Business errors
 		} catch (final BusinessException e) {
 			//ErrorsHelper.rejectErrors(result, e.getErrors());
 			LOGGER.error("profile/addService-POST error adding service");
 			model.addAttribute("currentTab", "services");
-			return "frontend/account/editProfile::services-bloc";
+			return "frontend/account/services::services-bloc";
 		}
 	}
 
@@ -277,20 +280,21 @@ public class EditProfileController {
 		model.addAttribute("serviceForm", serviceForm);	
 
 		model.addAttribute("currentTab", "services");
-		return "frontend/account/editProfile::services-bloc";
+		return "frontend/account/services::services-bloc";
 	}
 
 	@RequestMapping(value="/profile/deleteService", method=RequestMethod.GET)
 	public String deleteService( HttpServletRequest request,  @RequestParam(value="id", required=true) Integer id, Model model) {
 		LOGGER.info("IN: profile/deleteService-GET");
 		ProviderWeddingService vws =  providerWeddingServiceManager.findById(id);
-		providerWeddingServiceManager.delete(id);
+		//providerWeddingServiceManager.delete(id);
 		Provider provider = (Provider) model.asMap().get("provider");
-		provider.getProviderWeddingServices().remove(vws);
-		model.addAttribute("provider", provider);
+		//provider.getProviderWeddingServices().remove(vws);
+		Provider updated = providerService.deleteService(provider.getId(), vws);
+		model.addAttribute("provider", updated);
 		String message = messages.getMessage("message.profileServiceDeleteSuccess", new String[]{ vws.getWeddingService().getLibelle()}, request.getLocale());	
 		model.addAttribute("messageService", message);	
-		return "frontend/account/editProfile::services-bloc";
+		return "frontend/account/services::services-bloc";
 	}
 
 	@RequestMapping(value="/profile/removeProfilePhoto", method=RequestMethod.GET)
@@ -320,7 +324,7 @@ public class EditProfileController {
 				model.addAttribute("errorPhoto", error);
 				model.addAttribute("photoForm", photoForm);
 
-				return "frontend/account/editProfile::photos-bloc";
+				return "frontend/account/photos::photos-bloc";
 			}
 
 			filename = UbUtils.normalizeFileName(file.getOriginalFilename());
@@ -333,7 +337,7 @@ public class EditProfileController {
 			String  error = messages.getMessage("error.file.empty", null, request.getLocale());
 			model.addAttribute("errorPhoto", error);
 			model.addAttribute("photoForm", photoForm);
-			return "frontend/account/editProfile::photos-bloc";
+			return "frontend/account/photos::photos-bloc";
 
 		}
 
@@ -374,7 +378,7 @@ public class EditProfileController {
 
 		model.addAttribute("messagePhoto", message);
 
-		return "frontend/account/editProfile::photos-bloc";
+		return "frontend/account/photos::photos-bloc";
 
 		// Business errors
 		/*} catch (final BusinessException e) {
@@ -404,7 +408,7 @@ public class EditProfileController {
 			model.addAttribute("canAddMorePhoto", true);
 		}
 		model.addAttribute("currentTab", "photos");		
-		return "frontend/account/editProfile::photos-bloc";
+		return "frontend/account/photos::photos-bloc";
 	}
 
 	@RequestMapping(value="/profile/editPhoto", method=RequestMethod.GET)
@@ -420,7 +424,7 @@ public class EditProfileController {
 		model.addAttribute("photoForm", photoForm);	
 		model.addAttribute("currentTab", "photos");
 
-		return "frontend/account/editProfile::photos-bloc";
+		return "frontend/account/photos::photos-bloc";
 	}
 
 	@RequestMapping(value="/profile/photos", method=RequestMethod.GET)
@@ -447,7 +451,7 @@ public class EditProfileController {
 		return "frontend/account/services";
 	}
 	@RequestMapping(value="/profile/messages", method=RequestMethod.GET)
-	public String messages( Principal principal, Model model,Pageable page) {
+	public String messages(Model model,Pageable page, Principal principal) {
 		Provider provider = providerService.findProviderByUsername(principal.getName());
 		model.addAttribute("provider", provider);		
 		if(!model.containsAttribute("currentTab")){
@@ -462,9 +466,10 @@ public class EditProfileController {
 	
 
 	@RequestMapping(value="/profile/messages/read", method=RequestMethod.GET)
-	public String edit(@RequestParam(value="id", required=true) Integer id, Model model, HttpServletRequest request) {
+	public String read(@RequestParam(value="id", required=true) Integer id, Model model, Principal principal,HttpServletRequest request) {
 		LOGGER.info("IN: profile/messages/read-GET");
-		
+		Provider provider = providerService.findProviderByUsername(principal.getName());
+		model.addAttribute("provider", provider);	
 		Message message =  messageService.findById(id);
 		model.addAttribute("message", message);
 		MessageAnswer messageAnswer = new MessageAnswer();
@@ -481,9 +486,11 @@ public class EditProfileController {
 	
 
 	@RequestMapping(value="/profile/messages/answer",method=RequestMethod.POST)
-	public String answerMessage( @ModelAttribute MessageAnswer messageAnswer, BindingResult result, RedirectAttributes attributes) throws BusinessException{		
+	public String answerMessage( @ModelAttribute MessageAnswer messageAnswer, BindingResult result, RedirectAttributes attributes,HttpServletRequest request) throws BusinessException{		
 		LOGGER.info("IN: profile/essages/answer-POST");
-		messageService.answerMessage(messageAnswer);	
+		MessageAnswer updatedMessageAnswer = messageService.answerMessage(messageAnswer);	
+		String appUrl = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+		eventPublisher.publishEvent(new AnswerMessageEvent(updatedMessageAnswer, request.getLocale(), appUrl));
 		return "redirect:/profile/messages/read?id="+messageAnswer.getMessage().getId();
 	}
 	
