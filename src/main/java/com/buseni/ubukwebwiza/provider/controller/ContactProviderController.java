@@ -21,6 +21,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
 import com.buseni.ubukwebwiza.home.HomeController;
 import com.buseni.ubukwebwiza.provider.beans.MessageDto;
+import com.buseni.ubukwebwiza.provider.domain.Message;
+import com.buseni.ubukwebwiza.provider.domain.MessageAnswer;
 import com.buseni.ubukwebwiza.provider.domain.Provider;
 import com.buseni.ubukwebwiza.provider.mail.ContactProviderEvent;
 import com.buseni.ubukwebwiza.provider.service.MessageService;
@@ -76,6 +78,35 @@ public class ContactProviderController {
 		return "redirect:/wedding-service-providers/"+messageDto.getProviderUrlName();
 	}
 
+	
+	@RequestMapping(value="/reply-provider",method=RequestMethod.GET)
+	public String replyProvider(@RequestParam(value="id") Integer idMessage, Model model){
+		MessageAnswer oldMessageAnswer  = messageService.findMessageAnswerById(idMessage);
+		Provider provider = oldMessageAnswer.getMessage().getProvider();
+		MessageAnswer messageAnswer = new MessageAnswer();		
+		messageAnswer.setMessage(oldMessageAnswer.getMessage());
+		model.addAttribute("provider", provider);
+		
+		model.addAttribute("messageAnswer", messageAnswer);
+		model.addAttribute("oldMessageAnswer", oldMessageAnswer);
+		return "frontend/provider/replyProvider";
+	}
+	@RequestMapping(value="/reply-provider",method=RequestMethod.POST)
+	public String replyProvider(@RequestParam(value="enterHere", required=false) String enterHere, @Valid @ModelAttribute("messageAnswer") MessageAnswer messageAnswer, BindingResult result, RedirectAttributes attributes,HttpServletRequest request){
+		//If enterHere is filled it is a spam
+		if(StringUtils.isNotEmpty(enterHere)){
+			return "redirect:/";		}
+		messageAnswer.setFromUser(true);
+		MessageAnswer updatedMessageAnswer = 	messageService.answerMessage(messageAnswer);
+		
+		
+		Provider provider = updatedMessageAnswer.getMessage().getProvider();
+		
+		 String message = messages.getMessage("message.contactProviderSuccess", new String[]{provider.getBusinessName()}, request.getLocale());			
+		attributes.addFlashAttribute("message", message);
+		return "redirect:/wedding-service-providers/"+provider.getUrlName();
+	}
+	
 	@ModelAttribute("currentMenu")
 	public String module(){
 		return "providers";

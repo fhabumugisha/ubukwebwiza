@@ -122,6 +122,8 @@
 					</a>
 					
 					</li>
+					<li th:classappend="${currentMenu == 'messages' ? 'active' : ''}"><a href="#" th:href="@{/admin/messages}">Messages</a></li>
+					
 					<li sec:authorize="hasRole('ROLE_SUPER_ADMIN')" th:classappend="${currentMenu == 'administrators' ? 'active' : ''}"><a href="#" th:href="@{/admin/administrators}">Administrators</a></li>
 
 				</ul>

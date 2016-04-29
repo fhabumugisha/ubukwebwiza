@@ -3,7 +3,7 @@
 	xmlns:th="http://www.thymeleaf.org"
 	layout:decorator="frontend/fragments/mainLayout">
 <head>
-<title th:text="#{contactprovider.title(${messageDto.providerName})}">Ubukwebwiza - Contact provider</title>
+<title th:text="#{replyprovider.title(${provider.businessName})}">Ubukwebwiza - Reply provider</title>
 </head>
 <body>
 
@@ -20,10 +20,15 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="panel panel-default">
-						<div class="panel-heading">Contact &nbsp; <span th:text="${messageDto.providerName}"></span></div>
+						<div class="panel-heading">Reply to &nbsp; <span th:text="${provider.businessName}"></span></div>
 						<div class="panel-body">
-							<form role="form" method="post" th:action="@{/contact-provider}" th:object="${messageDto}">
-							<input type="text" hidden="hidden" th:field="*{idProvider}" class="hidden" />
+					
+						<blockquote>
+  							<p>	<span th:text="${oldMessageAnswer.comment}"></span></p>
+ 							 <footer> <span th:text="${#dates.format(oldMessageAnswer.createdAt, 'dd/MM/yyyy HH:mm:ss')}"></span></footer>
+						</blockquote>
+							<form role="form" method="post" th:action="@{/reply-provider}" th:object="${messageAnswer}">
+							<input type="text" hidden="hidden" th:field="*{message.id}" class="hidden" />
 							<div th:if="${#fields.hasGlobalErrors()}"
 						class="alert alert-danger">
 						<ul>
@@ -33,7 +38,7 @@
 					</div>
 								<label for="enterHere" class="sr-only">Dont fill this
 										field</label> <input id="enterHere" type="hidden" name="enterHere"			class="hidden" />
-								<div class="form-group" th:classappend="${#fields.hasErrors('senderName')}? has-error">
+								<!-- <div class="form-group" th:classappend="${#fields.hasErrors('senderName')}? has-error">
 									
 									<div class="input-group col-md-4">
 										<span class="input-group-addon"><i class="fa fa-user"></i></span>
@@ -43,8 +48,8 @@
 											<span class="text-danger" th:if="${#fields.hasErrors('senderName')}" th:errors="*{senderName}">Required 	field</span>
 									</div>
 
-								</div>
-								<div class="form-group" th:classappend="${#fields.hasErrors('senderEmail')}? has-error">
+								</div> -->
+							<!-- 	<div class="form-group" th:classappend="${#fields.hasErrors('senderEmail')}? has-error">
 									<div class="input-group col-md-4">
 										<span class="input-group-addon">@</span> 
 										<input type="email" th:field="*{senderEmail}"
@@ -64,7 +69,7 @@
 											<span class="text-danger" th:if="${#fields.hasErrors('senderPhonenumber')}" th:errors="*{senderPhonenumber}">Required 	field</span>
 									</div>
 
-								</div>
+								</div> -->
 
 								<div class="form-group" th:classappend="${#fields.hasErrors('comment')}? has-error">
 									<label for="comment" th:text="#{contactus.yourmessage}"> Your message</label>
@@ -77,7 +82,7 @@
 									</div>
 
 								</div>
-								<a href="#" th:href="@{'/wedding-service-providers/'+${messageDto.providerUrlName}}">
+								<a href="#" th:href="@{'/wedding-service-providers/'+${provider.urlName}}">
 								<button type="button" class="btn  btn-default">
 									<span th:text="#{cancel.button.label}">Cancel</span>
 								</button>

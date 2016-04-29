@@ -14,8 +14,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
@@ -38,6 +36,12 @@ public class MessageAnswer {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="created_at")
 	private Date createdAt;
+	
+	@Column(name="from_provider")
+	boolean fromProvider;
+	
+	@Column(name="from_user")
+	boolean fromUser;
 	
 	@ManyToOne
 	@JoinColumn(name="id_message", referencedColumnName="id")
@@ -69,6 +73,24 @@ public class MessageAnswer {
 	}
 	public void setMessage(Message message) {
 		this.message = message;
+	}
+	public boolean isFromProvider() {
+		return fromProvider;
+	}
+	public boolean getFromProvider() {
+		return fromProvider;
+	}
+	public void setFromProvider(boolean fromProvider) {
+		this.fromProvider = fromProvider;
+	}
+	public boolean isFromUser() {
+		return fromUser;
+	}
+	public boolean getFromUser() {
+		return fromUser;
+	}
+	public void setFromUser(boolean fromUser) {
+		this.fromUser = fromUser;
 	}
 	
 

@@ -21,7 +21,7 @@ import com.buseni.ubukwebwiza.provider.repository.MessageAnswerRepo;
 import com.buseni.ubukwebwiza.provider.repository.MessageRepo;
 import com.buseni.ubukwebwiza.provider.repository.ProviderRepo;
 import com.buseni.ubukwebwiza.provider.service.MessageService;
-
+import static java.lang.Math.toIntExact;
 /**
  * @author habumugisha
  *
@@ -71,6 +71,22 @@ public class MessageServiceImpl implements MessageService {
 	
 	@Override
 	@Transactional
+	public Message read(Integer idMessage) {
+		if(null == idMessage){
+			throw new NullPointerException("idMessage should be null");
+		}		
+		Message message  = messageRepo.findOne(idMessage);
+		if(message ==  null){
+			throw new ResourceNotFoundException();
+		}	
+		message.setReaded(true);
+		message.setLastUpdate(new Date());
+		return messageRepo.save(message);
+		
+	}
+	
+	@Override
+	@Transactional
 	public MessageDto contactProvider(MessageDto messageDto) {
 		if(messageDto == null){
 			throw new NullPointerException();
@@ -102,7 +118,40 @@ public class MessageServiceImpl implements MessageService {
 		messageAnswer.setCreatedAt(new Date());
 		Message message = messageRepo.findOne(messageAnswer.getMessage().getId());
 		messageAnswer.setMessage(message);
-		return messageAnswerRepo.save(messageAnswer);
+		
+		MessageAnswer updated = messageAnswerRepo.save(messageAnswer);
+		if(updated.isFromUser()){
+			updated.getMessage().setReaded(false);
+			messageRepo.save(updated.getMessage());
+		}
+		return updated;
+	}
+
+	@Override
+	public MessageAnswer findMessageAnswerById(Integer idMessageAnswer) {
+		if(idMessageAnswer == null){
+			throw new NullPointerException();
+		}
+		MessageAnswer messageAnswer = messageAnswerRepo.findOne(idMessageAnswer);
+		if(messageAnswer == null){
+			throw new NullPointerException();
+		}
+		return messageAnswer;
+	}
+
+	@Override
+	public int findUnreadProviderMessages(Integer idProvider) {
+		if(idProvider == null){
+			throw new NullPointerException();
+		}
+		long unreadMsg = messageRepo.countByProvider_idAndReaded(idProvider, false);
+		return toIntExact(unreadMsg);
+	}
+
+	@Override
+	public Page<Message> findAll(Pageable page) {
+		PageRequest pr = new PageRequest(page.getPageNumber()-1, page.getPageSize());
+		return messageRepo.findAll(pr);
 	}
 
 }

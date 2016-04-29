@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:dt="http://github.com/dandelion/datatables" xmlns:ddl="http://www.thymeleaf.org/dandelion"
+	layout:decorator="adminpanel/fragments/mainAdminLayout">
+
+<head>
+<title th:text="#{admin.contactus.title}">Contactus</title>
+</head>
+<body ddl:bundle-excludes="jquery">
+	<div layout:fragment="pageContent">
+
+			<div id="messages" class="col-md-12">
+			<h4 class="sub-header" >Listing messages</h4>
+<!-- 					<h3><span class="text-primary">Messages</span> </h3> -->
+
+				<th:bloc th:each="message : ${messages}">
+					<div class="media">
+						<div class="media-left media-top">
+							<a href="#"> <img class="media-object"
+								data-src="holder.js/50x50" alt="..."></img>
+							</a>
+						</div>
+						<div class="media-body">
+							<h5 class="media-heading">
+								<span th:text="${message.senderName}" class="text-primary">Cool
+									stuff</span>,&nbsp;<span class="text-muted" th:text="${#dates.format(message.createdAt, 'dd/MM/yyyy HH:mm:ss')}"> </span>
+							</h5>
+							
+							<p th:text="${message.comment}" class="title2">Cool
+								stuff</p>
+							<div>
+								
+								
+									
+									
+							</div>
+							<hr />
+								<th:bloc th:each="answer : ${message.messageAnswers}">
+							<div class="media">
+								<div class="media-left media-top">
+									<a href="#"> <img class="media-object"
+										data-src="holder.js/50x50" alt="..."></img>
+									</a>
+								</div>
+								<div class="media-body">
+									<h5 class="media-heading">
+									<span th:if="${#bools.isTrue(answer.fromProvider)}" th:text="${answer.message.provider.businessName}" class="text-primary"></span>
+									<span th:if="${#bools.isTrue(answer.fromUser)}" th:text="${message.senderName}" class="text-primary"></span>,
+										<span class="text-muted" th:text="${#dates.format(answer.createdAt, 'dd/MM/yyyy HH:mm:ss')}" >Cool
+											stuff</span> <i th:if="${#bools.isTrue(answer.fromProvider)}" class="fa fa-share" aria-hidden="true"></i>
+											<i th:if="${#bools.isTrue(answer.fromUser)}" class="fa fa-reply" aria-hidden="true"></i>
+											
+									</h5>
+
+									<p th:text="${answer.comment}" class="title2">Cool stuff</p>
+
+								</div>
+							</div>
+							<hr />
+						</th:bloc>
+						</div>
+					</div>
+					<hr />
+				</th:bloc>
+				<div class="row">
+					<div class="col-md-12">
+						<div th:replace="util :: paginator ">
+							<ul class="pagination pagination-lg">
+								<li><a href="#">&laquo;</a></li>
+								<li><a href="#">1</a></li>
+								<li><a href="#">&raquo;</a></li>
+							</ul>
+						</div>
+
+					</div>
+				</div>
+								
+
+			</div>
+		
+
+
+	</div>
+	
+	
+</body>
+
+</html>

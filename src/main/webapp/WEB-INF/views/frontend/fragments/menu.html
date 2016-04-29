@@ -24,7 +24,9 @@
 <!-- 					<li><a href="#" th:href="@{/profile/profile}">Profile</a></li> -->
 					<li th:classappend="${currentTab == 'services' ? 'active' : ''}"><a href="#" th:href="@{/profile/services}">Services</a></li>
 					<li th:classappend="${currentTab == 'photos' ? 'active' : ''}"><a href="#" th:href="@{/profile/photos}">Photos</a></li>
-					<li th:classappend="${currentTab == 'messages' ? 'active' : ''}"><a href="#" th:href="@{/profile/messages}">Messages</a></li>					
+					<li th:classappend="${currentTab == 'messages' ? 'active' : ''}"><a href="#" th:href="@{/profile/messages}">Messages 
+					 &nbsp;<span th:if="${unreadMessages > 0}" class="badge" th:text="${unreadMessages}"> </span></a>						
+					</li>					
 					<li th:classappend="${currentTab == 'socialMedia' ? 'active' : ''}"><a href="#" th:href="@{/profile/socialMedia}">Social media</a></li>	
 					<li th:classappend="${currentTab == 'accountInfo' ? 'active' : ''}"><a href="#" th:href="@{/profile/accountInfo}">Account Info</a></li>	
 					

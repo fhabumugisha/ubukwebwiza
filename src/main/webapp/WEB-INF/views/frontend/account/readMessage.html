@@ -13,8 +13,8 @@
 		<nav th:replace="accountMenu :: menu"></nav>
 		<div class="row">
 			<!-- Content -->
-			<div id="content" class="col-md-12">
-				
+			<div id="readMessagePage" class="col-md-12">
+				<h3><span class="text-primary">Read Message</span> </h3>
 				<div>
 								<a id="readMessages" href="#" class=" btn btn-primary btn-xs"
 									th:href="@{/profile/messages/}"
@@ -24,34 +24,44 @@
 				<div class="media">
 					<div class="media-left media-top">
 						<a href="#"> <img class="media-object"
-							data-src="holder.js/80x80" alt="..."></img>
+							data-src="holder.js/50x50" alt="..."></img>
 						</a>
 					</div>
 					
 					<div class="media-body">
-						<h4 class="media-heading">
-							<span th:text="${message.subject}" class="title2">Cool
-								stuff</span>
-						</h4>
-						<h6>
-							<span th:text="${message.senderName}"> </span>
-						</h6>
+						<h5 class="media-heading">
+							<span th:text="${message.senderName}" class="text-primary">Cool
+								stuff</span>,&nbsp;<span class="text-muted" th:text="${#dates.format(message.createdAt, 'dd/MM/yyyy HH:mm:ss')}" >Cool
+											stuff</span> 
+						</h5>
+						
 						<p th:text="${message.comment}" class="title2">Cool
 							stuff</p>
 						
-<hr />
-						<th:bloc th:each="answer : ${message.messageAnswers}">
+
+						
+
+
+						
+					</div>
+				</div>
+				<hr />
+				<th:bloc th:each="answer : ${message.messageAnswers}">
 							<div class="media">
 								<div class="media-left media-top">
 									<a href="#"> <img class="media-object"
-										data-src="holder.js/80x80" alt="..."></img>
+										data-src="holder.js/50x50" alt="..."></img>
 									</a>
 								</div>
 								<div class="media-body">
-									<h4 class="media-heading">
-										<span th:text="${#dates.format(answer.createdAt, 'dd/MM/yyyy')}" class="title2">Cool
-											stuff</span> <i class="fa fa-reply" aria-hidden="true"></i>
-									</h4>
+									<h5 class="media-heading">
+									<span th:if="${#bools.isTrue(answer.fromProvider)}" th:text="${provider.businessName}" class="text-primary"></span>
+									<span th:if="${#bools.isTrue(answer.fromUser)}" th:text="${message.senderName}" class="text-primary"></span>,
+										<span class="text-muted" th:text="${#dates.format(answer.createdAt, 'dd/MM/yyyy HH:mm:ss')}" >Cool
+											stuff</span> <i th:if="${#bools.isTrue(answer.fromProvider)}" class="fa fa-share" aria-hidden="true"></i>
+											<i th:if="${#bools.isTrue(answer.fromUser)}" class="fa fa-reply" aria-hidden="true"></i>
+											
+									</h5>
 
 									<p th:text="${answer.comment}" class="title2">Cool stuff</p>
 
@@ -59,11 +69,6 @@
 							</div>
 							<hr />
 						</th:bloc>
-
-
-						
-					</div>
-				</div>
 
 				<div class="row">
 					<div class="col-md-12">

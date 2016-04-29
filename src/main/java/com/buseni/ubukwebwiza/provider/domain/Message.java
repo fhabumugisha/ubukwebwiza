@@ -52,10 +52,16 @@ public class Message {
 	private String comment;
 	private String subject;
 	
+	@Column(name="readed")
+	private boolean readed;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="created_at")
 	private Date createdAt;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="last_update")
+	private Date lastUpdate;
 	@ManyToOne
 	@JoinColumn(name="id_provider", referencedColumnName="id")
 	private Provider provider;
@@ -118,6 +124,18 @@ public class Message {
 	}
 	public void setMessageAnswers(Set<MessageAnswer> messageAnswers) {
 		this.messageAnswers = messageAnswers;
+	}
+	public boolean isReaded() {
+		return readed;
+	}
+	public void setReaded(boolean readed) {
+		this.readed = readed;
+	}
+	public Date getLastUpdate() {
+		return lastUpdate;
+	}
+	public void setLastUpdate(Date lastUpdate) {
+		this.lastUpdate = lastUpdate;
 	}
 	
 

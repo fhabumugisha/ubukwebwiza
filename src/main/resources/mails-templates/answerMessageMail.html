@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
   <head>
-    <title th:remove="all">Reset password email</title>
+    <title th:remove="all">Answer message mail</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
    
   </head>
@@ -11,9 +11,9 @@
   		<img alt="Ubukwebwiza" src="https://s3.amazonaws.com/ubfiles/logo.jpg"  />
   	</p>
   	<br />
-    <p ><span th:text="#{message.greeting(${name})}"></span>,
+    <p><span th:text="#{message.greeting}" ></span>&nbsp; <span th:text="${username}"></span>,</p>
      
-    </p>
+    
     <p > <span th:text="#{message.answerMessageSubject(${senderName})}"></span>:  </p>  
    
     <br />

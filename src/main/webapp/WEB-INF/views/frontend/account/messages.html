@@ -13,29 +13,33 @@
 		<div class="row">
 			<!-- Content -->
 			<div id="messages" class="col-md-12">
-
+					<h3><span class="text-primary">Messages</span> </h3>
 
 				<th:bloc th:each="message : ${messages}">
 					<div class="media">
 						<div class="media-left media-top">
 							<a href="#"> <img class="media-object"
-								data-src="holder.js/80x80" alt="..."></img>
+								data-src="holder.js/50x50" alt="..."></img>
 							</a>
 						</div>
 						<div class="media-body">
-							<h4 class="media-heading">
-								<span th:text="${message.subject}" class="title2">Cool
-									stuff</span>
-							</h4>
-							<h6>
-								<span th:text="${message.senderName}"> </span>
-							</h6>
+							<h5 class="media-heading">
+								<span th:text="${message.senderName}" class="text-primary">Cool
+									stuff</span>,&nbsp;<span class="text-muted" th:text="${#dates.format(message.createdAt, 'dd/MM/yyyy HH:mm:ss')}"> </span>
+							</h5>
+							
 							<p th:text="${message.comment}" class="title2">Cool
 								stuff</p>
 							<div>
-								<a id="readMessage" href="#" class=" btn btn-primary btn-xs"
+								<a th:if="${#bools.isTrue(message.readed)}" id="readMessage" href="#" class=" btn btn-default btn-xs"
 									th:href="@{/profile/messages/read(id=${message.id})}"
-									th:text="#{message.answerMessage}"> Answer </a>
+									th:text="#{message.readMessage}"> Read </a>
+									
+									<a th:if="${#bools.isFalse(message.readed)}" id="readMessage" href="#" class=" btn btn-primary btn-xs"
+									th:href="@{/profile/messages/read(id=${message.id})}"
+									th:text="#{message.readMessage}"> Read </a>
+									
+									
 							</div>
 						</div>
 					</div>

@@ -17,6 +17,12 @@ public interface MessageService {
 	 */
 	Page<Message> listProviderMessages(Integer idProvider, Pageable pageable);
 	/**
+	 * Counts the unread messages
+	 * @param idProvider
+	 * @return
+	 */
+	int findUnreadProviderMessages(Integer idProvider);
+	/**
 	 * Find a message by id
 	 * @param idMessage : id of the message
 	 * @return
@@ -35,5 +41,21 @@ public interface MessageService {
 	 * @param messageAnswer
 	 */
 	MessageAnswer answerMessage(MessageAnswer messageAnswer);
+	/**
+	 * Finds a message answer by id
+	 * @param idMessageAnswer : id if the message answer
+	 * @return
+	 */
+	MessageAnswer findMessageAnswerById(Integer idMessageAnswer);
+	/**
+	 * Readsa a message ( set readed to true and lastupdate to new date())
+	 * @param idMessage id of the message
+	 * @return
+	 */
+	Message read(Integer idMessage);
+	/**
+	 * list all messages
+	 */
+	Page<Message> findAll(Pageable page);
 
 }
