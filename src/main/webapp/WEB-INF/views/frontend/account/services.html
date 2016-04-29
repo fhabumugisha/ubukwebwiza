@@ -12,10 +12,10 @@
 		<nav th:replace="accountMenu :: menu"> </nav>
 		<div class="row">
 				<!-- Content -->
-				<div id="services" class="col-md-12">
-				<h3><span class="text-primary">Services</span> </h3>
+				<div id="services" class="col-md-12">				
 
 						<div class="row" th:fragment="services-bloc">
+						<h3><span class="text-primary">Services</span> </h3>
 							<div class="col-md-12">
 								<div th:if="${errorService}" class="alert alert-danger fade in">
 									<a href="#" class="close" data-dismiss="alert">&times;</a> <span
