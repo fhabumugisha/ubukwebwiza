@@ -14,14 +14,15 @@
     <p><span th:text="#{message.greeting}" ></span>&nbsp; <span th:text="${username}"></span>,</p>
      
     
-    <p > <span th:text="#{message.answerMessageSubject(${senderName})}"></span>:  </p>  
+    <p > <span th:text="#{message.answerMessageSubject(${senderName})}"></span>. </p>  
+   
+<!--     <br /> -->
+<!--     <blockquote> -->
+<!--     <p th:text="${emailText}">   </p>  -->
+<!--     </blockquote> -->
    
     <br />
-    <p th:text="${emailText}"> </p>
-    
-   
-    <br />
-    <p> <a th:href="${answerMessageLink}" ><span th:text="${answerMessageText}"></span> </a> </p>
+    <p> <a th:href="${readMessageLink}" ><span th:text="${readMessageText}"></span> </a> </p>
     
     <br />
     <p>
@@ -33,7 +34,7 @@
     </p>
     </div>
     <div style="/*margin: 15px;*/	padding: 15px; ">
-    	<p>&copy; 2015 Ubukwebwiza</p>
+    	<p>&copy; 2016 Ubukwebwiza</p>
     </div>
     
   </body>

@@ -79,7 +79,7 @@ public class ContactProviderController {
 	}
 
 	
-	@RequestMapping(value="/reply-provider",method=RequestMethod.GET)
+	@RequestMapping(value="/read-provider-message",method=RequestMethod.GET)
 	public String replyProvider(@RequestParam(value="id") Integer idMessage, Model model){
 		MessageAnswer oldMessageAnswer  = messageService.findMessageAnswerById(idMessage);
 		Provider provider = oldMessageAnswer.getMessage().getProvider();

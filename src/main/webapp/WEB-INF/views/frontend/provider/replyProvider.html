@@ -20,13 +20,25 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="panel panel-default">
-						<div class="panel-heading">Reply to &nbsp; <span th:text="${provider.businessName}"></span></div>
+						
 						<div class="panel-body">
-					
+					 <p> <span th:text="#{contactus.yourmessage}"></span>: </p>
 						<blockquote>
+						
+  							<p>	<span th:text="${oldMessageAnswer.message.comment}"></span></p>
+ 							 <footer> <span th:text="${#dates.format(oldMessageAnswer.message.createdAt, 'dd/MM/yyyy HH:mm:ss')}"></span></footer>
+						</blockquote>
+						
+						<p >  <span th:text="${provider.businessName}"></span>&nbsp;message :</p> 
+						<blockquote>						
   							<p>	<span th:text="${oldMessageAnswer.comment}"></span></p>
  							 <footer> <span th:text="${#dates.format(oldMessageAnswer.createdAt, 'dd/MM/yyyy HH:mm:ss')}"></span></footer>
 						</blockquote>
+						
+						<address th:if="${!#strings.isEmpty(provider.phoneNumber)}">
+  							<abbr title="Phone">P:</abbr> <span th:text="${provider.phoneNumber}"></span>
+						</address>
+						<hr/>
 							<form role="form" method="post" th:action="@{/reply-provider}" th:object="${messageAnswer}">
 							<input type="text" hidden="hidden" th:field="*{message.id}" class="hidden" />
 							<div th:if="${#fields.hasGlobalErrors()}"
@@ -72,7 +84,7 @@
 								</div> -->
 
 								<div class="form-group" th:classappend="${#fields.hasErrors('comment')}? has-error">
-									<label for="comment" th:text="#{contactus.yourmessage}"> Your message</label>
+									<label for="comment" th:text="#{contactus.replymessage}"> Reply</label>
 									<div class="input-group col-md-6">
 										<span class="input-group-addon"><i class="fa fa-info"></i>
 										</span>

@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.buseni</groupId>
 	<artifactId>ubukwebwiza</artifactId>
-	<version>1.0.7-SNAPSHOT</version>
+	<version>1.0.8-SNAPSHOT</version>
 	<packaging>war</packaging>
 
 	<properties>
@@ -343,7 +343,12 @@
 	<version>2.2.1</version>
 </dependency>
 		
-
+	<!-- sms -->
+	 <dependency>
+      <groupId>com.twilio.sdk</groupId>
+      <artifactId>twilio-java-sdk</artifactId>
+      <version>5.10.0</version>
+   </dependency>
 	</dependencies>
 
 	<!-- Build -->

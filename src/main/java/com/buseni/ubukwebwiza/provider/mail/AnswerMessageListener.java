@@ -46,18 +46,18 @@ public class AnswerMessageListener implements ApplicationListener<AnswerMessageE
       
     public void sendMail(String contextPath,  MessageAnswer  messageAnswer, final Locale locale) {
     	Provider provider = messageAnswer.getMessage().getProvider();
-		String url = contextPath + "/reply-provider?id="+ messageAnswer.getId();
+		String url = contextPath + "/read-provider-message?id="+ messageAnswer.getId();
 		
-		String answerMessageText = messages.getMessage("message.answerMessageText", null,	locale);
+		String readMessageTextText = messages.getMessage("message.readMessageText", null,	locale);
 		// Prepare the evaluation context
 		final Context ctx = new Context(locale);
 		ctx.setVariable("username", messageAnswer.getMessage().getSenderName());
-		ctx.setVariable("emailText", messageAnswer.getComment());
+		ctx.setVariable("emailText", messageAnswer.getMessage().getComment());
 		ctx.setVariable("senderName", provider.getBusinessName());
 		
 	   
-		ctx.setVariable("answerMessageLink", url);
-		ctx.setVariable("answerMessageText", answerMessageText);
+		ctx.setVariable("readMessageLink", url);
+		ctx.setVariable("readMessageText", readMessageTextText);
 		
 		try { 
 			// Prepare message using a Spring helper
