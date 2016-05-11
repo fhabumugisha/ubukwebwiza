@@ -12,6 +12,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
@@ -50,9 +52,17 @@ public class MyMultiHttpSecurityConfig {
 	        	.deleteCookies("JSESSIONID")
 	        .and()
 	        	.exceptionHandling().accessDeniedPage("/admin403")
-	        .and()
+	        .and().sessionManagement().maximumSessions(1)
+	             .sessionRegistry(sessionRegistry())
+	             .expiredUrl("/admin/signin?expired")
+	             .and()
+	          .and()
 	        	.rememberMe().tokenRepository(persistentTokenRepository()).tokenValiditySeconds(604800)
-	        	.and().csrf().disable();
+	        .and().csrf().disable();
+		}
+		@Bean(name = "sessionRegistry")
+		public SessionRegistry sessionRegistry() {
+			 return new SessionRegistryImpl();
 		}
 		@Override
 		public void configure(WebSecurity web) throws Exception {

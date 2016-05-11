@@ -159,7 +159,7 @@ public class WebConfiguration extends WebMvcConfigurerAdapter{
 		  pspc.setIgnoreUnresolvablePlaceholders( true );
 		  return pspc;
 		}
-		@Override
+		/*@Override
 		public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
 			// Simple strategy: only path extension is taken into account
 			configurer.favorPathExtension(false).ignoreAcceptHeader(true)
@@ -170,7 +170,7 @@ public class WebConfiguration extends WebMvcConfigurerAdapter{
 				mediaType("json", MediaType.APPLICATION_JSON).
 				mediaType("png", MediaType.IMAGE_PNG).mediaType("jpeg", MediaType.IMAGE_JPEG)
 				.mediaType("jpg", MediaType.IMAGE_JPEG);
-		}
+		}*/
 		
 		@Bean(name="filterMultipartResolver")
 		public  CommonsMultipartResolver filterMultipartResolver() {

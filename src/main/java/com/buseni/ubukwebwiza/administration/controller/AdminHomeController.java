@@ -2,10 +2,13 @@ package com.buseni.ubukwebwiza.administration.controller;
 
 
 
+import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -17,6 +20,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,6 +29,9 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.session.SessionInformation;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,6 +48,8 @@ import com.buseni.ubukwebwiza.account.service.UserAccountService;
 import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
 import com.buseni.ubukwebwiza.contactus.domain.ContactusForm;
 import com.buseni.ubukwebwiza.contactus.service.ContactusService;
+import com.buseni.ubukwebwiza.gallery.domain.Photo;
+import com.buseni.ubukwebwiza.utils.PageWrapper;
 @Controller
 @Navigation(url="/admin" ,name = "Dashbord")
 public class AdminHomeController {
@@ -58,6 +68,9 @@ public class AdminHomeController {
 	 @Autowired
 	 private JavaMailSender mailSender;
 	 
+	 @Autowired
+	 private SessionRegistry sessionRegistry;
+	 
 	@Value("${support.email}")
 	private String supportEmail;
 	 
@@ -67,6 +80,47 @@ public class AdminHomeController {
 	public String home(Model model){
 		model.addAttribute("currentMenu", "dashbord");
 		return "adminpanel/dashbord";
+	}
+	
+	@RequestMapping(value="/admin/loggedUsers", method=RequestMethod.GET)
+	public String loggedUsers(Model model){
+		model.addAttribute("currentMenu", "loggedUsers");
+		List<SessionInformation> activeSessions = new ArrayList<>();
+		  for(Object principal : sessionRegistry.getAllPrincipals()) {
+		    activeSessions.addAll(sessionRegistry.getAllSessions(principal, false));
+		  }
+		  
+		  List<LoggedUser> loggedUsers = new ArrayList<>();
+		  activeSessions.forEach(activeSession ->{
+			  LoggedUser loggerUser = new LoggedUser();
+			  loggerUser.setSessionId(activeSession.getSessionId());
+			  loggerUser.setLastRequest(activeSession.getLastRequest());
+			  Object principalObj = activeSession.getPrincipal();
+			  if (principalObj instanceof User) {
+			    User user = (User) principalObj;
+			    loggerUser.setUsername(user.getUsername());
+			    loggerUser.setAuthorities(user.getAuthorities().stream().map(ga -> ga.getAuthority()).collect(Collectors.joining(", ")));
+			    loggerUser.setAccountNonExpired(user.isAccountNonExpired());
+			    loggerUser.setAccountNonLocked(user.isAccountNonLocked());
+			    loggerUser.setCredentialsNonExpired(user.isCredentialsNonExpired());			    
+			    
+			  }
+			  loggedUsers.add(loggerUser);
+		  });
+		  Page<LoggedUser>  pageActiveSessions  = new PageImpl<>(loggedUsers);
+		  model.addAttribute("users", loggedUsers);		
+		PageWrapper<LoggedUser> pageWrapper = new PageWrapper<LoggedUser>(pageActiveSessions, "/admin/loggedUsers");
+			model.addAttribute("page", pageWrapper);
+		return "adminpanel/loggedUsers";
+	}
+	
+	@RequestMapping(value="/admin/logoutSession", method=RequestMethod.GET)
+	public String logoutSession(@RequestParam("sessionId") String sessionId, Model model){
+		SessionInformation session = sessionRegistry.getSessionInformation(sessionId);
+		  if (session != null) {
+		    session.expireNow();
+		  }
+		return "redirect:/admin/loggedUsers";
 	}
 
 	
