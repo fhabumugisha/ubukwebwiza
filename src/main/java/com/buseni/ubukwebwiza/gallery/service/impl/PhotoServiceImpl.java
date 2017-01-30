@@ -36,18 +36,17 @@ public class PhotoServiceImpl implements PhotoService {
 	public  static final Logger LOGGER = LoggerFactory.getLogger(PhotoServiceImpl.class);
 
 
-	
 	private PhotoRepo photoRepo;
 	@Autowired
 	private AmazonS3Util amazonS3Util;
-	public PhotoServiceImpl() {
+	@Autowired
+	public PhotoServiceImpl( PhotoRepo photoRepo) {
+		this.photoRepo = photoRepo;
 		
 	}
 	
-	@Autowired
-	public PhotoServiceImpl(PhotoRepo photoRepo){
-		this.photoRepo = photoRepo;
-	}
+
+	
 	/* (non-Javadoc)
 	 * @see com.buseni.ubukwebwiza.administrator.service.PhotoService#create(com.buseni.ubukwebwiza.administrator.domain.Photo)
 	 */

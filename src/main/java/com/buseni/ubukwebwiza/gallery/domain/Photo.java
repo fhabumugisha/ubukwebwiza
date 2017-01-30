@@ -16,6 +16,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+
 @Entity
 @Table(name="photo")
 public class Photo implements Serializable{

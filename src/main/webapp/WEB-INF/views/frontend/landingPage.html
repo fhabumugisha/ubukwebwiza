@@ -275,9 +275,14 @@
       </a>
       <div id="mainPitch2">
 							<div id="homeSearchFormContainer">
-								<h1>
-									<span th:text="#{home.search}">Looking for a wedding service provider ?</span>
-								</h1>
+<!-- 								<h1> -->
+<!-- 									<span th:text="#{home.search}">Looking for a wedding service provider ?</span> -->
+<!-- 								</h1> -->
+								<div id="typed-strings" >
+   									 <p th:each="service  : ${allWeddingServices}" th:text="${service.libelle}"/>
+   									
+									</div>
+								<h1>Find the best <span class="ub-typed-text"></span> service in your area </h1>
 
 								<form action="listingProvider.html" role="form" class="form-inline" th:action="@{/search}" th:object="${providerSearch}"
 									method="get">
@@ -409,7 +414,7 @@
 <!--     <script src="../../../../resources/plugins/chosen_v1.4.2/chosen.jquery.min.js" th:src="@{/resources/plugins/chosen_v1.4.2/chosen.jquery.min.js}"></script>
  -->  
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.min.js" ></script>
- 
+ <script src="http://cdn.ubukwebwiza.com/js/typed.min.js" ></script>
     <script type="text/javascript">
 	 $(".my_select_box").chosen({
 		    allow_single_deselect:true,
@@ -420,7 +425,16 @@
 		  interval: 9000
 		});
 	
-	
+	 $(function(){
+	        $(".ub-typed-text").typed({
+// 	            strings: ["First sentence.", "Second sentence."],
+	            stringsElement: $('#typed-strings'),
+	            typeSpeed: 30,
+	            loop: true,
+	            backSpeed: 30,
+	            backDelay: 9000
+	        });
+	    });
 	</script>
 	 <script th:inline="javascript">
 		/*<![CDATA[*/

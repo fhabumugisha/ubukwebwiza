@@ -15,21 +15,21 @@ public class ProviderPredicates {
 	}
 
 	public static Predicate isInDistrict(District  cd){
-		return PROVIDER.district().eq(cd);
+		return PROVIDER.district.eq(cd);
 	}
 
 	public static Predicate search(ProviderSearch searchTerm){
 		if(searchTerm.getDistrict() != null ){
 			if(searchTerm.getService() != null){
-				return  PROVIDER.account().enabled.isTrue().and(PROVIDER.district().id.eq(searchTerm.getDistrict()))
-						.and(PROVIDER.providerWeddingServices.any().weddingService().id.eq(searchTerm.getService()));
+				return  PROVIDER.account.enabled.isTrue().and(PROVIDER.district.id.eq(searchTerm.getDistrict()))
+						.and(PROVIDER.providerWeddingServices.any().weddingService.id.eq(searchTerm.getService()));
 			}else{
-				return  PROVIDER.account().enabled.isTrue().and(PROVIDER.district().id.eq(searchTerm.getDistrict()));
+				return  PROVIDER.account.enabled.isTrue().and(PROVIDER.district.id.eq(searchTerm.getDistrict()));
 			}
 		}else if(searchTerm.getService() != null){
-			return  PROVIDER.account().enabled.isTrue().and(PROVIDER.providerWeddingServices.any().weddingService().id.eq(searchTerm.getService()));
+			return  PROVIDER.account.enabled.isTrue().and(PROVIDER.providerWeddingServices.any().weddingService.id.eq(searchTerm.getService()));
 		}else{
-			return  PROVIDER.account().enabled.isTrue();
+			return  PROVIDER.account.enabled.isTrue();
 		}
 		
 	}

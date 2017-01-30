@@ -21,7 +21,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
 import com.buseni.ubukwebwiza.home.HomeController;
 import com.buseni.ubukwebwiza.provider.beans.MessageDto;
-import com.buseni.ubukwebwiza.provider.domain.Message;
 import com.buseni.ubukwebwiza.provider.domain.MessageAnswer;
 import com.buseni.ubukwebwiza.provider.domain.Provider;
 import com.buseni.ubukwebwiza.provider.mail.ContactProviderEvent;

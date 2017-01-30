@@ -14,8 +14,8 @@ import org.springframework.context.MessageSource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
+import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-import org.thymeleaf.spring4.SpringTemplateEngine;
 
 import com.buseni.ubukwebwiza.provider.domain.Provider;
 
@@ -30,7 +30,7 @@ public class ForgotPasswordListener implements ApplicationListener<ResetPassword
     private JavaMailSender mailSender;
     
     @Autowired
-	 private SpringTemplateEngine templateEngine;
+	 private TemplateEngine templateEngine;
 
     @Value("${support.email}")
 	private String supportEmail;

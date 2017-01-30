@@ -1,7 +1,6 @@
 package com.buseni.ubukwebwiza.administration.controller;
 
 import java.util.Locale;
-import java.util.UUID;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -15,12 +14,8 @@ import org.springframework.context.MessageSource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
+import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-import org.thymeleaf.spring4.SpringTemplateEngine;
-
-import com.buseni.ubukwebwiza.account.controller.OnRegistrationCompleteEvent;
-import com.buseni.ubukwebwiza.account.domain.UserAccount;
-import com.buseni.ubukwebwiza.account.service.UserAccountService;
 
 @Component
 public class ProviderRegistrationListener implements ApplicationListener<OnProviderRegistrationCompleteEvent> {
@@ -34,7 +29,7 @@ public class ProviderRegistrationListener implements ApplicationListener<OnProvi
     private JavaMailSender mailSender;
     
     @Autowired
-	 private SpringTemplateEngine templateEngine;
+	 private TemplateEngine templateEngine;
 
     @Value("${support.email}")
 	private String supportEmail;
