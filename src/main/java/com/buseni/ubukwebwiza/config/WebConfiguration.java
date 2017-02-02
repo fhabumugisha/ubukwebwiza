@@ -20,6 +20,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
+import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.BufferedImageHttpMessageConverter;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
@@ -105,8 +106,8 @@ public class WebConfiguration extends WebMvcConfigurerAdapter{
 		    WebContentInterceptor interceptor = new WebContentInterceptor();
 		  //  interceptor.setCacheSeconds(2592000);
 		    interceptor.setUseExpiresHeader(true);
-		    interceptor.setUseCacheControlHeader(true);
-		    interceptor.setUseCacheControlNoStore(true);
+		    //interceptor.setUseCacheControlHeader(true);
+		    interceptor.setCacheControl(CacheControl.noStore());
 		    return interceptor;
 		}
 		@Override

@@ -36,22 +36,42 @@
 							<td th:text="${weddingService.id}">1</td>
 							<td th:text="${weddingService.libelle}">Kigali</td>
 							<td th:text="${weddingService.enabled}">Ok</td>
-							<td class="dropdown">
-							<a id="dLabel" data-toggle="dropdown" href="#"> <span th:text="#{list.actions}">Actions</span>
-									<span class="caret"></span></a>
-								<ul class="dropdown-menu no-collapse" role="menu" aria-labelledby="dLabel">
-									<li><a href="#" th:href="@{/admin/weddingservices/edit(id=${weddingService.id})}">
+<!-- 							<td class="dropdown"> -->
+<!-- 							<a id="dLabel" data-toggle="dropdown" href="#"> <span th:text="#{list.actions}">Actions</span> -->
+<!-- 									<span class="caret"></span></a> -->
+<!-- 								<ul class="dropdown-menu no-collapse" role="menu" aria-labelledby="dLabel"> -->
+<!-- 									<li><a href="#" th:href="@{/admin/weddingservices/edit(id=${weddingService.id})}"> -->
+									
+<!-- 											<button type="button" class="btn btn-default btn-xs"> -->
+<!--          									  <span class="glyphicon glyphicon-pencil"></span>&nbsp; <span th:text="#{list.edit}">edit</span> -->
+<!--        								 		 </button> -->
+										
+<!-- 									 </a> -->
+
+<!-- 									</li> -->
+<!-- 									<li> -->
+									
+<!-- 									<a href="#" th:href="@{/admin/weddingservices/delete(id=${weddingService.id})}" class="deleteWeddingService confirmDelete"> -->
+											
+<!-- 											<button type="button" class="btn btn-default btn-xs"> -->
+<!--          									  <span class="glyphicon glyphicon-trash"></span>&nbsp; <span th:text="#{list.delete}">delete</span> -->
+<!--        								 		 </button> -->
+									
+									
+<!-- 									</a> -->
+
+<!-- 									</li> -->
+<!-- 								</ul> -->
+<!-- 								</td> -->
+								<td>
+									<a href="#" th:href="@{/admin/weddingservices/edit(id=${weddingService.id})}">
 									
 											<button type="button" class="btn btn-default btn-xs">
          									  <span class="glyphicon glyphicon-pencil"></span>&nbsp; <span th:text="#{list.edit}">edit</span>
        								 		 </button>
 										
 									 </a>
-
-									</li>
-									<li>
-									
-									<a href="#" th:href="@{/admin/weddingservices/delete(id=${weddingService.id})}" class="deleteWeddingService confirmDelete">
+									 <a href="#" th:href="@{/admin/weddingservices/delete(id=${weddingService.id})}" class="deleteWeddingService confirmDelete">
 											
 											<button type="button" class="btn btn-default btn-xs">
          									  <span class="glyphicon glyphicon-trash"></span>&nbsp; <span th:text="#{list.delete}">delete</span>
@@ -59,9 +79,7 @@
 									
 									
 									</a>
-
-									</li>
-								</ul></td>
+								</td>
 						</tr>
 						<tr th:remove="all">
 							<td>1,002</td>

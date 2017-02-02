@@ -12,11 +12,16 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.ResultCheckStyle;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name="wedding_service")
+@SQLDelete(sql = "UPDATE wedding_service set deleted = true  WHERE id = ?", check = ResultCheckStyle.COUNT)
+@Where(clause = "deleted = 'false'")
 public class WeddingService implements Serializable {
 
 	/**
@@ -49,6 +54,8 @@ public class WeddingService implements Serializable {
 	private Date createdAt;
 	
 	private boolean enabled;
+	
+	private boolean deleted;
 	
 
 	public Integer getId() {
@@ -177,6 +184,14 @@ public class WeddingService implements Serializable {
 
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 
 	
