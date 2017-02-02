@@ -5,9 +5,11 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PreRemove;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -15,48 +17,79 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.ResultCheckStyle;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.joda.time.DateTime;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
-@Table(name="wedding_service")
+@Table(name = "wedding_service")
 @SQLDelete(sql = "UPDATE wedding_service set deleted = true  WHERE id = ?", check = ResultCheckStyle.COUNT)
 @Where(clause = "deleted = 'false'")
+@Audited
+@EntityListeners(AuditingEntityListener.class)
 public class WeddingService implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="id")
-	private Integer id;	
-	
-	@NotEmpty(message="{error.weddingservice.requiredfield.libelle}")
-	@Length(min=1, max=100)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id")
+	private Integer id;
+
+	@NotEmpty(message = "{error.weddingservice.requiredfield.libelle}")
+	@Length(min = 1, max = 100)
 	private String libelle;
-	@Column(name="libelle_fr")
-	private String libelleFr;
-	@Column(name="libelle_en")
-	private String libelleEn;
-	@Column(name="libelle_kn")
-	private String libelleKn;
 	
+	@Column(name = "libelle_fr")
+	private String libelleFr;
+	
+	@Column(name = "libelle_en")
+	private String libelleEn;
+	
+	@Column(name = "libelle_kn")
+	private String libelleKn;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="last_update")
+	@Column(name = "last_update")
 	private Date lastUpdate;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="created_at")
+	@Column(name = "created_at")
 	private Date createdAt;
-	
+
 	private boolean enabled;
-	
+
 	private boolean deleted;
-	
+
+	@Column(name = "created_date", nullable = false, updatable = false)
+	@CreatedDate
+	private Long createdDate;
+
+	@Column(name = "modified_date")
+	@LastModifiedDate
+	private Long modifiedDate;
+
+	@Column(name = "created_by")
+	@CreatedBy
+	private String createdBy;
+
+	@Column(name = "modified_by")
+	@LastModifiedBy
+	private String modifiedBy;
+
+	@PreRemove
+	public void removeService() {
+		this.deleted = true;
+	}
 
 	public Integer getId() {
 		return id;
@@ -106,13 +139,10 @@ public class WeddingService implements Serializable {
 		this.libelleKn = libelleKn;
 	}
 
-	
-
 	@Override
 	public String toString() {
-		return "WeddingService [id=" + id + ", libelle=" + libelle
-				+ ", libelleFr=" + libelleFr + ", libelleEn=" + libelleEn
-				+ ", libelleKn=" + libelleKn + ", enabled=" + enabled + "]";
+		return "WeddingService [id=" + id + ", libelle=" + libelle + ", libelleFr=" + libelleFr + ", libelleEn="
+				+ libelleEn + ", libelleKn=" + libelleKn + ", enabled=" + enabled + "]";
 	}
 
 	@Override
@@ -122,12 +152,9 @@ public class WeddingService implements Serializable {
 		result = prime * result + (enabled ? 1231 : 1237);
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((libelle == null) ? 0 : libelle.hashCode());
-		result = prime * result
-				+ ((libelleEn == null) ? 0 : libelleEn.hashCode());
-		result = prime * result
-				+ ((libelleFr == null) ? 0 : libelleFr.hashCode());
-		result = prime * result
-				+ ((libelleKn == null) ? 0 : libelleKn.hashCode());
+		result = prime * result + ((libelleEn == null) ? 0 : libelleEn.hashCode());
+		result = prime * result + ((libelleFr == null) ? 0 : libelleFr.hashCode());
+		result = prime * result + ((libelleKn == null) ? 0 : libelleKn.hashCode());
 		return result;
 	}
 
@@ -193,9 +220,5 @@ public class WeddingService implements Serializable {
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
 	}
-
-	
-	
-	
 
 }
