@@ -5,6 +5,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.buseni.ubukwebwiza.account.domain.UserAccount;
+
 public class AuditorAwareImpl implements AuditorAware<String> {
 	  
     @Override
@@ -15,8 +17,13 @@ public class AuditorAwareImpl implements AuditorAware<String> {
         if (authentication == null || !authentication.isAuthenticated()) {
           return null;
         }
-        UserDetails userDetail = (UserDetails) authentication.getPrincipal();	
-		return  userDetail.getUsername();
+        if(authentication.getPrincipal() instanceof UserDetails){
+        	UserDetails userDetail = (UserDetails) authentication.getPrincipal();	
+        	return userDetail.getUsername();
+        }else{
+        	return "VISITOR";
+        }
+        
     }
  
 }

@@ -27,7 +27,7 @@
 												class="form-control my_select_box">
 												<option value=""></option>
 												<option th:each="weddingService : ${allWeddingServices}"
-													th:value="${weddingService.id}"
+													th:value="${weddingService.urlName}"
 													th:text="${weddingService.libelle}">Wedding
 													planner</option>
 											</select>
@@ -39,7 +39,7 @@
 												class="form-control my_select_box">
 												<option value=""></option>
 												<option th:each="district : ${allDistricts}"
-													th:value="${district.id}" th:text="${district.libelle}">Kigali</option>
+													th:value="${district.urlName}" th:text="${district.libelle}">Kigali</option>
 											</select>
 
 										</div>

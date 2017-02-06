@@ -13,10 +13,13 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.RelationTargetAuditMode;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name="role")
+@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
 public class Role implements Serializable {
 
     /**

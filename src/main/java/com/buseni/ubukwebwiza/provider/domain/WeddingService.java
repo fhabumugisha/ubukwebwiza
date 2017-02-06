@@ -69,6 +69,9 @@ public class WeddingService implements Serializable {
 	private boolean enabled;
 
 	private boolean deleted;
+	
+	@Column(name="url_name")
+	private String urlName;
 
 	@Column(name = "created_date", nullable = false, updatable = false)
 	@CreatedDate
@@ -219,6 +222,14 @@ public class WeddingService implements Serializable {
 
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
+	}
+
+	public String getUrlName() {
+		return urlName;
+	}
+
+	public void setUrlName(String urlName) {
+		this.urlName = urlName;
 	}
 
 }

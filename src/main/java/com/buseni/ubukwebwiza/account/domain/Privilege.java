@@ -10,10 +10,13 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.RelationTargetAuditMode;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name="privilege")
+@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
 public class Privilege  implements Serializable{
     /**
 	 * 

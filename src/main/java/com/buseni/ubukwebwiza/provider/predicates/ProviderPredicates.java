@@ -18,7 +18,7 @@ public class ProviderPredicates {
 		return PROVIDER.district.eq(cd);
 	}
 
-	public static Predicate search(ProviderSearch searchTerm){
+	/*public static Predicate search(ProviderSearch searchTerm){
 		if(searchTerm.getDistrict() != null ){
 			if(searchTerm.getService() != null){
 				return  PROVIDER.account.enabled.isTrue().and(PROVIDER.district.id.eq(searchTerm.getDistrict()))
@@ -28,6 +28,21 @@ public class ProviderPredicates {
 			}
 		}else if(searchTerm.getService() != null){
 			return  PROVIDER.account.enabled.isTrue().and(PROVIDER.providerWeddingServices.any().weddingService.id.eq(searchTerm.getService()));
+		}else{
+			return  PROVIDER.account.enabled.isTrue();
+		}
+		
+	}*/
+	public static Predicate searchByUrlName(ProviderSearch searchTerm){
+		if(searchTerm.getDistrict() != null ){
+			if(searchTerm.getService() != null){
+				return  PROVIDER.account.enabled.isTrue().and(PROVIDER.district.urlName.eq(searchTerm.getDistrict()))
+						.and(PROVIDER.providerWeddingServices.any().weddingService.urlName.eq(searchTerm.getService()));
+			}else{
+				return  PROVIDER.account.enabled.isTrue().and(PROVIDER.district.urlName.eq(searchTerm.getDistrict()));
+			}
+		}else if(searchTerm.getService() != null){
+			return  PROVIDER.account.enabled.isTrue().and(PROVIDER.providerWeddingServices.any().weddingService.urlName.eq(searchTerm.getService()));
 		}else{
 			return  PROVIDER.account.enabled.isTrue();
 		}

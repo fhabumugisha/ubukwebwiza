@@ -20,6 +20,7 @@ import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
 import com.buseni.ubukwebwiza.exceptions.ErrorsHelper;
 import com.buseni.ubukwebwiza.exceptions.BusinessException;
 import com.buseni.ubukwebwiza.utils.PageWrapper;
+import com.buseni.ubukwebwiza.utils.UbUtils;
 import com.buseni.ubukwebwiza.provider.domain.WeddingService;
 import com.buseni.ubukwebwiza.provider.service.WeddingServiceManager;
 
@@ -44,7 +45,7 @@ public class AdminWeddingServiceController {
 		if(!model.containsAttribute("weddingService")){
 			model.addAttribute("weddingService", new WeddingService());
 		}
-
+		
 
 		return "adminpanel/weddingservice/listingWeddingService";
 	}

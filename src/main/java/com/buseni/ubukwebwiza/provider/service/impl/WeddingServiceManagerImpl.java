@@ -14,6 +14,7 @@ import com.buseni.ubukwebwiza.exceptions.BusinessException;
 import com.buseni.ubukwebwiza.provider.domain.WeddingService;
 import com.buseni.ubukwebwiza.provider.repository.WeddingServiceRepo;
 import com.buseni.ubukwebwiza.provider.service.WeddingServiceManager;
+import com.buseni.ubukwebwiza.utils.UbUtils;
 
 @Service("weddingServiceManager")
 @Transactional(readOnly=true)
@@ -49,6 +50,7 @@ public class WeddingServiceManagerImpl implements WeddingServiceManager {
 		if(null == weddingService){
 			throw new NullPointerException();
 		}
+		weddingService.setUrlName(UbUtils.createUrlName(weddingService.getLibelle()));
 		weddingServiceRepo.save(weddingService);
 		
 	}

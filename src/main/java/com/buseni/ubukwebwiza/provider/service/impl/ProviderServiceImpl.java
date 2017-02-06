@@ -242,12 +242,12 @@ public class ProviderServiceImpl implements ProviderService {
 			throw new NullPointerException("providerSearch should be null");
 		}	
 		if(pageable == null){
-			Predicate predicate = ProviderPredicates.search(providerSearch);
+			Predicate predicate = ProviderPredicates.searchByUrlName(providerSearch);
 			List<Provider> providers = IteratorUtils.toList(providerRepo.findAll(predicate).iterator());
 			return new PageImpl<>(providers);
 		}
 		PageRequest pr = new PageRequest(pageable.getPageNumber()-1, pageable.getPageSize());
-		return	providerRepo.findAll(ProviderPredicates.search(providerSearch), pr);
+		return	providerRepo.findAll(ProviderPredicates.searchByUrlName(providerSearch), pr);
 
 
 	}

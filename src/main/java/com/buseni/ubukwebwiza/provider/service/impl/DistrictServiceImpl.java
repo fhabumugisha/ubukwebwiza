@@ -16,6 +16,7 @@ import com.buseni.ubukwebwiza.exceptions.BusinessException;
 import com.buseni.ubukwebwiza.provider.domain.District;
 import com.buseni.ubukwebwiza.provider.repository.DistrictRepo;
 import com.buseni.ubukwebwiza.provider.service.DistrictService;
+import com.buseni.ubukwebwiza.utils.UbUtils;
 
 @Service
 @Transactional(readOnly=true)
@@ -54,6 +55,7 @@ public class DistrictServiceImpl implements DistrictService {
 			CustomError  ce = ceb.field("province").buid();
 			throw new BusinessException(ce);
 		}
+		district.setUrlName(UbUtils.createUrlName(district.getLibelle()));
 		districtRepo.save(district);
 		
 	}

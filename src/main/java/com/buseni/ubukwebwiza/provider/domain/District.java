@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,11 +15,19 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Table(name="district")
+@Audited
+@EntityListeners(AuditingEntityListener.class)
 public class District implements Serializable {
 
 	/**
@@ -49,6 +58,9 @@ public class District implements Serializable {
 	@JoinColumn(name="id_province", referencedColumnName="id")
 	private Province province;
 	
+	@Column(name="url_name")
+	private String urlName;
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="last_update")
 	private Date lastUpdate;
@@ -56,6 +68,22 @@ public class District implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="created_at")
 	private Date createdAt;
+	
+	@Column(name = "created_date", nullable = false, updatable = false)
+	@CreatedDate
+	private Long createdDate;
+
+	@Column(name = "modified_date")
+	@LastModifiedDate
+	private Long modifiedDate;
+
+	@Column(name = "created_by")
+	@CreatedBy
+	private String createdBy;
+
+	@Column(name = "modified_by")
+	@LastModifiedBy
+	private String modifiedBy;
 	
 	public Date getLastUpdate() {
 		return lastUpdate;
@@ -205,6 +233,14 @@ public class District implements Serializable {
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
+	}
+
+	public String getUrlName() {
+		return urlName;
+	}
+
+	public void setUrlName(String urlName) {
+		this.urlName = urlName;
 	}
 
 	

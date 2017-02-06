@@ -8,6 +8,7 @@ import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,7 +16,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.buseni.ubukwebwiza.account.domain.UserAccount;
 /**
@@ -24,6 +27,8 @@ import com.buseni.ubukwebwiza.account.domain.UserAccount;
  */
 @Entity
 @Table(name = "administrator")
+@Audited
+@EntityListeners(AuditingEntityListener.class)
 public class Administrator implements Serializable{
 	/**
 	 * 

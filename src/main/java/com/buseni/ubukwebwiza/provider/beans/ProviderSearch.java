@@ -3,25 +3,25 @@ package com.buseni.ubukwebwiza.provider.beans;
 public class ProviderSearch {
 	
 	private String name;
-	private Integer service;
-	private Integer district;
+	private String service;
+	private String district;
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Integer getService() {
+	public String getService() {
 		return service;
 	}
-	public void setService(Integer idcWeddingService) {
-		this.service = idcWeddingService;
+	public void setService(String service) {
+		this.service = service;
 	}
-	public Integer getDistrict() {
+	public String getDistrict() {
 		return district;
 	}
-	public void setDistrict(Integer idDistrict) {
-		this.district = idDistrict;
+	public void setDistrict(String district) {
+		this.district = district;
 	}
 	@Override
 	public String toString() {

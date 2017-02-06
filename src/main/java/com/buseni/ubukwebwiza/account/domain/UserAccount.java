@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,13 +18,21 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 //@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 @Table(name = "user_account")
 //@MappedSuperclass
+@Audited
+@EntityListeners(AuditingEntityListener.class)
 public  class UserAccount implements Serializable {
 
 	/**
@@ -66,6 +75,22 @@ public  class UserAccount implements Serializable {
 	private List<Role> roles = new ArrayList<>();
 
 
+	@Column(name = "created_date", nullable =false,  updatable = false)
+	@CreatedDate
+	private Long createdDate;
+
+	@Column(name = "modified_date")
+	@LastModifiedDate
+	private Long modifiedDate;
+
+	@Column(name = "created_by")
+	@CreatedBy
+	private String createdBy;
+
+	@Column(name = "modified_by")
+	@LastModifiedBy
+	private String modifiedBy;
+	
 	public UserAccount() {
 
 	}
