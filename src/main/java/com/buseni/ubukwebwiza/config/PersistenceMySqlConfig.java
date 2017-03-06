@@ -41,6 +41,9 @@ public class PersistenceMySqlConfig {
 	private final static String HIBERNATE_CHARSET = "hibernate.connection.charSet";
 	private final static String HIBERNATE_DEFAULTNCHAR = "hibernate.connection.defaultNChar";
 	private final static String HIBERNATE_HBM2DLL = "hibernate.hbm2ddl.auto";
+	
+	private final static String HIBERNATE_SEARCH_DEFAULT_DIRECTORY_PROVIDER = "hibernate.search.default.directory_provider";
+			private final static String HIBERNATE_SEARCH_DEFAULT_INDEX_BASE ="hibernate.search.default.indexBase";
 
 	private final static String[] SCAN_PACKAGES = new String[] { "com.buseni.ubukwebwiza" };
 
@@ -104,6 +107,8 @@ public class PersistenceMySqlConfig {
 		properties.put(HIBERNATE_USE_UNICODES, getRequired(HIBERNATE_USE_UNICODES));
 		properties.put(HIBERNATE_CHARSET, getRequired(HIBERNATE_CHARSET));
 		properties.put(HIBERNATE_DEFAULTNCHAR, getRequired(HIBERNATE_DEFAULTNCHAR));
+		properties.put(HIBERNATE_SEARCH_DEFAULT_DIRECTORY_PROVIDER, getRequired(HIBERNATE_SEARCH_DEFAULT_DIRECTORY_PROVIDER));
+		properties.put(HIBERNATE_SEARCH_DEFAULT_INDEX_BASE, getRequired(HIBERNATE_SEARCH_DEFAULT_INDEX_BASE));
 		if (isProp(HIBERNATE_HBM2DLL)) {
 			properties.put(HIBERNATE_HBM2DLL, getRequired(HIBERNATE_HBM2DLL));
 		}

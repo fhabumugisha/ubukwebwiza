@@ -23,7 +23,18 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.apache.solr.analysis.LowerCaseFilterFactory;
+import org.apache.solr.analysis.SnowballPorterFilterFactory;
+import org.apache.solr.analysis.StandardTokenizerFactory;
 import org.hibernate.envers.Audited;
+import org.hibernate.search.annotations.Analyzer;
+import org.hibernate.search.annotations.AnalyzerDef;
+import org.hibernate.search.annotations.AnalyzerDefs;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.Parameter;
+import org.hibernate.search.annotations.TokenFilterDef;
+import org.hibernate.search.annotations.TokenizerDef;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.CreatedBy;
@@ -44,6 +55,21 @@ import com.buseni.ubukwebwiza.gallery.domain.Photo;
 @Table(name = "provider")
 @Audited
 @EntityListeners(AuditingEntityListener.class)
+@Indexed
+@AnalyzerDefs(value = { 
+		@AnalyzerDef(name = "en", 
+				tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class),
+				filters = {
+						@TokenFilterDef(factory = LowerCaseFilterFactory.class),
+						@TokenFilterDef(factory = SnowballPorterFilterFactory.class, params={@Parameter(name = "language", value = "English")})}
+				) ,
+		@AnalyzerDef(name = "fr", 
+		tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class),
+		filters = {@TokenFilterDef(factory = LowerCaseFilterFactory.class),
+					@TokenFilterDef(factory = SnowballPorterFilterFactory.class, params={@Parameter(name = "language", value = "French")})}
+		) 
+		
+})
 public class Provider implements Serializable {
 	/**
 	 * 
@@ -66,6 +92,7 @@ public class Provider implements Serializable {
 	@Column(name="business_name")
 	@NotEmpty(message="{error.provider.requiredfield.businessname}")
 	@Length(min=1, max=50)
+	@Field(analyzer =@Analyzer(definition="en"))
 	private String businessName;
 
 	@Column(name="phone_number")
@@ -94,6 +121,7 @@ public class Provider implements Serializable {
 	
 	@Lob
 	@Column(length=500)
+	@Field(analyzer =@Analyzer(definition="en"))
 	private String aboutme;
 	
 	@Length(min=0, max=100)
