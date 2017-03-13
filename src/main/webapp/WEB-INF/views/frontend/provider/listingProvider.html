@@ -25,7 +25,7 @@
 											<select th:field="*{service}" id="idWeddingService"
 												data-placeholder="Select a service" th:placeholder="#{message.selectService}"
 												class="form-control my_select_box">
-												<option value=""></option>
+												<option value="" th:value="${providerSearch.ALL_SERVICES}" th:text="#{providerWeddingService.all}"></option>
 												<option th:each="weddingService : ${allWeddingServices}"
 													th:value="${weddingService.urlName}"
 													th:text="${weddingService.libelle}">Wedding
@@ -37,7 +37,7 @@
 											<select th:field="*{district}" id="idDistrict"
 												data-placeholder="Select a location" th:placeholder="#{message.selectLocation}"
 												class="form-control my_select_box">
-												<option value=""></option>
+												<option value="" th:value="${providerSearch.ALL_DISTRICTS}" th:text="#{district.all}"></option>
 												<option th:each="district : ${allDistricts}"
 													th:value="${district.urlName}" th:text="${district.libelle}">Kigali</option>
 											</select>

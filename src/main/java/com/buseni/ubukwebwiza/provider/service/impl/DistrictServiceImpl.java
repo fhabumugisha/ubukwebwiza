@@ -1,7 +1,9 @@
 package com.buseni.ubukwebwiza.provider.service.impl;
 
 import java.util.List;
+import java.util.Objects;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -38,9 +40,18 @@ public class DistrictServiceImpl implements DistrictService {
 	}
 
 	@Override
+//	@Transactional
 	public Page<District> findAll(Pageable page) {
 		PageRequest pr = new PageRequest(page.getPageNumber()-1, page.getPageSize());
-		return districtRepo.findAll(pr);
+		
+		Page<District> allDistricts =  districtRepo.findAll(pr);
+//		allDistricts.getContent().forEach(d-> {
+//			String urlName  = UbUtils.createUrlName(d.getLibelle(), false);
+//			d.setUrlName(urlName);;
+//			districtRepo.save(d);
+//		});
+		
+		return allDistricts;
 	}
 
 	@Override
@@ -55,7 +66,11 @@ public class DistrictServiceImpl implements DistrictService {
 			CustomError  ce = ceb.field("province").buid();
 			throw new BusinessException(ce);
 		}
-		district.setUrlName(UbUtils.createUrlName(district.getLibelle()));
+		String urlName =  UbUtils.createUrlName(district.getLibelle(), false);
+		if(CollectionUtils.isNotEmpty(districtRepo.findByUrlName(urlName))){
+			urlName = UbUtils.createUrlName(district.getLibelle(), true);
+		}
+		district.setUrlName(urlName);
 		districtRepo.save(district);
 		
 	}

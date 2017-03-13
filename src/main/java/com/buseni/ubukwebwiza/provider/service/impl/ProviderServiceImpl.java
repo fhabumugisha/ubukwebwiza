@@ -5,6 +5,7 @@ package com.buseni.ubukwebwiza.provider.service.impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.collections4.IteratorUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -108,7 +109,11 @@ public class ProviderServiceImpl implements ProviderService {
 			provider.getAccount().getRoles().add(roleProvider);
 			provider.getAccount().setLastUpdate(new Date());
 			provider.getAccount().setType(EnumAccountType.PROVIDER.name());
-			provider.setUrlName(UbUtils.createUrlName(provider.getBusinessName()));
+			String urlName =  UbUtils.createUrlName(provider.getBusinessName(), false);
+			if(Objects.nonNull(providerRepo.findByUrlName(urlName))){
+				urlName = UbUtils.createUrlName(provider.getBusinessName(), true);
+			}
+			provider.setUrlName(urlName);
 			providerRepo.save(provider);
 			if(provider.getIdcService() != null){
 				WeddingService weddingService = weddingServiceRepo.findOne(provider.getIdcService());
@@ -144,7 +149,7 @@ public class ProviderServiceImpl implements ProviderService {
 				bdd.setProfilPicture(provider.getProfilPicture());
 			}
 			if(!bdd.getBusinessName().equals(provider.getBusinessName())){
-				bdd.setUrlName(UbUtils.createUrlName(provider.getBusinessName()));
+				bdd.setUrlName(UbUtils.createUrlName(provider.getBusinessName(), true));
 			}
 				
 			bdd.setBusinessName(provider.getBusinessName());
@@ -225,12 +230,21 @@ public class ProviderServiceImpl implements ProviderService {
 	 * @see com.buseni.ubukwebwiza.administrator.service.ProviderService#findAll(org.springframework.data.domain.Pageable)
 	 */
 	@Override
+	//@Transactional
 	public Page<Provider> findAll(Pageable pageable) {
 		if(pageable == null){
 			return new PageImpl<>(providerRepo.findAll());
 		}
 		PageRequest pr = new PageRequest(pageable.getPageNumber()-1, pageable.getPageSize());
-		return providerRepo.findAll(pr);
+		
+		Page<Provider> allProviders = providerRepo.findAll(pr);
+//		allProviders.getContent().forEach(d-> {
+//			String urlName  = UbUtils.createUrlName(d.getBusinessName(), false);
+//			d.setUrlName(urlName);
+//			providerRepo.save(d);
+//		});
+		
+		return allProviders;
 	}
 
 	/* (non-Javadoc)
@@ -368,7 +382,11 @@ public class ProviderServiceImpl implements ProviderService {
 		account.setPassword(encoder.encode(signupForm.getPassword()));
 		account.setCreatedAt(new Date());			
 		account.setLastUpdate(new Date());
-		provider.setUrlName(UbUtils.createUrlName(signupForm.getBusinessName()));
+		String urlName =  UbUtils.createUrlName(provider.getBusinessName(), false);
+		if(Objects.nonNull(providerRepo.findByUrlName(urlName))){
+			urlName = UbUtils.createUrlName(provider.getBusinessName(), true);
+		}
+		provider.setUrlName(urlName);
 		//add roles
 		Role roleProvider =  roleRepository.findByName(ROLE_PROVIDER);
 		account.getRoles().add(roleProvider);
@@ -423,7 +441,11 @@ public class ProviderServiceImpl implements ProviderService {
 			bdd.setProfilPicture(provider.getProfilPicture());
 		}
 		if(!bdd.getBusinessName().equals(provider.getBusinessName())){
-			bdd.setUrlName(UbUtils.createUrlName(provider.getBusinessName()));
+			String urlName =  UbUtils.createUrlName(provider.getBusinessName(), false);
+			if(Objects.nonNull(providerRepo.findByUrlName(urlName)) ){
+				urlName = UbUtils.createUrlName(provider.getBusinessName(), true);
+			}
+			bdd.setUrlName(urlName);
 		}
 		bdd.setBusinessName(provider.getBusinessName());
 		bdd.setAboutme(provider.getAboutme());

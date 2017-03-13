@@ -10,4 +10,6 @@ public interface WeddingServiceRepo extends JpaRepository<WeddingService, Intege
 	
 	List<WeddingService> findByEnabled(boolean enabled);
 
+	WeddingService findByUrlName(String urlName);
+
 }

@@ -8,4 +8,6 @@ import com.buseni.ubukwebwiza.provider.domain.District;
 
 public interface DistrictRepo  extends JpaRepository<District, Integer>{
 	List<District> findByEnabled(boolean enabled);
+
+	List<District>  findByUrlName(String urlName);
 }

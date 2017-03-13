@@ -34,9 +34,13 @@ public class UbUtils {
         return normalizeName.toLowerCase();
     }
     
-    public static String createUrlName(String name){
+    public static String createUrlName(String name, boolean withPin){
     	 StringBuilder sb =  new StringBuilder();
-    	 sb.append(name).append("-").append(generatePIN());
+    	 sb.append(name);
+    	 if(withPin){
+    		 sb.append("-").append(generatePIN()); 
+    	 }
+    	
     	 return normalizeName(sb.toString());
     }
     

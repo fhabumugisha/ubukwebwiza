@@ -1,7 +1,8 @@
 package com.buseni.ubukwebwiza.provider.beans;
 
 public class ProviderSearch {
-	
+	public static final String ALL_DISTRICTS = "all-districts";
+	public static final String ALL_SERVICES = "all-services";
 	private String name;
 	private String service;
 	private String district;

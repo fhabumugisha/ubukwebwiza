@@ -1,6 +1,7 @@
 package com.buseni.ubukwebwiza.provider.service.impl;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -33,9 +34,16 @@ public class WeddingServiceManagerImpl implements WeddingServiceManager {
 	}
 
 	@Override
+	//@Transactional
 	public Page<WeddingService> findAll(Pageable pageable) {
 		PageRequest pr = new PageRequest(pageable.getPageNumber()-1, pageable.getPageSize());
-		return weddingServiceRepo.findAll(pr);
+		Page<WeddingService> allServices = weddingServiceRepo.findAll(pr);
+//		allServices.getContent().forEach(d-> {
+//			String urlName  = UbUtils.createUrlName(d.getLibelle(), false);
+//			d.setUrlName(urlName);
+//			weddingServiceRepo.save(d);
+//		});
+		return allServices;
 	}
 	@Override
 	@Cacheable(value="findWeddingServices")
@@ -50,7 +58,11 @@ public class WeddingServiceManagerImpl implements WeddingServiceManager {
 		if(null == weddingService){
 			throw new NullPointerException();
 		}
-		weddingService.setUrlName(UbUtils.createUrlName(weddingService.getLibelle()));
+		String urlName =  UbUtils.createUrlName(weddingService.getLibelle(), false);
+		if(Objects.nonNull(weddingServiceRepo.findByUrlName(urlName)) ){
+			urlName = UbUtils.createUrlName(weddingService.getLibelle(), true);
+		}
+		weddingService.setUrlName(urlName);
 		weddingServiceRepo.save(weddingService);
 		
 	}
