@@ -275,14 +275,14 @@
       </a>
       <div id="mainPitch2">
 							<div id="homeSearchFormContainer">
-<!-- 								<h1> -->
-<!-- 									<span th:text="#{home.search}">Looking for a wedding service provider ?</span> -->
-<!-- 								</h1> -->
-								<div id="typed-strings" >
-   									 <p th:each="service  : ${allWeddingServices}" th:text="${service.libelle}"/>
+ 								<h1> 
+									<span th:text="#{home.search}">Looking for a wedding service provider ?</span> 
+								</h1> 
+<!-- 								<div id="typed-strings" > -->
+<!--    									 <p th:each="service  : ${allWeddingServices}" th:text="${service.libelle}"/> -->
    									
-									</div>
-								<h1>Find the best <span class="ub-typed-text"></span> service in your area </h1>
+<!-- 									</div> -->
+<!-- 								<h1>Find the best <span class="ub-typed-text"></span> service in your area </h1> -->
 
 								<form action="listingProvider.html" role="form" class="form-inline" th:action="@{/search}" th:object="${providerSearch}"
 									method="get">
@@ -322,7 +322,59 @@
     <!-- Wrap the rest of the page in another container to center all the content. -->
 
     <div class="container marketing">
+    
+    <!--  HOW It Works -->
+		<div id="howItWorks" class="container text-center">
+			<div class="row">
+				<div class="col-md-12 text-center"
+					style=" margin: 1px;">
+					<h2 style="font-family: 'GothamBook', Shift, Helvetica Neue;"
+						th:text="#{home.howItWorks}">See How It Works</h2>
+						
+						<h5 style="font-family: 'GothamBook', Shift, Helvetica Neue;" th:text="#{home.howItWorks.pitch}">Discover how Ubukwebwiza can you help you find  wedding services providers you want.</h5>
+				</div>
+			</div>
+			<div class="row">
 
+				<div class="col-lg-4">
+					<span class="glyphicon glyphicon-list-alt logo-small"></span>
+					<h4 class="titleStyle">Browse the listing </h4>
+					<p class="titleStyle">Search and filter providers listing.</p>
+				</div>
+				<div class="col-lg-4">
+					<span class="glyphicon glyphicon-check logo-small"></span>
+					<h4 class="titleStyle">Find the service you want  </h4>
+					<p class="titleStyle">Read reviews, explore photos and find the perfect wedding provider.</p>
+				</div>
+				<div class="col-lg-4">
+					<span class="glyphicon glyphicon-thumbs-up logo-small"></span>
+					<h4 class="titleStyle">Book the service</h4>
+					<p class="titleStyle">Contact the wedding service provider to make a reservation</p>
+				</div>
+			</div>
+
+			<div class="row" style="margin-bottom: 5px;">
+			<div class="col-md-6 col-md-offset-3 videoDiv" >
+			<div class=" embed-responsive embed-responsive-16by9">
+				<iframe class="embed-responsive-item"
+				src="http://www.youtube.com/embed/AJfmhM1fUOM?rel=0" frameborder="0" allowfullscreen></iframe>
+					
+				</div>
+			</div>
+				
+			</div>
+		</div>
+	<div id="featuredProviders" class="container">
+	
+		<div class="row">
+				<div class="col-md-12 text-center"
+					style="border-top: 1px solid rgba(128, 128, 128, 0.58);  margin: 1px;">
+					<h2 class="titleStyle"
+						th:text="#{home.featuredProviders}">Our top wedding service providers</h2>
+						
+						<h5 class="titleStyle" th:text="#{home.featuredProviders.pitch}">Discover & connect with great wedding service providers in Rwanda.</h5>
+				</div>
+			</div>
       <!-- Three columns of text below the carousel -->
       <div class="row">
 			<th:block th:each="provider :${featuredProviders}">
@@ -364,17 +416,13 @@
 
 			</th:block>
 			
-      </div><!-- /.row -->
-
-
-      <!-- START THE FEATURETTES -->
-
-<!--       <hr class="featurette-divider"/> -->
-		<th:block sec:authorize="!isAuthenticated()">
+      </div>
+      <th:block sec:authorize="!isAuthenticated()">
+	
 			<div class="row">
 				<div class="col-md-12 text-center"
 					style="border-top: 1px solid rgba(128, 128, 128, 0.58); margin: 1px;">
-					<h2 style="font-family: 'GothamBook', Shift, Helvetica Neue;"
+					<h2 class="titleStyle"
 						th:text="#{home.providerCallAction}">Are you a wedding
 						service provider ?</h2>
 				</div>
@@ -386,9 +434,19 @@
 						us</a>
 				</div>
 			</div>
+			
 		</th:block>
+      </div>
+      
+     
+      <!-- /.row -->
 
 
+      <!-- START THE FEATURETTES -->
+
+<!--       <hr class="featurette-divider"/> -->
+		
+	
 		<!-- FOOTER -->
       
       <div class="featurette-divider"></div> 
@@ -414,7 +472,7 @@
 <!--     <script src="../../../../resources/plugins/chosen_v1.4.2/chosen.jquery.min.js" th:src="@{/resources/plugins/chosen_v1.4.2/chosen.jquery.min.js}"></script>
  -->  
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.min.js" ></script>
- <script src="http://cdn.ubukwebwiza.com/js/typed.min.js" ></script>
+<!--  <script src="http://cdn.ubukwebwiza.com/js/typed.min.js" ></script> -->
     <script type="text/javascript">
 	 $(".my_select_box").chosen({
 		    allow_single_deselect:true,
@@ -425,16 +483,16 @@
 		  interval: 9000
 		});
 	
-	 $(function(){
-	        $(".ub-typed-text").typed({
-// 	            strings: ["First sentence.", "Second sentence."],
-	            stringsElement: $('#typed-strings'),
-	            typeSpeed: 30,
-	            loop: true,
-	            backSpeed: 30,
-	            backDelay: 9000
-	        });
-	    });
+// 	 $(function(){
+// 	        $(".ub-typed-text").typed({
+// // 	            strings: ["First sentence.", "Second sentence."],
+// 	            stringsElement: $('#typed-strings'),
+// 	            typeSpeed: 30,
+// 	            loop: true,
+// 	            backSpeed: 30,
+// 	            backDelay: 9000
+// 	        });
+// 	    });
 	</script>
 	 <script th:inline="javascript">
 		/*<![CDATA[*/
