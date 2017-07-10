@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:dt="http://github.com/dandelion/datatables" xmlns:ddl="http://www.thymeleaf.org/dandelion"
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" 
 	layout:decorator="adminpanel/fragments/mainAdminLayout">
 
 <head>
 <title th:text="#{admin.contactus.title}">Contactus</title>
 </head>
-<body ddl:bundle-excludes="jquery">
+<body >
 	<div layout:fragment="pageContent">
 
 			<div th:if="${message}" class="alert alert-success" th:text="${message}">Cool</div>
@@ -14,7 +14,7 @@
 					
 			
 			<div class="table-responsive">
-				<table id="listMessages" class="table table-striped table-bordered table-hover" dt:table="true" dt:autoWidth="true" dt:pageable="false" >
+				<table id="listMessages" class="table table-striped table-bordered table-hover"  >
 					<thead>
 						<tr>
 			
@@ -22,10 +22,10 @@
 							<th class="col-sm-2" th:text="#{contactus.list.name}">Name</th>
 							<th class="col-sm-2" th:text="#{contactus.list.email}">Eamil</th>
 							<th class="col-sm-3" th:text="#{contactus.list.message}">Message</th>
-							<th class="col-sm-1" th:text="#{contactus.list.createdat}" dt:searchable="false">Created at</th>
-							<th class="col-sm-1" th:text="#{contactus.list.lastupdate}" dt:searchable="false">Last update</th>
-							<th class="col-sm-1" th:text="#{contactus.list.read}" dt:searchable="false">Read</th>
-							<th class="col-sm-1"  th:text="#{list.actions}" dt:searchable="false" dt:filterable="false" dt:sortable="false">Actions</th>
+							<th class="col-sm-1" th:text="#{contactus.list.createdat}" >Created at</th>
+							<th class="col-sm-1" th:text="#{contactus.list.lastupdate}" >Last update</th>
+							<th class="col-sm-1" th:text="#{contactus.list.read}" >Read</th>
+							<th class="col-sm-1"  th:text="#{list.actions}" >Actions</th>
 
 						</tr>
 					</thead>

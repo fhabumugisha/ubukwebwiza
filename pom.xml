@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.buseni</groupId>
 	<artifactId>ubukwebwiza</artifactId>
-	<version>1.0.8-SNAPSHOT</version>
+	<version>2.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
 	<properties>
@@ -209,26 +209,31 @@
 		<dependency>
 			<groupId>org.thymeleaf</groupId>
 			<artifactId>thymeleaf</artifactId>
-			<version>2.1.4.RELEASE</version>
+			<version>3.0.5.RELEASE</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.thymeleaf</groupId>
 			<artifactId>thymeleaf-spring4</artifactId>
-			<version>2.1.4.RELEASE</version>
+			<version>3.0.5.RELEASE</version>
 		</dependency>
 
 		<dependency>
 			<groupId>nz.net.ultraq.thymeleaf</groupId>
 			<artifactId>thymeleaf-layout-dialect</artifactId>
-			<version>1.2.7</version>
+			<version>2.2.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.thymeleaf.extras</groupId>
 			<artifactId>thymeleaf-extras-springsecurity4</artifactId>
-			<version>2.1.2.RELEASE</version>
+			<version>3.0.2.RELEASE</version>
 		</dependency>
 
+<dependency>
+	<groupId>io.github.jpenren</groupId>
+	<artifactId>thymeleaf-spring-data-dialect</artifactId>
+	<version>3.2.2</version>
+</dependency>
 		<!-- Servlet -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -326,11 +331,11 @@
 		</dependency>
 
 		<!-- Dandelion datatables -->
-		<dependency>
-			<groupId>com.github.dandelion</groupId>
-			<artifactId>datatables-thymeleaf</artifactId>
-			<version>1.1.0</version>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>com.github.dandelion</groupId> -->
+<!-- 			<artifactId>datatables-thymeleaf</artifactId> -->
+<!-- 			<version>1.1.0</version> -->
+<!-- 		</dependency> -->
 		<!-- javaMail -->
 		<dependency>
 			<groupId>javax.mail</groupId>
@@ -414,6 +419,9 @@
 					<server>tomcat-development-server</server>
 					<port>9966</port>
 					<path>/ubukwebwiza</path>
+					<httpsPort>8443</httpsPort>
+					<keystoreFile>${project.build.directory}/tomcat7.keystore</keystoreFile>
+                	<keystorePass>tomcat7</keystorePass>
 					<protocol>org.apache.coyote.http11.Http11NioProtocol</protocol>
 					<tomcatWebXml />
 					<contextFile>${basedir}/src/main/webapp/META-INF/context.xml</contextFile>
@@ -425,6 +433,35 @@
 					</systemProperties>
 				</configuration>
 			</plugin>
+			<plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>keytool-maven-plugin</artifactId>
+            <version>1.5</version>
+            <executions>
+                <execution>
+                    <phase>generate-resources</phase>
+                    <id>clean</id>
+                    <goals>
+                        <goal>clean</goal>
+                    </goals>
+                </execution>
+                <execution>
+                    <phase>generate-resources</phase>
+                    <id>genkey</id>
+                    <goals>
+                        <goal>generateKeyPair</goal>
+                    </goals>
+                </execution>
+            </executions>
+            <configuration>
+                <keystore>${project.build.directory}/tomcat7.keystore</keystore>
+                <dname>cn=localhost</dname>
+                <keypass>tomcat7</keypass>
+                <storepass>tomcat7</storepass>
+                <alias>tomca7</alias>
+                <keyalg>RSA</keyalg>
+            </configuration>
+        </plugin>
 			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-clean-plugin</artifactId> 
 				<version>2.6.1</version> <configuration> <filesets> <fileset> <directory>${basedir}/src/main/webapp/WEB-INF/classes</directory> 
 				<directory>${basedir}/src/main/webapp/WEB-INF/lib</directory> <followSymlinks>false</followSymlinks> 

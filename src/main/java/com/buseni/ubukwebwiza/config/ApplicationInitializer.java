@@ -17,8 +17,6 @@ import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.servlet.DispatcherServlet;
 
 import com.buseni.ubukwebwiza.filters.CorsFilter;
-import com.github.dandelion.core.web.DandelionFilter;
-import com.github.dandelion.core.web.DandelionServlet;
 
 /**
  * @author habumugisha
@@ -48,9 +46,9 @@ public class ApplicationInitializer implements WebApplicationInitializer {
 		dispatcher.addMapping("/");
 		
 		// Register the Dandelion servlet
-		ServletRegistration.Dynamic dandelionServlet = servletContext.addServlet("dandelionServlet",new DandelionServlet());
+		/*ServletRegistration.Dynamic dandelionServlet = servletContext.addServlet("dandelionServlet",new DandelionServlet());
 		dandelionServlet.setLoadOnStartup(2);
-		dandelionServlet.addMapping("/dandelion-assets/*");
+		dandelionServlet.addMapping("/dandelion-assets/*");*/
 		
 		// File upload config
 		/*MultipartConfigElement mce = new MultipartConfigElement("", 1024*1024*1, 1024*1024*5*5, 1024*1024);
@@ -71,8 +69,8 @@ public class ApplicationInitializer implements WebApplicationInitializer {
 		servletContext.addFilter("corsFilter", CorsFilter.class).addMappingForUrlPatterns(null, false, "/*");
 		
 		// Register the Dandelion filter
-		Dynamic dandelionFilter = servletContext.addFilter("dandelionFilter", new DandelionFilter());
-		dandelionFilter.addMappingForUrlPatterns(null, false, "/*");
+		/*Dynamic dandelionFilter = servletContext.addFilter("dandelionFilter", new DandelionFilter());
+		dandelionFilter.addMappingForUrlPatterns(null, false, "/*");*/
 		
 		// Register the openEntityManagerInViewFilter
 		servletContext.addFilter("openEntityManagerInViewFilter", OpenEntityManagerInViewFilter.class).addMappingForUrlPatterns(null, false, "/*");

@@ -14,21 +14,22 @@ import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.dialect.springdata.SpringDataDialect;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring4.SpringTemplateEngine;
+import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
-import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
-import org.thymeleaf.templateresolver.TemplateResolver;
+import org.thymeleaf.templateresolver.ITemplateResolver;
 
-import com.github.dandelion.datatables.thymeleaf.dialect.DataTablesDialect;
-import com.github.dandelion.thymeleaf.dialect.DandelionDialect;
 
 import nz.net.ultraq.thymeleaf.LayoutDialect;
+import nz.net.ultraq.thymeleaf.decorators.strategies.GroupingStrategy;
 
 @Configuration 
 @PropertySource("classpath:email.properties")
-public class ViewConfiguration {
+public class ViewConfiguration  {
 	
 	 private static final String MESSAGE_SOURCE = "/WEB-INF/i18n/messages";
 	 private static final String VIEWS = "/WEB-INF/views/";
@@ -37,15 +38,17 @@ public class ViewConfiguration {
 	 @Autowired
 	private Environment env;
 	 
+	 
+
 	 @Bean 
-	public ServletContextTemplateResolver templateResolver() {
-		ServletContextTemplateResolver resolver = new ServletContextTemplateResolver();
+	public ITemplateResolver templateResolver() {
+		 SpringResourceTemplateResolver resolver = new SpringResourceTemplateResolver();
 		resolver.setPrefix(VIEWS);
 		resolver.setSuffix(".html");
 		resolver.setTemplateMode("HTML5");
 		resolver.setCharacterEncoding("UTF-8");
 		
-		resolver.setOrder(2);
+		resolver.setOrder(1);
 		resolver.addTemplateAlias("frontendHeader", "frontend/fragments/header");
 		resolver.addTemplateAlias("frontendFooter", "frontend/fragments/footer");
 		resolver.addTemplateAlias("frontendSidebar", "frontend/fragments/sidebar");
@@ -61,24 +64,25 @@ public class ViewConfiguration {
 		 emailTemplateResolver.setSuffix(".html");
 		 emailTemplateResolver.setTemplateMode("HTML5");
 		 emailTemplateResolver.setCharacterEncoding("UTF-8");
-		 emailTemplateResolver.setOrder(1);
+		 emailTemplateResolver.setOrder(2);
 		 return emailTemplateResolver;
 	 }
 	@Bean 
-	public SpringTemplateEngine templateEngine() {
+	public TemplateEngine templateEngine() {
 		SpringTemplateEngine engine = new SpringTemplateEngine();
 		//engine.setTemplateResolver(templateResolver());
-		 final Set<TemplateResolver> templateResolvers = new HashSet<TemplateResolver>();
+		 final Set<ITemplateResolver> templateResolvers = new HashSet<ITemplateResolver>();
 		    templateResolvers.add(templateResolver());
 		    templateResolvers.add(emailTemplateResolver());
 		    engine.setTemplateResolvers(templateResolvers);
 		//engine.addTemplateResolver(emailTemplateResolver());
 		//engine.addTemplateResolver(templateResolver());
 		
-		engine.addDialect(new LayoutDialect());
+		engine.addDialect(new LayoutDialect(new GroupingStrategy()));
 		engine.addDialect(new SpringSecurityDialect());
-		engine.addDialect(new DandelionDialect());
-		engine.addDialect(new DataTablesDialect());
+		engine.addDialect(new SpringDataDialect());
+		//engine.addDialect(new DandelionDialect());
+		//engine.addDialect(new DataTablesDialect());
 		return engine;
 	}
 	

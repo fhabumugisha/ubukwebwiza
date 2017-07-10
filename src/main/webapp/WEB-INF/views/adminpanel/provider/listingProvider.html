@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:dt="http://github.com/dandelion/datatables" xmlns:ddl="http://www.thymeleaf.org/dandelion"
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" 
 	layout:decorator="adminpanel/fragments/mainAdminLayout">
 
 <head>
 <title th:text="#{provider.title}">Providers</title>
 </head>
-<body ddl:bundle-excludes="jquery">
+<body >
 	<div layout:fragment="pageContent">
 
 			<div th:if="${message}" class="alert alert-success" > 
@@ -28,21 +28,21 @@
 					
 			
 			<div class="table-responsive">
-				<table id="listProviders" class="table table-striped table-bordered table-hover" dt:table="true" dt:autoWidth="true" dt:pageable="false" >
+				<table id="listProviders" class="table table-striped table-bordered table-hover"  >
 					<thead>
 						<tr>
 							<!-- <th class="col-sm-1" >#</th> -->
 							<th  th:text="#{provider.list.email}">Email</th>
 							<th  th:text="#{provider.list.businessname}">Business name</th>
-							<th  th:text="#{provider.list.profilpic}" dt:searchable="false" dt:filterable="false" dt:sortable="false">Profil pic</th>
+							<th  th:text="#{provider.list.profilpic}" >Profil pic</th>
 							<th  th:text="#{provider.list.district}">District</th>
 							<!-- <th class="col-sm-1" th:text="#{provider.list.address}">Address</th> -->
 <!-- 							<th class="col-sm-1" th:text="#{provider.list.services}">Services</th> -->
-							<th  th:text="#{provider.list.nbviews}" dt:searchable="false">Nb views</th>
-							<th  th:text="#{provider.list.lastupdate}" dt:searchable="false">Last update</th>							
-							<th  th:text="#{provider.list.createdat}" dt:searchable="false">Created at</th>
-							<th  th:text="#{provider.list.enabled}" dt:searchable="false">Enabled</th>
-							<th  th:text="#{list.actions}" dt:searchable="false" dt:filterable="false" dt:sortable="false">Actions</th>
+							<th  th:text="#{provider.list.nbviews}" >Nb views</th>
+							<th  th:text="#{provider.list.lastupdate}" >Last update</th>							
+							<th  th:text="#{provider.list.createdat}" >Created at</th>
+							<th  th:text="#{provider.list.enabled}" >Enabled</th>
+							<th  th:text="#{list.actions}" >Actions</th>
 							
 
 						</tr>

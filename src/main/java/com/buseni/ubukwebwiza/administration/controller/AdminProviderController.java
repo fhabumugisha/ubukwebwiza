@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.SortDefault;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -75,6 +76,13 @@ public class AdminProviderController {
 			model.addAttribute("provider", new Provider());
 		}
 		return "adminpanel/provider/listingProvider";
+	}
+	
+	@RequestMapping("/providers2")
+	public String list(Model model, @SortDefault("businessName") Pageable pageable){
+		model.addAttribute("page", providerService.findAll(pageable));
+		
+		return "adminpanel/provider/listingProvider2";
 	}
 	
 	@RequestMapping(value="/providers/save",method=RequestMethod.POST)

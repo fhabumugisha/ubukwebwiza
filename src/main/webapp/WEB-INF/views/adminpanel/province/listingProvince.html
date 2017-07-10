@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:dt="http://github.com/dandelion/datatables" xmlns:ddl="http://www.thymeleaf.org/dandelion"
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+
 	layout:decorator="adminpanel/fragments/mainAdminLayout">
 
 <head>
 <title th:text="#{province.title}">Provinces</title>
 </head>
-<body ddl:bundle-excludes="jquery">
+<body >
 	<div layout:fragment="pageContent">
 
 			<div th:if="${message}" class="alert alert-success" th:text="${message}">Cool</div>
@@ -21,13 +22,13 @@
 		</div>
 			
 			<div class="table-responsive">
-				<table id="listProvinces" class="table table-striped table-bordered table-hover" dt:table="true" dt:autoWidth="true" dt:pageable="false" >
+				<table id="listProvinces" class="table table-striped table-bordered table-hover" >
 					<thead>
 						<tr>
 							<th class="col-sm-1" >#</th>
 							<th class="col-sm-4" th:text="#{province.list.libelle}">Libelle</th>
-							<th class="col-sm-4" th:text="#{province.list.enabled}" dt:searchable="false">Enabled</th>
-							<th class="col-sm-2"  th:text="#{list.actions}" dt:searchable="false" dt:filterable="false" dt:sortable="false">Actions</th>
+							<th class="col-sm-4" th:text="#{province.list.enabled}">Enabled</th>
+							<th class="col-sm-2"  th:text="#{list.actions}" >Actions</th>
 
 						</tr>
 					</thead>
