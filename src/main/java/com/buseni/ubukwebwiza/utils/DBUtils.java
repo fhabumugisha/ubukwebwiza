@@ -30,6 +30,11 @@ public class DBUtils {
 
 	public  static final Logger LOGGER = LoggerFactory.getLogger(DBUtils.class);
 
+	 static final String DB_NAME = "DBNAME";
+	 static final String DB_USER = "DB_USER";
+	 static final String DB_PASS = "DB_PASS";
+	 static final String HOST = "HOST";
+	 static final String PORT = "PORT";
 	public static void main(String[] args)  {
 		// TODO Auto-generated method stub
 		//System.out.println( System.getProperty("user.dir"));
@@ -40,17 +45,17 @@ public class DBUtils {
 		
 
 	}
-	//datasource.url=jdbc:mysql://104.131.9.243:3306/ubukwebwiza
+
 		
 	public  static void backupDatabase() {
 		/******************************************************/
 		//Database Properties
 		/******************************************************/
-		String dbName = "ubukwebwiza";
-		String dbUser = "ubukwebwiza";
-		String dbPass = "UbukweBwiza123&";
-		String host = "104.131.9.243";
-		String port = "3306";
+		String dbName = DB_NAME;
+		String dbUser = DB_USER;
+		String dbPass = DB_PASS;
+		String host = HOST;;
+		String port = PORT;
 		 int STREAM_BUFFER = 512000;
 	     boolean status = false;
 	     StringBuilder dumpdata = new StringBuilder();
@@ -58,8 +63,8 @@ public class DBUtils {
 		// Execute Shell Command
 		/***********************************************************/
 		String executeCmd = "";
-		//mysqldump -h 104.131.9.243 --port 3306 -u ubukwebwiza --password UbukweBwiza123& ubukwebwiza -r backup.sql
-		//mysqldump -h 104.131.9.243 --port=3306 -u ubukwebwiza --password=UbukweBwiza123& --databases ubukwebwiza > backup.sql
+		//mysqldump -h HOST --port PORT -u DB_USER --password DB_PASS DB_NAME -r backup.sql
+		//mysqldump -h HOST --port=PORT -u DB_USER --password=DB_PASS --databases DB_NAME > backup.sql
 		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         Date date = new Date();
         String filepath = "backup-" + dateFormat.format(date) + ".sql";
@@ -174,8 +179,9 @@ public class DBUtils {
 		String port = "";
 		 
 		String executeCmd = "";
-		//mysqldump -h 104.131.9.243 --port 3306 -u ubukwebwiza --password UbukweBwiza123& ubukwebwiza -r backup.sql
-		//mysqldump -h 104.131.9.243 --port=3306 -u ubukwebwiza --password=UbukweBwiza123& --databases ubukwebwiza > backup.sql
+		//mysqldump -h HOST --port PORT -u DB_USER --password DB_PASS DB_NAME -r backup.sql
+		//mysqldump -h HOST --port=PORT -u DB_USER --password=DB_PASS --databases DB_NAME > backup.sql
+				
 		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy-hhmmss");
         Date date = new Date();
         String filepath = "backup-" + dateFormat.format(date) + ".sql";
