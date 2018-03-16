@@ -25,7 +25,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableAspectJAutoProxy
 @PropertySource({"classpath:application.properties",
-		"classpath:hibernate.properties"})
+		"classpath:embedded-datasource.properties"})
 @ComponentScan(basePackages = {"com.buseni.ubukwebwiza"})
 @EnableJpaRepositories(basePackages={"com.buseni.ubukwebwiza.account.repository"})
 @EnableTransactionManagement

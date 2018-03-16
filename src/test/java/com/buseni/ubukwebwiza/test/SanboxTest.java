@@ -3,6 +3,7 @@ package com.buseni.ubukwebwiza.test;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,7 @@ public class SanboxTest {
 	@Autowired
 	private JavaMailSenderImpl mailSender;
 	@Test
+	@Ignore
 	public void sendMail(){
 		
 

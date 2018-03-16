@@ -105,7 +105,7 @@ public class WebConfiguration extends WebMvcConfigurerAdapter{
 		public WebContentInterceptor webContentInterceptor() {
 		    WebContentInterceptor interceptor = new WebContentInterceptor();
 		  //  interceptor.setCacheSeconds(2592000);
-		    interceptor.setUseExpiresHeader(true);
+		    //interceptor.setUseExpiresHeader(true);
 		    //interceptor.setUseCacheControlHeader(true);
 		    interceptor.setCacheControl(CacheControl.noStore());
 		    return interceptor;
