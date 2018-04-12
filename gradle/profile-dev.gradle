@@ -1,0 +1,11 @@
+ext {
+	datasourceUrl= ""
+	datasourceUsername=""
+	datasourcePassword=""
+}
+
+
+//import org.apache.tools.ant.filters.*
+//processResources {
+  //  expand(datasourceUrl: project.datasourceUrl, datasourceUsername: project.datasourceUsername, datasourcePassword: project.datasourcePassword)
+//}

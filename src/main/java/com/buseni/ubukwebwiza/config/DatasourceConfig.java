@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableJpaRepositories(basePackages={"com.buseni.ubukwebwiza.administrator.repository","com.buseni.ubukwebwiza.provider.repository",
 		"com.buseni.ubukwebwiza.contactus.repository","com.buseni.ubukwebwiza.gallery.repository", "com.buseni.ubukwebwiza.account.repository"})
-@PropertySource( {  "classpath:hibernate.properties"} )
+@PropertySource( {  "classpath:hibernate.properties", "classpath:dataSource.properties"} )
 @EnableTransactionManagement
 public class DatasourceConfig {
 
@@ -39,9 +39,14 @@ public class DatasourceConfig {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
 		dataSource.setDriverClassName( getRequired( DRIVER_CLASSNAME ) );
-		dataSource.setUrl( getRequired( DATASOURCE_URL ) );
-		dataSource.setUsername( getRequired( DATASOURCE_USERNAME ) );
-		dataSource.setPassword( getRequired( DATASOURCE_PASSWORD ) );
+//		dataSource.setUrl( getRequired( DATASOURCE_URL ) );
+//		dataSource.setUsername( getRequired( DATASOURCE_USERNAME ) );
+//		dataSource.setPassword( getRequired( DATASOURCE_PASSWORD ) );
+		
+		dataSource.setUrl( System.getProperty(DATASOURCE_URL ) );
+		dataSource.setUsername( System.getProperty( DATASOURCE_USERNAME ) );
+		dataSource.setPassword( System.getProperty(DATASOURCE_PASSWORD ) );
+		 
 		return dataSource;
 	}
 

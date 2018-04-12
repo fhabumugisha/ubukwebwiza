@@ -4,8 +4,8 @@ apply plugin: 'maven'
 apply plugin: 'eclipse'
 apply plugin: 'war'
 apply plugin: 'com.bmuschko.tomcat'
-if (!hasProperty('buildProfile')) ext.buildProfile = 'dev'
-apply from: "gradle/profile-${buildProfile}.gradle"
+//if (!hasProperty('buildProfile')) ext.buildProfile = 'dev'
+//apply from: "gradle/profile-${buildProfile}.gradle"
 
 buildscript {
   repositories {
@@ -143,3 +143,7 @@ compileGeneratedJava {
     dependsOn generateQueryDSL
     classpath += sourceSets.main.runtimeClasspath
 }
+
+//task printDatasourceProps() {
+	//println project.datasourceUrl
+//}
