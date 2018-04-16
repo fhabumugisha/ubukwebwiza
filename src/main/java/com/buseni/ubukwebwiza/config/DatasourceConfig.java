@@ -2,6 +2,8 @@ package com.buseni.ubukwebwiza.config;
 
 import javax.sql.DataSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,11 +15,13 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import com.buseni.ubukwebwiza.provider.controller.ContactProviderController;
+
 //@Profile( "mysql" )
 @Configuration
 @EnableJpaRepositories(basePackages={"com.buseni.ubukwebwiza.administrator.repository","com.buseni.ubukwebwiza.provider.repository",
 		"com.buseni.ubukwebwiza.contactus.repository","com.buseni.ubukwebwiza.gallery.repository", "com.buseni.ubukwebwiza.account.repository"})
-@PropertySource( {  "classpath:hibernate.properties", "classpath:dataSource.properties"} )
+@PropertySource( {  "classpath:hibernate.properties"} )
 @EnableTransactionManagement
 public class DatasourceConfig {
 
@@ -26,7 +30,7 @@ public class DatasourceConfig {
 	private final static String DATASOURCE_USERNAME = "datasource.username";
 	private final static String DATASOURCE_PASSWORD = "datasource.password";
 
-	
+	public static final Logger LOGGER = LoggerFactory.getLogger( DatasourceConfig.class );
 
 	
 
@@ -36,6 +40,7 @@ public class DatasourceConfig {
 	@Bean
 	@Profile("dev")
 	public DataSource dataSource() {
+		LOGGER.debug("Initializing dev datasource");
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
 		dataSource.setDriverClassName( getRequired( DRIVER_CLASSNAME ) );
@@ -46,7 +51,7 @@ public class DatasourceConfig {
 		dataSource.setUrl( System.getProperty(DATASOURCE_URL ) );
 		dataSource.setUsername( System.getProperty( DATASOURCE_USERNAME ) );
 		dataSource.setPassword( System.getProperty(DATASOURCE_PASSWORD ) );
-		 
+		LOGGER.debug("Initializing dev datasource : " + dataSource.toString());
 		return dataSource;
 	}
 

@@ -4,7 +4,11 @@ apply plugin: 'maven'
 apply plugin: 'eclipse'
 apply plugin: 'war'
 apply plugin: 'com.bmuschko.tomcat'
-//if (!hasProperty('buildProfile')) ext.buildProfile = 'dev'
+
+if (!hasProperty('buildProfile')) ext.buildProfile = 'dev'
+if (!hasProperty('datasourceUser')) ext.datasourceUser = 'sa'
+if (!hasProperty('datasourcePwd')) ext.datasourcePwd = ''
+if (!hasProperty('datasourceUrl')) ext.datasourceUrl = 'jdbc:h2:mem:datajpa'
 //apply from: "gradle/profile-${buildProfile}.gradle"
 
 buildscript {
@@ -113,7 +117,8 @@ dependencies {
     compile group: 'javax.servlet', name: 'javax.servlet-api', version:'3.0.1'
     compile group: 'javax.servlet.jsp', name: 'jsp-api', version:'2.1'
     compile group: 'com.mysema.querydsl', name: 'querydsl-apt', version:'3.7.4'
-    
+    runtime('mysql:mysql-connector-java')
+  
     def tomcatVersion = '8.5.16'
     tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
            "org.apache.tomcat.embed:tomcat-embed-logging-juli:8.5.2",
@@ -144,6 +149,17 @@ compileGeneratedJava {
     classpath += sourceSets.main.runtimeClasspath
 }
 
+task runDev  {
+group 'build'
+    description 'Setting the active profile'
+     doFirst {
+        println 'Setting the active profile to ' + project.buildProfile
+    }
+    System.setProperty("spring.profiles.active", project.buildProfile)
+      System.setProperty("datasource.url", project.datasourceUrl)
+        System.setProperty("datasource.username", project.datasourceUser)
+          System.setProperty("datasource.password", project.datasourcePwd)
+}
 //task printDatasourceProps() {
 	//println project.datasourceUrl
 //}
