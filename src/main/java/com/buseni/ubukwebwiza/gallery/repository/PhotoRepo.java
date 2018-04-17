@@ -4,12 +4,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.querydsl.QueryDslPredicateExecutor;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
 import com.buseni.ubukwebwiza.gallery.beans.PhotoDetails;
 import com.buseni.ubukwebwiza.gallery.domain.Photo;
 
-public interface PhotoRepo extends JpaRepository<Photo, Integer> , QueryDslPredicateExecutor<Photo>{
+public interface PhotoRepo extends JpaRepository<Photo, Integer> , QuerydslPredicateExecutor<Photo>{
 
 	Page<Photo> findByEnabled(boolean enabled, Pageable pageable);
 	

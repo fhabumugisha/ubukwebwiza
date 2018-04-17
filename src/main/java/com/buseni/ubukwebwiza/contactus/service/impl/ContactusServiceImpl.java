@@ -5,6 +5,7 @@ package com.buseni.ubukwebwiza.contactus.service.impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.buseni.ubukwebwiza.contactus.domain.ContactusForm;
 import com.buseni.ubukwebwiza.contactus.repository.ContactusRepo;
 import com.buseni.ubukwebwiza.contactus.service.ContactusService;
+import com.buseni.ubukwebwiza.exceptions.BusinessException;
 
 /**
  * @author fahabumu
@@ -59,7 +61,7 @@ public class ContactusServiceImpl implements ContactusService {
 	 */
 	@Override
 	public Page<ContactusForm> findAll(Pageable pageable) {
-		PageRequest pr = new PageRequest(pageable.getPageNumber()-1, pageable.getPageSize());
+		PageRequest pr = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize());
 		return contactusRepo.findAll(pr);
 	}
 
@@ -67,9 +69,9 @@ public class ContactusServiceImpl implements ContactusService {
 	@Transactional
 	public void delete(Integer id) {
 		if(null != id){
-			ContactusForm contactusForm =  contactusRepo.findOne(id);
-			if(contactusForm != null){
-				contactusRepo.delete(contactusForm);
+			Optional<ContactusForm> contactusForm =  contactusRepo.findById(id);
+			if(contactusForm.isPresent()){
+				contactusRepo.delete(contactusForm.get());
 			}
 			
 		}
@@ -81,7 +83,8 @@ public class ContactusServiceImpl implements ContactusService {
 	public void update(ContactusForm contactForm) {
 		if(contactForm != null){
 			
-			ContactusForm contactFormToUpdate  = contactusRepo.findOne(contactForm.getId());
+			ContactusForm contactFormToUpdate  = contactusRepo.findById(contactForm.getId())
+					.orElseThrow(() -> new NullPointerException(" shouldn't be null"));
 			contactFormToUpdate.setLastUpdate(new Date());
 			contactFormToUpdate.setReaded(Boolean.TRUE);
 			contactusRepo.save(contactFormToUpdate);
@@ -92,7 +95,7 @@ public class ContactusServiceImpl implements ContactusService {
 	@Override
 	public ContactusForm findOne(Integer id) {
 		if(null != id){
-			return contactusRepo.findOne(id);
+			return contactusRepo.findById(id).orElse(null);
 		}
 		return null;
 	}

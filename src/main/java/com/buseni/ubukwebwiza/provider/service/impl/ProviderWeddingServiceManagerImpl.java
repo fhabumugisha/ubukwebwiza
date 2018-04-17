@@ -45,7 +45,7 @@ public class ProviderWeddingServiceManagerImpl implements ProviderWeddingService
 			providerWeddingService.setCreatedAt(new Date());
 			providerWeddingService.setEnabled(Boolean.TRUE);
 		}else{
-			ProviderWeddingService vwsBdd = providerWeddingServiceRepo.findOne(providerWeddingService.getId());
+			ProviderWeddingService vwsBdd = providerWeddingServiceRepo.findById(providerWeddingService.getId()).orElseThrow(()-> new NullPointerException(" shouldn't be null"));
 			providerWeddingService.setCreatedAt(vwsBdd.getCreatedAt());			
 		}
 		providerWeddingService.setLastUpdate(new Date());			
@@ -73,7 +73,7 @@ public class ProviderWeddingServiceManagerImpl implements ProviderWeddingService
 		if(null == id){
 			return null;
 		}
-		ProviderWeddingService providerWeddingService = providerWeddingServiceRepo.findOne(id);
+		ProviderWeddingService providerWeddingService = providerWeddingServiceRepo.findById(id).orElse(null);
 		if(providerWeddingService == null){
 			throw new ResourceNotFoundException();
 		}
@@ -97,7 +97,7 @@ public class ProviderWeddingServiceManagerImpl implements ProviderWeddingService
 	 */
 	@Override
 	public Page<ProviderWeddingService> findAll(Pageable pageable) {
-		PageRequest pr = new PageRequest(pageable.getPageNumber()-1, pageable.getPageSize());
+		PageRequest pr = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize());
 		return providerWeddingServiceRepo.findAll(pr);
 	}
 	/*
@@ -108,7 +108,7 @@ public class ProviderWeddingServiceManagerImpl implements ProviderWeddingService
 	@Transactional
 	public void delete(Integer id) {
 		if(null != id){
-			providerWeddingServiceRepo.delete(id);
+			providerWeddingServiceRepo.deleteById(id);
 		}
 		
 	}

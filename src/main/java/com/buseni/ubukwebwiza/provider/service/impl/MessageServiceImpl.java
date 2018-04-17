@@ -3,6 +3,8 @@
  */
 package com.buseni.ubukwebwiza.provider.service.impl;
 
+import static java.lang.Math.toIntExact;
+
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +23,6 @@ import com.buseni.ubukwebwiza.provider.repository.MessageAnswerRepo;
 import com.buseni.ubukwebwiza.provider.repository.MessageRepo;
 import com.buseni.ubukwebwiza.provider.repository.ProviderRepo;
 import com.buseni.ubukwebwiza.provider.service.MessageService;
-import static java.lang.Math.toIntExact;
 /**
  * @author habumugisha
  *
@@ -50,7 +51,7 @@ public class MessageServiceImpl implements MessageService {
 		if(null == idProvider){
 			throw new NullPointerException("idProvider should be null");
 		}	
-		PageRequest pr = new PageRequest(pageable.getPageNumber()-1, pageable.getPageSize());
+		PageRequest pr = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize());
 		return messageRepo.findByProvider_id(idProvider, pr);
 	}
 
@@ -62,7 +63,7 @@ public class MessageServiceImpl implements MessageService {
 		if(null == idMessage){
 			throw new NullPointerException("idMessage should be null");
 		}		
-		Message message  = messageRepo.findOne(idMessage);
+		Message message  = messageRepo.findById(idMessage).orElse(null);
 		if(message ==  null){
 			throw new ResourceNotFoundException();
 		}	
@@ -75,7 +76,7 @@ public class MessageServiceImpl implements MessageService {
 		if(null == idMessage){
 			throw new NullPointerException("idMessage should be null");
 		}		
-		Message message  = messageRepo.findOne(idMessage);
+		Message message  = messageRepo.findById(idMessage).orElse(null);
 		if(message ==  null){
 			throw new ResourceNotFoundException();
 		}	
@@ -97,7 +98,7 @@ public class MessageServiceImpl implements MessageService {
 		message.setSenderEmail(messageDto.getSenderEmail());
 		message.setSenderName(messageDto.getSenderName());
 		message.setSenderPhonenumber(messageDto.getSenderPhonenumber());
-		Provider provider =  providerRepo.findOne(messageDto.getIdProvider());
+		Provider provider =  providerRepo.findById(messageDto.getIdProvider()).orElseThrow(()-> new NullPointerException(" shouldn't be null"));
 		message.setProvider(provider);	
 		message.setCreatedAt(new Date());
 		messageRepo.save(message);
@@ -116,7 +117,7 @@ public class MessageServiceImpl implements MessageService {
 			throw new NullPointerException();
 		}
 		messageAnswer.setCreatedAt(new Date());
-		Message message = messageRepo.findOne(messageAnswer.getMessage().getId());
+		Message message = messageRepo.findById(messageAnswer.getMessage().getId()).orElseThrow(()-> new NullPointerException(" shouldn't be null"));
 		messageAnswer.setMessage(message);
 		
 		MessageAnswer updated = messageAnswerRepo.save(messageAnswer);
@@ -132,7 +133,7 @@ public class MessageServiceImpl implements MessageService {
 		if(idMessageAnswer == null){
 			throw new NullPointerException();
 		}
-		MessageAnswer messageAnswer = messageAnswerRepo.findOne(idMessageAnswer);
+		MessageAnswer messageAnswer = messageAnswerRepo.findById(idMessageAnswer).orElse(null);
 		if(messageAnswer == null){
 			throw new NullPointerException();
 		}
@@ -150,7 +151,7 @@ public class MessageServiceImpl implements MessageService {
 
 	@Override
 	public Page<Message> findAll(Pageable page) {
-		PageRequest pr = new PageRequest(page.getPageNumber()-1, page.getPageSize());
+		PageRequest pr = PageRequest.of(page.getPageNumber(), page.getPageSize());
 		return messageRepo.findAll(pr);
 	}
 

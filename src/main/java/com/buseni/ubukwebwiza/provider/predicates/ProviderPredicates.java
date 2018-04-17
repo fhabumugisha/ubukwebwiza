@@ -5,7 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.buseni.ubukwebwiza.provider.beans.ProviderSearch;
 import com.buseni.ubukwebwiza.provider.domain.District;
 import com.buseni.ubukwebwiza.provider.domain.QProvider;
-import com.mysema.query.types.Predicate;
+import com.querydsl.core.types.Predicate;
 
 public class ProviderPredicates {
 	private static final QProvider PROVIDER = QProvider.provider;

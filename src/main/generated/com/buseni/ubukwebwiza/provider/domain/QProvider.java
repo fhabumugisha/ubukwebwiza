@@ -1,19 +1,19 @@
 package com.buseni.ubukwebwiza.provider.domain;
 
-import static com.mysema.query.types.PathMetadataFactory.*;
+import static com.querydsl.core.types.PathMetadataFactory.*;
 
-import com.mysema.query.types.path.*;
+import com.querydsl.core.types.dsl.*;
 
-import com.mysema.query.types.PathMetadata;
+import com.querydsl.core.types.PathMetadata;
 import javax.annotation.Generated;
-import com.mysema.query.types.Path;
-import com.mysema.query.types.path.PathInits;
+import com.querydsl.core.types.Path;
+import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
  * QProvider is a Querydsl query type for Provider
  */
-@Generated("com.mysema.query.codegen.EntitySerializer")
+@Generated("com.querydsl.codegen.EntitySerializer")
 public class QProvider extends EntityPathBase<Provider> {
 
     private static final long serialVersionUID = -1942728253L;
@@ -69,18 +69,18 @@ public class QProvider extends EntityPathBase<Provider> {
     }
 
     public QProvider(Path<? extends Provider> path) {
-        this(path.getType(), path.getMetadata(), path.getMetadata().isRoot() ? INITS : PathInits.DEFAULT);
+        this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
     }
 
-    public QProvider(PathMetadata<?> metadata) {
-        this(metadata, metadata.isRoot() ? INITS : PathInits.DEFAULT);
+    public QProvider(PathMetadata metadata) {
+        this(metadata, PathInits.getFor(metadata, INITS));
     }
 
-    public QProvider(PathMetadata<?> metadata, PathInits inits) {
+    public QProvider(PathMetadata metadata, PathInits inits) {
         this(Provider.class, metadata, inits);
     }
 
-    public QProvider(Class<? extends Provider> type, PathMetadata<?> metadata, PathInits inits) {
+    public QProvider(Class<? extends Provider> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.account = inits.isInitialized("account") ? new com.buseni.ubukwebwiza.account.domain.QUserAccount(forProperty("account")) : null;
         this.coverPicture = inits.isInitialized("coverPicture") ? new com.buseni.ubukwebwiza.gallery.domain.QPhoto(forProperty("coverPicture")) : null;

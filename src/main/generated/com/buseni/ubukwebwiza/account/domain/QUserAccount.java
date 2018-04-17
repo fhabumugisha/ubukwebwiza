@@ -1,19 +1,19 @@
 package com.buseni.ubukwebwiza.account.domain;
 
-import static com.mysema.query.types.PathMetadataFactory.*;
+import static com.querydsl.core.types.PathMetadataFactory.*;
 
-import com.mysema.query.types.path.*;
+import com.querydsl.core.types.dsl.*;
 
-import com.mysema.query.types.PathMetadata;
+import com.querydsl.core.types.PathMetadata;
 import javax.annotation.Generated;
-import com.mysema.query.types.Path;
-import com.mysema.query.types.path.PathInits;
+import com.querydsl.core.types.Path;
+import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
  * QUserAccount is a Querydsl query type for UserAccount
  */
-@Generated("com.mysema.query.codegen.EntitySerializer")
+@Generated("com.querydsl.codegen.EntitySerializer")
 public class QUserAccount extends EntityPathBase<UserAccount> {
 
     private static final long serialVersionUID = -491455106L;
@@ -54,7 +54,7 @@ public class QUserAccount extends EntityPathBase<UserAccount> {
         super(path.getType(), path.getMetadata());
     }
 
-    public QUserAccount(PathMetadata<?> metadata) {
+    public QUserAccount(PathMetadata metadata) {
         super(UserAccount.class, metadata);
     }
 

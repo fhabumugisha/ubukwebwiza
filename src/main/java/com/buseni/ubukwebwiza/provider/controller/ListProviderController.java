@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.buseni.ubukwebwiza.breadcrumbs.navigation.Navigation;
 import com.buseni.ubukwebwiza.home.HomeController;
-import com.buseni.ubukwebwiza.utils.PageWrapper;
 import com.buseni.ubukwebwiza.provider.beans.ProviderSearch;
 import com.buseni.ubukwebwiza.provider.domain.District;
 import com.buseni.ubukwebwiza.provider.domain.Provider;
@@ -28,6 +27,7 @@ import com.buseni.ubukwebwiza.provider.domain.WeddingService;
 import com.buseni.ubukwebwiza.provider.service.DistrictService;
 import com.buseni.ubukwebwiza.provider.service.ProviderService;
 import com.buseni.ubukwebwiza.provider.service.WeddingServiceManager;
+import com.buseni.ubukwebwiza.utils.PageWrapper;
 
 @Controller
 @Navigation(url="/wedding-service-providers", name="Wedding Service providers", parent= HomeController.class)

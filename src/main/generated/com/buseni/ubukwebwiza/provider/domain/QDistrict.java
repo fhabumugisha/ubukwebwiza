@@ -1,19 +1,19 @@
 package com.buseni.ubukwebwiza.provider.domain;
 
-import static com.mysema.query.types.PathMetadataFactory.*;
+import static com.querydsl.core.types.PathMetadataFactory.*;
 
-import com.mysema.query.types.path.*;
+import com.querydsl.core.types.dsl.*;
 
-import com.mysema.query.types.PathMetadata;
+import com.querydsl.core.types.PathMetadata;
 import javax.annotation.Generated;
-import com.mysema.query.types.Path;
-import com.mysema.query.types.path.PathInits;
+import com.querydsl.core.types.Path;
+import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
  * QDistrict is a Querydsl query type for District
  */
-@Generated("com.mysema.query.codegen.EntitySerializer")
+@Generated("com.querydsl.codegen.EntitySerializer")
 public class QDistrict extends EntityPathBase<District> {
 
     private static final long serialVersionUID = -666271904L;
@@ -55,18 +55,18 @@ public class QDistrict extends EntityPathBase<District> {
     }
 
     public QDistrict(Path<? extends District> path) {
-        this(path.getType(), path.getMetadata(), path.getMetadata().isRoot() ? INITS : PathInits.DEFAULT);
+        this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
     }
 
-    public QDistrict(PathMetadata<?> metadata) {
-        this(metadata, metadata.isRoot() ? INITS : PathInits.DEFAULT);
+    public QDistrict(PathMetadata metadata) {
+        this(metadata, PathInits.getFor(metadata, INITS));
     }
 
-    public QDistrict(PathMetadata<?> metadata, PathInits inits) {
+    public QDistrict(PathMetadata metadata, PathInits inits) {
         this(District.class, metadata, inits);
     }
 
-    public QDistrict(Class<? extends District> type, PathMetadata<?> metadata, PathInits inits) {
+    public QDistrict(Class<? extends District> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.province = inits.isInitialized("province") ? new QProvince(forProperty("province")) : null;
     }

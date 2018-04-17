@@ -1,18 +1,18 @@
 package com.buseni.ubukwebwiza.provider.domain;
 
-import static com.mysema.query.types.PathMetadataFactory.*;
+import static com.querydsl.core.types.PathMetadataFactory.*;
 
-import com.mysema.query.types.path.*;
+import com.querydsl.core.types.dsl.*;
 
-import com.mysema.query.types.PathMetadata;
+import com.querydsl.core.types.PathMetadata;
 import javax.annotation.Generated;
-import com.mysema.query.types.Path;
+import com.querydsl.core.types.Path;
 
 
 /**
  * QWeddingService is a Querydsl query type for WeddingService
  */
-@Generated("com.mysema.query.codegen.EntitySerializer")
+@Generated("com.querydsl.codegen.EntitySerializer")
 public class QWeddingService extends EntityPathBase<WeddingService> {
 
     private static final long serialVersionUID = -496377581L;
@@ -55,7 +55,7 @@ public class QWeddingService extends EntityPathBase<WeddingService> {
         super(path.getType(), path.getMetadata());
     }
 
-    public QWeddingService(PathMetadata<?> metadata) {
+    public QWeddingService(PathMetadata metadata) {
         super(WeddingService.class, metadata);
     }
 

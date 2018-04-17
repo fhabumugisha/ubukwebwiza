@@ -43,11 +43,11 @@ import org.springframework.web.servlet.resource.PathResourceResolver;
 
 import com.buseni.ubukwebwiza.breadcrumbs.interceptor.NavigationPathInterceptor;
 
-@Configuration
+//@Configuration
 @ComponentScan(basePackages = {"com.buseni.ubukwebwiza"})
 @PropertySource("classpath:application.properties")
-@EnableWebMvc
-@EnableCaching
+//@EnableWebMvc
+//@EnableCaching
 @Import({PersistenceMySqlConfig.class,  ViewConfiguration.class, MyMultiHttpSecurityConfig.class})
 public class WebConfiguration extends WebMvcConfigurerAdapter{
 	
@@ -96,7 +96,7 @@ public class WebConfiguration extends WebMvcConfigurerAdapter{
 		@Override
 		public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
 			PageableHandlerMethodArgumentResolver resolver =	new PageableHandlerMethodArgumentResolver();
-			resolver.setFallbackPageable(new PageRequest(1, 12));
+			resolver.setFallbackPageable(PageRequest.of(1, 12));
 			resolver.setMaxPageSize(12);
 			
 			argumentResolvers.add(resolver);

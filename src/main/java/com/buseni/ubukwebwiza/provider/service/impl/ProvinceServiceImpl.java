@@ -33,7 +33,7 @@ public class ProvinceServiceImpl implements ProvinceService{
 
 	@Override
 	public Page<Province> findAll(Pageable page) {
-		PageRequest pr = new PageRequest(page.getPageNumber()-1, page.getPageSize());
+		PageRequest pr = PageRequest.of(page.getPageNumber(), page.getPageSize());
 		return provinceRepo.findAll(pr);
 	}
 
@@ -54,7 +54,7 @@ public class ProvinceServiceImpl implements ProvinceService{
 	@Transactional
 	public void delete(Integer id) {
 		if(null !=  id){			
-			Province  province = provinceRepo.findOne(id);
+			Province  province = provinceRepo.findById(id).orElse(null);
 			if(province != null){
 				provinceRepo.delete(province);
 			}
@@ -68,7 +68,7 @@ public class ProvinceServiceImpl implements ProvinceService{
 		if(null == id){			
 			//throw exception
 			}
-		return provinceRepo.findOne(id);
+		return provinceRepo.findById(id).orElse(null);
 	}
 
 	@Override

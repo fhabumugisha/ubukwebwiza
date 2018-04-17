@@ -36,7 +36,7 @@ public class WeddingServiceManagerImpl implements WeddingServiceManager {
 	@Override
 	//@Transactional
 	public Page<WeddingService> findAll(Pageable pageable) {
-		PageRequest pr = new PageRequest(pageable.getPageNumber()-1, pageable.getPageSize());
+		PageRequest pr = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize());
 		Page<WeddingService> allServices = weddingServiceRepo.findAll(pr);
 //		allServices.getContent().forEach(d-> {
 //			String urlName  = UbUtils.createUrlName(d.getLibelle(), false);
@@ -72,7 +72,7 @@ public class WeddingServiceManagerImpl implements WeddingServiceManager {
 		if(null == id){
 			throw new NullPointerException();
 		}
-		WeddingService ws =  weddingServiceRepo.findOne(id);
+		WeddingService ws =  weddingServiceRepo.findById(id).orElse(null);
 		if(ws != null){
 			weddingServiceRepo.delete(ws);
 		}
@@ -83,7 +83,7 @@ public class WeddingServiceManagerImpl implements WeddingServiceManager {
 		if(null == id){
 			throw new NullPointerException();
 		}
-		return weddingServiceRepo.findOne(id);
+		return weddingServiceRepo.findById(id).orElse(null);
 	}
 
 }

@@ -1,18 +1,18 @@
 package com.buseni.ubukwebwiza.contactus.domain;
 
-import static com.mysema.query.types.PathMetadataFactory.*;
+import static com.querydsl.core.types.PathMetadataFactory.*;
 
-import com.mysema.query.types.path.*;
+import com.querydsl.core.types.dsl.*;
 
-import com.mysema.query.types.PathMetadata;
+import com.querydsl.core.types.PathMetadata;
 import javax.annotation.Generated;
-import com.mysema.query.types.Path;
+import com.querydsl.core.types.Path;
 
 
 /**
  * QContactusForm is a Querydsl query type for ContactusForm
  */
-@Generated("com.mysema.query.codegen.EntitySerializer")
+@Generated("com.querydsl.codegen.EntitySerializer")
 public class QContactusForm extends EntityPathBase<ContactusForm> {
 
     private static final long serialVersionUID = -1671000563L;
@@ -49,7 +49,7 @@ public class QContactusForm extends EntityPathBase<ContactusForm> {
         super(path.getType(), path.getMetadata());
     }
 
-    public QContactusForm(PathMetadata<?> metadata) {
+    public QContactusForm(PathMetadata metadata) {
         super(ContactusForm.class, metadata);
     }
 

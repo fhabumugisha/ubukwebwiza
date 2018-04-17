@@ -35,11 +35,11 @@ public class AmazonS3Util {
 	@Value("${aws.bucketName}")
 	private String bucketName;
 	
-	@Value("${aws.accessKey}")
-	private String accessKey;
-	
-	@Value("${aws.secretKey}")
-	private String secretKey;
+//	@Value("${aws.accessKey}")
+//	private String accessKey;
+//	
+//	@Value("${aws.secretKey}")
+//	private String secretKey;
 		
 	/**
 	 * Uplaod a file to amazon S3

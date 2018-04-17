@@ -1,7 +1,6 @@
 package com.buseni.ubukwebwiza.provider.service.impl;
 
 import java.util.List;
-import java.util.Objects;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +11,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.buseni.ubukwebwiza.exceptions.BusinessException;
 import com.buseni.ubukwebwiza.exceptions.CustomError;
 import com.buseni.ubukwebwiza.exceptions.CustomErrorBuilder;
-import com.buseni.ubukwebwiza.exceptions.BusinessException;
 import com.buseni.ubukwebwiza.provider.domain.District;
 import com.buseni.ubukwebwiza.provider.repository.DistrictRepo;
 import com.buseni.ubukwebwiza.provider.service.DistrictService;
@@ -42,7 +41,7 @@ public class DistrictServiceImpl implements DistrictService {
 	@Override
 //	@Transactional
 	public Page<District> findAll(Pageable page) {
-		PageRequest pr = new PageRequest(page.getPageNumber()-1, page.getPageSize());
+		PageRequest pr = PageRequest.of(page.getPageNumber(), page.getPageSize());
 		
 		Page<District> allDistricts =  districtRepo.findAll(pr);
 //		allDistricts.getContent().forEach(d-> {
@@ -79,7 +78,7 @@ public class DistrictServiceImpl implements DistrictService {
 	@Transactional
 	public void delete(Integer id) {
 		if(null != id){
-			District district =  districtRepo.findOne(id);
+			District district =  districtRepo.findById(id).orElse(null);
 			if(district != null){
 				districtRepo.delete(district);
 			}
@@ -91,7 +90,7 @@ public class DistrictServiceImpl implements DistrictService {
 	@Override
 	public District findOne(Integer id) {
 		if(null != id){
-			return districtRepo.findOne(id);
+			return districtRepo.findById(id).orElse(null);
 		}
 		return null;
 	}

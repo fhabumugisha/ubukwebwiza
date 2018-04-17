@@ -1,18 +1,18 @@
 package com.buseni.ubukwebwiza.gallery.domain;
 
-import static com.mysema.query.types.PathMetadataFactory.*;
+import static com.querydsl.core.types.PathMetadataFactory.*;
 
-import com.mysema.query.types.path.*;
+import com.querydsl.core.types.dsl.*;
 
-import com.mysema.query.types.PathMetadata;
+import com.querydsl.core.types.PathMetadata;
 import javax.annotation.Generated;
-import com.mysema.query.types.Path;
+import com.querydsl.core.types.Path;
 
 
 /**
  * QPhoto is a Querydsl query type for Photo
  */
-@Generated("com.mysema.query.codegen.EntitySerializer")
+@Generated("com.querydsl.codegen.EntitySerializer")
 public class QPhoto extends EntityPathBase<Photo> {
 
     private static final long serialVersionUID = -8549431L;
@@ -53,7 +53,7 @@ public class QPhoto extends EntityPathBase<Photo> {
         super(path.getType(), path.getMetadata());
     }
 
-    public QPhoto(PathMetadata<?> metadata) {
+    public QPhoto(PathMetadata metadata) {
         super(Photo.class, metadata);
     }
 

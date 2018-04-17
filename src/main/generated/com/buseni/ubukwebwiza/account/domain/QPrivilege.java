@@ -1,19 +1,19 @@
 package com.buseni.ubukwebwiza.account.domain;
 
-import static com.mysema.query.types.PathMetadataFactory.*;
+import static com.querydsl.core.types.PathMetadataFactory.*;
 
-import com.mysema.query.types.path.*;
+import com.querydsl.core.types.dsl.*;
 
-import com.mysema.query.types.PathMetadata;
+import com.querydsl.core.types.PathMetadata;
 import javax.annotation.Generated;
-import com.mysema.query.types.Path;
-import com.mysema.query.types.path.PathInits;
+import com.querydsl.core.types.Path;
+import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
  * QPrivilege is a Querydsl query type for Privilege
  */
-@Generated("com.mysema.query.codegen.EntitySerializer")
+@Generated("com.querydsl.codegen.EntitySerializer")
 public class QPrivilege extends EntityPathBase<Privilege> {
 
     private static final long serialVersionUID = 59391821L;
@@ -34,7 +34,7 @@ public class QPrivilege extends EntityPathBase<Privilege> {
         super(path.getType(), path.getMetadata());
     }
 
-    public QPrivilege(PathMetadata<?> metadata) {
+    public QPrivilege(PathMetadata metadata) {
         super(Privilege.class, metadata);
     }
 

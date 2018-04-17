@@ -11,5 +11,7 @@ public interface UserAccountRepository extends JpaRepository<UserAccount, Intege
 	
 
   UserAccount findByEmail(String email);
+  
+ 
  
 }

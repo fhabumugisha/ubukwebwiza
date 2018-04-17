@@ -19,7 +19,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
-import org.springframework.test.context.transaction.TransactionConfiguration;
+
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
@@ -29,7 +29,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @ComponentScan(basePackages = {"com.buseni.ubukwebwiza"})
 @EnableJpaRepositories(basePackages={"com.buseni.ubukwebwiza.account.repository"})
 @EnableTransactionManagement
-@TransactionConfiguration(defaultRollback = true)
+//@TransactionConfiguration(defaultRollback = true)
 public class TestConfig {
 
 	

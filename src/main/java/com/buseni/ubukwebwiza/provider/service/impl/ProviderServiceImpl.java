@@ -6,6 +6,7 @@ package com.buseni.ubukwebwiza.provider.service.impl;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import org.apache.commons.collections4.IteratorUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -48,7 +49,7 @@ import com.buseni.ubukwebwiza.provider.repository.WeddingServiceRepo;
 import com.buseni.ubukwebwiza.provider.service.ProviderService;
 import com.buseni.ubukwebwiza.utils.AmazonS3Util;
 import com.buseni.ubukwebwiza.utils.UbUtils;
-import com.mysema.query.types.Predicate;
+import com.querydsl.core.types.Predicate;
 
 
 
@@ -116,7 +117,7 @@ public class ProviderServiceImpl implements ProviderService {
 			provider.setUrlName(urlName);
 			providerRepo.save(provider);
 			if(provider.getIdcService() != null){
-				WeddingService weddingService = weddingServiceRepo.findOne(provider.getIdcService());
+				WeddingService weddingService = weddingServiceRepo.findById(provider.getIdcService()).orElseThrow(() -> new NullPointerException(" shouldn't be null"));
 				ProviderWeddingService vws = new ProviderWeddingService();
 				vws.setWeddingService(weddingService);
 				vws.setProvider(provider);
@@ -130,7 +131,7 @@ public class ProviderServiceImpl implements ProviderService {
 		
 		//Update
 		}else{
-			Provider bdd =  providerRepo.findOne(provider.getId());
+			Provider bdd =  providerRepo.findById(provider.getId()).orElseThrow(()-> new NullPointerException(" shouldn't be null"));
 			if(!bdd.getAccount().getEmail().equals(provider.getAccount().getEmail())){
 				if (emailExist(provider.getAccount().getEmail())) {  
 					CustomErrorBuilder ceb =  new CustomErrorBuilder("error.user.emailexists");			
@@ -179,18 +180,18 @@ public class ProviderServiceImpl implements ProviderService {
 		if(null == idProvider){
 			throw new NullPointerException("idProvider shouldn't be null");
 		}
-		Provider provider =  providerRepo.findOne(idProvider);
-		if(null == provider){
+		Optional<Provider> provider =  providerRepo.findById(idProvider);
+		if(! provider.isPresent()){
 			throw new NullPointerException("provider shouldn't be null");
 		}
-		if(provider.getProfilPicture() != null){
+		if(provider.get().getProfilPicture() != null){
 			
-			photoRepo.delete(provider.getProfilPicture());
-			amazonS3Util.deleteFile(provider.getProfilPicture().getFilename());		
-			provider.setProfilPicture(null);
+			photoRepo.delete(provider.get().getProfilPicture());
+			amazonS3Util.deleteFile(provider.get().getProfilPicture().getFilename());		
+			provider.get().setProfilPicture(null);
 		}
-		provider.getAccount().setLastUpdate(new Date());
-		providerRepo.save(provider);
+		provider.get().getAccount().setLastUpdate(new Date());
+		providerRepo.save(provider.get());
 		
 	}
 
@@ -215,15 +216,15 @@ public class ProviderServiceImpl implements ProviderService {
 			throw new NullPointerException();
 		}
 		
-		Provider provider  = providerRepo.findOne(id);
-		if(provider ==  null){
+		Optional<Provider> provider  = providerRepo.findById(id);
+		if(!provider.isPresent()){
 			throw new ResourceNotFoundException();
 		}
-		LOGGER.info("Increase the number of views of the provider " + provider.getBusinessName());
-		provider.setNbViews(provider.getNbViews() + 1);
-		provider.getAccount().setLastUpdate(new Date());
-		providerRepo.save(provider);
-		return provider;
+		LOGGER.info("Increase the number of views of the provider " + provider.get().getBusinessName());
+		provider.get().setNbViews(provider.get().getNbViews() + 1);
+		provider.get().getAccount().setLastUpdate(new Date());
+		providerRepo.save(provider.get());
+		return provider.get();
 	}
 
 	/* (non-Javadoc)
@@ -235,7 +236,7 @@ public class ProviderServiceImpl implements ProviderService {
 		if(pageable == null){
 			return new PageImpl<>(providerRepo.findAll());
 		}
-		PageRequest pr = new PageRequest(pageable.getPageNumber()-1, pageable.getPageSize());
+		PageRequest pr = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize());
 		
 		Page<Provider> allProviders = providerRepo.findAll(pr);
 //		allProviders.getContent().forEach(d-> {
@@ -260,7 +261,7 @@ public class ProviderServiceImpl implements ProviderService {
 			List<Provider> providers = IteratorUtils.toList(providerRepo.findAll(predicate).iterator());
 			return new PageImpl<>(providers);
 		}
-		PageRequest pr = new PageRequest(pageable.getPageNumber()-1, pageable.getPageSize());
+		PageRequest pr = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize());
 		return	providerRepo.findAll(ProviderPredicates.searchByUrlName(providerSearch), pr);
 
 
@@ -274,7 +275,7 @@ public class ProviderServiceImpl implements ProviderService {
 	@Transactional
 	public void delete(Integer id) {
 		if(null != id){
-			Provider provider = providerRepo.findOne(id);
+			Provider provider = providerRepo.findById(id).orElse(null);
 			if(provider != null){			
 				providerRepo.delete(provider);
 			}
@@ -285,7 +286,7 @@ public class ProviderServiceImpl implements ProviderService {
 
 	@Override
 	public List<Provider> getFeaturedProviders() {	
-		Page<Provider> page = providerRepo.findByAccount_Enabled(Boolean.TRUE, new PageRequest(0, 3, Sort.Direction.DESC, "nbViews"));
+		Page<Provider> page = providerRepo.findByAccount_Enabled(Boolean.TRUE, PageRequest.of(0, 3, Sort.Direction.DESC, "nbViews"));
 		return page.getContent();
 	}
 
@@ -294,7 +295,7 @@ public class ProviderServiceImpl implements ProviderService {
 		if(pageable == null){
 			return new PageImpl<>(providerRepo.findByAccount_Enabled(enabled));
 		}
-		PageRequest pr = new PageRequest(pageable.getPageNumber()-1, pageable.getPageSize());
+		PageRequest pr = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize());
 		return providerRepo.findByAccount_Enabled(enabled, pr);
 	}
 
@@ -303,11 +304,11 @@ public class ProviderServiceImpl implements ProviderService {
 		if(null == id){
 			throw new NullPointerException("Id should be null");
 		}		
-		Provider provider  = providerRepo.findOne(id);
-		if(provider ==  null){
+		Optional<Provider> provider  = providerRepo.findById(id);
+		if(!provider.isPresent() ){
 			throw new ResourceNotFoundException();
 		}			
-		return provider;
+		return provider.get();
 	}
 
 	@Transactional
@@ -318,11 +319,11 @@ public class ProviderServiceImpl implements ProviderService {
 		}	
 		Provider provider = findOne(idProvider);
 		
-		Photo photo =  photoRepo.findOne(idPhoto);
-		if(photo != null && !CollectionUtils.isEmpty(provider.getPhotos())){
-			provider.getPhotos().remove(photo);
+		Optional<Photo> photo =  photoRepo.findById(idPhoto);
+		if(photo.isPresent() && !CollectionUtils.isEmpty(provider.getPhotos())){
+			provider.getPhotos().remove(photo.get());
 			providerRepo.save(provider);
-			photoRepo.delete(photo);
+			photoRepo.delete(photo.get());
 		}
 		return provider;
 	}
@@ -392,9 +393,9 @@ public class ProviderServiceImpl implements ProviderService {
 		account.getRoles().add(roleProvider);
 		account.setType(EnumAccountType.PROVIDER.name());
 		provider.setAccount(account);
-		District district  = districtRepo.findOne(signupForm.getIdDistrict());
+		District district  = districtRepo.findById(signupForm.getIdDistrict()).orElseThrow(()-> new NullPointerException(" shouldn't be null"));
 		provider.setDistrict(district);
-		WeddingService weddingService = weddingServiceRepo.findOne(signupForm.getIdService());
+		WeddingService weddingService = weddingServiceRepo.findById(signupForm.getIdService()).orElseThrow(()-> new NullPointerException(" shouldn't be null"));
 		ProviderWeddingService vws = new ProviderWeddingService();
 		vws.setWeddingService(weddingService);
 		vws.setProvider(provider);
@@ -430,7 +431,7 @@ public class ProviderServiceImpl implements ProviderService {
 			throw new NullPointerException("Provider shouldn't be null");
 		}
 		
-		Provider bdd =  providerRepo.findOne(provider.getId());
+		Provider bdd =  providerRepo.findById(provider.getId()).orElseThrow(()-> new NullPointerException(" shouldn't be null"));
 		
 		if(provider.getProfilPicture() != null){
 			//profile picture changed, delete the old one
@@ -465,7 +466,7 @@ public class ProviderServiceImpl implements ProviderService {
 			throw new NullPointerException("Provider shouldn't be null");
 		}
 		
-		Provider bdd =  providerRepo.findOne(provider.getId());
+		Provider bdd =  providerRepo.findById(provider.getId()).orElseThrow(()-> new NullPointerException(" shouldn't be null"));
 		bdd.setWebsite(provider.getWebsite());
 		bdd.setFbUsername(provider.getFbUsername());
 		bdd.setTwitterUsername(provider.getTwitterUsername());

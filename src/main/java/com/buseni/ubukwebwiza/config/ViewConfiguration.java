@@ -17,12 +17,10 @@ import org.springframework.web.multipart.support.StandardServletMultipartResolve
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.dialect.springdata.SpringDataDialect;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
-import org.thymeleaf.spring4.SpringTemplateEngine;
-import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
-import org.thymeleaf.spring4.view.ThymeleafViewResolver;
+import org.thymeleaf.spring5.SpringTemplateEngine;
+import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import org.thymeleaf.templateresolver.ITemplateResolver;
-
 
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 import nz.net.ultraq.thymeleaf.decorators.strategies.GroupingStrategy;
@@ -70,7 +68,7 @@ public class ViewConfiguration  {
 	@Bean 
 	public TemplateEngine templateEngine() {
 		SpringTemplateEngine engine = new SpringTemplateEngine();
-		//engine.setTemplateResolver(templateResolver());
+		engine.setTemplateResolver(templateResolver());
 		 final Set<ITemplateResolver> templateResolvers = new HashSet<ITemplateResolver>();
 		    templateResolvers.add(templateResolver());
 		    templateResolvers.add(emailTemplateResolver());
@@ -86,15 +84,15 @@ public class ViewConfiguration  {
 		return engine;
 	}
 	
-	@Bean 
-	public ThymeleafViewResolver thymeleafViewResolver() {
-		ThymeleafViewResolver resolver = new ThymeleafViewResolver();
-		resolver.setTemplateEngine(templateEngine());
-		resolver.setOrder(0);
-		resolver.setCharacterEncoding("UTF-8");
-		resolver.setContentType("text/html; charset=UTF-8");
-		return resolver;
-	}
+//	@Bean 
+//	public ThymeleafViewResolver thymeleafViewResolver() {
+//		ThymeleafViewResolver resolver = new ThymeleafViewResolver();
+//		resolver.setTemplateEngine(templateEngine());
+//		resolver.setOrder(0);
+//		resolver.setCharacterEncoding("UTF-8");
+//		resolver.setContentType("text/html; charset=UTF-8");
+//		return resolver;
+//	}
 	
 	 @Bean(name = "messageSource")
 	    public MessageSource messageSource() {

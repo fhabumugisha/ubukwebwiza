@@ -64,7 +64,7 @@ public class PhotoServiceImpl implements PhotoService {
 			photoRepo.save(photo);
 			return photo;
 		} else {
-			Photo photoBdd = photoRepo.findOne(photo.getId());
+			Photo photoBdd = photoRepo.findById(photo.getId()).orElseThrow(()-> new NullPointerException(" shouldn't be null"));
 			photoBdd.setLastUpdate( new Date());
 			photoBdd.setEnabled(photo.isEnabled());
 			photoBdd.setDescription(photo.getDescription());
@@ -103,7 +103,7 @@ public class PhotoServiceImpl implements PhotoService {
 		if(null == id){
 			throw new NullPointerException();
 		}
-		Photo photo  = photoRepo.findOne(id);
+		Photo photo  = photoRepo.findById(id).orElse(null);
 		if(photo == null){
 			throw new ResourceNotFoundException();
 		}
@@ -120,7 +120,7 @@ public class PhotoServiceImpl implements PhotoService {
 		if( pageable == null){
 			throw new NullPointerException();
 		}
-		PageRequest pr = new PageRequest(pageable.getPageNumber()-1, pageable.getPageSize());
+		PageRequest pr = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize());
 		return photoRepo.findAll(pr);
 	}
 	
@@ -134,7 +134,7 @@ public class PhotoServiceImpl implements PhotoService {
 		if( pageable == null ){
 			throw new NullPointerException();
 		}
-		PageRequest pr = new PageRequest(pageable.getPageNumber()-1, pageable.getPageSize());
+		PageRequest pr = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize());
 		return photoRepo.findByEnabled(enabled, pr);
 	}
 	
@@ -146,7 +146,7 @@ public class PhotoServiceImpl implements PhotoService {
 	@Transactional
 	public void delete(Integer id) {
 		if(null != id){
-			photoRepo.delete(id);
+			photoRepo.deleteById(id);
 		}
 		
 	}
@@ -158,7 +158,7 @@ public class PhotoServiceImpl implements PhotoService {
 		}
 		
 		
-		PageRequest pr = new PageRequest(pageable.getPageNumber()-1, pageable.getPageSize());
+		PageRequest pr = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize());
 		
 		Page<PhotoDetails> photoDetailsPage = photoRepo.findPhotoGallery(pr);
 		
@@ -168,7 +168,7 @@ public class PhotoServiceImpl implements PhotoService {
 	
 	@Override
 	public List<Photo>  homePagePhotos(){		
-		Page<Photo>  photosPage = photoRepo.findAll(GalleryPredicates.homePagePhotos(), new PageRequest(0, 5, Sort.Direction.DESC, "lastUpdate"));
+		Page<Photo>  photosPage = photoRepo.findAll(GalleryPredicates.homePagePhotos(), PageRequest.of(0, 5, Sort.Direction.DESC, "lastUpdate"));
 		if(photosPage != null){
 			return  photosPage.getContent();
 		}
@@ -180,7 +180,7 @@ public class PhotoServiceImpl implements PhotoService {
 		if( category == null || pageable ==  null){
 			throw new NullPointerException();
 		}
-		PageRequest pr = new PageRequest(pageable.getPageNumber()-1, pageable.getPageSize(), Sort.Direction.DESC, "lastUpdate");
+		PageRequest pr = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "lastUpdate");
 		return photoRepo.findByCategory(category, pr);
 	}
 

@@ -22,12 +22,14 @@ import com.buseni.ubukwebwiza.filters.CorsFilter;
  * @author habumugisha
  *
  */
-public class ApplicationInitializer implements WebApplicationInitializer {
+public class ApplicationInitializer
+//implements WebApplicationInitializer 
+{
 
 	/* (non-Javadoc)
 	 * @see org.springframework.web.WebApplicationInitializer#onStartup(javax.servlet.ServletContext)
 	 */
-	@Override
+	//@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {
 		// Register the Root application context
 		AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();

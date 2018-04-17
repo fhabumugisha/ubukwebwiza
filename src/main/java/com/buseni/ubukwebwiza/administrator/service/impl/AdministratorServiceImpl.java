@@ -66,7 +66,7 @@ public class AdministratorServiceImpl implements AdministratorService		{
 		if (administrator.getId() == null) {
 			administratorRepo.save(administrator);
 		} else {
-			Administrator adminDb = administratorRepo.findOne(administrator.getId());			
+			Administrator adminDb = administratorRepo.findById(administrator.getId()).orElseThrow(()-> new NullPointerException(" shouldn't be null"));			
 			adminDb.setLastName(administrator.getLastName());
 			adminDb.setFirstName(administrator.getFirstName());		
 			administratorRepo.save(adminDb);
@@ -103,7 +103,7 @@ public class AdministratorServiceImpl implements AdministratorService		{
 		if (null == id) {
 			return null;
 		}
-		Administrator admin   = administratorRepo.findOne(id);
+		Administrator admin   = administratorRepo.findById(id).orElse(null);
 		if(admin  == null){
 			throw new NullPointerException();
 		}
@@ -119,7 +119,7 @@ public class AdministratorServiceImpl implements AdministratorService		{
 	 */
 	@Override
 	public Page<Administrator> findAll(Pageable pageable) {
-		PageRequest pr = new PageRequest(pageable.getPageNumber()-1, pageable.getPageSize());
+		PageRequest pr = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize());
 		return administratorRepo.findAll(pr);
 	}
 
@@ -135,7 +135,7 @@ public class AdministratorServiceImpl implements AdministratorService		{
 	//@PreAuthorize(value = "hasRole('SUPER_ADMIN')")
 	public void delete(Integer id) {
 		if (null != id) {
-			administratorRepo.delete(id);
+			administratorRepo.deleteById(id);
 		}
 
 	}
@@ -211,7 +211,7 @@ public class AdministratorServiceImpl implements AdministratorService		{
 			CustomError  ce = ceb.field("listRoles").buid();
 			throw new BusinessException(ce);
 		}
-		Administrator adminDb = administratorRepo.findOne(administratorDTO.getId());
+		Administrator adminDb = administratorRepo.findById(administratorDTO.getId()).orElseThrow(()-> new NullPointerException(" shouldn't be null"));
 		//The email is changed
 		if(!adminDb.getAccount().getEmail().equals(administratorDTO.getEmail())){
 			if (emailExist(administratorDTO.getEmail())) {  

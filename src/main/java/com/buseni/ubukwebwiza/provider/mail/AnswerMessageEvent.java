@@ -4,7 +4,6 @@ import java.util.Locale;
 
 import org.springframework.context.ApplicationEvent;
 
-import com.buseni.ubukwebwiza.provider.beans.MessageDto;
 import com.buseni.ubukwebwiza.provider.domain.MessageAnswer;
 
 @SuppressWarnings("serial")
