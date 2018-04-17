@@ -1,1 +1,8 @@
 rootProject.name = 'ubukwebwiza'
+
+rootProject.children.each {project ->
+	project.buildFileName = "${project.name}.gradle"
+}
+
+include 'ub-core','rest-api','admin-client','ng-client', 'ionic-client'
+
