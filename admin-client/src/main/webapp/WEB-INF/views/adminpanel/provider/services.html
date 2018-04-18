@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:dt="http://github.com/dandelion/datatables" xmlns:ddl="http://www.thymeleaf.org/dandelion"
+	layout:decorator="adminpanel/fragments/mainAdminLayout">
+
+<head>
+<title th:text="#{providerWeddingService.title}">provider's services</title>
+</head>
+<body ddl:bundle-excludes="jquery">
+	<div layout:fragment="pageContent">
+
+			
+			<h4 class="sub-header" th:text="#{providerWeddingService.list.title}">Listing provider's services</h4>
+				
+		<div id="listServices-bloc" th:fragment="listServices">
+		<div class="well well-sm">
+			<a href="#" 
+				th:href="@{'/admin/providers/' + ${provider.id} +'/services/addService'}">
+				<button type="button" class="btn  btn-primary btn-xs">
+					<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+					&nbsp; <span th:text="#{list.add}">Add</span>
+				</button>
+			</a>
+		</div>
+		
+			<div th:if="${message}" class="alert alert-success fade in" >
+				<a href="#" class="close" data-dismiss="alert">&times;</a>
+				<span th:text="${message}">Success</span>
+			</div>
+			<div class="table-responsive">
+				<table id="listProvidersServices" class="table table-striped table-bordered table-hover" dt:table="true"  dt:autoWidth="true" dt:pageable="false" >
+					<thead>
+						<tr>
+							<th class="col-sm-1" >#</th>
+							<th class="col-sm-1" th:text="#{providerWeddingService.list.service}">Service</th>
+							<th class="col-sm-2" th:text="#{providerWeddingService.list.serviceDescription}">Description</th>							
+							<th class="col-sm-1" th:text="#{list.lastupdate}" dt:searchable="false">Last update</th>							
+							<th class="col-sm-1" th:text="#{list.createdat}" dt:searchable="false">Created at</th>
+							<th class="col-sm-1" th:text="#{list.enabled}" dt:searchable="false">Enabled</th>
+						<th class="col-sm-1"  th:text="#{list.actions}" dt:searchable="false" dt:filterable="false" dt:sortable="false">Actions</th> 
+							
+
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="providerService : ${provider.providerWeddingServices}" th:classappend="${providerServiceStat.odd}? 'odd'">
+							<td th:text="${providerService.id}">1</td>
+							<td th:text="${providerService.weddingService.libelle}">Wedding Planning</td>
+							<td th:text="${providerService.description}">Wedding Planning</td>
+							
+							<td th:text="${#dates.format(providerService.lastUpdate, 'dd/MM/yyyy')}">Ok</td>
+							<td th:text="${#dates.format(providerService.createdAt, 'dd/MM/yyyy')}">Ok</td>
+							<td th:text="${providerService.enabled}">Ok</td>
+							<!-- <td>
+								<a href="#" th:href="@{'/admin/providers/' + ${provider.id} +'/services/editService'(id=${providerService.id})}" class="editService">
+									
+											<button type="button" class="btn btn-default btn-xs">
+         									  <span class="glyphicon glyphicon-pencil"></span>&nbsp; <span th:text="#{list.edit}" >edit</span>
+       								 		 </button>
+										
+									 </a>
+							</td> -->
+							  <td class="dropdown">
+							<a id="dLabel" data-toggle="dropdown" href="#"> <span th:text="#{list.actions}">Actions</span>
+									<span class="caret"></span></a>
+								<ul class="dropdown-menu no-collapse" role="menu" aria-labelledby="dLabel">
+									<li>
+									<a href="#" th:href="@{'/admin/providers/' + ${provider.id} +'/services/editService'(id=${providerService.id})}" class="editService">
+									
+											<button type="button" class="btn btn-default btn-xs">
+         									  <span class="glyphicon glyphicon-pencil"></span>&nbsp; <span th:text="#{list.edit}" >edit</span>
+       								 		 </button>
+										
+									 </a>
+
+									</li>
+									<li>
+									
+									<a href="#" th:href="@{'/admin/providers/' + ${provider.id} +'/services/deleteService'(id=${providerService.id})}" class="deleteService">
+											
+											<button type="button" class="btn btn-default btn-xs">
+         									  <span class="glyphicon glyphicon-trash"></span>&nbsp; <span th:text="#{list.delete}">delete</span>
+       								 		 </button>
+									
+									
+									</a>
+
+									</li>
+								</ul>
+								</td> 
+						</tr>
+						<tr th:remove="all">
+							<td>1,002</td>
+							<td>amet</td>
+							<td>elit</td>
+							<td>elit</td>
+						</tr>
+
+
+
+					</tbody>
+				</table>
+			</div>
+
+			<!-- <div th:replace="util :: paginator ">
+				<ul class="pagination pagination-lg">
+					<li><a href="#">&laquo;</a></li>
+					<li><a href="#">1</a></li>
+					<li><a href="#">2</a></li>
+					<li><a href="#">3</a></li>
+					<li><a href="#">4</a></li>
+					<li><a href="#">5</a></li>
+					<li><a href="#">&raquo;</a></li>
+				</ul>
+			</div> -->
+
+			
+				
+		</div>
+
+
+	</div>
+	
+	
+</body>
+
+</html>

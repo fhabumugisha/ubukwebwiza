@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	layout:decorator="frontend/fragments/mainLayout">
+<head>
+<title th:text="#{signup.title}">Ubukwebwiza - Sign up</title>
+</head>
+<body>
+
+	<div layout:fragment="pageContent" id="content" >
+		
+		<div th:if="${error}"
+							class="alert alert-danger fade in">
+							<a href="#" class="close" data-dismiss="alert">&times;</a> <span
+								th:text="${error}">Error</span>
+		</div>
+		<div class="row">
+			<div class="col-md-12 container">
+
+				<div class="row">
+
+					<div class="col-md-7 container">
+						
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title" th:text="#{message.signup.provider}">Sign up for a provider account</h3>
+							</div>
+							<div class="panel-body">
+								
+								<form role="form" action="editProfil.html"
+									th:action="@{/signup}" th:object="${signupForm}" method="post">
+									<div th:if="${#fields.hasGlobalErrors()}"
+										class="alert alert-danger">
+										<ul>
+											<li th:each="err : ${#fields.globalErrors()}"
+												th:text="${err}">Input is incorrect</li>
+										</ul>
+									</div>
+									<label for="enterHere" class="sr-only">Dont fill this
+										field</label> <input id="enterHere" type="hidden" name="enterHere"
+										class="hidden" />
+
+									<div class="form-group">
+										<div class="input-group">
+											<span class="input-group-addon"><i class="fa fa-user"></i></span>
+											<input type="text" class="form-control" id="businessName"
+												th:field="*{businessName}" placeholder="Enter your business name" th:placeholder="#{placeholder.provider.businessname}"
+												required="required" autofocus="autofocus" maxlength="30" />
+
+										</div>
+										<span class="text-danger"
+											th:if="${#fields.hasErrors('businessName')}"
+											th:errors="*{businessName}">Required field</span>
+									</div>
+									<div class="form-group">
+										<div class="input-group">
+											<span class="input-group-addon"><i
+												class="fa fa-map-marker"></i> </span> <select
+												th:field="*{idDistrict}" id="idDistrict"
+												class="form-control " required="required">
+												<option value="" th:text="#{common.select.location}">Select
+													your location</option>
+												<option th:each="district : ${allDistricts}"
+													th:value="${district.id}" th:text="${district.libelle}">Nyarugenge</option>
+											</select>
+
+
+
+										</div>
+										<span class="text-danger"
+											th:if="${#fields.hasErrors('idDistrict')}"
+											th:errors="*{idDistrict}">Required field</span>
+									</div>
+									<div class="form-group">
+										<div class="input-group">
+											<span class="input-group-addon"><i class="fa fa-tasks"></i>
+											</span> <select th:field="*{idService}" id="idWeddingService"
+												class="form-control " required="required">
+												<option value="" th:text="#{common.select.service}"></option>
+												<option th:each="weddingService : ${allWeddingServices}"
+													th:value="${weddingService.id}"
+													th:text="${weddingService.libelle}">Wedding
+													planner</option>
+											</select>
+
+										</div>
+										<span class="text-danger"
+											th:if="${#fields.hasErrors('idService')}"
+											th:errors="*{idService}">Required field</span>
+									</div>
+
+									<div class="form-group">
+										<div class="input-group">
+											<span class="input-group-addon">@</span> <input type="email" autocomplete="off"
+												class="form-control" id="email" th:field="*{email}"
+												placeholder="Enter email" required="required" th:placeholder="#{placeholder.provider.email}" />
+
+										</div>
+										<span class="text-danger"
+											th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Required
+											field</span>
+
+									</div>
+									<div class="form-group" id="pwd-container">
+										<div class="input-group">
+											<span class="input-group-addon"><i class="fa fa-lg fa-lock"></i>
+											</span> 
+											<input type="password" th:field="*{password}" autocomplete="off"
+												class="form-control" id="userPassword" th:placeholder="#{placeholder.provider.password}"
+												placeholder="Enter password" required="required" />
+										</div>
+										<span class="pwstrength_viewport_verdict"></span>
+										<span class="text-danger"
+										th:if="${#fields.hasErrors('password')}"
+										th:errors="*{password}">Required field</span>
+									</div>
+
+
+									<button type="submit" class="btn btn-primary btn-block" th:text="#{message.signup}">Sign up</button>
+									<br />
+									<div class="text-info" th:text="#{message.clicksignup}">By clicking "Sign up", you agree to our terms of service and privacy policy.</div>
+								</form>
+							</div>
+
+						</div>
+
+					</div>
+					<div class="col-md-5">
+						<div class="panel panel-default">
+							<div class="panel-body">
+								<h3 th:text="#{message.whyjoinus.title}">Why Signin up ?</h3>
+								<p class="whyJoinUs"  th:text="#{message.whyjoinus}"></p>
+							</div>
+
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+
+
+
+</body>
+</html>

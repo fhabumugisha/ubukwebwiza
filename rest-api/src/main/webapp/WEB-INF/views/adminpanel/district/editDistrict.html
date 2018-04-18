@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	layout:decorator="adminpanel/fragments/mainAdminLayout">
+
+<head>
+<title th:text="${district.id} ? #{district.edit.title} : #{district.create.title}">Edit district</title>
+</head>
+<body>
+	<div layout:fragment="pageContent">
+	
+
+			<div th:if="${message}" class="alert alert-success" th:text="${message}">Cool</div>
+			
+			<h4 class="sub-header" th:text="${district.id} ? #{district.edit.title} : #{district.create.title}">Edit  district</h4>
+			<div class="well">
+
+
+				<form class="form-horizontal"  role="form" action="#" th:action="@{/admin/districts/save}" th:object="${district}" method="post">
+				<div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger">
+						<ul >
+ 			 				<li th:each="err : ${#fields.globalErrors()}" th:text="${err}">Input is incorrect</li>
+							</ul>
+				</div>
+					
+					<input type="text" hidden="hidden" th:field="*{id}" class="hidden" />
+					<div class="form-group" th:classappend="${#fields.hasErrors('libelle')}? has-error">
+						<label for="libelle" class="col-sm-2 control-label" th:text="#{district.list.libelle}">Libelle</label>
+						<div class="col-sm-5">							
+							 <input id="libelle" type="text" maxlength="25"
+								class="form-control" th:field="*{libelle}" placeholder="Enter name" required="required"/>
+								<span class="text-danger" th:if="${#fields.hasErrors('libelle')}" th:errors="*{libelle}">Required field</span>
+						</div>
+
+					</div>
+					
+						<div class="form-group" th:classappend="${#fields.hasErrors('province')}? has-error">
+						<label for="libelle" class="col-sm-2 control-label" th:text="#{district.list.province}">Province</label>
+						<div class="col-sm-5">		
+							<select th:field="*{province.id}" id="idProvince" class="form-control" required="required">
+								<option value="" th:text="#{common.select.prompt}"></option>
+								<option th:each="province : ${provinces}" th:value="${province.id}"		th:text="${province.libelle}">Kigali</option>
+								</select>					
+							 
+								<span class="text-danger" th:if="${#fields.hasErrors('province')}" th:errors="*{province}">Required field</span>
+						</div>
+
+					</div>
+					
+					<div class="form-group" th:classappend="${#fields.hasErrors('enabled')}? has-error">
+					
+						<div class="col-sm-offset-2 col-sm-10">
+      						<div class="checkbox">
+       						 <label>
+         					 <input type="checkbox" th:field="*{enabled}"/> <span th:text="#{district.list.enabled}">Enabled</span> 
+         					 <br />
+         					 <span class="text-danger" th:if="${#fields.hasErrors('enabled')}" th:errors="*{enabled}">check field</span>
+        					</label>
+     						 </div>
+   							 </div>
+					
+
+					</div>
+					<div class="form-group">
+   							 <div class="col-sm-offset-2 col-sm-10">
+      							<a href="#" th:href="@{/admin/districts}">  			
+  									<button type="button" class="btn  btn-default">
+         								<span th:text="#{cancel.button.label}">Cancel</span>
+       								</button>
+									</a>
+									
+      							<button type="submit" th:text="${district.id} ? #{update.button.label} : #{add.button.label}"  class="btn btn-primary">Action</button>
+      							
+      							
+      							
+      							<!-- <button type="submit"  class="btn btn-default active" name="action" value="cancel" data-th-text="#{cancel.button.label}">Cancel</button> -->
+   							 </div>
+  					</div>
+
+					
+
+
+
+				</form>
+			</div>
+		
+
+
+	</div>
+</body>
+
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	layout:decorator="frontend/fragments/mainLayout">
+<head>
+<title th:text="#{signin.title}">Ubukwebwiza - Sign in</title>
+</head>
+<body>
+
+	<div layout:fragment="pageContent" id="content" >
+		<!-- <div th:if="${error}" class="alert alert-danger" th:text="${error}">Error</div> -->
+		<div th:if="${message}" class="alert alert-success" th:text="${message}">	Password reset/Your account verified  successfully</div>	
+		<div th:if="${error}" class="alert alert-danger fade in">
+			<a href="#" class="close" data-dismiss="alert">&times;</a> 
+			<span th:text="${error}">Error</span>
+			</div>
+		<div class="row">
+			<div class="col-md-5 col-md-offset-4">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title" th:text="#{login.signin}">Sign in</h3>
+					</div>
+					<div class="panel-body">
+				
+					<!-- This will be activated in the next version -->
+						<!-- <button class="btn btn-facebook btn-block">
+							<i class="fa fa-facebook"></i> | Sign in with Facebook
+						</button>
+
+						<div
+							style="height: 20px; margin-bottom: 10px; position: relative; background: none repeat scroll 0 0 rgba(0, 0, 0, 0); text-align: center">
+							<h5
+								style="background-color: #FDFDFD; display: inline-block; margin: 0; padding: 8px;">OR</h5>
+							<hr style="margin: -16px auto 10px; width: 90%;" />
+
+						</div> -->
+
+						<form role="form" th:action="@{/profile/signin}" method="POST" th:autocomplete="off" autocomplete="off">
+							<div th:if="${param.error}" class="alert alert-danger" th:text="#{message.invalidCredentials}">
+								Invalid username and password.</div>
+							
+							<div th:if="${param.logout}" class="alert alert-success" th:text="#{message.loggedout}">
+								You have been logged out.</div>
+							
+							<div th:if="${param.verified}" class="alert alert-success" th:text="#{message.accountVerified}">
+								Your account verified successfully.</div>
+							
+							<div class="form-group">
+								<div class="input-group input-group-lg">
+									<span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+									 <input type="email" required="required" name="email" th:autocomplete="false"
+										autofocus="autofocus" class="form-control" th:placeholder="#{placeholder.provider.email}"
+										id="email" placeholder="Enter email" />
+								</div>
+
+							</div>
+							<div class="form-group">
+								<div class="input-group input-group-lg">
+									<span class="input-group-addon"><i class="fa fa-lg fa-lock"></i>
+									</span> <input type="password" class="form-control" id="password" name="password" placeholder="Password" required="required" 
+									 th:autocomplete="false" th:placeholder="#{placeholder.provider.password}"/>
+								</div>
+
+							</div>
+
+							<div class="checkbox" th:unless="${#bools.isTrue(loginUpdate)}">
+								<label> <input type="checkbox" name="remember-me" th:text="#{login.rememberme}"/> Remember me
+								</label> 
+								
+
+							</div>
+							<button type="submit" class="btn btn-primary btn-block" th:text="#{login.signin}">Sign in</button>
+						</form>
+						<div>
+						<span><a href="forgetPassword.html" th:href="@{/forgot-password}" th:text="#{login.forgotPassword}">Forgot password?</a></span>
+							
+						</div>
+						<div>						
+							<span th:text="#{login.areYouProvider}"> Are you a wedding service provider ?</span>&nbsp;<a href="signup.html" th:href="@{/signup}" th:text="#{login.signup}">Sign up</a>
+							
+						</div>
+
+
+					</div>
+				</div>
+
+
+			</div>
+		</div>
+		
+
+
+	</div>
+
+
+
+</body>
+</html>

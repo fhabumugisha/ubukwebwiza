@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	layout:decorator="frontend/fragments/mainLayout">
+<head>
+<title th:text="#{editProfile.title(${provider.businessName})}">Ubukwebwiza - provider's messages</title>
+</head>
+<body>
+
+	<!-- Main Content -->
+	<div layout:fragment="pageContent" id="content">
+		<nav th:replace="accountMenu :: menu"></nav>
+		<div class="row">
+			<!-- Content -->
+			<div id="messages" class="col-md-12">
+					<h3><span class="text-primary">Messages</span> </h3>
+
+				<th:bloc th:each="message : ${messages}">
+					<div class="media">
+						<div class="media-left media-top">
+							<a href="#"> <img class="media-object"
+								data-src="holder.js/50x50" alt="..."></img>
+							</a>
+						</div>
+						<div class="media-body">
+							<h5 class="media-heading">
+								<span th:text="${message.senderName}" class="text-primary">Cool
+									stuff</span>,&nbsp;<span class="text-muted" th:text="${#dates.format(message.createdAt, 'dd/MM/yyyy HH:mm:ss')}"> </span>
+							</h5>
+							
+							<p th:text="${message.comment}" class="title2">Cool
+								stuff</p>
+							<div>
+								<a th:if="${#bools.isTrue(message.readed)}" id="readMessage" href="#" class=" btn btn-default btn-xs"
+									th:href="@{/profile/messages/read(id=${message.id})}"
+									th:text="#{message.readMessage}"> Read </a>
+									
+									<a th:if="${#bools.isFalse(message.readed)}" id="readMessage" href="#" class=" btn btn-primary btn-xs"
+									th:href="@{/profile/messages/read(id=${message.id})}"
+									th:text="#{message.readMessage}"> Read </a>
+									
+									
+							</div>
+						</div>
+					</div>
+					<hr />
+				</th:bloc>
+				<div class="row">
+					<div class="col-md-12">
+						<div th:replace="util :: paginator ">
+							<ul class="pagination pagination-lg">
+								<li><a href="#">&laquo;</a></li>
+								<li><a href="#">1</a></li>
+								<li><a href="#">&raquo;</a></li>
+							</ul>
+						</div>
+
+					</div>
+				</div>
+								
+
+			</div>
+
+		</div>
+
+
+
+
+		<div id="dialog-confirm" title="Concfirm delete"
+			style="display: none;" th:title="#{dialog.confirm.delete.title}">
+			<p>
+				<span class="ui-icon ui-icon-alert"
+					style="float: left; margin: 0 7px 20px 0;"
+					th:text="#{dialog.confirm.delete}"></span>These items will be
+				permanently deleted and cannot be recovered. Are you sure?
+			</p>
+		</div>
+	</div>
+
+
+
+
+
+
+
+</body>
+</html>

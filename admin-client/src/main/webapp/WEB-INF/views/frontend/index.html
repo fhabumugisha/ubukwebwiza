@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" layout:decorator="frontend/fragments/mainLayout">
+<head>
+<title th:text="#{home.welcome}">Ubukwebwiza</title>
+</head>
+<body>
+
+	<!-- <div layout:fragment="pageContent"> -->
+
+		<div layout:fragment="pageContent" id="content" >
+			<div class="row">
+				<div class="col-md-12 .hidden-xs">
+					<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+						<!-- Indicators -->
+						<ol class="carousel-indicators">
+							<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+							<li data-target="#carousel-example-generic" data-slide-to="1"></li>
+							<li data-target="#carousel-example-generic" data-slide-to="2"></li>
+						</ol>
+
+						<!-- Wrapper for slides -->
+					<div class="carousel-inner">
+						<th:block th:each="photo :${sliderPhotos}">
+							<div class="item" th:classappend="${photoStat.first}? 'active'">
+								<img
+									src="../../../resources/images/application/wedding_4_content.jpg"
+									alt="..."
+									th:src="@{'http://cdn.ubukwebwiza.com/'+*{photo.filename}} "
+									width="950" height="300" />
+								<div class="carousel-caption">
+									<span th:text="${photo.description}"> Planning</span>
+								</div>
+							</div>
+						</th:block>
+						<div class="item active" th:remove="all">
+							<img
+								src="../../../resources/images/application/wedding_4_content.jpg"
+								alt="..."
+								th:src="@{/resources/images/application/wedding_4_content.jpg}" />
+							<div class="carousel-caption">Cool</div>
+						</div>
+						<div class="item" th:remove="all">
+							<img
+								src="../../../resources/images/application/Wedding_rings.jpg"
+								alt="..."
+								th:src="@{/resources/images/application/Wedding_rings.jpg}" />
+							<div class="carousel-caption">Staff</div>
+						</div>
+						<div class="item" th:remove="all">
+							<img
+								src="../../../resources/images/application/wedding-banner.png"
+								alt="..."
+								th:src="@{/resources/images/application/wedding-banner.png}" />
+							<div class="carousel-caption">Here</div>
+						</div>
+					</div>
+
+					<!-- Controls -->
+						<!-- <a class="left carousel-control .hidden-xs" href="#carousel-example-generic" data-slide="prev"> <span
+							class="glyphicon glyphicon-chevron-left"></span>
+						</a> <a class="right carousel-control .hidden-xs" href="#carousel-example-generic" data-slide="next"> <span
+							class="glyphicon glyphicon-chevron-right"></span>
+						</a> -->
+						<div id="mainPitch">
+							<div id="homeSearchFormContainer">
+								<h2>
+									<span th:text="#{home.search}">Looking for a wedding service provider ?</span>
+								</h2>
+
+								<form action="listingProvider.html" role="form" class="form-inline" th:action="@{/search}" th:object="${providerSearch}"
+									method="get">
+
+									 <div class="row">
+										<div class="col-md-3 col-sm-3  col-md-offset-2 col-sm-offset-1">
+
+											<select th:field="*{service}" id="idWeddingService" class="form-control  my_select_box">
+												<option th:each="weddingService : ${allWeddingServices}" th:value="${weddingService.id}"
+													th:text="${weddingService.libelle}">Wedding planner</option>
+											</select>
+										</div>
+
+										<div class="col-md-3  col-sm-3  ">
+											<select th:field="*{district}" id="idDistrict" class="form-control  my_select_box">
+												<option th:each="district : ${allDistricts}" th:value="${district.id}" th:text="${district.libelle}">Kigali</option>
+											</select>
+
+										</div>
+										<div class="col-md-2 col-sm-3   ">
+											<button type="submit" class="btn btn-primary btn-block" autofocus="autofocus">
+												Find <span class="glyphicon glyphicon-search"></span>
+											</button>
+										</div>
+									</div> 
+									
+									
+								</form>
+							</div>
+						</div>
+					</div>
+
+
+				</div>
+
+			</div>
+
+			<div class="row">
+				<div class="col-md-12">
+
+
+					<!-- This code will be parsed at thymeleaf parsing time! -->
+
+					<div class="row">
+						<th:block th:each="provider :${featuredProviders}">
+							<div class="col-md-4 col-sm-6 col-xs-12">
+								<div class="thumbnail">
+									
+									
+									<img id="profilPicturePreview"   width="290" height="150"
+									     alt="profil pic"  th:if="*{provider.profilPicture}" 
+									     th:alt="${businessName}" th:src="@{'http://cdn.ubukwebwiza.com/'+*{provider.profilPicture.filename}} "></img>
+									
+									 <img id="profilPicturePreview" alt="profil pic" 
+									      th:unless="*{provider.profilPicture}" th:alt="${businessName}" 
+									      data-src="holder.js/100%x150"></img>
+									<div class="caption">
+										<h4 >
+										<a href="provider/detailProvider.html" 
+												th:href="@{'/wedding-service-providers/'+${provider.urlName}}"><span th:text="${provider.businessName}">Thumbnail label</span></a>
+											
+										</h4>
+										<h4><span th:if="${not #lists.isEmpty(provider.providerWeddingServices)}" th:text="${provider.weddingService}">Planner</span> </h4>
+										
+										<h6>
+											<span th:text="${provider.district.libelle}"> Nyarugenge</span>
+										</h6>
+										<!-- <p>
+											<a href="provider/detailProvider.html" class="btn btn-primary btn-xs" role="button"
+												th:href="@{/wedding-service-providers/details(id=${provider.id})}">Follow</a> <a href="#" class="btn btn-default btn-xs" role="button">Like</a>
+										</p> -->
+									</div>
+								</div>
+
+							</div>
+
+						</th:block>
+
+						<!-- This code is for prototype -->
+						<!--/*-->
+						<div class="col-md-3 col-sm-6 col-xs-12" th:remove="all">
+							<div class="thumbnail">
+								<img data-src="holder.js/100%x150" alt="..." />
+								<div class="caption">
+									<h4>
+										<span>Thumbnail label</span>
+									</h4>
+									<span> Wedding planner</span>
+									<h6>
+										<span>Nyarugenge</span>
+									</h6>
+									<p>
+										<a href="provider/detailProvider.html" class="btn btn-primary btn-xs" role="button">Follow</a> <a href="#"
+											class="btn btn-default btn-xs" role="button">Like</a>
+									</p>
+								</div>
+							</div>
+
+						</div>
+
+						<div class="col-md-3 col-sm-6 col-xs-12" th:remove="all">
+							<div class="thumbnail">
+								<img data-src="holder.js/100%x150" alt="..." />
+								<div class="caption">
+									<h4>Thumbnail label</h4>
+									<span> Catering</span>
+									<h6>
+										<span></span> Kicukiro
+									</h6>
+									<br />
+									<p>
+										<a href="provider/detailProvider.html" class="btn btn-primary btn-xs" role="button">Follow</a> <a href="#"
+											class="btn btn-default btn-xs" role="button">Like</a>
+									</p>
+								</div>
+							</div>
+
+						</div>
+
+						<!--*/-->
+						<!-- <div class="col-md-3 col-sm-6 col-xs-12">
+							<div class="thumbnail">
+
+								<img src="../../../resources/images/application/no_person.jpg" style="height: 110px; display: block;"
+									alt="..." th:src="@{/resources/images/application/no_person.jpg}" />
+								<div class="caption">
+									<p class="text-center text-primary">Are you a wedding service provider ?</p>
+
+
+									<p>
+										<a href="contactus.html" th:href="@{/contactus}" class="btn btn-primary btn-block " role="button">Join us</a>
+
+									</p>
+								</div>
+							</div>
+							<a href="provider/listingProvider.html" class="btn btn-primary btn-block" role="button" th:href="@{/wedding-service-providers}">Find more providers </a>
+						</div> -->
+					</div>
+
+
+
+
+
+
+
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12 text-center" style="border-top: 1px solid rgba(128, 128, 128, 0.58); margin:5px; ">  						
+  						  <h2 style="font-family: 'GothamBook', Shift, Helvetica Neue;" th:text="#{home.providerCallAction}">Are you a wedding service provider ? </h2>  		  					 			
+				</div>				
+			</div>
+			<div class="row">
+				<div class="col-md-12 text-center">  						
+  						  <a  href="contactus.html" th:href="@{/signup}" class="btn btn-primary btn-lg " role="button" th:text="#{joinus.title}">Join us</a> 		  					 			
+				</div>				
+			</div>
+<!-- 		</div> -->
+		<!-- <div class="clearfix"></div> -->
+
+
+
+<!-- Modals -->
+	<!-- Login Modal -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-login">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">Sign in</h4>
+				</div>
+				<div class="modal-body">
+
+					<button class="btn btn-facebook btn-block">
+						<i class="fa fa-facebook"></i> | Sign in with Facebook
+					</button>
+
+					<div
+						style="height: 20px; margin-bottom: 10px; position: relative; background: none repeat scroll 0 0 rgba(0, 0, 0, 0); text-align: center">
+						<h5 style="background-color: #FDFDFD; display: inline-block; margin: 0; padding: 8px;">OR</h5>
+						<hr style="margin: -16px auto 10px; width: 90%;" />
+
+					</div>
+
+					<form role="form">
+						<input type="hidden" name="enterHere" class="hidden" />
+						<div class="form-group">
+							<div class="input-group">
+								<span class="input-group-addon">@</span> <input type="email" autofocus="autofocus" class="form-control"
+									id="exampleInputEmail1" placeholder="Enter email" />
+							</div>
+
+						</div>
+						<div class="form-group">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-lock"></i> </span> <input type="password" class="form-control"
+									id="exampleInputPassword1" placeholder="Password" />
+							</div>
+
+						</div>
+
+						<div class="checkbox">
+							<label> <input type="checkbox" /> Check me out
+							</label> <span class="pull-right"> <a href="#pswModal" data-toggle="modal" data-target="#pswModal" data-dismiss="modal">Forgot
+									password?</a></span>
+
+						</div>
+						<button type="submit" class="btn btn-primary btn-block">Sign in</button>
+					</form>
+				</div>
+				<!-- 
+				
+				 -->
+				<div class="modal-footer">
+					<!-- 
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary">Save changes</button>
+				 -->
+					<span class="pull-left"> Are you a wedding professional ?<a href="signup.html">Sign up</a>
+					</span>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- remind password Modal -->
+	<div class="modal fade" id="pswModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-login">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">Reset Password</h4>
+				</div>
+				<div class="modal-body">
+					<span class="text-muted"> Enter the email address associated with your account, and we'll email you a link to reset
+						your password. </span>
+					<form role="form">
+						<div class="form-group">
+							<div class="input-group">
+								<span class="input-group-addon">@</span> <input type="email" class="form-control" id="exampleInputEmail1"
+									placeholder="Enter email" />
+							</div>
+
+						</div>
+
+						<button type="submit" class="btn btn-primary btn-block">Send reset link</button>
+					</form>
+				</div>
+				<!-- 
+				
+				 -->
+
+			</div>
+		</div>
+	</div>
+
+	</div>
+	
+</body>
+</html>

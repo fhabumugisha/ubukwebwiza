@@ -8,3 +8,17 @@ subprojects {
    // apply plugin: 'java-library'
    // apply plugin : 'eclipse'
 }
+
+project(':rest-api') {
+ apply plugin: 'java-library'
+    dependencies {
+        compile project(':ub-core')
+    }
+}
+
+project(':admin-client') {
+ apply plugin: 'java-library'
+    dependencies {
+       compile project(':ub-core')
+    }
+}

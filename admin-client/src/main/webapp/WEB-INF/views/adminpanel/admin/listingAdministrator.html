@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" 
+	layout:decorator="adminpanel/fragments/mainAdminLayout">
+
+<head>
+<title th:text="#{administrator.title}">Administrators</title>
+</head>
+<body >
+	<div layout:fragment="pageContent">
+
+			<div th:if="${message}" class="alert alert-success" th:text="${message}">Cool</div>
+			<h4 class="sub-header" th:text="#{administrator.list.title}">Listing admnistrators</h4>
+					
+			<div class="well well-sm">
+				<a href="#" th:href="@{/admin/administrators/new}">  			
+  				<button type="button" class="btn  btn-primary btn-xs">
+         			<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> &nbsp;	
+         			<span th:text="#{list.add}">Add</span>
+       			</button>
+				</a> 
+		</div>
+			
+			<div class="table-responsive">
+				<table id="listAdmins" class="table table-striped table-bordered table-hover"  >
+					<thead>
+						<tr>
+							
+							<th class="col-sm-1" th:text="#{administrator.list.email}">Email</th>
+							<th class="col-sm-1" th:text="#{administrator.list.firstname}">First name</th>
+							<th class="col-sm-1" th:text="#{administrator.list.lastname}">Last name</th>
+							<th class="col-sm-1" th:text="#{administrator.list.roles}" >Last name</th>
+							<th class="col-sm-1" th:text="#{list.lastupdate}" >Last update</th>							
+							<th class="col-sm-1" th:text="#{list.createdat}" >Created at</th>
+							<th class="col-sm-1" th:text="#{list.enabled}" >Enabled</th>
+							<th class="col-sm-1"  th:text="#{list.actions}" >Actions</th>
+							
+
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="administrator : ${administrators}" th:classappend="${administratorStat.odd}? 'odd'">
+							
+							<td th:text="${administrator.account.email}">Email</td>
+							<td th:text="${administrator.firstName}">Ok</td>
+							<td th:text="${administrator.lastName}">Ok</td>
+							<td>
+							<ul th:if="${not #lists.isEmpty(administrator.account.roles)}">
+									<li th:each="role :${administrator.account.roles}" th:text="${role.name}">
+									</li>
+								</ul>
+							</td>
+							<td th:text="${#dates.format(administrator.account.lastUpdate, 'dd/MM/yyyy')}">Ok</td>
+							<td th:text="${#dates.format(administrator.account.createdAt, 'dd/MM/yyyy')}">Ok</td>
+							<td th:text="${administrator.account.enabled}">Ok</td>
+							<td class="dropdown">
+							<a id="dLabel" data-toggle="dropdown" href="#"> <span th:text="#{list.actions}">Actions</span>
+									<span class="caret"></span></a>
+								<ul class="dropdown-menu no-collapse" role="menu" aria-labelledby="dLabel">
+									<li><a href="#" th:href="@{/admin/administrators/edit(id=${administrator.id})}">
+									
+											<button type="button" class="btn btn-default btn-xs">
+         									  <span class="glyphicon glyphicon-pencil"></span>&nbsp; <span th:text="#{list.edit}">edit</span>
+       								 		 </button>
+										
+									 </a>
+
+									</li>
+									<li>
+									
+									<a href="#" th:href="@{/admin/administrators/delete(id=${administrator.id})}" class="deleteAdministrator confirmDelete">
+											
+											<button type="button" class="btn btn-default btn-xs">
+         									  <span class="glyphicon glyphicon-trash"></span>&nbsp; <span th:text="#{list.delete}">delete</span>
+       								 		 </button>
+									
+									
+									</a>
+
+									</li>
+								</ul></td>
+						</tr>
+						<tr th:remove="all">
+							<td>1,002</td>
+							<td>amet</td>
+							<td>elit</td>
+							<td>elit</td>
+						</tr>
+
+
+
+					</tbody>
+				</table>
+			</div>
+
+			<div th:replace="util :: paginator ">
+				<ul class="pagination pagination-lg">
+					<li><a href="#">&laquo;</a></li>
+					<li><a href="#">1</a></li>
+					<li><a href="#">2</a></li>
+					<li><a href="#">3</a></li>
+					<li><a href="#">4</a></li>
+					<li><a href="#">5</a></li>
+					<li><a href="#">&raquo;</a></li>
+				</ul>
+			</div>
+
+			<div>
+
+
+				
+			</div>
+		
+
+
+	</div>
+	<script type="text/javascript">
+	$(document).ready(function() {
+	    $('#listAdmins').DataTable();
+	} );
+		
+	</script>
+	
+</body>
+
+</html>

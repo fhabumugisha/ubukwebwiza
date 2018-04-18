@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	layout:decorator="frontend/fragments/mainLayout">
+<head>
+<title th:text="#{replyprovider.title(${provider.businessName})}">Ubukwebwiza - Reply provider</title>
+</head>
+<body>
+
+	
+		
+		<div layout:fragment="pageContent" id="content" >
+		<div th:if="${message}" class="alert alert-success" th:text="${message}">Cool</div>
+		
+		<div th:if="${error}"
+							class="alert alert-danger fade in">
+							<a href="#" class="close" data-dismiss="alert">&times;</a> <span
+								th:text="${error}">Error</span>
+		</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="panel panel-default">
+						
+						<div class="panel-body">
+					 <p> <span th:text="#{contactus.yourmessage}"></span>: </p>
+						<blockquote>
+						
+  							<p>	<span th:text="${oldMessageAnswer.message.comment}"></span></p>
+ 							 <footer> <span th:text="${#dates.format(oldMessageAnswer.message.createdAt, 'dd/MM/yyyy HH:mm:ss')}"></span></footer>
+						</blockquote>
+						
+						<p >  <span th:text="${provider.businessName}"></span>&nbsp;message :</p> 
+						<blockquote>						
+  							<p>	<span th:text="${oldMessageAnswer.comment}"></span></p>
+ 							 <footer> <span th:text="${#dates.format(oldMessageAnswer.createdAt, 'dd/MM/yyyy HH:mm:ss')}"></span></footer>
+						</blockquote>
+						
+						<address th:if="${!#strings.isEmpty(provider.phoneNumber)}">
+  							<abbr title="Phone">P:</abbr> <span th:text="${provider.phoneNumber}"></span>
+						</address>
+						<hr/>
+							<form role="form" method="post" th:action="@{/reply-provider}" th:object="${messageAnswer}">
+							<input type="text" hidden="hidden" th:field="*{message.id}" class="hidden" />
+							<div th:if="${#fields.hasGlobalErrors()}"
+						class="alert alert-danger">
+						<ul>
+							<li th:each="err : ${#fields.globalErrors()}" th:text="${err}">Input
+								is incorrect</li>
+						</ul>
+					</div>
+								<label for="enterHere" class="sr-only">Dont fill this
+										field</label> <input id="enterHere" type="hidden" name="enterHere"			class="hidden" />
+								<!-- <div class="form-group" th:classappend="${#fields.hasErrors('senderName')}? has-error">
+									
+									<div class="input-group col-md-4">
+										<span class="input-group-addon"><i class="fa fa-user"></i></span>
+										<input type="text" class="form-control" th:field="*{senderName}" autofocus="autofocus"
+											id="senderName" placeholder="Enter your name" required="required" th:placeholder="#{placeholder.contactus.name}" />
+											
+											<span class="text-danger" th:if="${#fields.hasErrors('senderName')}" th:errors="*{senderName}">Required 	field</span>
+									</div>
+
+								</div> -->
+							<!-- 	<div class="form-group" th:classappend="${#fields.hasErrors('senderEmail')}? has-error">
+									<div class="input-group col-md-4">
+										<span class="input-group-addon">@</span> 
+										<input type="email" th:field="*{senderEmail}"
+											class="form-control" id="email" th:placeholder="#{placeholder.contactus.email}"
+											placeholder="Enter email" required="required" />
+											<span class="text-danger" th:if="${#fields.hasErrors('senderEmail')}" th:errors="*{senderEmail}">Required 	field</span>
+									</div>
+
+								</div>
+								
+								<div class="form-group" th:classappend="${#fields.hasErrors('senderPhonenumber')}? has-error">
+									<div class="input-group col-md-4">
+										<span class="input-group-addon"><i class="fa fa-phone"></i> </span> 
+										<input type="text" th:field="*{senderPhonenumber}"
+											class="form-control" id="senderPhonenumber" th:placeholder="#{placeholder.contactus.phonenumber}"
+											placeholder="Enter phone number" required="required" />
+											<span class="text-danger" th:if="${#fields.hasErrors('senderPhonenumber')}" th:errors="*{senderPhonenumber}">Required 	field</span>
+									</div>
+
+								</div> -->
+
+								<div class="form-group" th:classappend="${#fields.hasErrors('comment')}? has-error">
+									<label for="comment" th:text="#{contactus.replymessage}"> Reply</label>
+									<div class="input-group col-md-6">
+										<span class="input-group-addon"><i class="fa fa-info"></i>
+										</span>
+										<textarea class="form-control" rows="3" th:field="*{comment}" maxlength="500"
+											id="comment" required="required"></textarea>
+											<span class="text-danger" th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}">Required 	field</span>
+									</div>
+
+								</div>
+								<a href="#" th:href="@{'/wedding-service-providers/'+${provider.urlName}}">
+								<button type="button" class="btn  btn-default">
+									<span th:text="#{cancel.button.label}">Cancel</span>
+								</button>
+								</a>
+								<button type="submit" class="btn btn-primary" th:text="#{contactus.sendmessage}">Send message </button>
+							</form>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+
+	
+
+</body>
+</html>

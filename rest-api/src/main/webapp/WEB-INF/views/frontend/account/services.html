@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	layout:decorator="frontend/fragments/mainLayout">
+<head>
+<title th:text="#{editProfile.title(${provider.businessName})}">Ubukwebwiza -  provider services</title>
+</head>
+<body>
+
+		<!-- Main Content -->
+		<div layout:fragment="pageContent" id="content" >
+		<nav th:replace="accountMenu :: menu"> </nav>
+		<div class="row">
+				<!-- Content -->
+				<div id="services" class="col-md-12">				
+
+						<div class="row" th:fragment="services-bloc">
+						<div class="col-md-12"><h3><span class="text-primary">Services</span> </h3></div>
+						
+							<div class="col-md-12">
+								<div th:if="${errorService}" class="alert alert-danger fade in">
+									<a href="#" class="close" data-dismiss="alert">&times;</a> <span
+										th:text="${errorService}">Error</span>
+								</div>
+								<div th:if="${messageService}"
+									class="alert alert-success fade in">
+									<a href="#" class="close" data-dismiss="alert">&times;</a> <span
+										th:text="${messageService}">Success</span>
+								</div>
+								<a id="showAddServiceForm" href="#"
+									class=" btn btn-primary btn-xs"
+									th:text="#{message.editProfile.addService}"> Add Service </a><br />
+								<br />
+
+
+								<div id="editServiceBox" style="display: none;">
+
+									<div class="panel panel-default">
+										<div class="panel-body">
+											<form role="form" id="addServiceForm"
+												th:action="@{/profile/addService}"
+												th:object="${serviceForm}" method="POST">
+												<input type="text" hidden="hidden" th:field="*{id}"
+													id="idService" th:id="idService" class="hidden" />
+												<div class="form-group">
+													<label for="idcService"
+														th:text="#{providerWeddingService.list.service}">Service</label>
+													<div class="input-group col-md-4">
+														<span class="input-group-addon"><i
+															class="fa fa-tasks"></i></span> <select th:field="*{idcService}"
+															id="idcService" class="form-control" required="required">
+															<!-- <option value=""></option> -->
+															<option th:each="weddingService : ${allWeddingServices}"
+																th:value="${weddingService.id}"
+																th:text="${weddingService.libelle}">Wedding
+																planner</option>
+														</select>
+
+
+													</div>
+
+												</div>
+												<div class="form-group">
+													<label for="description"
+														th:text="#{providerWeddingService.list.serviceDescription}">Description</label>
+													<div class="input-group col-md-4">
+														<span class="input-group-addon"><i
+															class="fa fa-info"></i></span>
+														<textarea th:field="*{description}" class="form-control"
+															id="description"></textarea>
+													</div>
+
+												</div>
+												<!-- <div class="form-group"
+													th:classappend="${#fields.hasErrors('enabled')}? has-error">
+
+													<div class="col-sm-2">
+														<div class="checkbox">
+															<label> <input type="checkbox"
+																th:field="*{enabled}" /> <span
+																th:text="#{provider.list.enabled}">Enabled</span> <br />
+																<span class="text-danger"
+																th:if="${#fields.hasErrors('enabled')}"
+																th:errors="*{enabled}">check field</span>
+															</label>
+														</div>
+													</div>
+
+
+												</div> -->
+
+
+												<div class="form-group ">
+													<button type="button" id="hideAddServiceForm"
+														class="btn  btn-default btn-sm">
+														<span th:text="#{cancel.button.label}">Cancel</span>
+													</button>
+													<button type="submit" class="btn  btn-primary btn-sm"
+														th:text="#{add.button.label}">Add</button>
+												</div>
+
+
+											</form>
+
+										</div>
+									</div>
+
+
+
+								</div>
+								<div id="listingPrestationBox"
+									style="display: block; border: none;">
+									<div class="table-responsive">
+										<table class="table">
+											<thead>
+												<tr class="active">
+													<th align="left">Service</th>
+													<th align="left"></th>
+
+												</tr>
+											</thead>
+											<tbody>
+
+
+
+												<th:bloc
+													th:each="providerWeddingService : ${provider.providerWeddingServices}"
+													th:if="${#bools.isTrue(providerWeddingService.enabled)}">
+
+													<tr>
+
+														<td>
+															<h4>
+																<span
+																	th:text="${providerWeddingService.weddingService.libelle}">Wedding
+																	Planning</span>
+															</h4>
+
+															<h5>
+																<span th:text="${providerWeddingService.description}">
+																	I do all the job from A to Z </span>
+															</h5>
+														</td>
+														<td></td>
+
+													</tr>
+													<tr>
+														<td colspan="2"><a
+															th:href="@{/profile/editService(id=${providerWeddingService.id})}"
+															href="#" class="editProfileService"> <span
+																th:text="#{list.edit}">Edit</span>
+														</a> | <a class="deleteProfileService" href="#"
+															th:href="@{/profile/deleteService(id=${providerWeddingService.id})}">
+																<span th:text="#{list.delete}">delete</span>
+														</a></td>
+
+													</tr>
+
+
+
+
+												</th:bloc>
+
+
+
+												<tr th:remove="all">
+
+													<td>name<br /> description
+													</td>
+													<td></td>
+
+												</tr>
+												<tr th:remove="all">
+													<td colspan="2"><a href="JavaScript:editPrestation();">
+															Edit </a> | <a class="deleteServiceBox" href="#"> Delete
+													</a></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+
+								</div>
+							</div>
+
+						</div>
+				
+
+
+
+			</div>
+				
+			</div>
+		
+	<div id="dialog-confirm" title="Concfirm delete"
+			style="display: none;" th:title="#{dialog.confirm.delete.title}">
+			<p>
+				<span class="ui-icon ui-icon-alert"
+					style="float: left; margin: 0 7px 20px 0;"
+					th:text="#{dialog.confirm.delete}"></span>These items will be
+				permanently deleted and cannot be recovered. Are you sure?
+			</p>
+		</div>
+	
+	</div>
+	
+	
+	
+
+
+	
+	
+	
+</body>
+</html>

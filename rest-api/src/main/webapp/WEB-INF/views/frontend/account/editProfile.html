@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	layout:decorator="frontend/fragments/mainLayout">
+<head>
+<title th:text="#{editProfile.title(${provider.businessName})}">Ubukwebwiza - Edit provider's profile</title>
+</head>
+<body>
+
+		<!-- Main Content -->
+		<div layout:fragment="pageContent" id="content" >
+		<nav th:replace="accountMenu :: menu"> </nav>
+		<div class="row">
+				<!-- Content -->
+				<div id="profilInfo" class="col-md-12">
+				
+						<div th:if="${errorPersonnalInfo}"
+							class="alert alert-danger fade in">
+							<a href="#" class="close" data-dismiss="alert">&times;</a> <span
+								th:text="${errorPersonnalInfo}">Error</span>
+						</div>
+						<div th:if="${messagePersonnalInfo}"
+							class="alert alert-success fade in">
+							<a href="#" class="close" data-dismiss="alert">&times;</a> <span
+								th:text="${messagePersonnalInfo}">Success</span>
+						</div>
+						<form role="form" th:action="@{/profile/update}"
+							th:object="${provider}" method="post"
+							enctype="multipart/form-data">
+							<input type="text" hidden="hidden" th:field="*{id}"
+								class="hidden" />
+
+							<div class="row">
+								<div class="col-md-2 "
+									th:classappend="${#fields.hasErrors('profilPicture')}? has-error">
+
+
+									<div class="fileinput fileinput-new" data-provides="fileinput">
+										<div class="fileinput-new thumbnail"
+											style="width: 150px; height: 150px;">
+											<img data-src="holder.js/100%x100%" alt="Select profile pic"
+												th:unless="*{profilPicture}"></img> <img
+												id="profilPicturePreview" alt="profile pic"
+												th:if="*{profilPicture}" th:alt="${businessName}"
+												th:src="@{'http://cdn.ubukwebwiza.com/'+*{profilPicture.filename}} "></img>
+
+										</div>
+
+										<div class="fileinput-preview fileinput-exists thumbnail"></div>
+										<div>
+											<span class="btn btn-primary btn-xs btn-file"> <span
+												class="fileinput-new"
+												th:text="#{message.editProfile.changeProfilePicture}">Change
+													photo</span> <span class="fileinput-exists"
+												th:text="#{message.editProfile.changeProfilePicture}">Change</span>
+												<input type="file" name="file" />
+											</span> <a href="#" th:if="*{profilPicture}" data-toggle="modal"
+												data-target="#confirmRemove" class="btn btn-default btn-xs "
+												th:text="#{message.editProfile.removeProfilePicture}">Remove</a>
+
+											<!-- <a href="#"
+												class="btn btn-default btn-xs fileinput-exists"
+												data-dismiss="fileinput" th:text="#{message.editProfile.removeProfilePicture}">Remove</a> -->
+										</div>
+									</div>
+
+
+									<span class="text-danger"
+										th:if="${#fields.hasErrors('profilPicture')}"
+										th:errors="*{profilPicture}">Required field</span>
+
+
+<!-- 									<div class="cropme" style="width: 155px; height: 155px;"></div> -->
+
+
+								</div>
+								<div class="col-md-5 ">
+									<div class="panel  panel-default">
+
+										<div class="panel-body">
+
+											<div class="form-group"
+												th:classappend="${#fields.hasErrors('businessName')}? has-error">
+												<label for="businessName"
+													th:text="#{provider.list.businessname}">Business
+													name</label>
+												<div class="input-group">
+													<span class="input-group-addon"><i
+														class="fa fa-user"></i></span> <input type="text"
+														required="required" th:field="*{businessName}"
+														class="form-control" id="businessName" maxlength="30"
+														placeholder="Enter your business name" />
+
+												</div>
+												<span class="text-danger"
+													th:if="${#fields.hasErrors('businessName')}"
+													th:errors="*{businessName}">Required field</span>
+											</div>
+											<div class="form-group"
+												th:classappend="${#fields.hasErrors('district')}? has-error">
+												<label for="district" th:text="#{provider.list.district}">Location</label>
+												<div class="input-group">
+													<span class="input-group-addon"><i
+														class="fa fa-map-marker"></i> </span> <select
+														th:field="*{district.id}" id="idDistrict"
+														required="required" class="form-control">
+														<option value="" th:text="#{common.select.prompt}"></option>
+														<option th:each="district : ${allDistricts}"
+															th:value="${district.id}" th:text="${district.libelle}">Nyarugenge</option>
+													</select>
+												</div>
+												<span class="text-danger"
+													th:if="${#fields.hasErrors('district')}"
+													th:errors="*{district}">Required field</span>
+											</div>
+											<div class="form-group"
+												th:classappend="${#fields.hasErrors('address')}? has-error">
+												<label for="address" th:text="#{provider.list.address}">Adresse</label>
+												<textarea class="form-control" rows="2" id="address"
+													th:field="*{address}"></textarea>
+												<span class="text-danger"
+													th:if="${#fields.hasErrors('address')}"
+													th:errors="*{address}">Required field</span>
+											</div>
+											<div class="form-group"
+												th:classappend="${#fields.hasErrors('phoneNumber')}? has-error">
+												<label for="phoneNumber"
+													th:text="#{provider.list.phonenumber}">Phone number</label>
+												<div class="input-group">
+													<span class="input-group-addon"><i
+														class="fa fa-phone"></i></span> <input type="text"
+														th:field="*{phoneNumber}" maxlength="15"
+														class="form-control" id="phoneNumber"
+														placeholder="Enter your phonenumber" />
+												</div>
+												<span class="text-danger"
+													th:if="${#fields.hasErrors('phoneNumber')}"
+													th:errors="*{phoneNumber}">Required field</span>
+											</div>
+
+
+										</div>
+									</div>
+
+
+								</div>
+								<div class="col-md-5 ">
+									<div class="panel  panel-default">
+
+										<div class="panel-body">
+
+
+											<div class="form-group"
+												th:classappend="${#fields.hasErrors('aboutme')}? has-error">
+												<label for="address" th:text="#{provider.list.aboutme}">About
+													me</label>
+												<textarea class="form-control" rows="5" id="aboutme"
+													th:field="*{aboutme}" maxlength="500"></textarea>
+												<span class="text-danger"
+													th:if="${#fields.hasErrors('aboutme')}"
+													th:errors="*{aboutme}">Required field</span>
+											</div>
+
+
+
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12 ">
+									<div class="pull-right">
+										<button type="submit" class="btn btn-primary">
+											<span th:text="#{update.button.label}">Update</span>
+										</button>
+									</div>
+
+								</div>
+							</div>
+						</form>
+
+					
+
+
+
+			</div>
+				
+			</div>
+		
+	<div class="modal fade bs-modal-xs" tabindex="-1" role="dialog"
+		id="confirmRemove" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-xs">
+			<div class="modal-content">
+				<div class="modal-header">
+					<a class="close" data-dismiss="modal">&times;</a>
+					<h5 th:text="#{message.editProfile.removePhoto}">Remove profile photo?</h5>
+				</div>
+				<div class="modal-body"><span th:text="#{message.editProfile.confirmRemovePhoto}"> Are your sure ?</span></div>
+				<div class="modal-footer"> 
+					<a  href="#" th:href="@{/profile/removeProfilePhoto(idProvider=${provider.id})}" class="btn btn-primary" th:text="#{message.editProfile.removeProfilePicture}">Remove</a>
+					 <a href="#" class="btn btn-default btn-cancel" data-dismiss="modal"  th:text="#{cancel.button.label}">Cancel</a>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	
+	
+	
+		</div>
+	
+	
+
+
+	
+	
+	
+</body>
+</html>

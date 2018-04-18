@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	layout:decorator="frontend/fragments/mainLayout">
+<head>
+<title th:text="#{editProfile.title(${provider.businessName})}">Ubukwebwiza -  provider's photos</title>
+</head>
+<body>
+
+		<!-- Main Content -->
+		<div layout:fragment="pageContent" id="content" >
+			<nav th:replace="accountMenu :: menu"> </nav>
+		<div class="row">
+				<!-- Content -->
+				<div id="photos" class="col-md-12">
+				
+						<div class="row" th:fragment="photos-bloc">
+						<div class="col-md-12"><h3><span class="text-primary">Photos</span> </h3></div>
+						
+							<div class="col-md-12 container">
+								<div th:if="${errorPhoto}" class="alert alert-danger fade in">
+									<a href="#" class="close" data-dismiss="alert">&times;</a> <span
+										th:text="${errorPhoto}"></span>
+								</div>
+								<div th:if="${messagePhoto}" class="alert alert-success fade in">
+									<a href="#" class="close" data-dismiss="alert">&times;</a> <span
+										th:text="${messagePhoto}">Success</span>
+								</div>
+								<div class="alert alert-danger" id="errors"
+									style="display: none;">
+									<!-- 									<a href="#" class="close" data-dismiss="alert">&times;</a>	 -->
+									<span id="errorMessage">Error</span>
+								</div>
+								<!-- Free account can add only 5 photos -->
+								<div>
+									<a id="showAddPhotoForm" href="#"
+										class=" btn btn-primary btn-xs"
+										th:if="${#bools.isTrue(canAddMorePhoto)}"
+										th:text="#{message.editProfile.addPhoto}"> Add photo </a>
+								</div>
+
+
+								<br />
+
+								<div id="editPhotoBox" style="display: none;">
+									<div class="panel panel-default">
+										<div class="panel-body">
+											<form role="form" enctype="multipart/form-data"
+												th:action="@{/profile/addPhoto}" th:object="${photoForm}"
+												id="addPhotoForm" method="post">
+												<input type="text" hidden="hidden" th:field="*{id}"
+													id="idPhoto" th:id="idPhoto" class="hidden" />
+												<div class="form-group"
+													th:classappend="${#fields.hasErrors('name')}? has-error">
+
+
+													<div class="fileinput fileinput-new"
+														data-provides="fileinput">
+														<div class="fileinput-new thumbnail"
+															style="width: 225px; height: 200px;">
+
+															<img data-src="holder.js/100%x100%"
+																id="profilPictureHolder" alt="Select profile pic"
+																th:unless="*{name}"></img> <img
+																id="profilPicturePreview" width="225" height="200"
+																alt="pic" th:if="*{name}"
+																th:src="@{'http://cdn.ubukwebwiza.com/'+*{name}} "></img>
+
+														</div>
+														<div class="fileinput-preview fileinput-exists thumbnail"
+															style="width: 225px; height: 200px;"></div>
+														<div>
+															<span class="btn btn-default btn-file"><span
+																class="fileinput-new">Select image</span><span
+																class="fileinput-exists">Change</span> <input
+																type="file" name="file" /></span> <a href="#"
+																class="btn btn-default fileinput-exists"
+																data-dismiss="fileinput">Remove</a>
+														</div>
+													</div>
+
+
+													<span class="text-danger"
+														th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Required
+														field</span>
+
+
+
+
+												</div>
+												<div class="form-group"
+													th:classappend="${#fields.hasErrors('description')}? has-error">
+													<!-- <div class="col-sm-7"> -->
+													<label for="description" class="control-label"
+														th:text="#{photo.list.description}">description</label>
+
+													<textarea id="description" rows="3" cols="2"
+														maxlength="500" class="form-control"
+														th:field="*{description}"></textarea>
+
+													<span class="text-danger"
+														th:if="${#fields.hasErrors('description')}"
+														th:errors="*{description}">Required field</span>
+
+													<!-- </div> -->
+												</div>
+												<!-- <div class="form-group"
+													th:classappend="${#fields.hasErrors('enabled')}? has-error">
+													<div class="col-sm-7">
+
+														<div class="checkbox">
+															<label> <input type="checkbox"
+																th:field="*{enabled}" /> <span
+																th:text="#{provider.list.enabled}">Enabled</span> <br />
+																<span class="text-danger"
+																th:if="${#fields.hasErrors('enabled')}"
+																th:errors="*{enabled}">check field</span>
+															</label>
+														</div>
+
+													</div>div
+
+												</div> -->
+												<div class="form-group ">
+													<button type="button" id="hideAddPhotoForm"
+														class="btn  btn-default btn-sm"
+														data-dismiss="profilPicturePreview">
+														<span th:text="#{cancel.button.label}">Cancel</span>
+													</button>
+													<button type="submit" class="btn  btn-primary btn-sm">
+														<span th:text="#{add.button.label}">Add</span>
+													</button>
+													<div id="saving"></div>
+												</div>
+
+
+											</form>
+										</div>
+									</div>
+
+
+
+								</div>
+								<!-- The Bootstrap Image Gallery lightbox, should be a child element of the document body -->
+								<div id="blueimp-gallery" class="blueimp-gallery">
+									<!-- The container for the modal slides -->
+									<div class="slides"></div>
+									<!-- Controls for the borderless lightbox -->
+									<h3 class="title"></h3>
+									<a class="prev">‹</a> <a class="next">›</a> <a class="close">×</a>
+									<a class="play-pause"></a>
+									<ol class="indicator"></ol>
+									<!-- The modal dialog, which will be used to wrap the lightbox content -->
+									<div class="modal fade">
+										<div class="modal-dialog">
+											<div class="modal-content">
+												<div class="modal-header">
+													<button type="button" class="close" aria-hidden="true">&times;</button>
+													<h4 class="modal-title"></h4>
+												</div>
+												<div class="modal-body next"></div>
+												<div class="modal-footer">
+													<button type="button"
+														class="btn btn-default pull-left prev">
+														<i class="glyphicon glyphicon-chevron-left"></i> Previous
+													</button>
+													<button type="button" class="btn btn-primary next">
+														Next <i class="glyphicon glyphicon-chevron-right"></i>
+													</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div id="listingFashionBox" class="row">
+									<div id="links">
+										<th:bloc th:each="photo : ${provider.photos}"
+											th:if="${#bools.isTrue(photo.enabled)}">
+											<div class="fashionBox col-md-3">
+												<div class="panel panel-default">
+													<div class="panel-body">
+														<a
+															href="../../../../resources/images/application/wedding_4_content.jpg"
+															title="Wedding planner" th:title="${photo.description}"
+															data-gallery=""
+															th:href="@{'http://cdn.ubukwebwiza.com/'+${photo.filename}}">
+
+															<img alt="Cool stuff"
+															src="../../../../resources/images/application/wedding_4_content.jpg"
+															th:alt="${photo.description}"
+															th:src="@{'http://cdn.ubukwebwiza.com/'+${photo.filename}}"
+															width="225" height="200" />
+														</a> <br /> <span th:text="${photo.description}"
+															class="title2">Cool stuff</span> <br /> <a
+															th:href="@{/profile/editPhoto(id=${photo.id})}" href="#"
+															class="editProfilePhoto"> <span
+															th:text="#{list.edit}">Edit</span>
+														</a> | <a class="deleteProfilePhoto" href="#"
+															th:href="@{/profile/deletePhoto(id=${photo.id})}"> <span
+															th:text="#{list.delete}">delete</span>
+														</a>
+
+
+													</div>
+												</div>
+
+											</div>
+
+										</th:bloc>
+
+
+
+
+									</div>
+
+
+								</div>
+							</div>
+						</div>
+
+					
+
+
+
+
+
+			</div>
+				
+			</div>
+		
+	<div class="modal fade bs-modal-xs" tabindex="-1" role="dialog"
+		id="confirmRemove" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-xs">
+			<div class="modal-content">
+				<div class="modal-header">
+					<a class="close" data-dismiss="modal">&times;</a>
+					<h5 th:text="#{message.editProfile.removePhoto}">Remove profile photo?</h5>
+				</div>
+				<div class="modal-body"><span th:text="#{message.editProfile.confirmRemovePhoto}"> Are your sure ?</span></div>
+				<div class="modal-footer"> 
+					<a  href="#" th:href="@{/profile/removeProfilePhoto(idProvider=${provider.id})}" class="btn btn-primary" th:text="#{message.editProfile.removeProfilePicture}">Remove</a>
+					 <a href="#" class="btn btn-default btn-cancel" data-dismiss="modal"  th:text="#{cancel.button.label}">Cancel</a>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	
+	
+	<div id="dialog-confirm" title="Concfirm delete"
+			style="display: none;" th:title="#{dialog.confirm.delete.title}">
+			<p>
+				<span class="ui-icon ui-icon-alert"
+					style="float: left; margin: 0 7px 20px 0;"
+					th:text="#{dialog.confirm.delete}"></span>These items will be
+				permanently deleted and cannot be recovered. Are you sure?
+			</p>
+		</div>
+		</div>
+	
+	
+
+
+	
+	
+	
+</body>
+</html>
