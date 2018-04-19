@@ -9,14 +9,14 @@ subprojects {
    // apply plugin : 'eclipse'
 }
 
-project(':rest-api') {
+project(':ub-api') {
  apply plugin: 'java-library'
     dependencies {
         compile project(':ub-core')
     }
 }
 
-project(':admin-client') {
+project(':ub-admin') {
  apply plugin: 'java-library'
     dependencies {
        compile project(':ub-core')
