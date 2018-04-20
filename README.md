@@ -3,12 +3,12 @@ ubukwebwiza
 
 ubukwebwiza
 
-Core
+- Core
 
-Api
+- Api
 
-Admin Panel
+- Admin Panel
 
-Ng-client
+- Ng-client
 
-Ionic-client
+- Ionic-client
