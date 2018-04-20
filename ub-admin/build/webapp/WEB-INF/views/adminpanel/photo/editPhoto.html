@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	layout:decorator="adminpanel/fragments/mainAdminLayout">
+
+<head>
+<title th:text="${photoForm.id} ? #{photo.edit.title} : #{photo.create.title}">Edit  home page  photo</title>
+</head>
+<body>
+	<div layout:fragment="pageContent">
+	
+
+			<div th:if="${message}" class="alert alert-success" th:text="${message}">Cool</div>
+			<div th:if="${errors}" id="errors" class="alert alert-danger" th:text="${errors}">Bad</div>
+			
+			<h4 class="sub-header" th:text="${photoForm.id} ? #{photo.edit.title} : #{photo.create.title}">Edit home page photo</h4>
+			
+				<div class="panel panel-default">
+			<div class="panel-body">
+
+				<form class="form-horizontal" role="form" action="#" enctype="multipart/form-data"
+					th:action="@{/admin/photos/addPhoto}" th:object="${photoForm}" method="post" >
+					<div th:if="${#fields.hasGlobalErrors()}"
+						class="alert alert-danger">
+						<ul>
+							<li th:each="err : ${#fields.globalErrors()}" th:text="${err}">Input
+								is incorrect</li>
+						</ul>
+					</div>
+
+
+					<input type="text" hidden="hidden" th:field="*{id}" class="hidden" />
+					<div class="form-group"
+								th:classappend="${#fields.hasErrors('name')}? has-error">
+																	
+									<div class="col-sm-7">
+										<div class="fileinput fileinput-new" data-provides="fileinput">
+										<div class="fileinput-new thumbnail"
+											style="width: 984px; height: 300px;">
+											<img data-src="holder.js/100%x100%" alt="Select profile pic"
+												th:unless="*{name}"></img> 
+												<img
+												id="profilPicturePreview" width="984" height="300"
+												alt="pic" th:if="*{name}"
+												
+												th:src="@{'http://cdn.ubukwebwiza.com/'+*{name}} "></img>
+
+										</div>
+										<div class="fileinput-preview fileinput-exists thumbnail"
+											style="width: 984px; height: 300px;"></div>
+										<div>
+											<span class="btn btn-default btn-file"><span
+												class="fileinput-new">Select image</span><span
+												class="fileinput-exists">Change</span>
+												<input type="file" 	name="file" /></span> <a href="#"
+												class="btn btn-default fileinput-exists"
+												data-dismiss="fileinput">Remove</a>
+										</div>
+									</div>
+
+
+									<span class="text-danger"
+										th:if="${#fields.hasErrors('name')}"
+										th:errors="*{name}">Required field</span>
+									</div>
+									
+								
+
+							</div>
+							
+							<div class="form-group"
+								th:classappend="${#fields.hasErrors('description')}? has-error">
+								<div class="col-sm-7">
+								<label for="description" class="control-label"
+									th:text="#{photo.list.description}">description</label>
+								
+									<textarea id="description" rows="3" cols="5" class="form-control"
+										th:field="*{description}"></textarea>
+
+									<span class="text-danger"
+										th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Required
+										field</span>
+								
+								</div>
+							</div>
+							<div class="form-group"
+								th:classappend="${#fields.hasErrors('enabled')}? has-error">
+								<div class="col-sm-7">
+								
+									<div class="checkbox">
+										<label> <input type="checkbox" th:field="*{enabled}" />
+											<span th:text="#{provider.list.enabled}">Enabled</span> <br />
+											<span class="text-danger"
+											th:if="${#fields.hasErrors('enabled')}"
+											th:errors="*{enabled}">check field</span>
+										</label>
+									</div>
+								
+								</div>
+
+							</div>
+							
+				
+
+
+					<div class="form-group">
+						
+							<div class="col-sm-7">
+							<a href="#" th:href="@{/admin/photos/}">
+								<button type="button" class="btn  btn-default">
+									<span th:text="#{cancel.button.label}">Cancel</span>
+								</button>
+							</a>
+							<button type="submit"
+								th:text="${photoForm.id} ? #{update.button.label} : #{add.button.label}"
+								class="btn btn-primary">Action</button>
+
+						</div>
+					</div>
+
+
+				</form>
+				
+				</div>
+				</div>
+				
+			
+		
+
+
+	</div>
+</body>
+
+</html>
