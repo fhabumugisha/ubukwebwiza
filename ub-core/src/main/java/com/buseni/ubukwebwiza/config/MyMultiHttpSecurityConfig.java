@@ -25,7 +25,7 @@ import com.buseni.ubukwebwiza.filters.CustomSavedRequestAwareAuthenticationSucce
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled=true)
-public class MyMultiHttpSecurityConfig {
+public class MyMultiHttpSecurityConfig  {
 	
 
 @Autowired

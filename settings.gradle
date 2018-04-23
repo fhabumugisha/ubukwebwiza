@@ -4,5 +4,5 @@ rootProject.children.each {project ->
 	project.buildFileName = "${project.name}.gradle"
 }
 
-include 'ub-core','ub-api','ub-admin','ub-ng-client', 'ub-ionic-client'
+include 'ub-core','ub-api','ub-admin','ub-ng-client'
 
