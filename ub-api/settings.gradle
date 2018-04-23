@@ -1,1 +1,4 @@
 rootProject.name = 'ub-api'
+
+include ':ub-core'
+project(':ub-core').projectDir = new File(settingsDir, '../ub-core')

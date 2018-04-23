@@ -11,14 +11,34 @@ subprojects {
 
 project(':ub-api') {
  apply plugin: 'java-library'
+ apply plugin: 'maven'
     dependencies {
         compile project(':ub-core')
+    }
+    
+    repositories {
+   		 mavenLocal()
+  		 mavenCentral()
     }
 }
 
 project(':ub-admin') {
  apply plugin: 'java-library'
+ apply plugin: 'maven'
     dependencies {
        compile project(':ub-core')
+    }
+    repositories {
+   		 mavenLocal()
+  		 mavenCentral()
+    }
+}
+
+project(':ub-core') {
+ apply plugin: 'java-library'
+    apply plugin: 'maven'
+    repositories {
+   		 mavenLocal()
+  		 mavenCentral()
     }
 }

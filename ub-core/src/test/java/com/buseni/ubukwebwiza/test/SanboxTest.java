@@ -16,9 +16,9 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import com.buseni.ubukwebwiza.account.domain.UserAccount;
 import com.buseni.ubukwebwiza.account.repository.UserAccountRepository;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes= TestConfig.class)
-@WebAppConfiguration
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@ContextConfiguration(classes= TestConfig.class)
+//@WebAppConfiguration
 //@Transactional
 
 public class SanboxTest {
