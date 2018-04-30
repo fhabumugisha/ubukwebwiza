@@ -5,11 +5,11 @@ package com.buseni.ubukwebwiza.provider.domain;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import com.buseni.ubukwebwiza.gallery.domain.Photo;
 

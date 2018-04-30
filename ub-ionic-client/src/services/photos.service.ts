@@ -1,23 +1,20 @@
-import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "../environments/environment";
+import { HttpClient } from "@angular/common/http";
 
-/*
-  Generated class for the PhotosProvider provider.
-
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
 @Injectable()
 export class PhotosService {
-  public API = environment.production ? 'https://buidenv.jelastic.lunacloud.com/api' : 'http://localhost:8080/api';
+  public API = environment.production
+    ? "https://buidenv.jelastic.lunacloud.com/api"
+    : "http://localhost:8080/ubukwebwiza/api";
   //public API = "localhost:8080/ubukwebiza/api";
   public PHOTOS_API = this.API + "/photos";
-  constructor(public http: HttpClient) {
+  constructor(private http: HttpClient) {
     console.log("Hello PhotosService ");
   }
 
   getAllPhotos() {
+    console.log("get photos...");
     return this.http.get(this.PHOTOS_API);
   }
   getSliderPhotos() {

@@ -24,6 +24,13 @@ public class PhotoDetails {
 	}
 	
 	
+	public PhotoDetails(Integer idPhoto, String description, String filename) {
+		this.idPhoto = idPhoto;
+		this.description =  description;
+		this.filename = filename;
+		
+	}
+	
 	public Integer getIdPhoto() {
 		return idPhoto;
 	}

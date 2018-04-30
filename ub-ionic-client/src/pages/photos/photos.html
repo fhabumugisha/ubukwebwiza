@@ -7,11 +7,23 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <ion-list-header>Follow us on Twitter</ion-list-header>
-    <ion-item>
-      <ion-icon name="ionic" item-start></ion-icon>
-      @ionicframework
-    </ion-item>
-  </ion-list>
+  <p>Get inspired....!</p>
+
+
+
+
+    <ion-card  *ngFor="let photo of photos">
+      <img [src]=" 'http://cdn.ubukwebwiza.com/' +  photo.filename  ">
+      <ion-card-content>
+        <ion-card-title>
+          {{photo.providerBusinessName}}
+          </ion-card-title>
+        <p>
+          {{photo.description}}
+        </p>
+      </ion-card-content>
+    </ion-card>
+
+
+
 </ion-content>

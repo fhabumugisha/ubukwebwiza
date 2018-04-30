@@ -1,18 +1,24 @@
 export class Photo {
-  public id: any;
-  public title: string;
+  public idPhoto: any;
+  public filename: string;
   public description?: string;
-  public idProvider: number;
+  public idProvider?: number;
+  public providerUrl?: string;
+  public providerBusinessName?: string;
 
   constructor(
-    id: number,
-    title: string,
+    idPhoto: number,
+    filename: string,
     idProvider: number,
+    providerUrl?: string,
+    providerBusinessName?: string,
     description?: string
   ) {
-    this.id = id;
+    this.idPhoto = idPhoto;
     this.idProvider = idProvider;
-    this.title = title;
+    this.filename = filename;
+    this.providerUrl = providerUrl;
+    this.providerBusinessName = providerBusinessName;
     this.description = description;
   }
 }

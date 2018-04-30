@@ -12,10 +12,11 @@ import { environment } from "../environments/environment";
 export class ProvidersService {
   public API = environment.production
     ? "https://buidenv.jelastic.lunacloud.com/api"
-    : "http://localhost:8080/api";
+    : "http://localhost:8080/ubukwebwiza/api";
 
   // public API = "localhost:8080/ubukwebiza/api";
   public PROVIDERS_API = this.API + "/providers";
+
   constructor(public http: HttpClient) {
     console.log("Hello ProvidersProvider Provider");
   }

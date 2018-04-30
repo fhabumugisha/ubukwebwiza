@@ -1,4 +1,3 @@
-import { ProvidersService } from "./../services/providers";
 import { DetailPhotoPage } from "./../pages/detail-photo/detail-photo";
 import { DetailProviderPage } from "./../pages/detail-provider/detail-provider";
 import { NgModule, ErrorHandler } from "@angular/core";
@@ -15,7 +14,9 @@ import { ProvidersPage } from "../pages/providers/providers";
 import { PhotosPage } from "../pages/photos/photos";
 import { ContactUsPage } from "../pages/contact-us/contact-us";
 import { SettingsPage } from "../pages/settings/settings";
-import { PhotosService } from "../services/photos";
+import { PhotosService } from "../services/photos.service";
+import { ProvidersService } from "../services/providers.service";
+import { HttpClientModule } from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -29,7 +30,7 @@ import { PhotosService } from "../services/photos";
     SettingsPage,
     DetailPhotoPage
   ],
-  imports: [BrowserModule, IonicModule.forRoot(MyApp)],
+  imports: [BrowserModule, HttpClientModule, IonicModule.forRoot(MyApp)],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,

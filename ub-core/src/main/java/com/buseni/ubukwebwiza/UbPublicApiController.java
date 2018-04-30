@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,6 +33,7 @@ import com.buseni.ubukwebwiza.gallery.service.PhotoService;
 import com.buseni.ubukwebwiza.provider.beans.ProviderSearch;
 import com.buseni.ubukwebwiza.provider.domain.District;
 import com.buseni.ubukwebwiza.provider.domain.Provider;
+import com.buseni.ubukwebwiza.provider.domain.ProviderDTO;
 import com.buseni.ubukwebwiza.provider.domain.WeddingService;
 import com.buseni.ubukwebwiza.provider.service.DistrictService;
 import com.buseni.ubukwebwiza.provider.service.ProviderService;
@@ -40,6 +42,7 @@ import com.buseni.ubukwebwiza.utils.PageWrapper;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = {"http://localhost:8100","http://localhost:8080"})
 public class UbPublicApiController {
 	public  static final Logger LOGGER = LoggerFactory.getLogger(UbPublicApiController.class);
 	
@@ -60,24 +63,32 @@ public class UbPublicApiController {
 		return " Hello API!";
 	}
 	
-	@GetMapping("allWeddingServices")
+	@GetMapping("/allWeddingServices")
 	public List<WeddingService> populateWeddingServices(){
 		return weddingServiceManager.findByEnabled(Boolean.TRUE);
 	}
 	
-	@GetMapping("allDistricts")
+	@GetMapping("/allDistricts")
 	public List<District> populateDistricts(){
 		return districtService.findByEnabled(Boolean.TRUE);
 	}
 	
-	@GetMapping("featuredProviders")
-	public List<Provider> populateFeaturedProviders(){
-		return providerService.getFeaturedProviders();
+	@GetMapping("/featuredProviders")
+	public List<ProviderDTO> populateFeaturedProviders(){
+		List<ProviderDTO>  lfp = new ArrayList<>();
+		List<Provider> featuredProviders =  providerService.getFeaturedProviders();
+		featuredProviders.forEach(fp -> {
+			ProviderDTO pdto = new ProviderDTO();
+			pdto.setId(fp.getId());
+			pdto.setBusinessName(fp.getBusinessName());
+			pdto.setAddress(fp.getAddress());
+		});
+		return lfp;
 	}
 	
 	
-	@GetMapping(value="/wedding-service-providers")
-	public List<Provider> listing(Model model, Pageable page){
+	@GetMapping(value="/providers")
+	public List<ProviderDTO> listing(Model model, Pageable page){
 
 		Page<Provider> providerPage  =  providerService.findByEnabled(Boolean.TRUE, page);
 
@@ -86,13 +97,14 @@ public class UbPublicApiController {
 		//model.addAttribute("currentMenu", "providers");
 		model.addAttribute("providers", providerPage.getContent());
 		model.addAttribute("providerSearch", new ProviderSearch());
-		//return "frontend/provider/listingProvider";
-		return providerPage.getContent();
+		List<Provider> lp = providerPage.getContent();
+		List<ProviderDTO> lpdto = new ArrayList<>();
+		return lpdto;
 	}
 
 
 	@GetMapping(value="/search")
-	public List<Provider>  search(ProviderSearch providerSearch, Model model, Pageable page, HttpServletRequest request){
+	public List<ProviderDTO>  search(ProviderSearch providerSearch, Model model, Pageable page, HttpServletRequest request){
 		List<Provider> providers = new ArrayList<Provider>();
 		String qs =  request.getQueryString();
 		if(StringUtils.isNoneEmpty(qs) && qs.contains("page")){
@@ -107,9 +119,11 @@ public class UbPublicApiController {
 		model.addAttribute("page", pageWrapper);
 		model.addAttribute("providers", providers);
 		model.addAttribute("providerSearch", providerSearch);
-		return providerPage.getContent();
+		List<Provider> lp = providerPage.getContent();
+		List<ProviderDTO> lpdto = new ArrayList<>();
+		return lpdto;
 	}
-	
+	@CrossOrigin(origins = {"http://localhost:8100","http://localhost:8080"})
 	@GetMapping(value="/photos")
 	public List<PhotoDetails> photos(Model model, Pageable page){
 		Page<PhotoDetails>  photosPage = photoService.findPhotoGallery(page);
@@ -119,9 +133,16 @@ public class UbPublicApiController {
 		return photosPage.getContent();
 	}
 	
-	@GetMapping("sliderPhotos")
-	public List<Photo> sliderPhotos(){
-		return photoService.homePagePhotos();
+	@GetMapping("/sliderPhotos")
+	public List<PhotoDetails> sliderPhotos(){
+		List<Photo>  sliderPhotos  = photoService.homePagePhotos();
+		List<PhotoDetails>   listSp =  new ArrayList<>();
+		sliderPhotos.forEach(sp ->{
+			PhotoDetails pd = new PhotoDetails(sp.getId(), sp.getDescription(), sp.getFilename());
+			listSp.add(pd);
+					
+		});
+		return listSp;
 	
 	}
 	
