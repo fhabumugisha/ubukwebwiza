@@ -18,6 +18,6 @@ export class PhotosService {
     return this.http.get(this.PHOTOS_API);
   }
   getSliderPhotos() {
-    return this.http.get(this.API + "/sliderPhotos");
+    return this.http.get(this.API + "/slider-photos");
   }
 }

@@ -4,6 +4,8 @@
 package com.buseni.ubukwebwiza.provider.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -11,6 +13,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.buseni.ubukwebwiza.gallery.beans.PhotoDetails;
 import com.buseni.ubukwebwiza.gallery.domain.Photo;
 
 
@@ -47,9 +50,25 @@ public class ProviderDTO implements Serializable {
 	@Length(min=1, max=50)
 	private String twitterUsername;
 	
+	private String urlName;
 	
-	
-	private Photo profilPicture;
+	public String getUrlName() {
+		return urlName;
+	}
+
+	public void setUrlName(String urlName) {
+		this.urlName = urlName;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+//	private Photo profilPicture;
 	
 	
 	private Photo coverPicture;
@@ -61,7 +80,7 @@ public class ProviderDTO implements Serializable {
 	@Length(min=1, max=100)
 	private String address;		
 	
-
+private String profilePicture;
 
 	@NotEmpty
 	@Email
@@ -75,6 +94,36 @@ public class ProviderDTO implements Serializable {
 	private Integer idDistrict;
 	
 	private Integer idcService;
+	
+	private String district;
+	
+	private String services;
+	
+	private List<PhotoDetails> photos = new ArrayList<>();
+
+	public String getDistrict() {
+		return district;
+	}
+
+	public void setDistrict(String district) {
+		this.district = district;
+	}
+
+	public String getServices() {
+		return services;
+	}
+
+	public void setServices(String services) {
+		this.services = services;
+	}
+
+	public List<PhotoDetails> getPhotos() {
+		return photos;
+	}
+
+	public void setPhotos(List<PhotoDetails> photos) {
+		this.photos = photos;
+	}
 
 	/**
 	 * 
@@ -174,121 +223,15 @@ public class ProviderDTO implements Serializable {
 	}
 
 	
-	@Override
-	public String toString() {
-		return "ProviderDTO [id=" + id + ", businessName=" + businessName + ", phoneNumber=" + phoneNumber + ", website=" + website + ", fbUsername=" + fbUsername + ", twitterUsername="
-				+ twitterUsername + ", profilPicture=" + profilPicture + ", coverPicture=" + coverPicture + ", aboutme=" + aboutme + ", address=" + address + ", email=" + email + ", password="
-				+ password + ", idDistrict=" + idDistrict + ", idcService=" + idcService + "]";
-	}
+	
 
 
 
 	
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((aboutme == null) ? 0 : aboutme.hashCode());
-		result = prime * result + ((address == null) ? 0 : address.hashCode());
-		result = prime * result + ((businessName == null) ? 0 : businessName.hashCode());
-		result = prime * result + ((coverPicture == null) ? 0 : coverPicture.hashCode());
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + ((fbUsername == null) ? 0 : fbUsername.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((idDistrict == null) ? 0 : idDistrict.hashCode());
-		result = prime * result + ((idcService == null) ? 0 : idcService.hashCode());
-		result = prime * result + ((password == null) ? 0 : password.hashCode());
-		result = prime * result + ((phoneNumber == null) ? 0 : phoneNumber.hashCode());
-		result = prime * result + ((profilPicture == null) ? 0 : profilPicture.hashCode());
-		result = prime * result + ((twitterUsername == null) ? 0 : twitterUsername.hashCode());
-		result = prime * result + ((website == null) ? 0 : website.hashCode());
-		return result;
-	}
 
 
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ProviderDTO other = (ProviderDTO) obj;
-		if (aboutme == null) {
-			if (other.aboutme != null)
-				return false;
-		} else if (!aboutme.equals(other.aboutme))
-			return false;
-		if (address == null) {
-			if (other.address != null)
-				return false;
-		} else if (!address.equals(other.address))
-			return false;
-		if (businessName == null) {
-			if (other.businessName != null)
-				return false;
-		} else if (!businessName.equals(other.businessName))
-			return false;
-		if (coverPicture == null) {
-			if (other.coverPicture != null)
-				return false;
-		} else if (!coverPicture.equals(other.coverPicture))
-			return false;
-		if (email == null) {
-			if (other.email != null)
-				return false;
-		} else if (!email.equals(other.email))
-			return false;
-		if (fbUsername == null) {
-			if (other.fbUsername != null)
-				return false;
-		} else if (!fbUsername.equals(other.fbUsername))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (idDistrict == null) {
-			if (other.idDistrict != null)
-				return false;
-		} else if (!idDistrict.equals(other.idDistrict))
-			return false;
-		if (idcService == null) {
-			if (other.idcService != null)
-				return false;
-		} else if (!idcService.equals(other.idcService))
-			return false;
-		if (password == null) {
-			if (other.password != null)
-				return false;
-		} else if (!password.equals(other.password))
-			return false;
-		if (phoneNumber == null) {
-			if (other.phoneNumber != null)
-				return false;
-		} else if (!phoneNumber.equals(other.phoneNumber))
-			return false;
-		if (profilPicture == null) {
-			if (other.profilPicture != null)
-				return false;
-		} else if (!profilPicture.equals(other.profilPicture))
-			return false;
-		if (twitterUsername == null) {
-			if (other.twitterUsername != null)
-				return false;
-		} else if (!twitterUsername.equals(other.twitterUsername))
-			return false;
-		if (website == null) {
-			if (other.website != null)
-				return false;
-		} else if (!website.equals(other.website))
-			return false;
-		return true;
-	}
 
 
 
@@ -374,13 +317,7 @@ public class ProviderDTO implements Serializable {
 		this.idcService = idcService;
 	}
 
-	public Photo getProfilPicture() {
-		return profilPicture;
-	}
 
-	public void setProfilPicture(Photo profilPicture) {
-		this.profilPicture = profilPicture;
-	}
 
 	public Photo getCoverPicture() {
 		return coverPicture;
@@ -388,6 +325,14 @@ public class ProviderDTO implements Serializable {
 
 	public void setCoverPicture(Photo coverPicture) {
 		this.coverPicture = coverPicture;
+	}
+
+	public String getProfilePicture() {
+		return profilePicture;
+	}
+
+	public void setProfilePicture(String profilePictureFilename) {
+		this.profilePicture = profilePictureFilename;
 	}
 
 

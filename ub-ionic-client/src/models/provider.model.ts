@@ -13,7 +13,7 @@ export class Provider {
 
   public twitterUsername?: string;
 
-  public profilPicture?: string;
+  public profilePicture?: string;
 
   public aboutme?: string;
 
@@ -22,6 +22,7 @@ export class Provider {
   public email: string;
 
   public district: string;
+  public urlName: string;
 
   public services: WeddingService[] = [];
 
@@ -34,11 +35,12 @@ export class Provider {
     email: string,
     district: string,
     services: WeddingService[],
+    urlName: string,
     photos?: Photo[],
     website?: string,
     fbUsername?: string,
     twitterUsername?: string,
-    profilPicture?: string,
+    profilePicture?: string,
     aboutme?: string,
     address?: string
   ) {
@@ -47,6 +49,7 @@ export class Provider {
     this.businessName = businessName;
 
     this.phoneNumber = phoneNumber;
+    this.urlName = urlName;
 
     this.website = website;
 
@@ -54,7 +57,7 @@ export class Provider {
 
     this.twitterUsername = twitterUsername;
 
-    this.profilPicture = profilPicture;
+    this.profilePicture = profilePicture;
 
     this.aboutme = aboutme;
 

@@ -1,3 +1,4 @@
+import { Provider } from './../models/provider.model';
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "../environments/environment";
@@ -16,7 +17,7 @@ export class ProvidersService {
 
   // public API = "localhost:8080/ubukwebiza/api";
   public PROVIDERS_API = this.API + "/providers";
-
+ private providers: Provider[] = [];
   constructor(public http: HttpClient) {
     console.log("Hello ProvidersProvider Provider");
   }

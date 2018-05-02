@@ -1,3 +1,4 @@
+import { ContactUsPage } from "./../contact-us/contact-us";
 import { Component } from "@angular/core";
 
 import { HomePage } from "../home/home";
@@ -8,9 +9,9 @@ import { ProvidersPage } from "../providers/providers";
   templateUrl: "tabs.html"
 })
 export class TabsPage {
-  tab1Root = HomePage;
-  tab2Root = ProvidersPage;
-  tab3Root = PhotosPage;
+  tab3Root = ContactUsPage;
+  tab1Root = ProvidersPage;
+  tab2Root = PhotosPage;
 
   constructor() {}
 }

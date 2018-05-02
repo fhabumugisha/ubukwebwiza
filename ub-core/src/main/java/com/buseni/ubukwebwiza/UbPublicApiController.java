@@ -2,10 +2,12 @@ package com.buseni.ubukwebwiza;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +36,7 @@ import com.buseni.ubukwebwiza.provider.beans.ProviderSearch;
 import com.buseni.ubukwebwiza.provider.domain.District;
 import com.buseni.ubukwebwiza.provider.domain.Provider;
 import com.buseni.ubukwebwiza.provider.domain.ProviderDTO;
+import com.buseni.ubukwebwiza.provider.domain.ProviderWeddingService;
 import com.buseni.ubukwebwiza.provider.domain.WeddingService;
 import com.buseni.ubukwebwiza.provider.service.DistrictService;
 import com.buseni.ubukwebwiza.provider.service.ProviderService;
@@ -63,17 +66,17 @@ public class UbPublicApiController {
 		return " Hello API!";
 	}
 	
-	@GetMapping("/allWeddingServices")
+	@GetMapping("/all-wedding-services")
 	public List<WeddingService> populateWeddingServices(){
 		return weddingServiceManager.findByEnabled(Boolean.TRUE);
 	}
 	
-	@GetMapping("/allDistricts")
+	@GetMapping("/all-districts")
 	public List<District> populateDistricts(){
 		return districtService.findByEnabled(Boolean.TRUE);
 	}
 	
-	@GetMapping("/featuredProviders")
+	@GetMapping("/featured-providers")
 	public List<ProviderDTO> populateFeaturedProviders(){
 		List<ProviderDTO>  lfp = new ArrayList<>();
 		List<Provider> featuredProviders =  providerService.getFeaturedProviders();
@@ -82,6 +85,7 @@ public class UbPublicApiController {
 			pdto.setId(fp.getId());
 			pdto.setBusinessName(fp.getBusinessName());
 			pdto.setAddress(fp.getAddress());
+			lfp.add(pdto);
 		});
 		return lfp;
 	}
@@ -99,6 +103,27 @@ public class UbPublicApiController {
 		model.addAttribute("providerSearch", new ProviderSearch());
 		List<Provider> lp = providerPage.getContent();
 		List<ProviderDTO> lpdto = new ArrayList<>();
+		lp.forEach(fp -> {
+			ProviderDTO pdto = new ProviderDTO();
+			pdto.setId(fp.getId());
+			pdto.setBusinessName(fp.getBusinessName());
+			pdto.setAddress(fp.getAddress());
+			pdto.setUrlName(fp.getUrlName());
+			pdto.setDistrict(fp.getDistrict().getLibelle());
+			pdto.setServices(fp.getProviderWeddingServices().stream().map(ProviderWeddingService::getWeddingService).map(WeddingService::getLibelle).collect(Collectors.joining(",")));
+			if(fp.getProfilPicture() != null) {
+				pdto.setProfilePicture(fp.getProfilPicture().getFilename());
+			}
+			if(CollectionUtils.isNotEmpty(fp.getPhotos())) {
+				fp.getPhotos().forEach(p-> {
+					PhotoDetails pd = new PhotoDetails(p.getId(), p.getDescription(), p.getFilename());
+					pdto.getPhotos().add(pd);
+				});
+			}
+			pdto.setPhoneNumber(fp.getPhoneNumber());
+			
+			lpdto.add(pdto);
+		});
 		return lpdto;
 	}
 
@@ -133,7 +158,7 @@ public class UbPublicApiController {
 		return photosPage.getContent();
 	}
 	
-	@GetMapping("/sliderPhotos")
+	@GetMapping("/slider-photos")
 	public List<PhotoDetails> sliderPhotos(){
 		List<Photo>  sliderPhotos  = photoService.homePagePhotos();
 		List<PhotoDetails>   listSp =  new ArrayList<>();

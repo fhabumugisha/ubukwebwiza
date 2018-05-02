@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Provider } from "./../../models/provider.model";
+import { Component, OnInit } from "@angular/core";
+import { IonicPage, NavController, NavParams } from "ionic-angular";
+import { ProvidersService } from "../../services/providers.service";
 
 /**
  * Generated class for the DetailProviderPage page.
@@ -10,16 +12,23 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 @IonicPage()
 @Component({
-  selector: 'page-detail-provider',
-  templateUrl: 'detail-provider.html',
+  selector: "page-detail-provider",
+  templateUrl: "detail-provider.html"
 })
-export class DetailProviderPage {
+export class DetailProviderPage implements OnInit {
+  provider: Provider;
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public providersService: ProvidersService
+  ) {}
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  ngOnInit(): void {
+    this.provider = this.navParams.get("provider");
   }
-
   ionViewDidLoad() {
-    console.log('ionViewDidLoad DetailProviderPage');
+    console.log("ionViewDidLoad DetailProviderPage");
+    console.log(this.navParams.get("provider"));
+    this.provider = this.navParams.get("provider");
   }
-
 }
