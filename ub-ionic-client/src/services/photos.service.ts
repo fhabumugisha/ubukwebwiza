@@ -5,7 +5,7 @@ import { HttpClient } from "@angular/common/http";
 @Injectable()
 export class PhotosService {
   public API = environment.production
-    ? "https://buidenv.jelastic.lunacloud.com/api"
+    ? "https://ub-core-api.jelastic.lunacloud.com/ubukwebwiza/api"
     : "http://localhost:8080/ubukwebwiza/api";
   //public API = "localhost:8080/ubukwebiza/api";
   public PHOTOS_API = this.API + "/photos";
