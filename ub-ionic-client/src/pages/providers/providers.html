@@ -7,6 +7,29 @@
 </ion-header>
 
 <ion-content padding>
+    <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="getItems()"></ion-searchbar>
+    <ion-card *ngFor="let pr of providers">
+        <img [src]="'http://cdn.ubukwebwiza.com/' +  pr.profilePicture">
+        <ion-card-content>
+          <ion-card-title>
+              {{pr.businessName}}
+            </ion-card-title>
+            <p>
+                <ion-icon name='map'></ion-icon>
+                {{pr.district}}
+            </p>
+            <h4><ion-icon name='list'></ion-icon>
+              {{pr.services}}</h4>
+        </ion-card-content>
+
+
+        <ion-row>
+            <ion-col>
+                <button ion-button block small  (click)="onViewProvider(pr)">More information</button>
+              </ion-col>
+        </ion-row>
+      </ion-card>
+
 
   <ion-list>
     <ion-item  *ngFor="let pr of providers">

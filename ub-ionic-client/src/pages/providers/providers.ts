@@ -10,6 +10,7 @@ import { ProvidersService } from "../../services/providers.service";
 })
 export class ProvidersPage {
   providers: Provider[] = [];
+  searchTerm: string = '';
   constructor(
     public navCtrl: NavController,
     public providersService: ProvidersService
@@ -29,5 +30,20 @@ export class ProvidersPage {
 
   onViewProvider(provider: Provider) {
     this.navCtrl.push(DetailProviderPage, { provider: provider });
+  }
+
+  getItems() {
+    // Reset items back to all of the items
+    this.getProviders();
+
+    // set val to the value of the searchbar
+
+console.log(this.searchTerm);
+    // if the value is an empty string don't filter the items
+    if (this.searchTerm && this.searchTerm.trim() != '') {
+      this.providers = this.providers.filter((item) => {
+        return (item.businessName.toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1);
+      })
+    }
   }
 }

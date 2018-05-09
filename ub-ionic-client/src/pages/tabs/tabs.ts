@@ -1,7 +1,7 @@
 import { ContactUsPage } from "./../contact-us/contact-us";
 import { Component } from "@angular/core";
 
-import { HomePage } from "../home/home";
+
 import { PhotosPage } from "../photos/photos";
 import { ProvidersPage } from "../providers/providers";
 
