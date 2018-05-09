@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -45,7 +44,7 @@ import com.buseni.ubukwebwiza.utils.PageWrapper;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = {"http://localhost:8100","http://localhost:8080"})
+@CrossOrigin(origins = {"http://localhost:8100","http://localhost:8080", "http://ecoledudimanche.jelastic.lunacloud.com"})
 public class UbPublicApiController {
 	public  static final Logger LOGGER = LoggerFactory.getLogger(UbPublicApiController.class);
 	
@@ -67,16 +66,19 @@ public class UbPublicApiController {
 	}
 	
 	@GetMapping("/all-wedding-services")
+	@CrossOrigin(origins = {"http://localhost:8100","http://localhost:8080", "http://ecoledudimanche.jelastic.lunacloud.com"})
 	public List<WeddingService> populateWeddingServices(){
 		return weddingServiceManager.findByEnabled(Boolean.TRUE);
 	}
 	
 	@GetMapping("/all-districts")
+	@CrossOrigin(origins = {"http://localhost:8100","http://localhost:8080", "http://ecoledudimanche.jelastic.lunacloud.com"})
 	public List<District> populateDistricts(){
 		return districtService.findByEnabled(Boolean.TRUE);
 	}
 	
 	@GetMapping("/featured-providers")
+	@CrossOrigin(origins = {"http://localhost:8100","http://localhost:8080", "http://ecoledudimanche.jelastic.lunacloud.com"})
 	public List<ProviderDTO> populateFeaturedProviders(){
 		List<ProviderDTO>  lfp = new ArrayList<>();
 		List<Provider> featuredProviders =  providerService.getFeaturedProviders();
@@ -92,6 +94,7 @@ public class UbPublicApiController {
 	
 	
 	@GetMapping(value="/providers")
+	@CrossOrigin(origins = {"http://localhost:8100","http://localhost:8080", "http://ecoledudimanche.jelastic.lunacloud.com"})
 	public List<ProviderDTO> listing(Model model, Pageable page){
 
 		Page<Provider> providerPage  =  providerService.findByEnabled(Boolean.TRUE, page);
@@ -148,7 +151,7 @@ public class UbPublicApiController {
 		List<ProviderDTO> lpdto = new ArrayList<>();
 		return lpdto;
 	}
-	@CrossOrigin(origins = {"http://localhost:8100","http://localhost:8080"})
+	@CrossOrigin(origins = {"http://localhost:8100","http://localhost:8080", "http://ecoledudimanche.jelastic.lunacloud.com"})
 	@GetMapping(value="/photos")
 	public List<PhotoDetails> photos(Model model, Pageable page){
 		Page<PhotoDetails>  photosPage = photoService.findPhotoGallery(page);
@@ -159,6 +162,7 @@ public class UbPublicApiController {
 	}
 	
 	@GetMapping("/slider-photos")
+	@CrossOrigin(origins = {"http://localhost:8100","http://localhost:8080", "http://ecoledudimanche.jelastic.lunacloud.com"})
 	public List<PhotoDetails> sliderPhotos(){
 		List<Photo>  sliderPhotos  = photoService.homePagePhotos();
 		List<PhotoDetails>   listSp =  new ArrayList<>();
