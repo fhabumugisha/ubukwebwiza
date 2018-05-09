@@ -51,6 +51,9 @@ tasks.withType(JavaCompile) {
 war {
     version = version
 }
+//jar {
+  //  version = version
+//}
 task explodedWar(type: Copy) {
     into "build/webapp"
     with war
