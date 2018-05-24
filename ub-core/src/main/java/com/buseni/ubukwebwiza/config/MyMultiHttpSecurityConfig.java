@@ -166,6 +166,33 @@ public class MyMultiHttpSecurityConfig  {
 		
 	}
 	
+	@Configuration      
+	@Order(4)
+	public static class apiWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
+		
+		@Override
+		protected void configure(HttpSecurity http) throws Exception {
+			http.csrf().disable()
+			  .antMatcher("/api/**").authorizeRequests().anyRequest().authenticated()	
+			 .and()
+			 .addFilter(new JWTAuthenticationFilter(authenticationManager()))
+             .addFilter(new JWTAuthorizationFilter(authenticationManager()))
+			 ;
+	        
+		        
+		}
+		@Override
+		public void configure(WebSecurity web) throws Exception {
+			web.ignoring().antMatchers("/resources/**");
+		}
+		/*@Bean
+		public AccessDeniedHandler customAccessDeniedHandler(){
+			CustomAccessDeniedHandlerImpl customAccessDeniedHandler = new CustomAccessDeniedHandlerImpl();
+			customAccessDeniedHandler.setErrorPage("/admin403");
+			return customAccessDeniedHandler;
+		}*/
+		
+	}
 	
 	@Bean
 	public PasswordEncoder passwordEncoder(){
