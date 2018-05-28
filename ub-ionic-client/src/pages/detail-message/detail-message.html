@@ -1,0 +1,114 @@
+<!--
+  Generated template for the DetailMessagePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{threadName}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+    <!-- <div class="message-wrap">
+
+        <div *ngFor="let msg of msgList"
+             class="message"
+             [class.left]=" msg.userId === toUser.id "
+             [class.right]=" msg.userId === user.id ">
+          <img class="user-img" [src]="msg.userAvatar" alt="" >
+          <ion-spinner name="dots" *ngIf="msg.status === 'pending'"></ion-spinner>
+          <div class="msg-detail">
+            <div class="msg-info">
+              <p>
+                {{msg.userName}}&nbsp;&nbsp;&nbsp;{{msg.time | relativeTime}}</p>
+            </div>
+            <div class="msg-content">
+              <span class="triangle"></span>
+              <p class="line-breaker ">{{msg.message}}</p>
+            </div>
+          </div>
+        </div>
+
+      </div> -->
+
+      <div class="message-wrap">
+
+          <div
+               class="message"
+
+               [class.right]="true">
+            <img class="user-img" src="https://image.flaticon.com/icons/svg/147/147144.svg" alt="" >
+
+            <div class="msg-detail">
+              <div class="msg-info">
+                <p>
+                  Moody&nbsp;&nbsp;&nbsp;<ion-note item-end>3:43 pm</ion-note></p>
+              </div>
+              <div class="msg-content">
+                <span class="triangle"></span>
+                <p class="line-breaker ">Hello man</p>
+              </div>
+            </div>
+          </div>
+
+
+        <div
+               class="message"
+               [class.left]="true" >
+            <img class="user-img" src="https://image.flaticon.com/icons/svg/168/168734.svg" alt="" >
+
+            <div class="msg-detail">
+              <div class="msg-info">
+                <p>
+                  Woody&nbsp;&nbsp;&nbsp;<ion-note item-end>3:43 pm</ion-note></p>
+              </div>
+              <div class="msg-content">
+                <span class="triangle"></span>
+                <p class="line-breaker ">Yup</p>
+              </div>
+            </div>
+          </div>
+
+          <div
+               class="message"
+
+               [class.right]="true">
+            <img class="user-img" src="https://image.flaticon.com/icons/svg/147/147144.svg" alt="" >
+            <ion-spinner name="dots" ></ion-spinner>
+            <div class="msg-detail">
+              <div class="msg-info">
+                <p>
+                  Moody&nbsp;&nbsp;&nbsp;<ion-note item-end>3:43 pm</ion-note></p>
+              </div>
+              <div class="msg-content">
+                <span class="triangle"></span>
+                <p class="line-breaker ">Hello man</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+</ion-content>
+<ion-footer>
+
+    <div class="input-wrap">
+        <button ion-button clear icon-only item-right (click)="switchEmojiPicker()">
+          <ion-icon name="md-happy"></ion-icon>
+        </button>
+        <textarea #chat_input
+                  placeholder="Text Input"
+
+                  (keyup.enter)="sendMsg()"
+                  (focusin)="onFocus()">
+        </textarea>
+        <button ion-button clear icon-only item-right (click)="sendMsg()">
+          <ion-icon name="ios-send" ios="ios-send" md="md-send"></ion-icon>
+        </button>
+      </div>
+</ion-footer>

@@ -17,6 +17,8 @@ import { SettingsPage } from "../pages/settings/settings";
 import { PhotosService } from "../services/photos.service";
 import { ProvidersService } from "../services/providers.service";
 import { HttpClientModule } from "@angular/common/http";
+import { MessagesPage } from "../pages/messages/messages";
+import { DetailMessagePage } from "../pages/detail-message/detail-message";
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import { HttpClientModule } from "@angular/common/http";
     DetailProviderPage,
     ContactUsPage,
     SettingsPage,
-    DetailPhotoPage
+    DetailPhotoPage,
+    MessagesPage,
+    DetailMessagePage
   ],
   imports: [BrowserModule, HttpClientModule, IonicModule.forRoot(MyApp)],
   bootstrap: [IonicApp],
@@ -41,7 +45,9 @@ import { HttpClientModule } from "@angular/common/http";
     DetailProviderPage,
     ContactUsPage,
     SettingsPage,
-    DetailPhotoPage
+    DetailPhotoPage,
+    MessagesPage,
+    DetailMessagePage
   ],
   providers: [
     StatusBar,
