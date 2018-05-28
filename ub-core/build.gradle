@@ -205,4 +205,5 @@ doFirst {
     systemProperty  'datasource.url', project.datasourceUrl
     systemProperty 'datasource.username', project.datasourceUser
     systemProperty 'datasource.password', project.datasourcePwd
+    jvmArgs=["-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=32323"]
 }

@@ -26,7 +26,7 @@ import nz.net.ultraq.thymeleaf.LayoutDialect;
 import nz.net.ultraq.thymeleaf.decorators.strategies.GroupingStrategy;
 
 @Configuration 
-//@PropertySource("classpath:email.properties")
+@PropertySource("classpath:email.properties")
 public class ViewConfiguration  {
 	
 	 private static final String MESSAGE_SOURCE = "/WEB-INF/i18n/messages";

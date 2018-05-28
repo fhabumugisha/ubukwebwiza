@@ -43,7 +43,7 @@ import com.buseni.ubukwebwiza.provider.service.WeddingServiceManager;
 import com.buseni.ubukwebwiza.utils.PageWrapper;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
 @CrossOrigin(origins = {"http://localhost:8100","http://localhost:8080", "http://ecoledudimanche.jelastic.lunacloud.com"})
 public class UbPublicApiController {
 	public  static final Logger LOGGER = LoggerFactory.getLogger(UbPublicApiController.class);
@@ -65,13 +65,13 @@ public class UbPublicApiController {
 		return " Hello API!";
 	}
 	
-	@GetMapping("/all-wedding-services")
+	@GetMapping("/wedding-services")
 	@CrossOrigin(origins = {"http://localhost:8100","http://localhost:8080", "http://ecoledudimanche.jelastic.lunacloud.com"})
 	public List<WeddingService> populateWeddingServices(){
 		return weddingServiceManager.findByEnabled(Boolean.TRUE);
 	}
 	
-	@GetMapping("/all-districts")
+	@GetMapping("/districts")
 	@CrossOrigin(origins = {"http://localhost:8100","http://localhost:8080", "http://ecoledudimanche.jelastic.lunacloud.com"})
 	public List<District> populateDistricts(){
 		return districtService.findByEnabled(Boolean.TRUE);

@@ -174,7 +174,9 @@ public class MyMultiHttpSecurityConfig  {
 		protected void configure(HttpSecurity http) throws Exception {
 			http.csrf().disable()
 			  .antMatcher("/api/**").authorizeRequests().anyRequest().authenticated()	
-			 .and()
+			 .and().formLogin().loginPage("/profile/signin").permitAll().failureUrl("/profile/signin?error").usernameParameter("email")
+				.passwordParameter("password").loginProcessingUrl("/login")
+		        .and()
 			 .addFilter(new JWTAuthenticationFilter(authenticationManager()))
              .addFilter(new JWTAuthorizationFilter(authenticationManager()))
 			 ;
