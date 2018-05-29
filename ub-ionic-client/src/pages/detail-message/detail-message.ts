@@ -1,5 +1,11 @@
 import { Component, OnInit } from "@angular/core";
-import { IonicPage, NavController, NavParams } from "ionic-angular";
+import {
+  IonicPage,
+  NavController,
+  NavParams,
+  PopoverController
+} from "ionic-angular";
+import { MyPopOverPage } from "../my-pop-over/my-pop-over";
 
 /**
  * Generated class for the DetailMessagePage page.
@@ -21,7 +27,11 @@ export class DetailMessagePage implements OnInit {
     console.log(this.threadName);
   }
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {}
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public popoverCtrl: PopoverController
+  ) {}
 
   ionViewDidLoad() {
     console.log("ionViewDidLoad DetailMessagePage");
@@ -32,4 +42,10 @@ export class DetailMessagePage implements OnInit {
 
   sendMsg() {}
   onFocus() {}
+  openModal() {}
+
+  presentPopover(event) {
+    let popover = this.popoverCtrl.create(MyPopOverPage);
+    popover.present({ ev: event });
+  }
 }

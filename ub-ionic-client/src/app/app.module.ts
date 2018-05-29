@@ -19,6 +19,7 @@ import { ProvidersService } from "../services/providers.service";
 import { HttpClientModule } from "@angular/common/http";
 import { MessagesPage } from "../pages/messages/messages";
 import { DetailMessagePage } from "../pages/detail-message/detail-message";
+import { MyPopOverPage } from "../pages/my-pop-over/my-pop-over";
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { DetailMessagePage } from "../pages/detail-message/detail-message";
     SettingsPage,
     DetailPhotoPage,
     MessagesPage,
-    DetailMessagePage
+    DetailMessagePage,
+    MyPopOverPage
   ],
   imports: [BrowserModule, HttpClientModule, IonicModule.forRoot(MyApp)],
   bootstrap: [IonicApp],
@@ -47,7 +49,8 @@ import { DetailMessagePage } from "../pages/detail-message/detail-message";
     SettingsPage,
     DetailPhotoPage,
     MessagesPage,
-    DetailMessagePage
+    DetailMessagePage,
+    MyPopOverPage
   ],
   providers: [
     StatusBar,
